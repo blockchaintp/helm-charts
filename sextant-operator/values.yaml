@@ -1,5 +1,7 @@
 
 
+nameOverride: ""
+fullnameOverride: ""
 
 imagePullSecrets:
 

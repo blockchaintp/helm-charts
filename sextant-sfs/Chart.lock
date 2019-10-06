@@ -1,0 +1,6 @@
+dependencies:
+- name: sextant-operator-aws-sfs
+  repository: https://scealiontach.s3.amazonaws.com/charts/
+  version: 2.0.2
+digest: sha256:648d668efbb1afb3bec17c424777cc5964227dc2bdec4ec261bbba9690cdbdd2
+generated: "2019-10-06T12:07:34.0712377-04:00"

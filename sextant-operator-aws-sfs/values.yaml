@@ -1,4 +1,7 @@
 
+nameOverride: ""
+fullnameOverride: ""
+
 nodeSelector: {}
 
 tolerations: []

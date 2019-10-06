@@ -1,0 +1,41 @@
+# Default values for sextant.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+images:
+# Set an image to use for the API container, or remove to use default image
+  api: dev.catenasys.com:8083/blockchaintp/sextant-api-sfd:BTP2.0
+# Set an image to use for the UI container, or delete to use default image
+  ui: dev.catenasys.com:8083/blockchaintp/sextant:BTP2.0
+
+
+database: {}
+#  type: "postgres"
+#  user: "postgres"
+#  password: "postgres"
+#  db: "postgres"
+#  port: "5432"
+#  host: "host.docker.internal"
+# To use SSL set tls value to 1, or delete to disable SSL
+#  tls: "1"
+
+service:
+  type: ClusterIP
+  port: 8000
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths: []
+
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
