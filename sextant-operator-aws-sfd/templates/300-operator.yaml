@@ -27,7 +27,7 @@ spec:
       containers:
         - name: sextant-operator
           # Replace this with the built image name
-          image: blockchaintp/sextant-operator-aws-sfd:BTP2.0
+          image: {{ .Values.images.operator }}
           command:
           - sextant-operator
           imagePullPolicy: Always
@@ -41,7 +41,7 @@ spec:
                 fieldRef:
                   fieldPath: metadata.name
             - name: OPERATOR_NAME
-              value: "sextant-operator"          
+              value: "sextant-operator"
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}

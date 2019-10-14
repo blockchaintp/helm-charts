@@ -10,3 +10,6 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+images:
+  operator: blockchaintp/sextant-operator:BTP2.0

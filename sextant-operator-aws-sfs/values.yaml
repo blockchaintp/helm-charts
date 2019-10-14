@@ -7,3 +7,6 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+images:
+  operator: blockchaintp/sextant-operator-aws-sfs:BTP2.0
