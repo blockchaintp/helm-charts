@@ -9,4 +9,4 @@ tolerations: []
 affinity: {}
 
 images:
-  operator: blockchaintp/sextant-operator-aws-sfs:BTP2.0
+  operator: blockchaintp/sextant-operator-aws-sfs:BTP2.0.4

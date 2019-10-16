@@ -6,9 +6,9 @@ replicaCount: 1
 
 images:
 # Set an image to use for the API container, or remove to use default image
-  api: dev.catenasys.com:8083/blockchaintp/sextant-api:BTP2.0
+  api: dev.catenasys.com:8083/blockchaintp/sextant-api:BTP2.0.4
 # Set an image to use for the UI container, or delete to use default image
-  ui: dev.catenasys.com:8083/blockchaintp/sextant:BTP2.0
+  ui: dev.catenasys.com:8083/blockchaintp/sextant:BTP2.0.4
 
 
 database: {}
