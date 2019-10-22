@@ -10,7 +10,8 @@ images:
 # Set an image to use for the UI container, or delete to use default image
   ui: dev.catenasys.com:8083/blockchaintp/sextant:BTP2.0.4
 
-
+# The serviceAccountName to use for the sextant pods
+serviceAccountName: "default"
 database: {}
 #  type: "postgres"
 #  user: "postgres"
@@ -38,4 +39,3 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
-

@@ -11,3 +11,4 @@ spec:
     {{- end }}
   apiimage: {{.Values.images.api}}
   uiimage: {{.Values.images.ui}}
+  serviceAccountName: {{.Values.serviceAccountName}}
