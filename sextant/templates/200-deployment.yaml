@@ -11,4 +11,5 @@ spec:
     {{- end }}
   apiimage: {{.Values.images.api}}
   uiimage: {{.Values.images.ui}}
+  noxyimage: {{.Values.images.noxy}}
   serviceAccountName: {{.Values.serviceAccountName}}
