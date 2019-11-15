@@ -3,14 +3,17 @@
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
+nameOverride: sextant-dev
 
 images:
 # Set an image to use for the API container, or remove to use default image
-  api: dev.catenasys.com:8083/blockchaintp/sextant-api:BTP2.0.4
+  api: blockchaintp/sextant-api:BTP2.0.5
 # Set an image to use for the UI container, or delete to use default image
-  ui: dev.catenasys.com:8083/blockchaintp/sextant:BTP2.0.4
+  ui: blockchaintp/sextant:BTP2.0.5
+  noxy: blockchaintp/noxy:BTP2.0.5
 
-
+# The serviceAccountName to use for the sextant pods
+serviceAccountName: "default"
 database: {}
 #  type: "postgres"
 #  user: "postgres"
@@ -38,4 +41,3 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
-

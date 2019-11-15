@@ -9,13 +9,18 @@ src_dir=${DIR}/..
 
 pushd $src_dir
 
+mkdir -p dist/local
+
 for chart in `ls |grep -v "dist\|bin\|yaml"`; do
   set -x
   helm dep up $chart
-  helm package -d $src_dir/dist ./$chart 
+  helm package -d $src_dir/dist/local ./$chart 
 done
 
-pushd $src_dir/dist
+mkdir -p dist/repo
+pushd $src_dir/dist/repo
+aws s3 sync . s3://scealiontach/charts
+cp $src_dir/dist/local/* .
 helm repo index ./
 aws s3 sync . s3://scealiontach/charts
 popd
