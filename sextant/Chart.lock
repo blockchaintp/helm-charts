@@ -1,6 +1,6 @@
 dependencies:
 - name: sextant-operator
   repository: https://scealiontach.s3.amazonaws.com/charts/
-  version: 2.0.5
-digest: sha256:2ba36582029e242bc926aaafef737a950ddefbc3ce31c46898896910d1083367
-generated: "2019-11-15T16:53:09.989462413-05:00"
+  version: ~2.0.6
+digest: sha256:e8f34b3ed167af5f26f2620ec7784429cb8d742ea512f8e83881a1267038ff86
+generated: "2020-01-20T16:05:31.608761188-05:00"

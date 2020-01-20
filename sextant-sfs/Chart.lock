@@ -1,6 +1,6 @@
 dependencies:
 - name: sextant
   repository: https://scealiontach.s3.amazonaws.com/charts/
-  version: 2.0.5
-digest: sha256:d65c537ee548ddcb86041b20e1f69b03a3ccabeb8698e5b937a50f54e7635231
-generated: "2019-11-15T16:52:10.621685274-05:00"
+  version: ~2.0.6
+digest: sha256:ad91be3f09898411ada015034aeeb5e66d5ad76c10db913031aea42362a1ff1b
+generated: "2020-01-20T16:05:32.197013092-05:00"
