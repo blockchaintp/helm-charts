@@ -6,4 +6,4 @@ sextant:
   # Set an image to use for the UI container, or delete to use default image
     ui: blockchaintp/sextant-sfd:BTP2.0.6
     noxy: blockchaintp/noxy:BTP2.0.6
-  nameOverride: sextant-sfs
+  nameOverride: sextant-sfd

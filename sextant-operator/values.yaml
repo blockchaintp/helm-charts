@@ -12,4 +12,4 @@ tolerations: []
 affinity: {}
 
 images:
-  operator: blockchaintp/sextant-operator:BTP2.0.6
+  operator: blockchaintp/sextant-operator:BTP2.0.5

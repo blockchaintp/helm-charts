@@ -5,4 +5,4 @@ sextant:
   # Set an image to use for the UI container, or delete to use default image
     ui: dev.catenasys.com:8083/blockchaintp/sextant-test:latest
     noxy: dev.catenasys.com:8083/blockchaintp/noxy:latest
-  nameOverride: sextant-sfs
+  nameOverride: sextant-test
