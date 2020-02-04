@@ -35,6 +35,20 @@ pipeline {
 
   stages {
 
+    stage('Fetch Tags') {
+      steps {
+        checkout([$class: 'GitSCM', branches: [[name: "${GIT_BRANCH}"]],
+            doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [],
+            userRemoteConfigs: [[credentialsId: 'github-credentials',noTags:false, url: "${GIT_URL}"]],
+            extensions: [
+                  [$class: 'CloneOption',
+                  shallow: false,
+                  noTags: false,
+                  timeout: 60]
+            ]])
+      }
+    }
+
     stage("Build Tools") {
       steps {
         sh """
@@ -76,10 +90,25 @@ pipeline {
                     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
           script {
             def S3_TARGET="s3://btp-charts-unstable"
-            sh """
-              ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/local \
-                 tools:${ISOLATION_ID} -c "aws s3 sync . ${S3_TARGET}/charts" 
-            """
+            def long_version = sh(returnStdout: true, script: "git describe --long --match 'v*' |cut -c 2-").trim()
+            def scm_version = sh(returnStdout: true, script: "git describe --match 'v*' |cut -c 2-").trim()
+            echo " ${long_version} == ${scm_version} "
+            if ( long_version == scm_version ) {
+              if (env.BRANCH_NAME == "master"){
+                echo " === This is the master and an untagged version, using unstable repo === "
+                sh """
+                  ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/local \
+                    tools:${ISOLATION_ID} -c "aws s3 sync . ${S3_TARGET}/charts" 
+                """
+              }
+            } else {
+              echo " === This is a tagged version of the charts using stable repo === "
+              S3_TARGET="s3://btp-charts-stable"
+              sh """
+                ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/local \
+                  tools:${ISOLATION_ID} -c "aws s3 sync . ${S3_TARGET}/charts" 
+              """
+            }
           }
         }
       }
