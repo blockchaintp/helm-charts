@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TARGET_S3=s3://scealiontach/charts
+TARGET_S3=s3://btp-charts-stable/charts
 KEY=${KEY:-admin@blockchaintp.com}
 KEY_RING=${KEY_RING:-~/.gnupg/secring.gpg}
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -19,10 +19,10 @@ done
 
 mkdir -p dist/repo
 pushd $src_dir/dist/repo
-aws s3 sync . s3://scealiontach/charts
+aws s3 sync . $TARGET_S3
 cp $src_dir/dist/local/* .
 helm repo index ./
-aws s3 sync . s3://scealiontach/charts
+aws s3 sync . $TARGET_S3
 popd
 
 popd
