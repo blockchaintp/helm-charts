@@ -30,6 +30,8 @@ pipeline {
 
   environment {
     ISOLATION_ID = sh(returnStdout: true, script: 'echo $BUILD_TAG | sha256sum | cut -c1-16').trim()
+    JENKINS_UID = sh(returnStdout: true, script: 'id --user').trim()
+    JENKINS_GID = sh(returnStdout: true, script: 'id --group').trim()
     DOCKER_RUN="docker run --rm -v root_${ISOLATION_ID}:/root "
   }
 
@@ -78,6 +80,7 @@ pipeline {
             ${DOCKER_RUN} -v \$src_dir:/project -w /project/charts tools:${ISOLATION_ID} -c "helm package --sign \
               --key admin@blockchaintp.com --keyring /root/.gnupg/secring.gpg -d /project/dist/local ./\$chart"
           done      
+          ${DOCKER_RUN} -v \$src_dir:/project -w /project/charts tools:${ISOLATION_ID} -c "chown -R ${JENKINS_UID}:${JENKINS_GID} /project/dist"
         """
       }
     }
@@ -89,25 +92,33 @@ pipeline {
                     credentialsId: 'a61234f8-c9f7-49f3-b03c-f31ade1e885a',
                     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
           script {
-            def S3_TARGET="s3://btp-charts-unstable"
+            def S3_TARGET="btp-charts-unstable"
             def long_version = sh(returnStdout: true, script: "git describe --long --match 'v*' |cut -c 2-").trim()
             def scm_version = sh(returnStdout: true, script: "git describe --match 'v*' |cut -c 2-").trim()
+            def publish = false
             echo " ${long_version} == ${scm_version} "
             if ( long_version == scm_version ) {
               if (env.BRANCH_NAME == "master"){
                 echo " === This is the master and an untagged version, using unstable repo === "
-                sh """
-                  ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/local \
-                    tools:${ISOLATION_ID} -c "aws s3 sync . ${S3_TARGET}/charts" 
-                """
+                publish = true
               }
             } else {
               echo " === This is a tagged version of the charts using stable repo === "
-              S3_TARGET="s3://btp-charts-stable"
+              S3_TARGET="btp-charts-stable"
+              publish=true
+            }
+            if ( publish ) {
               sh """
                 ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/local \
-                  tools:${ISOLATION_ID} -c "aws s3 sync . ${S3_TARGET}/charts" 
+                  tools:${ISOLATION_ID} -c "aws s3 sync . s3://${S3_TARGET}/charts" 
+                ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
+                  tools:${ISOLATION_ID} -c "aws s3 sync s3://${S3_TARGET}/charts ."
+                ${DOCKER_RUN} -v `pwd`:/project -w /project/charts/dist/remote tools:${ISOLATION_ID} -c "helm repo index ./ --url https://${S3_TARGET}.s3.amazonaws.com/charts"
+                ${DOCKER_RUN} -v `pwd`:/project -w /project/charts tools:${ISOLATION_ID} -c "chown -R ${JENKINS_UID}:${JENKINS_GID} /project/dist"
+                ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
+                  tools:${ISOLATION_ID} -c "aws s3 cp index.yaml s3://${S3_TARGET}/charts/index.yaml"
               """
+
             }
           }
         }
