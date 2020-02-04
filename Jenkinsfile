@@ -58,8 +58,6 @@ pipeline {
         sh """
           src_dir=`pwd`
           cd \$src_dir/charts
-          ls
-          pwd
           for chart in `ls`; do
             set -x
             ${DOCKER_RUN} -v \$src_dir:/project -w /project/charts tools:${ISOLATION_ID} -c "helm dep up \$chart"
@@ -67,6 +65,23 @@ pipeline {
               --key admin@blockchaintp.com --keyring /root/.gnupg/secring.gpg -d /project/dist/local ./\$chart"
           done      
         """
+      }
+    }
+
+    stage("Publish the charts") {
+      steps {
+        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                    credentialsId: 'a61234f8-c9f7-49f3-b03c-f31ade1e885a',
+                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+          script {
+            def S3_TARGET="s3://btp-charts-unstable"
+            sh """
+              ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/local \
+                 tools:${ISOLATION_ID} -c "aws s3 sync . ${S3_TARGET}/charts" 
+            """
+          }
+        }
       }
     }
 
