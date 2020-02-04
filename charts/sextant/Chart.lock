@@ -1,0 +1,6 @@
+dependencies:
+- name: sextant-operator
+  repository: https://scealiontach.s3.amazonaws.com/charts/
+  version: 2.0.7
+digest: sha256:d096894cbc76b53223bc8cc416ebd6deb2f2fa1dfebce78540b1511b17ad7b49
+generated: "2020-02-04T14:24:37.254177814-05:00"
