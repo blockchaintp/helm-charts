@@ -113,7 +113,7 @@ pipeline {
                   tools:${ISOLATION_ID} -c "aws s3 sync . s3://${S3_TARGET}/charts" 
                 ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
                   tools:${ISOLATION_ID} -c "aws s3 sync s3://${S3_TARGET}/charts ."
-                ${DOCKER_RUN} -v `pwd`:/project -w /project/charts/dist/remote tools:${ISOLATION_ID} -c "helm repo index ./ --url https://${S3_TARGET}.s3.amazonaws.com/charts"
+                ${DOCKER_RUN} -v `pwd`:/project -w /project/dist/remote tools:${ISOLATION_ID} -c "helm repo index ./ --url https://${S3_TARGET}.s3.amazonaws.com/charts"
                 ${DOCKER_RUN} -v `pwd`:/project -w /project/charts tools:${ISOLATION_ID} -c "chown -R ${JENKINS_UID}:${JENKINS_GID} /project/dist"
                 ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
                   tools:${ISOLATION_ID} -c "aws s3 cp index.yaml s3://${S3_TARGET}/charts/index.yaml"
