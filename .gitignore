@@ -37,3 +37,6 @@ Session.vim
 .history
 dist/
 **/charts/*.tgz
+# You shouldn't normally ignore Chart.lock files but
+# In this repo we must
+**/Chart.log
