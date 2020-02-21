@@ -3,6 +3,6 @@ sextant:
   # Set an image to use for the API container, or remove to use default image
     api: dev.catenasys.com:8083/blockchaintp/sextant-api:latest
   # Set an image to use for the UI container, or delete to use default image
-    ui: dev.catenasys.com:8083/blockchaintp/sextant-test:latest
+    ui: dev.catenasys.com:8083/blockchaintp/sextant-ci:latest
     noxy: dev.catenasys.com:8083/blockchaintp/noxy:latest
   nameOverride: sextant-test
