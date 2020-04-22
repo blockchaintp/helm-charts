@@ -1,0 +1,33 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  namespace: {{ .Values.sawtooth.namespace }}
+  labels:
+    app: {{ .Values.sawtooth.networkName }}-monitoring
+spec:
+  ports:
+  - port: 3000
+    protocol: TCP
+    targetPort: 3000
+    name: grafana
+  selector:
+    app: {{ .Values.sawtooth.networkName }}-monitoring
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: influxdb
+  namespace: {{ .Values.sawtooth.namespace }}
+  labels:
+    app: {{ .Values.sawtooth.networkName }}-monitoring
+spec:
+  ports:
+  - port: 8086
+    protocol: TCP
+    targetPort: 8086
+    name: influxdb
+  selector:
+    app: {{ .Values.sawtooth.networkName }}-monitoring
+---
