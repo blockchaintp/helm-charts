@@ -1,4 +1,4 @@
-{{$peering:= .Values.sawtooth.dynamicpeering}}
+{{$peering:= .Values.sawtooth.dynamicPeering}}
 ---
 apiVersion: v1
 kind: Service
@@ -10,9 +10,9 @@ metadata:
 spec:
   sessionAffinity: ClientIP
   ports:
-  - port: 8008
+  - port: {{ .Values.sawtooth.ports.rest }}
     protocol: TCP 
-    targetPort: 8008
+    targetPort: {{ .Values.sawtooth.ports.rest }}
     name: rest-api
 {{ if .Values.sawtooth.seth.enabled }}
   - port: 3030
@@ -34,10 +34,18 @@ spec:
   type: ClusterIP
   clusterIP: None
   ports:
-  - port: 8800
+  - port: {{ .Values.sawtooth.ports.rest }}
     protocol: TCP 
-    targetPort: 8800
+    targetPort: {{ .Values.sawtooth.ports.rest }}
+    name: rest-api
+  - port: {{ .Values.sawtooth.ports.sawnet }}
+    protocol: TCP
+    targetPort: {{ .Values.sawtooth.ports.sawnet }}
     name: sawnet
+  - port: {{ .Values.sawtooth.ports.sawcomp }}
+    protocol: TCP
+    targetPort: {{ .Values.sawtooth.ports.sawcomp }}
+    name: sawncomp
   selector:
     app: {{ .Values.sawtooth.networkName }}-validator
 ---
@@ -46,7 +54,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Values.sawtooth.networkName }}-xo-demo
-  namespace: {{.Values.sawtooth.namespace}}
+  namespace: {{ .Values.sawtooth.namespace }}
   labels:
     app: {{ .Values.sawtooth.networkName }}-xo-demo
 spec:
