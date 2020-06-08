@@ -1,6 +1,6 @@
 apiVersion: v2
 name: sawtooth
-description: A Helm chart for Sawtooth
+description: BTP's Sawtooth distribution based on Hyperledger Sawtooth 1.1
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -19,3 +19,26 @@ version: 0.1.1
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application.
 appVersion: 1.1.5p1
+
+# Replaces the index.js in the deployment templates directory, sawtooth/index
+# The deploymentType and deploymentVersion help build the object structure
+deploymentType: sawtooth
+deploymentVersion: 1.1
+
+# absolute path to form.js 
+form: /app/helmCharts/sawtooth/sextant/form.js
+
+# absolute path to summary.js
+summary: /app/helmCharts/sawtooth/sextant/summary.js
+
+# paths to be used in the getField function
+namePath: sawtooth.networkName
+namespacePath: sawtooth.nameSpace
+
+# additional fields for the button
+# form: <same as deploymentVersion>
+title: BTP Sawtooth
+sexantVersion: BTP2.0
+icon: /thirdParty/hyperledger-sawtooth.png
+features: []
+
