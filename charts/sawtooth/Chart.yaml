@@ -28,7 +28,7 @@ deploymentVersion: 1.1
 # absolute path to form.js 
 form: /app/helmCharts/sawtooth/sextant/form.js
 
-# absolute path to summary.js
+# absolute path to summary.jst
 summary: /app/helmCharts/sawtooth/sextant/summary.js
 
 # paths to be used in the getField function
@@ -39,6 +39,6 @@ namespacePath: sawtooth.nameSpace
 # form: <same as deploymentVersion>
 title: BTP Sawtooth
 sexantVersion: BTP2.0
-icon: /thirdParty/hyperledger-sawtooth.png
+buttonIcon: /thirdParty/hyperledger-sawtooth.png
 features: []
 
