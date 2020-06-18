@@ -14,7 +14,7 @@ type: application
 
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
-version: 0.1.4
+version: 0.1.5
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application.
@@ -22,23 +22,24 @@ appVersion: 1.1.5p1
 
 # Replaces the index.js in the deployment templates directory, sawtooth/index
 # The deploymentType and deploymentVersion help build the object structure
-deploymentType: sawtooth
-deploymentVersion: 1.1
+sextant:
+  deploymentType: sawtooth
+  deploymentVersion: 1.1
 
-# absolute path to form.js 
-form: /app/helmCharts/sawtooth/sextant/form.js
+  # absolute path to form.js 
+  form: /app/helmCharts/sawtooth/sextant/form.js
 
-# absolute path to summary.jst
-summary: /app/helmCharts/sawtooth/sextant/summary.js
+  # absolute path to summary.jst
+  summary: /app/helmCharts/sawtooth/sextant/summary.js
 
-# paths to be used in the getField function
-namePath: sawtooth.networkName
-namespacePath: sawtooth.nameSpace
+  # paths to be used in the getField function
+  namePath: sawtooth.networkName
+  namespacePath: sawtooth.nameSpace
 
-# additional fields for the button
-# form: <same as deploymentVersion>
-title: BTP Sawtooth
-sextantVersion: BTP2.0
-buttonIcon: /thirdParty/hyperledger-sawtooth.png
-features: []
+  # additional fields for the button
+  # form: <same as deploymentVersion>
+  title: BTP Sawtooth
+  sextantVersion: BTP2.0
+  buttonIcon: /thirdParty/hyperledger-sawtooth.png
+  features: []
 
