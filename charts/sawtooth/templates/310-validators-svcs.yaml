@@ -68,3 +68,4 @@ spec:
     app: {{ .Values.sawtooth.networkName }}-validator
 ---
 {{ end }}
+

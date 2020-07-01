@@ -134,3 +134,4 @@ images:
   seth_rpc: blockchaintp/sawtooth-seth-rpc:BTP2.0
   seth_tp: blockchaintp/sawtooth-seth-tp:BTP2.0
   xo_demo: blockchaintp/xo-demo:BTP2.0
+
