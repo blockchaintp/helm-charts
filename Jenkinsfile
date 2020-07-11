@@ -59,16 +59,17 @@ pipeline {
       }
     }
 
-    stage("Import Keys") {
+// Disable this for now, GPG and helm have made incompatible choices
+/*    stage("Import Keys") {
       steps {
         withCredentials([file(credentialsId: 'gpg-signing-key-asc', variable: 'GPG_KEY')]) {
           sh """
-          ${DOCKER_RUN} -v \$GPG_KEY:/tmp/signing-key.asc tools:${ISOLATION_ID} -c "gpg --import /tmp/signing-key.asc && gpg --export-secret-keys > /root/.gnupg/secring.gpg"
+          ${DOCKER_RUN} -v \$GPG_KEY:/tmp/signing-key.asc tools:${ISOLATION_ID} -c "export GPG_TTY=\\\$(tty) && gpg-agent --daemon && gpg --batch --import /tmp/signing-key.asc && gpg --export-secret-keys > /root/.gnupg/secring.gpg"
           """
         }
       }
     }
-
+*/
     stage("Update dependencies and package") {
       steps {
         sh """
@@ -77,8 +78,7 @@ pipeline {
           for chart in `ls`; do
             set -x
             ${DOCKER_RUN} -v \$src_dir:/project -w /project/charts tools:${ISOLATION_ID} -c "helm dep up \$chart"
-            ${DOCKER_RUN} -v \$src_dir:/project -w /project/charts tools:${ISOLATION_ID} -c "helm package --sign \
-              --key admin@blockchaintp.com --keyring /root/.gnupg/secring.gpg -d /project/dist/local ./\$chart"
+            ${DOCKER_RUN} -v \$src_dir:/project -w /project/charts tools:${ISOLATION_ID} -c "helm package -d /project/dist/local ./\$chart"
           done      
           ${DOCKER_RUN} -v \$src_dir:/project -w /project/charts tools:${ISOLATION_ID} -c "chown -R ${JENKINS_UID}:${JENKINS_GID} /project/dist"
         """
