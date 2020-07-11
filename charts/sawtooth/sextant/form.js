@@ -192,7 +192,7 @@ const form = [
     id: 'sawtooth.customTPs',
     title: 'Custom Containers',
     skip: true,
-    helperText: 'Custom containers start and connect to the validator on tcp://localhost:4004',
+    helperText: 'Custom containers can connect to the validator on tcp://localhost:4004',
     list: {
       mainField: 'name',
       schema: [{
@@ -396,4 +396,3 @@ const form = [
 ]
 
 module.exports = form
-
