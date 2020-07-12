@@ -186,19 +186,19 @@ const form = [
     }
   },
 
-  'Custom Transaction Processors',
+  'Custom Containers',
 
   {
     id: 'sawtooth.customTPs',
-    title: 'Custom Transaction Processors',
+    title: 'Custom Containers',
     skip: true,
-    helperText: 'Custom transaction processors to start and connect to the validator on tcp://localhost:4004',
+    helperText: 'Custom containers can connect to the validator on tcp://localhost:4004',
     list: {
       mainField: 'name',
       schema: [{
         id: 'name',
         title: 'Name',
-        helperText: 'The name of your custom transaction processor',
+        helperText: 'The name of your custom container',
         component: 'text',
         validate: {
           type: 'string',
@@ -209,7 +209,7 @@ const form = [
       },{
         id: 'image',
         title: 'Image',
-        helperText: 'The docker image for your transaction processor',
+        helperText: 'The docker image for your container',
         component: 'text',
         validate: {
           type: 'string',
@@ -220,7 +220,7 @@ const form = [
       },{
         id: 'command',
         title: 'Command',
-        helperText: 'The command for your transaction processor',
+        helperText: 'The command for your container',
         component: 'text',
         validate: {
           type: 'string',
@@ -231,7 +231,7 @@ const form = [
       },{
         id: 'args',
         title: 'Arguments',
-        helperText: 'The arguments for your transaction processor',
+        helperText: 'The arguments for your container',
         component: 'text',
         validate: {
           type: 'string',
@@ -396,4 +396,3 @@ const form = [
 ]
 
 module.exports = form
-
