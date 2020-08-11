@@ -40,3 +40,5 @@ dist/
 # You shouldn't normally ignore Chart.lock files but
 # In this repo we must
 **/Chart.lock
+
+node_modules
