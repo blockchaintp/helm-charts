@@ -1,0 +1,27 @@
+apiVersion: v2
+name: daml-on-sawtooth
+description: The DAML smart contract runtime engine with Hyperledger Sawtooth as the ledger
+
+# Replaces the index.js in the deployment templates directory, daml-on-sawtooth/index
+# The deploymentType and deploymentVersion help build the object structure
+deploymentType: daml
+deploymentVersion: daml-on-sawtooth
+
+# absolute path to form.js
+form: daml-on-sawtooth/sextant/form.js
+
+# absolute path to summary.jst
+summary: daml-on-sawtooth/sextant/summary.js
+
+# paths to be used in the getField function
+namePath: sawtooth.networkName
+namespacePath: sawtooth.namespace
+
+# additional fields for the button
+# form: <same as deploymentVersion>
+title: BTP daml-on-sawtooth
+sextantVersion: BTP2.0
+buttonIcon: /thirdParty/daml.png
+features:
+  - daml.parties
+  - daml.archives
