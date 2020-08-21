@@ -29,10 +29,10 @@ pipeline {
   }
 
   environment {
-    ISOLATION_ID = sh(returnStdout: true, script: 'echo $BUILD_TAG | sha256sum | cut -c1-16').trim()
+    JOB_ID = sh(returnStdout: true, script: 'echo $BUILD_TAG | sha256sum | cut -c1-16').trim()
     JENKINS_UID = sh(returnStdout: true, script: 'id --user').trim()
     JENKINS_GID = sh(returnStdout: true, script: 'id --group').trim()
-    DOCKER_RUN="docker run --rm -v root_${ISOLATION_ID}:/root "
+    DOCKER_RUN="docker run --rm -v root_${JOB_ID}:/root "
   }
 
   stages {
@@ -54,7 +54,7 @@ pipeline {
     stage("Build Tools") {
       steps {
         sh """
-          docker build -t tools:${ISOLATION_ID} -f Dockerfile .
+          docker build -t tools:${JOB_ID} -f Dockerfile .
         """
       }
     }
@@ -64,7 +64,7 @@ pipeline {
       steps {
         withCredentials([file(credentialsId: 'gpg-signing-key-asc', variable: 'GPG_KEY')]) {
           sh """
-          ${DOCKER_RUN} -v \$GPG_KEY:/tmp/signing-key.asc tools:${ISOLATION_ID} -c "export GPG_TTY=\\\$(tty) && gpg-agent --daemon && gpg --batch --import /tmp/signing-key.asc && gpg --export-secret-keys > /root/.gnupg/secring.gpg"
+          ${DOCKER_RUN} -v \$GPG_KEY:/tmp/signing-key.asc tools:${JOB_ID} -c "export GPG_TTY=\\\$(tty) && gpg-agent --daemon && gpg --batch --import /tmp/signing-key.asc && gpg --export-secret-keys > /root/.gnupg/secring.gpg"
           """
         }
       }
@@ -77,10 +77,10 @@ pipeline {
           cd \$src_dir/charts
           for chart in `ls`; do
             set -x
-            ${DOCKER_RUN} -v \$src_dir:/project -w /project/charts tools:${ISOLATION_ID} -c "helm dep up \$chart"
-            ${DOCKER_RUN} -v \$src_dir:/project -w /project/charts tools:${ISOLATION_ID} -c "helm package -d /project/dist/local ./\$chart"
-          done      
-          ${DOCKER_RUN} -v \$src_dir:/project -w /project/charts tools:${ISOLATION_ID} -c "chown -R ${JENKINS_UID}:${JENKINS_GID} /project/dist"
+            ${DOCKER_RUN} -v \$src_dir:/project -w /project/charts tools:${JOB_ID} -c "helm dep up \$chart"
+            ${DOCKER_RUN} -v \$src_dir:/project -w /project/charts tools:${JOB_ID} -c "helm package -d /project/dist/local ./\$chart"
+          done
+          ${DOCKER_RUN} -v \$src_dir:/project -w /project/charts tools:${JOB_ID} -c "chown -R ${JENKINS_UID}:${JENKINS_GID} /project/dist"
         """
       }
     }
@@ -110,13 +110,13 @@ pipeline {
             if ( publish ) {
               sh """
                 ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/local \
-                  tools:${ISOLATION_ID} -c "aws s3 sync . s3://${S3_TARGET}/charts" 
+                  tools:${JOB_ID} -c "aws s3 sync . s3://${S3_TARGET}/charts"
                 ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
-                  tools:${ISOLATION_ID} -c "aws s3 sync s3://${S3_TARGET}/charts ."
-                ${DOCKER_RUN} -v `pwd`:/project -w /project/dist/remote tools:${ISOLATION_ID} -c "helm repo index ./ --url https://${S3_TARGET}.s3.amazonaws.com/charts"
-                ${DOCKER_RUN} -v `pwd`:/project -w /project/charts tools:${ISOLATION_ID} -c "chown -R ${JENKINS_UID}:${JENKINS_GID} /project/dist"
+                  tools:${JOB_ID} -c "aws s3 sync s3://${S3_TARGET}/charts ."
+                ${DOCKER_RUN} -v `pwd`:/project -w /project/dist/remote tools:${JOB_ID} -c "helm repo index ./ --url https://${S3_TARGET}.s3.amazonaws.com/charts"
+                ${DOCKER_RUN} -v `pwd`:/project -w /project/charts tools:${JOB_ID} -c "chown -R ${JENKINS_UID}:${JENKINS_GID} /project/dist"
                 ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
-                  tools:${ISOLATION_ID} -c "aws s3 cp index.yaml s3://${S3_TARGET}/charts/index.yaml"
+                  tools:${JOB_ID} -c "aws s3 cp index.yaml s3://${S3_TARGET}/charts/index.yaml"
               """
 
             }
@@ -126,12 +126,12 @@ pipeline {
     }
 
   }
-    
+
 
   post {
       cleanup {
           sh """
-            docker volume rm root_${ISOLATION_ID}
+            docker volume rm root_${JOB_ID}
           """
       }
       aborted {
