@@ -86,6 +86,9 @@ pipeline {
     }
 
     stage("Publish the charts") {
+      when {
+        expression { env.BRANCH_NAME == "master" }
+      }
       steps {
         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
                     accessKeyVariable: 'AWS_ACCESS_KEY_ID',
@@ -118,7 +121,6 @@ pipeline {
                 ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
                   tools:${JOB_ID} -c "aws s3 cp index.yaml s3://${S3_TARGET}/charts/index.yaml"
               """
-
             }
           }
         }
