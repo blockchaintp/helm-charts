@@ -12,7 +12,7 @@ const form = [
 
   [
     {
-      id: 'daml_on_besu.name',
+      id: 'deployment.name',
       title: 'Network Name',
       helperText: 'The name of the Besu network',
       component: 'text',
@@ -31,7 +31,7 @@ const form = [
       },
     },
     {
-      id: 'daml_on_besu.namespace',
+      id: 'deployment.namespace',
       title: 'Kubernetes Namespace',
       helperText: 'The Kubernetes namespace',
       component: 'text',

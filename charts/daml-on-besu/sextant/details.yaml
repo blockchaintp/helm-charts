@@ -14,8 +14,8 @@ form: daml-on-besu/sextant/form.js
 summary: daml-on-besu/sextant/summary.js
 
 # paths to be used in the getField function
-namePath: daml_on_besu.name
-namespacePath: daml_on_besu.namespace
+namePath: deployment.name
+namespacePath: deployment.namespace
 
 # additional fields for the button
 # form: <same as deploymentVersion>

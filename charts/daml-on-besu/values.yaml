@@ -2,6 +2,9 @@ imagePullSecrets:
   enabled: false
   value:
     - name: regcred
+deployment:
+  name: default
+  namespace: default
 besu:
   serviceAccount:
     create: true

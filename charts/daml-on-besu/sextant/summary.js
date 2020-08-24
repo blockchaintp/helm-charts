@@ -16,17 +16,17 @@ const summary = (values) => {
   const {
     daml,
     besu,
-    daml_on_besu,
+    deployment,
   } = values
 
   return [
     {
       title: 'Deployment Name',
-      value: daml_on_besu.name,
+      value: deployment.name,
     },
     {
       title: 'Namespace',
-      value: daml_on_besu.namespace,
+      value: deployment.namespace,
     },
     {title: 'DAML GRPC Port', value: '39000'}
   ]
