@@ -106,7 +106,7 @@ Common labels
 */}}
 {{- define "daml-on-besu.labels" -}}
 app: {{ include "daml-on-besu.name" . }}-rpc
-daml: {{ include "daml-on-besu.name" . }}-rpc
+daml: {{ .Release.Name }}-daml-rpc
 chart: {{ include "daml-on-besu.chart" . }}
 heritage: {{ .Release.Service }}
 namespace: {{ .Release.Namespace }}
