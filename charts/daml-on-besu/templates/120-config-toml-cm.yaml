@@ -1,0 +1,87 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "besu.fullname" . }}-config-toml
+  namespace: {{ .Release.Namespace }}
+  labels:
+{{ include "besu.labels" . | indent 4 }}
+data:
+  config.toml: |-
+    data-path={{ .Values.besu.dataPath | quote }}
+    genesis-file={{ .Values.besu.genesisFilePath | quote }}
+    min-gas-price=0
+    # TODO : insert as command line & mount Volume
+    # rpc-http-authentication-credentials-file="none"
+    # TODO : insert as command line & mount Volume
+    # rpc-ws-authentication-credentials-file="none"
+    # TODO : insert as command line & mount Volume
+    # permissions-nodes-config-file="./permissions_config.toml"
+    # TODO : insert as command line & mount Volume
+    # permissions-accounts-config-file="./permissions_config.toml"
+    logging={{ .Values.besu.logging | quote }}
+    # Transaction Pool
+    tx-pool-retention-hours={{ .Values.besu.txPool.retentionHours }}
+    tx-pool-max-size={{ .Values.besu.txPool.maxSize }}
+    {{ if  .Values.besu.p2p.enabled -}}
+    # P2P network
+    p2p-enabled={{ .Values.besu.p2p.enabled }}
+    discovery-enabled={{ .Values.besu.p2p.discovery }}
+    p2p-host={{ .Values.besu.p2p.host | quote }}
+    p2p-port={{ .Values.besu.p2p.port }}
+    max-peers={{ .Values.besu.p2p.maxPeers }}
+    {{ end }}
+    {{ if or .Values.besu.rpc.enabled .Values.besu.graphql.enabled .Values.besu.ws.enabled }}
+    host-whitelist={{ .Values.besu.http.whitelist }}
+    {{ end }}
+    {{ if  .Values.besu.rpc.enabled -}}
+    # JSON-RPC
+    rpc-http-enabled={{ .Values.besu.rpc.enabled }}
+    rpc-http-host={{ .Values.besu.rpc.host | quote }}
+    rpc-http-port={{ .Values.besu.rpc.port }}
+    rpc-http-api={{ .Values.besu.rpc.api }}
+    rpc-http-cors-origins={{ .Values.besu.rpc.corsOrigins }}
+    rpc-http-authentication-enabled={{ .Values.besu.rpc.authenticationEnabled }}
+    {{ end }}
+    {{ if  .Values.besu.graphql.enabled -}}
+    # GRAPHQL-RPC
+    graphql-http-enabled={{ .Values.besu.graphql.enabled }}
+    graphql-http-host={{ .Values.besu.graphql.host | quote }}
+    graphql-http-port={{ .Values.besu.graphql.port }}
+    graphql-http-cors-origins={{ .Values.besu.graphql.corsOrigins }}
+    {{ end }}
+    {{ if  .Values.besu.ws.enabled -}}
+    # WebSockets API
+    rpc-ws-enabled={{ .Values.besu.ws.enabled }}
+    rpc-ws-host={{ .Values.besu.ws.host | quote }}
+    rpc-ws-port={{ .Values.besu.ws.port }}
+    rpc-ws-api={{ .Values.besu.ws.api }}
+    rpc-ws-authentication-enabled={{ .Values.besu.ws.authenticationEnabled }}
+    {{ end }}
+    {{ if  .Values.besu.permissions.enabled -}}
+    # Permissioning
+    permissions-nodes-config-file-enabled={{ .Values.besu.permissions.nodes.enabled }}
+    permissions-accounts-config-file-enabled={{ .Values.besu.permissions.accounts.enabled }}
+    permissions-nodes-contract-enabled={{ .Values.besu.permissions.nodesContract.enabled }}
+    permissions-nodes-contract-address={{ .Values.besu.permissions.nodesContract.address | quote }}
+    {{ end }}
+    {{ if  .Values.besu.privacy.enabled -}}
+    # Privacy
+    privacy-enabled={{ .Values.besu.privacy.enabled }}
+    privacy-url={{ .Values.besu.privacy.url | quote }}
+    privacy-precompiled-address={{ .Values.besu.privacy.precompiledAddress }}
+    {{ end }}
+    {{ if  .Values.besu.metrics.enabled -}}
+    # Metrics
+    metrics-enabled={{ .Values.besu.metrics.enabled }}
+    metrics-host={{ .Values.besu.metrics.host | quote }}
+    metrics-port={{ .Values.besu.metrics.port }}
+    {{ end }}
+    {{ if  .Values.besu.metricsPush.enabled -}}
+    # Metrics Push
+    metrics-push-enabled={{ .Values.besu.metricsPush.enabled }}
+    metrics-push-host={{ .Values.besu.metricsPush.host | quote }}
+    metrics-push-port={{ .Values.besu.metricsPush.port }}
+    metrics-push-interval={{ .Values.besu.metricsPush.interval }}
+    metrics-push-prometheus-job={{ .Values.besu.metricsPush.prometheusJob | quote }}
+    {{ end }}
