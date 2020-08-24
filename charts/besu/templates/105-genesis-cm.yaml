@@ -1,0 +1,35 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "besu.fullname" .}}-genesis-cm
+  namespace: {{.Release.Namespace }}
+data:
+  config.json: |
+    {
+      "genesis": {
+        "coinbase": "0x0000000000000000000000000000000000000000",
+        "config": {
+          "chainId": {{.Values.besu.chainId | quote }},
+          "constantinoplefixblock": 0,
+          "ibft2": {
+            "blockperiodseconds": {{.Values.besu.genesis.ibftBlockPeriodSeconds}},
+            "epochlength": {{.Values.besu.genesis.ibftEpochLength}},
+            "requesttimeoutseconds": {{.Values.besu.genesis.ibftRequestTimeoutSeconds}}
+          }
+        },
+        "nonce": "0x0",
+        "gasLimit": "0x7fffffffffffff",
+        "mixHash": "0x63746963616c2062797a616e74696e65206661756c7420746f6c6572616e6365",
+        "contractSizeLimit": 2147483647,
+        "difficulty": "0x1",
+        "alloc": {
+        }
+      },
+      "blockchain": {
+        "nodes": {
+          "generate": true,
+          "count": {{.Values.besu.nodeCount}}
+        }
+      }
+    }
