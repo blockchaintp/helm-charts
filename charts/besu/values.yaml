@@ -76,13 +76,3 @@ besu:
   txPool:
     retentionHours: 999
     maxSize: 1024
-daml:
-  rpcCount: 1
-  rpc:
-    port: 39000
-    postgresqlUrl:
-    participantId: daml-participant
-postgres:
-  image:
-    repository: postgres
-    tag: 11
