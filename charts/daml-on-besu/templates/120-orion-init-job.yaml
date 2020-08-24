@@ -17,12 +17,10 @@ spec:
     spec:
       serviceAccountName: {{ include "besu.serviceAccountName" . }}
       restartPolicy: Never
-      {{ if .Values.imagePullSecrets.enabled }}
+      {{if .Values.besu.imagePullSecrets }}
       imagePullSecrets:
-      {{range .Values.imagePullSecrets.value }}
-        - name: {{ .name }}
-      {{ end }}
-      {{ end }}
+{{ .Values.besu.imagePullSecrets | toYaml | indent 8}}
+      {{end}}
       containers:
         - name: genesis
           image: "{{.Values.besu.image.repository }}:{{ .Values.besu.image.tag }}"

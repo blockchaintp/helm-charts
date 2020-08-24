@@ -17,9 +17,9 @@ spec:
       labels:
 {{ include "daml-on-besu.labels" .| indent 8}}
     spec:
-      {{ if .Values.daml.imagePullSecrets }}
+      {{ if .Values.imagePullSecrets.enabled }}
       imagePullSecrets:
-      {{range .Values.daml.imagePullSecrets }}
+      {{range .Values.imagePullSecrets.value }}
         - name: {{ .name }}
       {{ end }}
       {{ end }}

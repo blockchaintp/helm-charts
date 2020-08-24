@@ -1,0 +1,29 @@
+apiVersion: v2
+name: daml-on-besu
+description: The DAML smart contract runtime engine with Hyperledger Besu as the ledger.
+
+# Replaces the index.js in the deployment templates directory, sawtooth/index
+# The deploymentType and deploymentVersion help build the object structure
+deploymentType: daml
+deploymentVersion: daml-on-besu
+
+# absolute path to form.js
+form: daml-on-besu/sextant/form.js
+
+# absolute path to summary.jst
+summary: daml-on-besu/sextant/summary.js
+
+# paths to be used in the getField function
+namePath: daml_on_besu.networkName
+namespacePath: daml_on_besu.namespace
+
+# additional fields for the button
+# form: <same as deploymentVersion>
+title: DAML On Besu
+sextantVersion: BTP2.1
+buttonIcon: /thirdParty/daml.png
+features:
+  - daml.parties
+  - daml.archives
+
+# documentation pull down mark down
