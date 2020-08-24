@@ -1,0 +1,146 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "besu.fullname" . }}
+  namespace: {{.Release.Namespace}}
+spec:
+  replicas: {{.Values.besu.nodeCount}}
+  podManagementPolicy: OrderedReady
+  serviceName: {{ include "besu.fullname" .}}
+  selector:
+    matchLabels:
+      app: {{ include "besu.name" . }}
+      release: {{ .Release.Name }}
+      component: besu-node
+      app.kubernetes.io/name: {{ include "besu.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "besu.name" . }}
+        release: {{ .Release.Name }}
+        component: besu-node
+        app.kubernetes.io/name: {{ include "besu.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9545"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: {{ include "besu.serviceAccountName" . }}
+      {{ if .Values.imagePullSecrets.enabled }}
+      imagePullSecrets:
+      {{range .Values.imagePullSecrets.value }}
+        - name: {{ .name }}
+      {{ end }}
+      {{ end }}
+      containers:
+        - env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: JAVA_ARGS
+              value: "-Dvertx.disableFileCPResolving=true -Dlog4j.shutdownHookEnabled=false --add-opens java.base/sun.security.provider=ALL-UNNAMED"
+          command:
+            - bash
+            - -xc
+            - |
+              bootnode={{include "besu.fullname" .}}-0
+              if [ "$POD_NAME" = "$bootnode" ]; then
+                BOOT_NODE_ARGS=()
+              else
+                bootnode_ip=$(getent hosts {{include "besu.fullname" .}}-0.{{include "besu.fullname" .}} | awk '{print $1}' | head -1)
+                while [ -z "$bootnode_ip" ]; do
+                  sleep 1;
+                  bootnode_ip=$(getent hosts {{include "besu.fullname" .}}-0.{{include "besu.fullname" .}} | awk '{print $1}' | head -1)
+                done
+                bootnode_enode=$(cat /keys/{{include "besu.fullname" .}}-0.pub| sed -e 's/^0x//')
+                BOOT_NODE_ARGS=("enode://$bootnode_enode@$bootnode_ip:{{.Values.besu.p2p.port}}")
+              fi
+              exec /opt/daml-on-besu/besu/entrypoint.sh \
+              --node-private-key-file=/keys/${POD_NAME} \
+              --config-file=/etc/besu/config.toml \
+              --bootnodes "${BOOT_NODE_ARGS[@]}"
+          image: "{{.Values.besu.image.repository}}:{{.Values.besu.image.tag}}"
+          name: besu
+          ports:
+            - name: json-rpc
+              containerPort: {{ .Values.besu.rpc.port }}
+              protocol: TCP
+            - name: ws
+              containerPort: {{ .Values.besu.ws.port }}
+              protocol: TCP
+            - name: graphql
+              containerPort: {{ .Values.besu.graphql.port }}
+              protocol: TCP
+            - name: rlpx
+              containerPort: {{ .Values.besu.p2p.port }}
+              protocol: TCP
+            - name: discovery
+              containerPort: {{ .Values.besu.p2p.port }}
+              protocol: UDP
+            - name: metrics
+              containerPort: {{ .Values.besu.metrics.port }}
+              protocol: TCP
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          resources: {}
+          volumeMounts:
+            - name: genesis
+              mountPath: /etc/genesis
+              readOnly: true
+            - name: config-toml
+              mountPath: /etc/besu
+              readOnly: true
+            - mountPath: /keys
+              name: networkkeys-config
+              readOnly: true
+            - mountPath: /data
+              name: data
+            - mountPath: /dev/random
+              name: dev-random
+            - mountPath: /dev/urandom
+              name: dev-urandom
+      restartPolicy: Always
+      volumes:
+        - name: config-toml
+          configMap:
+            name: {{ include "besu.fullname" . }}-config-toml
+        - name: dev-random
+          hostPath:
+            path: /dev/random
+            type: CharDevice
+        - name: dev-urandom
+          hostPath:
+            path: /dev/urandom
+            type: CharDevice
+        - name: genesis
+          configMap:
+            name: {{ include "besu.fullname" .}}-genesis
+            items:
+              - key: genesis.json
+                path: genesis.json
+        - name: networkkeys-config
+          secret:
+            secretName: {{ include "besu.fullname" .}}-keys
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: gp2
+        resources:
+          requests:
+            storage: 40Gi

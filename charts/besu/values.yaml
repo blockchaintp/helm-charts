@@ -1,0 +1,78 @@
+besu:
+  serviceAccount:
+    create: true
+    name:
+  nodeCount: 4
+  chainId: "19750424"
+  dataPath: /var/lib/besu
+  rpc:
+    enabled: true
+    host: "0.0.0.0"
+    api: '["DEBUG","ETH", "ADMIN", "WEB3", "IBFT", "NET"]'
+    port: 8545
+    corsOrigins: '["all"]'
+    authenticationEnabled: false
+  ws:
+    enabled: false
+    api: '["DEBUG", "ETH", "WEB3", "NET"]'
+    host: "0.0.0.0"
+    port: 8546
+    corsOrigins: '["all"]'
+    authenticationEnabled: false
+  graphql:
+    enabled: false
+    host: "0.0.0.0"
+    corsOrigins: '["all"]'
+    port: 8547
+  discovery:
+    port: 8549
+  metrics:
+    enabled: false
+    host: "0.0.0.0"
+    port: 9545
+  metricsPush:
+    enabled: false
+    host: "5.5.5.5"
+    port: 9091
+    interval: 60
+    prometheusJob: "besu"
+  permissions:
+    enabled: false
+    nodes:
+      enabled: false
+      whitelist: ["enode://6f8a80d14311c39f35f516fa664deaaaa13e85b2f7493f37f6144d86991ec012937307647bd3b9a82abe2974e1407241d54947bbb39763a4cac9f77166ad92a0@192.168.0.9:4567","enode://6f8a80d14311c39f35f516fa664deaaaa13e85b2f7493f37f6144d86991ec012937307647bd3b9a82abe2974e1407241d54947bbb39763a4cac9f77166ad92a0@192.169.0.9:4568"]
+    nodesContract:
+      enabled: false
+      address: "0x0000000000000000000000000000000000001234"
+    accounts:
+      enabled: false
+      whitelist: ["0x0000000000000000000000000000000000000009"]
+  privacy:
+    enabled: false
+    url: "http://127.0.0.1:8888"
+    precompileAddress: 9
+  genesis:
+    ibftBlockPeriodSeconds: 2
+    ibftEpochLength: 30000
+    ibftRequestTimeoutSeconds: 10
+  genesisFilePath: /etc/genesis/genesis.json
+  logging: "info"
+  affinity:
+    enabled: false
+  imagePullSecrets:
+   - name: regcred
+  image:
+    repository: dev.catenasys.com:8083/blockchaintp/besu
+    tag: latest
+    imagePullPolicy: IfNotPresent
+  p2p:
+    enabled: true
+    discovery: true
+    host: "0.0.0.0"
+    port: 30303
+    maxPeers: 25
+  http:
+    whitelist: '["*"]'
+  txPool:
+    retentionHours: 999
+    maxSize: 1024
