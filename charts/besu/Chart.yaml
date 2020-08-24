@@ -1,5 +1,5 @@
 apiVersion: v2
-name: daml-on-besu
+name: besu
 description: The DAML smart contract runtime engine with Hyperledger Besu as the ledger.
 
 # A chart can be either an 'application' or a 'library' chart.
