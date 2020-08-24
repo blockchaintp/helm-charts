@@ -1,0 +1,27 @@
+apiVersion: v2
+name: openebs
+description: Containerized Storage for Containers
+
+# Replaces the index.js in the deployment templates directory, sawtooth/index
+# The deploymentType and deploymentVersion help build the object structure
+deploymentType: openebs
+deploymentVersion: 2.0
+
+# absolute path to form.js
+form: openebs/sextant/form.js
+
+# absolute path to summary.jst
+summary: openebs/sextant/summary.js
+
+# paths to be used in the getField function
+namePath: deployment.name
+namespacePath: deployment.namespace
+
+# additional fields for the button
+# form: <same as deploymentVersion>
+title: OpenEBS
+sextantVersion: 2.0.0
+buttonIcon:
+features:
+
+# documentation pull down mark down
