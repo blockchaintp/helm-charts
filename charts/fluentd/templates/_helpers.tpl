@@ -87,6 +87,11 @@ imagePullSecrets:
 {{- range .Values.image.pullSecrets }}
   - name: {{ . }}
 {{- end }}
+{{- else if .Values.imagePullSecrets.enabled }}
+imagePullSecrets:
+{{- range .Values.image.imagePullSecrets.value }}
+  - name: {{ .name }}
+{{- end }}
 {{- end -}}
 {{- end -}}
 
