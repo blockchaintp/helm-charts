@@ -47,7 +47,7 @@ postgres:
   database: postgres
   port: 5432
   password: postgres
-  passwordSecret:
+  existingPasswordSecret:
   tls:
   persistence:
     enabled: false
