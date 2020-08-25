@@ -25,10 +25,17 @@ spec:
           ports:
           - containerPort: {{.Values.postgres.port  }}
           env:
-          - name: POSTGRES_HOST_AUTH_METHOD
-            value: trust
+            - name: POSTGRES_PASSWORD
+            {{- if .Values.postgres.existingPasswordSecret }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{.Values.postgres.existingPasswordSecret}}
+                  key: password
+            {{- else }}
+              value: {{ .Values.postgres.password }}
+            {{- end }}
           volumeMounts:
-            - mountPath: /var/lib/postgresql/data
+            - mountPath: /var/lib/postgresql
               name: "pgdata"
         {{- end }}
         - name: daml-on-postgres

@@ -2,27 +2,60 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+deployment:
+  name: sextant
+  namespace: default
+
+imagePullSecrets:
+  enabled: false
+  value: []
+#    - name: regcred
+
 replicaCount: 1
-nameOverride: sextant-dev
 
-images:
-# Set an image to use for the API container, or remove to use default image
-  api: dev.catenasys.com:8083/blockchaintp/sextant-api:latest
-# Set an image to use for the UI container, or delete to use default image
-  ui: dev.catenasys.com:8083/blockchaintp/sextant:latest
-  noxy: dev.catenasys.com:8083/blockchaintp/noxy:latest
+logging: "1"
 
-# The serviceAccountName to use for the sextant pods
-serviceAccountName: "default"
-database: {}
-#  type: "postgres"
-#  user: "postgres"
-#  password: "postgres"
-#  db: "postgres"
-#  port: "5432"
-#  host: "host.docker.internal"
-# To use SSL set tls value to 1, or delete to disable SSL
-#  tls: "1"
+ui:
+  image:
+    repository: dev.catenasys.com:8083/blockchaintp/sextant
+    tag: latest
+    pullPolicy: IfNotPresent
+api:
+  image:
+    repository: dev.catenasys.com:8083/blockchaintp/sextant-api
+    tag: latest
+    pullPolicy: IfNotPresent
+noxy:
+  image:
+    repository: dev.catenasys.com:8083/blockchaintp/noxy
+    tag: latest
+    pullPolicy: IfNotPresent
+
+
+serviceAccount:
+  create: true
+  name: sextant
+
+postgres:
+  # if enabled we allocate a postgres database here
+  enabled: true
+  image:
+    repository: postgres
+    tag: 11
+  user: postgres
+  host: localhost
+  database: postgres
+  port: 5432
+  password: postgres
+  existingPasswordSecret:
+  tls:
+  persistence:
+    enabled: false
+    annotations: {}
+    accessModes:
+      - "ReadWriteOnce"
+    storageClass: "gp2"
+    size: "40Gi"
 
 service:
   type: ClusterIP
