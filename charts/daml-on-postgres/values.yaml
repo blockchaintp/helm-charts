@@ -1,0 +1,67 @@
+#This file is a reasonable defaults file for daml-on-aurora
+
+# This is optional,
+# if false the values are ignored,
+# if true then there should exist a secret within the namespace
+#   of the given names, multiple values are acceptable
+imagePullSecrets:
+  enabled: true
+  value:
+    - name: regcred
+
+deployment:
+  name: daml-on-postgres
+  namespace: default
+
+
+daml:
+  image:
+    repository: blockchaintp/daml-on-postgres
+    tag: BTP2.0
+    pullPolicy: IfNotPresent
+  ledgerId: someIdentifyingString
+  extra_args:
+  rpc:
+    port: 39000
+  serviceAccount:
+    create: true
+    name:
+
+# The below are mostly controlled by BTP, although an "advanced" option to customize them may be
+# presented
+postgres:
+  # If true dynamically allocate a postgres database, otherwise expect configuration details
+  enabled: true
+  image:
+    repository: postgres
+    tag: "11"
+    pullPolicy: IfNotPresent
+  host: localhost
+  port: 5432
+  user: postgres
+  database: postgres
+  password: ''
+  existingPasswordSecret: ''
+  ## Name of existing secret object
+  ## The secret should contain the following keys:
+  ## password
+  ## Enable persistence using Persistent Volume Claims
+
+  ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+  ##
+  persistence:
+    enabled: true
+    ## If defined, storageClassName: <storageClass>
+    ## If set to "-", storageClassName: "", which disables dynamic provisioning
+    ## If undefined (the default) or set to null, no storageClassName spec is
+    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+    ##   GKE, AWS & OpenStack)
+    ##
+    # storageClass: "-"
+    storageClass: "-"
+    ##
+    ## If you want to reuse an existing claim, you can pass the name of the PVC using
+    ## the existingClaim variable
+    existingClaim:
+    accessMode: ReadWriteOnce
+    size: 10Gi
