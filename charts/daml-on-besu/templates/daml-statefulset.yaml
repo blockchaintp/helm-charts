@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ include "daml.fullname" .}}
+  name: {{ include "daml.fullname" .}}-rpc
   namespace: {{.Release.Namespace}}
   labels:
 {{ include "daml.labels" .| indent 4}}
