@@ -1,0 +1,27 @@
+apiVersion: v2
+name: kibana
+description:  Kibana is an open source, browser based analytics and search dashboard for Elasticsearch.
+
+# Replaces the index.js in the deployment templates directory, sawtooth/index
+# The deploymentType and deploymentVersion help build the object structure
+deploymentType: kibana
+deploymentVersion: 7.8
+
+# absolute path to form.js
+form: kibana/sextant/form.js
+
+# absolute path to summary.jst
+summary: kibana/sextant/summary.js
+
+# paths to be used in the getField function
+namePath: deployment.name
+namespacePath: deployment.namespace
+
+# additional fields for the button
+# form: <same as deploymentVersion>
+title: kibana
+sextantVersion: 7.8
+buttonIcon: https://bitnami.com/assets/stacks/kibana/img/kibana-stack-220x234.png
+features:
+
+# documentation pull down mark down

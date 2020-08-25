@@ -1,0 +1,6 @@
+deployment:
+  name: elasticsearch
+  namespace: default
+imagePullSecrets:
+  enabled: false
+  value: []
