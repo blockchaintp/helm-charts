@@ -21,7 +21,7 @@ namespacePath: deployment.namespace
 # form: <same as deploymentVersion>
 title: Fluentd
 sextantVersion: 1.11
-buttonIcon:
+buttonIcon: https://bitnami.com/assets/stacks/fluentd/img/fluentd-stack-110x117.png
 features:
 
 # documentation pull down mark down

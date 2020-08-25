@@ -21,7 +21,7 @@ namespacePath: deployment.namespace
 # form: <same as deploymentVersion>
 title: OpenEBS
 sextantVersion: 2.0.0
-buttonIcon:
+buttonIcon: https://raw.githubusercontent.com/cncf/artwork/master/projects/openebs/icon/color/openebs-icon-color.png
 features:
 
 # documentation pull down mark down
