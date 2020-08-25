@@ -58,10 +58,6 @@ postgres:
     ##   GKE, AWS & OpenStack)
     ##
     # storageClass: "-"
-    storageClass: "-"
-    ##
-    ## If you want to reuse an existing claim, you can pass the name of the PVC using
-    ## the existingClaim variable
-    existingClaim:
+    storageClass:
     accessMode: ReadWriteOnce
     size: 10Gi

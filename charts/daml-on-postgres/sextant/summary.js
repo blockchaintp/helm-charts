@@ -34,7 +34,7 @@ const summary = (values) => {
     value: daml.ledgerId,
   }, {
     title: 'DAML GRPC Port',
-    value: '39000'
+    value: daml.rpc.port
   }]
 }
 
