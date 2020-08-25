@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "daml.fullname" .}}
+  namespace: {{.Release.Namespace}}
+  labels:
+{{ include "daml.labels" .| indent 4}}
+spec:
+  replicas: {{.Values.daml.rpcCount}}
+  selector:
+    matchLabels:
+{{ include "daml.labels" .| indent 6}}
+  serviceName: {{ include "daml.fullname" . }}
+  template:
+    metadata:
+      labels:
+{{ include "daml.labels" .| indent 8}}
+    spec:
+      serviceAccountName: {{ include "besu.serviceAccountName" . }}
+      containers:
+        - name: postgres
+          image: "{{.Values.postgres.image.repository}}:{{.Values.postgres.image.tag}}"
+          imagePullPolicy: {{.Values.postgres.image.pullPolicy }}
+          ports:
+          - containerPort: 5432
+          env:
+          - name: POSTGRES_HOST_AUTH_METHOD
+            value: trust
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: "pgdata"
+        - name: daml-on-besu
+          image: "{{.Values.daml.image.repository}}:{{.Values.daml.image.tag}}"
+          imagePullPolicy: {{.Values.daml.image.pullPolicy }}
+          ports:
+            - containerPort: {{.Values.daml.rpc.port}}
+          command:
+            - bash
+            - -xc
+          args:
+            - |
+              sleep 120
+              /opt/daml-on-besu/rpc/entrypoint.sh \
+                --json-rpc-url http://{{include "besu.fullname" .}}-0.{{include "besu.fullname" .}}:{{.Values.besu.rpc.port}} \
+                --participant port={{.Values.daml.rpc.port}},address=0.0.0.0,participant-id={{.Values.daml.rpc.participantId}},server-jdbc-url=jdbc:postgresql://localhost/postgres?user=postgres \
+                --logging INFO \
+                --private-key-file /keys/{{ include "besu.fullname" .}}-0
+          resources: {}
+          volumeMounts:
+            - mountPath: /keys
+              name: networkkeys-config
+              readOnly: true
+            - mountPath: /dev/random
+              name: dev-random
+            - mountPath: /dev/urandom
+              name: dev-urandom
+      restartPolicy: Always
+      volumes:
+        - name: networkkeys-config
+          secret:
+            secretName: {{ include "besu.fullname" .}}-keys
+        - name: dev-random
+          hostPath:
+            path: /dev/random
+            type: CharDevice
+        - name: dev-urandom
+          hostPath:
+            path: /dev/urandom
+            type: CharDevice
+{{- if not .Values.postgres.persistence.enabled }}
+        - name: "pgdata"
+          emptyDir: {}
+{{- else }}
+  volumeClaimTemplates:
+    - metadata:
+        name: "pgdata"
+        {{- if .Values.postgres.persistence.annotations }}
+        annotations: {{- toYaml .Values.postgres.persistence.annotations | nindent 10 }}
+        {{- end }}
+      spec:
+        accessModes: {{- toYaml .Values.postgres.persistence.accessModes | nindent 10 }}
+        storageClassName: {{ default "gp2" .Values.postgres.persistence.storageClass | quote }}
+        resources:
+          requests:
+            storage: {{ .Values.postgres.persistence.size | quote }}
+{{- end }}

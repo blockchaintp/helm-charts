@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "daml.fullname" .}}
+  namespace: {{.Release.Namespace}}
+  labels:
+{{ include "daml.labels" .| nindent 4}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+{{ include "daml.labels" .| nindent 6}}
+  serviceName: {{ include "daml.fullname" . }}
+  template:
+    metadata:
+      labels:
+{{ include "daml.labels" .| nindent 8}}
+    spec:
+      serviceAccountName: {{ include "daml.serviceAccountName" . }}
+      containers:
+        {{- if .Values.postgres.enabled }}
+        - name: postgres
+          image: "{{.Values.postgres.image.repository}}:{{.Values.postgres.image.tag}}"
+          imagePullPolicy: {{.Values.postgres.image.pullPolicy }}
+          ports:
+          - containerPort: {{.Values.postgres.port  }}
+          env:
+          - name: POSTGRES_HOST_AUTH_METHOD
+            value: trust
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: "pgdata"
+        {{- end }}
+        - name: daml-on-postgres
+          image: "{{.Values.daml.image.repository}}:{{.Values.daml.image.tag}}"
+          imagePullPolicy: {{.Values.daml.image.pullPolicy }}
+          ports:
+          - containerPort: {{.Values.daml.rpc.port}}
+          command:
+            - bash
+            - -xc
+          args:
+            - |
+              /opt/digitalasset/bin/entrypoint.sh -w {{- if .Values.daml.extra_args }}{{- .Values.daml.extra_args |quote }}{{- end }}
+          env:
+            - name: POSTGRES_USER
+              value: {{ .Values.postgres.user }}
+            - name: POSTGRES_PASSWORD
+            {{- if .Values.postgres.existingPasswordSecret }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{.Values.postgres.existingPasswordSecret}}
+                  key: password
+            {{- else }}
+              value: {{ .Values.postgres.password }}
+            {{- end }}
+            - name: POSTGRES_HOST
+              value: {{ .Values.postgres.host }}
+            - name: POSTGRES_DB
+              value: {{ .Values.postgres.database }}
+            - name: POSTGRES_PORT
+              value: {{ .Values.postgres.port | quote}}
+            - name: LEDGER_ID
+              value: {{.Values.daml.ledgerId }}
+      restartPolicy: Always
+      volumes:
+        - name: dev-random
+          hostPath:
+            path: /dev/random
+            type: CharDevice
+        - name: dev-urandom
+          hostPath:
+            path: /dev/urandom
+            type: CharDevice
+{{- if not .Values.postgres.persistence.enabled }}
+        - name: "pgdata"
+          emptyDir: {}
+{{- else }}
+  volumeClaimTemplates:
+    - metadata:
+        name: "pgdata"
+        {{- if .Values.postgres.persistence.annotations }}
+        annotations: {{- toYaml .Values.postgres.persistence.annotations | nindent 10 }}
+        {{- end }}
+      spec:
+        accessModes: {{- toYaml .Values.postgres.persistence.accessModes | nindent 10 }}
+        storageClassName: {{ .Values.postgres.persistence.storageClass }}
+        resources:
+          requests:
+            storage: {{ .Values.postgres.persistence.size | quote }}
+{{- end }}

@@ -1,0 +1,26 @@
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "daml.fullname" .}}-role
+  namespace: {{.Release.Namespace}}
+rules:
+  - apiGroups: ["cloudformation.linki.space"] # "" refers to the core API group
+    resources: ["stacks",]
+    verbs: ["get","list"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  name: {{ include "daml.fullname" .}}-rb
+  namespace: {{.Release.Namespace}}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ include "daml.fullname" .}}-role
+subjects:
+- kind: ServiceAccount
+  name: {{ include "daml.serviceAccountName" .}}
+  namespace: {{.Release.Namespace}}

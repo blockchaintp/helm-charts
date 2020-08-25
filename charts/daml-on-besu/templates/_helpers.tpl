@@ -72,7 +72,7 @@ Create the name of the service account to use
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "daml-on-besu.name" -}}
+{{- define "daml.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
@@ -81,7 +81,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "daml-on-besu.fullname" -}}
+{{- define "daml.fullname" -}}
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -97,43 +97,43 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "daml-on-besu.chart" -}}
+{{- define "daml.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
 Common labels
 */}}
-{{- define "daml-on-besu.labels" -}}
-app: {{ include "daml-on-besu.name" . }}-rpc
+{{- define "daml.labels" -}}
+app: {{ include "daml.name" . }}-rpc
 daml: {{ .Release.Name }}-rpc
-chart: {{ include "daml-on-besu.chart" . }}
+chart: {{ include "daml.chart" . }}
 heritage: {{ .Release.Service }}
 namespace: {{ .Release.Namespace }}
 release: {{ .Release.Name }}
-{{ include "daml-on-besu.selectorLabels" . }}
+{{ include "daml.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
-helm.sh/chart: {{ include "daml-on-besu.chart" . }}
+helm.sh/chart: {{ include "daml.chart" . }}
 {{- end -}}
 
 {{/*
 Selector labels
 */}}
-{{- define "daml-on-besu.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "daml-on-besu.name" . }}
+{{- define "daml.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "daml.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "daml-on-besu.serviceAccountName" -}}
+{{- define "daml.serviceAccountName" -}}
 {{- if .Values.besu.serviceAccount.create -}}
-    {{ default (include "daml-on-besu.fullname" .) .Values.besu.serviceAccount.name }}
+    {{ default (include "daml.fullname" .) .Values.daml.serviceAccount.name }}
 {{- else -}}
-    {{ default "default" .Values.besu.serviceAccount.name }}
+    {{ default "default" .Values.daml.serviceAccount.name }}
 {{- end -}}
 {{- end -}}
