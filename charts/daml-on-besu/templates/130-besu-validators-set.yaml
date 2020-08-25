@@ -3,6 +3,8 @@ kind: StatefulSet
 metadata:
   name: {{ include "besu.fullname" . }}
   namespace: {{.Release.Namespace}}
+  labels:
+
 spec:
   replicas: {{.Values.besu.nodeCount}}
   podManagementPolicy: OrderedReady
@@ -28,12 +30,6 @@ spec:
         prometheus.io/path: "/metrics"
     spec:
       serviceAccountName: {{ include "besu.serviceAccountName" . }}
-      {{ if .Values.imagePullSecrets.enabled }}
-      imagePullSecrets:
-      {{range .Values.imagePullSecrets.value }}
-        - name: {{ .name }}
-      {{ end }}
-      {{ end }}
       containers:
         - env:
             - name: POD_IP
