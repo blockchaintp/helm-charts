@@ -3,7 +3,7 @@ kind: Service
 metadata:
   labels:
 {{include "daml.labels" . | indent 4 }}
-  name: {{ include "daml.fullname" . }}
+  name: {{ include "daml.fullname" . }}-rpc
   namespace: {{.Release.Namespace}}
 spec:
   type: ClusterIP

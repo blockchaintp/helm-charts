@@ -10,7 +10,7 @@ spec:
   selector:
     matchLabels:
 {{ include "daml.labels" .| indent 6}}
-  serviceName: {{ include "daml.fullname" . }}
+  serviceName: {{ include "daml.fullname" . }}-rpc
   template:
     metadata:
       labels:
