@@ -14,27 +14,20 @@ const getConsensusTitle =
 
 const summary = (values) => {
   const {
-    Values,
+    daml,
+    besu,
+    deployment,
   } = values
 
   return [
     {
       title: 'Deployment Name',
-      value: Values.name,
+      value: deployment.name,
     },
     {
       title: 'Namespace',
-      value: Values.namespace,
-    },
-    {
-      title: 'Genesis Block',
-      value: Values.genesis.enabled ? 'Yes' : 'No',
-    },
-    {
-      title: 'External Seeds',
-      value: Values.externalSeeds.map(seed => seed.address),
-    },
-    {title: 'DAML GRPC Port', value: '39000'}
+      value: deployment.namespace,
+    }
   ]
 };
 

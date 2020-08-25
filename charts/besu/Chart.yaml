@@ -1,6 +1,6 @@
 apiVersion: v2
 name: besu
-description: The DAML smart contract runtime engine with Hyperledger Besu as the ledger.
+description: Besu is an Apache 2.0 licensed, MainNet compatible, Ethereum client written in Java.
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -19,3 +19,5 @@ version: 0.0.1
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application.
 appVersion: 1.0.0
+
+icon: https://raw.githubusercontent.com/hyperledger/besu-docs/5c8545bc08e45188d939ae15d35b49ed2bf7f6b8/custom_theme/logo.svg

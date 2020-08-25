@@ -1,4 +1,17 @@
+imagePullSecrets:
+  enabled: false
+  value:
+    - name: regcred
+deployment:
+  name: default
+  namespace: default
 besu:
+  persistence:
+    enabled: false
+    annotations: {}
+    accessModes: "ReadWriteOnce"
+    storageClass: "gp2"
+    size: "40Gi"
   serviceAccount:
     create: true
     name:
