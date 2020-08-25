@@ -9,7 +9,8 @@ besu:
   persistence:
     enabled: false
     annotations: {}
-    accessModes: "ReadWriteOnce"
+    accessModes:
+      - "ReadWriteOnce"
     storageClass: "gp2"
     size: "40Gi"
   serviceAccount:
@@ -72,8 +73,6 @@ besu:
   logging: "info"
   affinity:
     enabled: false
-  imagePullSecrets:
-   - name: regcred
   image:
     repository: dev.catenasys.com:8083/blockchaintp/besu
     tag: latest

@@ -28,10 +28,6 @@ spec:
         prometheus.io/path: "/metrics"
     spec:
       serviceAccountName: {{ include "besu.serviceAccountName" . }}
-      {{if .Values.besu.imagePullSecrets }}
-      imagePullSecrets:
-{{ .Values.besu.imagePullSecrets | toYaml | indent 8}}
-      {{end}}
       containers:
         - env:
             - name: POD_IP
