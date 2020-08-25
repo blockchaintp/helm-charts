@@ -6,6 +6,12 @@ deployment:
   name: default
   namespace: default
 besu:
+  persistence:
+    enabled: false
+    annotations: {}
+    accessModes: "ReadWriteOnce"
+    storageClass: "gp2"
+    size: "40Gi"
   serviceAccount:
     create: true
     name:
@@ -92,6 +98,12 @@ daml:
     postgresqlUrl:
     participantId: daml-participant
 postgres:
+  persistence:
+    enabled: false
+    annotations: {}
+    accessModes: "ReadWriteOnce"
+    storageClass: "gp2"
+    size: "40Gi"
   image:
     repository: postgres
     tag: 11

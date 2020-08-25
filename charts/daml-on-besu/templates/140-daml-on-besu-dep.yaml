@@ -31,6 +31,9 @@ spec:
         env:
         - name: POSTGRES_HOST_AUTH_METHOD
           value: trust
+        volumeMounts:
+          - mountPath: /var/lib/postgresql/data
+            name: "pgdata"
       - command:
         - bash
         - -xc
@@ -67,3 +70,20 @@ spec:
           hostPath:
             path: /dev/urandom
             type: CharDevice
+{{- if not .Values.postgres.persistence.enabled }}
+        - name: "pgdata"
+          emptyDir: {}
+{{- else }}
+  volumeClaimTemplates:
+    - metadata:
+        name: "pgdata"
+        {{- if .Values.postgres.persistence.annotations }}
+        annotations: {{- toYaml .Values.postgres.persistence.annotations | nindent 10 }}
+        {{- end }}
+      spec:
+        accessModes: {{- toYaml .Values.postgres.persistence.accessModes | nindent 10 }}
+        storageClassName: {{ default "gp2" .Values.postgres.persistence.storageClass | quote }}
+        resources:
+          requests:
+            storage: {{ .Values.postgres.persistence.size | quote }}
+{{- end }}

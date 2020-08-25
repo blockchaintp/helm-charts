@@ -135,12 +135,20 @@ spec:
         - name: networkkeys-config
           secret:
             secretName: {{ include "besu.fullname" .}}-keys
+{{- if not .Values.besu.persistence.enabled }}
+        - name: "data"
+          emptyDir: {}
+{{- else }}
   volumeClaimTemplates:
     - metadata:
-        name: data
+        name: "data"
+        {{- if .Values.besu.persistence.annotations }}
+        annotations: {{- toYaml .Values.besu.persistence.annotations | nindent 10 }}
+        {{- end }}
       spec:
-        accessModes: [ "ReadWriteOnce" ]
-        storageClassName: gp2
+        accessModes: {{- toYaml .Values.besu.persistence.accessModes | nindent 10 }}
+        storageClassName: {{ default "gp2" .Values.besu.persistence.storageClass | quote }}
         resources:
           requests:
-            storage: 40Gi
+            storage: {{ .Values.besu.persistence.size | quote }}
+{{- end }}
