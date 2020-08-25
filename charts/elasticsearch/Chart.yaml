@@ -1,0 +1,19 @@
+apiVersion: v2
+name: elasticsearch
+version: 12.6.2
+appVersion: 7.9.0
+description: A highly scalable open-source full-text search and analytics engine.  Based on Bitnami's chart with Sextant customizations
+keywords:
+  - elasticsearch
+home: https://www.elastic.co/products/elasticsearch
+sources:
+  - https://github.com/bitnami/bitnami-docker-elasticsearch
+engine: gotpl
+icon: https://bitnami.com/assets/stacks/elasticsearch/img/elasticsearch-stack-110x117.png
+annotations:
+  category: Analytics
+
+dependencies:
+  - name: elasticsearch
+    version: "~12.6.2"
+    repository: https://charts.bitnami.com/bitnami

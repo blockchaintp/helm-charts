@@ -1,0 +1,27 @@
+apiVersion: v2
+name: elasticsearch
+description: A highly scalable open-source full-text search and analytics engine.  Based on Bitnami's chart with Sextant customizations
+
+# Replaces the index.js in the deployment templates directory, sawtooth/index
+# The deploymentType and deploymentVersion help build the object structure
+deploymentType: elasticsearch
+deploymentVersion: 7.9
+
+# absolute path to form.js
+form: elasticsearch/sextant/form.js
+
+# absolute path to summary.jst
+summary: elasticsearch/sextant/summary.js
+
+# paths to be used in the getField function
+namePath: deployment.name
+namespacePath: deployment.namespace
+
+# additional fields for the button
+# form: <same as deploymentVersion>
+title: Elasticsearch
+sextantVersion: 7.9
+buttonIcon: https://bitnami.com/assets/stacks/elasticsearch/img/elasticsearch-stack-110x117.png
+features:
+
+# documentation pull down mark down
