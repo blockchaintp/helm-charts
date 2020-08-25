@@ -5,7 +5,7 @@ description: Fluentd is an open source data collector for unified logging layer
 # Replaces the index.js in the deployment templates directory, sawtooth/index
 # The deploymentType and deploymentVersion help build the object structure
 deploymentType: fluentd
-deploymentVersion: 1.11.2
+deploymentVersion: 1.11
 
 # absolute path to form.js
 form: fluentd/sextant/form.js
@@ -20,7 +20,7 @@ namespacePath: deployment.namespace
 # additional fields for the button
 # form: <same as deploymentVersion>
 title: Fluentd
-sextantVersion: 1.11.2
+sextantVersion: 1.11
 buttonIcon:
 features:
 
