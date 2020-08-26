@@ -1,14 +1,6 @@
-const secretValue = (daml) => {
-  if (daml.postgres) {
-    return daml.postgres.secret
-  }
-  return null
-}
-
 const summary = (values) => {
   const {
     deployment,
-    daml,
   } = values
 
   return [
@@ -18,12 +10,6 @@ const summary = (values) => {
     }, {
       title: 'Namespace',
       value: deployment.namespace,
-    }, {
-      title: 'DAML DB Connection Secret',
-      value: secretValue(daml),
-    }, {
-      title: 'DAML Ledger ID',
-      value: daml.ledgerId,
     },
   ]
 }
