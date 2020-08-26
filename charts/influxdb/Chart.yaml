@@ -1,0 +1,27 @@
+apiVersion: v2
+name: influxdb
+version: 0.0.2
+appVersion: 1.8.0
+description: Scalable datastore for metrics, events, and real-time analytics. Chart with Sextant customizations.
+keywords:
+- influxdb
+- database
+- timeseries
+- influxdata
+home: https://www.influxdata.com/time-series-platform/influxdb/
+sources:
+- https://github.com/influxdata/influxdb
+maintainers:
+- name: rawkode
+  email: rawkode@influxdata.com
+- name: gitirabassi
+  email: giacomo@influxdata.com
+- name: aisuko
+  email: urakiny@gmail.com
+- name: naseemkullah
+  email: naseem@transit.app
+
+dependencies:
+  - name: influxdb
+    version: "~4.8.2"
+    repository: "https://helm.influxdata.com/"
