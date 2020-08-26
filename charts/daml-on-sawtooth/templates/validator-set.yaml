@@ -42,12 +42,6 @@ spec:
       tolerations:
         - key: node-role.kubernetes.io/master
           effect: NoSchedule
-      {{ if .Values.imagePullSecrets.enabled }}
-      imagePullSecrets:
-      {{range .Values.imagePullSecrets.value }}
-        - name: {{ .name }}
-      {{ end }}
-      {{ end }}
       hostAliases:
       {{ range .Values.sawtooth.externalSeeds }}
       - ip: {{.ip}}

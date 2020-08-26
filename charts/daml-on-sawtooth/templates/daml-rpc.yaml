@@ -22,12 +22,6 @@ spec:
         daml: {{.Values.sawtooth.networkName}}-daml-rpc
     spec:
       serviceAccountName: {{.Values.sawtooth.networkName}}-sa
-      {{ if .Values.imagePullSecrets.enabled }}
-      imagePullSecrets:
-      {{range .Values.imagePullSecrets.value }}
-        - name: {{ .name }}
-      {{ end }}
-      {{ end }}
       containers:
       - name: postgres
         image: {{.Values.images.postgres}}
