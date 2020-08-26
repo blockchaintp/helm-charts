@@ -4,18 +4,8 @@
  * License: Product
  */
 
-const options = require('./options')
-
-const getConsensusTitle =
-    (value) => {
-      const option = options.consensus.find(o => o.value == value)
-      return option ? option.title : 'unknown'
-    }
-
 const summary = (values) => {
   const {
-    daml,
-    besu,
     deployment,
   } = values
 
@@ -28,7 +18,7 @@ const summary = (values) => {
       title: 'Namespace',
       value: deployment.namespace,
     },
-    {title: 'DAML GRPC Port', value: '39000'}
+    { title: 'DAML GRPC Port', value: '39000' },
   ]
 };
 
