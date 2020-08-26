@@ -69,12 +69,6 @@ sawtooth:
   # PBFT and RAFT should have dynamic peering
   dynamicPeering: false
   externalSeeds: []
-  xo:
-    # default this to false since you probably don't want it in real life
-    enabled: false
-  smallbank:
-    # default this to false since you probably don't want it in real life
-    enabled: false
   daml:
     # default daml to false at the moment
     enabled: true

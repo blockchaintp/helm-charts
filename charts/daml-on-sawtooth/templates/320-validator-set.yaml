@@ -170,30 +170,6 @@ spec:
             requests:
               cpu: "50m"
         {{ end }}
-        {{ if .Values.sawtooth.smallbank.enabled }}
-        - name: smallbank-tp
-          image: {{.Values.images.smallbank_tp}}
-          command: [ "bash", "-xc"]
-          args:
-          - "smallbank-tp-go -v --connect tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}"
-          resources:
-            limits:
-              cpu: "250m"
-            requests:
-              cpu: "50m"
-        {{ end }}
-        {{ if .Values.sawtooth.xo.enabled }}
-        - name: xo-tp
-          image: {{.Values.images.xo_tp}}
-          command: [ "bash", "-xc"]
-          args:
-          - "xo-tp-go -v --connect tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}"
-          resources:
-            limits:
-              cpu: "250m"
-            requests:
-              cpu: "50m"
-        {{ end }}
         {{ if .Values.sawtooth.daml.enabled }}
         - name: daml-tp
           image: {{.Values.images.daml_tp}}
