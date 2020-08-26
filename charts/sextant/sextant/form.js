@@ -4,7 +4,6 @@ const validators = require('./validators')
 const form = [
 
   'Network',
-
   [
     {
       id: 'deployment.name',
