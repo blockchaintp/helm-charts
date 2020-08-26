@@ -24,9 +24,9 @@ const form = [
         methods: [
           ['required', 'Required'],
           [
-            'matches', [`^[a-z]([-a-z0-9]*[a-z0-9])*$`],
-            'a DNS-1123 label must consist of lower case alphanumeric characters or \'-\', and must start and end with an alphanumeric character'
-          ]
+            'matches', ['^[a-z]([-a-z0-9]*[a-z0-9])*$'],
+            'a DNS-1123 label must consist of lower case alphanumeric characters or \'-\', and must start and end with an alphanumeric character',
+          ],
         ],
       },
     },
@@ -43,9 +43,9 @@ const form = [
         methods: [
           ['required', 'Required'],
           [
-            'matches', [`^[a-z]([-a-z0-9]*[a-z0-9])*$`],
-            'a DNS-1123 label must consist of lower case alphanumeric characters or \'-\', and must start and end with an alphanumeric character'
-          ]
+            'matches', ['^[a-z]([-a-z0-9]*[a-z0-9])*$'],
+            'a DNS-1123 label must consist of lower case alphanumeric characters or \'-\', and must start and end with an alphanumeric character',
+          ],
         ],
       },
     },
@@ -77,7 +77,7 @@ const form = [
     linked: {
       linkedId: 'imagePullSecrets.enabled',
       visibilityParameter:
-        'true'  // for what value of linkedId, will this component be visible
+        'true', // for what value of linkedId, will this component be visible
     },
     list: {
       mainField: 'name',
@@ -91,24 +91,24 @@ const form = [
           methods: [
             ['required', 'Required'],
             [
-              'matches', [`^[a-z]([-a-z0-9]*[a-z0-9])*$`],
-              'a DNS-1123 label must consist of lower case alphanumeric characters or \'-\', and must start and end with an alphanumeric character'
-            ]
+              'matches', ['^[a-z]([-a-z0-9]*[a-z0-9])*$'],
+              'a DNS-1123 label must consist of lower case alphanumeric characters or \'-\', and must start and end with an alphanumeric character',
+            ],
           ],
         },
       }],
       table: [{
         title: 'Name',
         name: 'name',
-      }]
-    }
+      }],
+    },
   },
 
   'Advanced Options',
 
   [
-    ''  // Emptry string acts as space in UI
-  ]
+    '', // Emptry string acts as space in UI
+  ],
 
 ]
 
