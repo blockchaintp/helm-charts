@@ -9,7 +9,8 @@ besu:
   persistence:
     enabled: false
     annotations: {}
-    accessModes: "ReadWriteOnce"
+    accessModes:
+      - "ReadWriteOnce"
     storageClass: "gp2"
     size: "40Gi"
   serviceAccount:
