@@ -14,12 +14,6 @@ spec:
     protocol: TCP
     targetPort: {{.Values.sawtooth.ports.rest}}
     name: rest-api
-{{ if .Values.sawtooth.seth.enabled }}
-  - port: 3030
-    protocol: TCP
-    targetPort: 3030
-    name: seth-rpc
-{{ end }}
   selector:
     app: {{.Values.sawtooth.networkName}}-validator
 ---

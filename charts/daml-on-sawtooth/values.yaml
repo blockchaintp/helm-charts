@@ -23,10 +23,6 @@ sawtooth:
   minReadySeconds: 120
   maxUnavailable: 1
   containers:
-    grafana:
-      env:
-    influxdb:
-      env:
     validator:
       env:
       imagePullPolicy: Always
@@ -73,10 +69,6 @@ sawtooth:
   # PBFT and RAFT should have dynamic peering
   dynamicPeering: false
   externalSeeds: []
-  seth:
-    # This should default to false, there appear to be problems with the required
-    # block_info block injector that this depends upon
-    enabled: false
   xo:
     # default this to false since you probably don't want it in real life
     enabled: false

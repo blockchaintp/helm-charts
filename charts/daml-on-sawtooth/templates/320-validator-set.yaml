@@ -170,31 +170,6 @@ spec:
             requests:
               cpu: "50m"
         {{ end }}
-        {{ if .Values.sawtooth.seth.enabled }}
-        - name: seth-tp
-          image: {{.Values.images.seth_tp}}
-          command: [ "bash", "-xc"]
-          args:
-          - "seth-tp -v --connect tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}"
-          resources:
-            limits:
-              cpu: "250m"
-            requests:
-              cpu: "50m"
-        - name: seth-rpc
-          image: {{.Values.images.seth_rpc}}
-          command: [ "bash", "-xc"]
-          args:
-          - "sleep {{.Values.sawtooth.client_wait}} && seth-rpc -v --bind 0.0.0.0:3030 --connect tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}} "
-          ports:
-            - containerPort: 3030
-              name: seth-rpc
-          resources:
-            limits:
-              cpu: "250m"
-            requests:
-              cpu: "50m"
-        {{ end }}
         {{ if .Values.sawtooth.smallbank.enabled }}
         - name: smallbank-tp
           image: {{.Values.images.smallbank_tp}}
