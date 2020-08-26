@@ -67,6 +67,43 @@ const form = [
       methods: [['required', 'Required']],
     },
   },
+  {
+    id: 'besu.persistence.enabled',
+    title: 'Persistence',
+    helperText:
+      'If enabled data will be stored on PersistentVolumeClaims ',
+    component: 'radio',
+    default: false,
+    dataType: 'boolean',
+    editable: {
+      new: true,
+    },
+    row: true,
+    options: options.activated,
+    validate: {
+      type: 'string',
+      methods: [['required', 'Required']],
+    },
+  },
+  {
+    id: 'besu.persistence.storageClass',
+    title: 'Storage Class',
+    helperText: 'The name of the StorageClass for the PersistentVolumeClaims',
+    component: 'text',
+    default: null,
+    editable: {
+      new: true,
+    },
+    validate: {
+      type: 'string',
+      methods: [
+        [
+          'matches', [`^[a-z]([-a-z0-9]*[a-z0-9])*$`],
+          'a DNS-1123 label must consist of lower case alphanumeric characters or \'-\', and must start and end with an alphanumeric character'
+        ]
+      ],
+    },
+  },
 
   'Image Pull Secrets',
 
