@@ -26,5 +26,6 @@ const yesNo = [{
 
 module.exports = {
   activated,
-  yesNo
+  yesNo,
+  passwordOrSecret
 }
