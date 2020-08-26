@@ -310,7 +310,7 @@ spec:
             - |
               sleep 30
               source /usr/local/bin/validator_env.sh {{.Values.sawtooth.namespace}} {{.Values.sawtooth.networkName}} \
-                ${POD_NAME} ${POD_IP} ${NODE_NAME}
+                ${POD_NAME} ${POD_IP} ${NODE_NAME} {{.Values.sawtooth.ports.sawnet}}
               start_delay=$(( $DELAY * 5 ))
               sleep $start_delay
               if [ ! -r /etc/sawtooth/initialized ]; then
@@ -334,6 +334,8 @@ spec:
                 fi
                 touch /etc/sawtooth/initialized;
               fi
+              PEERS=$(echo $PEERS | sed -e 's/:8800/:{{.Values.sawtooth.ports.sawnet}}/g')
+              SEEDS=$(echo $SEEDS | sed -e 's/:8800/:{{.Values.sawtooth.ports.sawnet}}/g')
               sawtooth-validator -v --scheduler {{.Values.sawtooth.scheduler}} \
                 --endpoint tcp://${NODE_NAME}:{{.Values.sawtooth.ports.sawnet}} \
                 --bind component:tcp://0.0.0.0:{{.Values.sawtooth.ports.sawcomp}} \
