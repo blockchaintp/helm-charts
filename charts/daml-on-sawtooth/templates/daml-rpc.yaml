@@ -22,12 +22,6 @@ spec:
         daml: {{.Values.sawtooth.networkName}}-daml-rpc
     spec:
       serviceAccountName: {{.Values.sawtooth.networkName}}-sa
-      {{ if .Values.imagePullSecrets.enabled }}
-      imagePullSecrets:
-      {{range .Values.imagePullSecrets.value }}
-        - name: {{ .name }}
-      {{ end }}
-      {{ end }}
       containers:
       - name: postgres
         image: {{.Values.images.postgres}}
@@ -36,44 +30,21 @@ spec:
         env:
         - name: POSTGRES_HOST_AUTH_METHOD
           value: trust
-      - name: tracer-ui
-        image: {{ .Values.images.tracer_ui }}
-        ports:
-        - containerPort: 8080
-          name: tracer-ui
-        env:
-          - name: NODE_ENV
-            value: production
-      - name: router
-        image: {{ .Values.images.noxy }}
-        ports:
-        - containerPort: 80
-          name: router
-        env:
-          - name: NOXY_DEFAULT_HOST
-            value: localhost
-          - name: NOXY_DEFAULT_PORT
-            value: "8080"
-          - name: NOXY_DEFAULT_WS
-            value: "1"
-          - name: NOXY_API_FRONT
-            value: /transactions
-          - name: NOXY_API_HOST
-            value: localhost
-          - name: NOXY_API_PORT
-            value: "5051"
-
       - name: daml-rpc
         image: {{.Values.images.daml_rpc}}
         command: [ "bash", "-xc"]
         args:
         - |
-            sleep {{.Values.sawtooth.client_wait}}
-            /opt/sawtooth-daml-rpc/entrypoint.sh --port {{.Values.sawtooth.ports.damlrpc}} \
-                --connect tcp://{{.Values.sawtooth.networkName}}-validator:{{.Values.sawtooth.ports.sawcomp}} \
-                --jdbc-url jdbc:postgresql://localhost/postgres?user=postgres \
-                --participant-id {{.Values.sawtooth.networkName}} \
-                {{ if .Values.sawtooth.daml.extra_args.enabled }}{{.Values.sawtooth.daml.extra_args.arg_str}}{{ else }}--auth wildcard {{ end }}
+          sleep {{.Values.sawtooth.client_wait}}
+          /opt/sawtooth-daml-rpc/entrypoint.sh \
+            --participant port={{.Values.sawtooth.ports.damlrpc}},address=0.0.0.0,participant-id={{.Values.sawtooth.networkName}},server-jdbc-url=jdbc:postgresql://postgres/postgres?user=postgres \
+            --log-level warn \
+            --max-outstanding-batches 2 \
+            --max-ops-per-batch 1000 \
+            --connect tcp://validator:4004 \
+        {{- if .Values.sawtooth.daml.extra_args.enabled }}
+            {{.Values.sawtooth.daml.extra_args.arg_str}}
+        {{- end }}
         resources:
           limits:
             cpu: "250m"
@@ -82,8 +53,6 @@ spec:
         ports:
         - containerPort: {{.Values.sawtooth.ports.damlrpc}}
           name: daml-ledger-api
-        - containerPort: 5051
-          name: tracer
         volumeMounts:
         - mountPath: "/etc/sawtooth"
           name: sawtooth-etc

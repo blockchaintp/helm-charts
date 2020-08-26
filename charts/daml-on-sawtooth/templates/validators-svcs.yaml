@@ -14,12 +14,6 @@ spec:
     protocol: TCP
     targetPort: {{.Values.sawtooth.ports.rest}}
     name: rest-api
-{{ if .Values.sawtooth.seth.enabled }}
-  - port: 3030
-    protocol: TCP
-    targetPort: 3030
-    name: seth-rpc
-{{ end }}
   selector:
     app: {{.Values.sawtooth.networkName}}-validator
 ---
@@ -49,24 +43,3 @@ spec:
     name: sawncomp
   selector:
     app: {{.Values.sawtooth.networkName}}-validator
----
-
-{{ if .Values.sawtooth.xo.enabled }}
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{.Values.sawtooth.networkName}}-xo-demo
-  namespace: {{.Values.sawtooth.namespace}}
-  labels:
-    app: {{.Values.sawtooth.networkName}}-xo-demo
-spec:
-  sessionAffinity: ClientIP
-  ports:
-  - port: 80
-    protocol: TCP
-    targetPort: 80
-    name: xo-demo
-  selector:
-    app: {{.Values.sawtooth.networkName}}-validator
----
-{{ end }}

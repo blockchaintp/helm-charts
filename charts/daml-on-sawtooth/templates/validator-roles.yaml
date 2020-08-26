@@ -1,11 +1,3 @@
-# kubetpl:syntax:go-template
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: {{.Values.sawtooth.networkName}}-sa
-  namespace: {{.Values.sawtooth.namespace}}
-
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role

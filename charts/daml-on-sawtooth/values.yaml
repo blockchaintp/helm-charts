@@ -23,10 +23,6 @@ sawtooth:
   minReadySeconds: 120
   maxUnavailable: 1
   containers:
-    grafana:
-      env:
-    influxdb:
-      env:
     validator:
       env:
       imagePullPolicy: Always
@@ -73,16 +69,6 @@ sawtooth:
   # PBFT and RAFT should have dynamic peering
   dynamicPeering: false
   externalSeeds: []
-  seth:
-    # This should default to false, there appear to be problems with the required
-    # block_info block injector that this depends upon
-    enabled: false
-  xo:
-    # default this to false since you probably don't want it in real life
-    enabled: false
-  smallbank:
-    # default this to false since you probably don't want it in real life
-    enabled: false
   daml:
     # default daml to false at the moment
     enabled: true
@@ -108,11 +94,9 @@ sawtooth:
 # presented
 images:
   postgres: postgres:11
-  daml_rpc: blockchaintp/sawtooth-daml-rpc:BTP2.0
-  daml_tp: blockchaintp/sawtooth-daml-tp:BTP2.0
-  tracer_ui: blockchaintp/tracer-ui:BTP2.0
-  noxy: blockchaintp/noxy:BTP2.0
-  timekeeper: blockchaintp/timekeeper:BTP2.0
+  daml_rpc: dev.catenasys.com:8083/blockchaintp/sawtooth-daml-rpc:latest
+  daml_tp: dev.catenasys.com:8083/blockchaintp/sawtooth-daml-tp:latest
+  timekeeper: dev.catenasys.com:8083/blockchaintp/timekeeper:latest
   devmode_engine: blockchaintp/sawtooth-devmode-engine-rust:BTP2.0
   pbft_engine: blockchaintp/sawtooth-pbft-engine:BTP2.0
   poet_cli: blockchaintp/sawtooth-poet-cli:BTP2.0
@@ -124,13 +108,5 @@ images:
   intkey_tp: blockchaintp/sawtooth-intkey-tp-go:BTP2.0
   settings_tp: blockchaintp/sawtooth-settings-tp:BTP2.0
   shell: blockchaintp/sawtooth-shell:BTP2.0
-  smallbank_tp: blockchaintp/sawtooth-smallbank-tp-go:BTP2.0
-  grafana: blockchaintp/metrics-grafana:BTP2.0
-  influxdb: blockchaintp/metrics-influxdb:BTP2.0
   validator: blockchaintp/sawtooth-validator:BTP2.0
-  xo_tp: blockchaintp/sawtooth-xo-tp-go:BTP2.0
   rest_api: blockchaintp/sawtooth-rest-api:BTP2.0
-  sabre_tp: blockchaintp/sawtooth-sabre-tp:BTP2.0
-  seth_rpc: blockchaintp/sawtooth-seth-rpc:BTP2.0
-  seth_tp: blockchaintp/sawtooth-seth-tp:BTP2.0
-  xo_demo: blockchaintp/xo-demo:BTP2.0
