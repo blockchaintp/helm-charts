@@ -1,4 +1,5 @@
 const options = require('./options')
+const validators = require('./validators')
 //`^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*`
 const form = [
 
@@ -17,7 +18,7 @@ const form = [
         type: 'string',
         methods: [
           ['required', 'Required'],
-          ['matches', [`^[a-z]([-a-z0-9]*[a-z0-9])*$`], "a DNS-1123 label must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character"]
+          validators.dns1123
         ],
       },
     },
@@ -33,7 +34,7 @@ const form = [
         type: 'string',
         methods: [
           ['required', 'Required'],
-          ['matches', [`^[a-z]([-a-z0-9]*[a-z0-9])*$`], "a DNS-1123 label must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character"]
+          validators.dns1123
         ],
       },
     },
@@ -54,7 +55,7 @@ const form = [
         type: 'string',
         methods: [
           ['required', 'Required'],
-          ['matches', [`^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])*$`], "a ledger id must consist of alphanumeric characters or '-', and must start and end with an alphanumeric character"]
+          validators.dns1123
         ],
       },
     },
@@ -117,10 +118,7 @@ const form = [
     validate: {
       type: 'string',
       methods: [
-        [
-          'matches', [`^[a-z]([-a-z0-9]*[a-z0-9])*$`],
-          'a DNS-1123 label must consist of lower case alphanumeric characters or \'-\', and must start and end with an alphanumeric character'
-        ]
+        validators.dns1123
       ],
     },
   },
@@ -147,7 +145,7 @@ const form = [
     title: 'Postgres Password',
     helperText: 'The password for the postgres instance',
     component: 'text',
-    default: null,
+    default: '',
     linked: {
       linkedId: 'passwordOrSecret',
       visibilityParameter: 'true' // for what value of linkedId, will this component be visible
@@ -155,10 +153,7 @@ const form = [
     validate: {
       type: 'string',
       methods: [
-        [
-          'matches', [`^[a-z]([-a-z0-9]*[a-z0-9])*$`],
-          'a DNS-1123 label must consist of lower case alphanumeric characters or \'-\', and must start and end with an alphanumeric character'
-        ]
+        validators.password
       ],
     },
   },
@@ -167,7 +162,7 @@ const form = [
     title: 'Postgres Password Secret Name',
     helperText: 'The name of a pre-existing secret with a field "password" containing the password of the postgres instance',
     component: 'text',
-    default: null,
+    default: '',
     linked: {
       linkedId: 'passwordOrSecret',
       visibilityParameter: 'false' // for what value of linkedId, will this component be visible
@@ -175,10 +170,7 @@ const form = [
     validate: {
       type: 'string',
       methods: [
-        [
-          'matches', [`^[a-z]([-a-z0-9]*[a-z0-9])*$`],
-          'a DNS-1123 label must consist of lower case alphanumeric characters or \'-\', and must start and end with an alphanumeric character'
-        ]
+        validators.dns1123
       ],
     },
   },
@@ -222,7 +214,7 @@ const form = [
           type: 'string',
           methods: [
             ['required', 'Required'],
-            ['matches', [`^[a-z]([-a-z0-9]*[a-z0-9])*$`], "a DNS-1123 label must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character"]
+            validators.dns1123
           ],
         },
       }],
@@ -232,8 +224,6 @@ const form = [
       }]
     }
   },
-
-
 ]
 
 module.exports = form
