@@ -1,0 +1,20 @@
+apiVersion: v2
+name: nginx-ingress
+version: 0.0.1
+appVersion: 1.8.1
+description: NGINX Ingress Controller with Sextant customizations
+icon: https://raw.githubusercontent.com/nginxinc/kubernetes-ingress/v1.8.1/deployments/helm-chart/chart-icon.png
+sources:
+  - https://github.com/nginxinc/kubernetes-ingress/tree/v1.8.1/deployments/helm-chart
+  - https://github.com/catenasys/helm-charts
+keywords:
+  - ingress
+  - nginx
+maintainers:
+  - name: NGINX Kubernetes Team
+    email: kubernetes@nginx.com
+
+dependencies:
+  - name: nginx-ingress
+    version: "~1.8.1"
+    repository: https://helm.nginx.com/stable

@@ -1,0 +1,27 @@
+apiVersion: v2
+name: nginx-ingress
+description: NGINX Ingress Controller
+
+# Replaces the index.js in the deployment templates directory, sawtooth/index
+# The deploymentType and deploymentVersion help build the object structure
+deploymentType: nginx-ingress
+deploymentVersion: 1.8
+
+# absolute path to form.js
+form: nginx-ingress/sextant/form.js
+
+# absolute path to summary.jst
+summary: nginx-ingress/sextant/summary.js
+
+# paths to be used in the getField function
+namePath: deployment.name
+namespacePath: deployment.namespace
+
+# additional fields for the button
+# form: <same as deploymentVersion>
+title: NGINX Ingress
+sextantVersion: 1.8
+buttonIcon: https://raw.githubusercontent.com/nginxinc/kubernetes-ingress/v1.8.1/deployments/helm-chart/chart-icon.png
+features:
+
+# documentation pull down mark down
