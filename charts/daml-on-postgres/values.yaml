@@ -59,5 +59,7 @@ postgres:
     ##
     # storageClass: "-"
     storageClass:
+    accessModes:
+      - "ReadWriteOnce"
     accessMode: ReadWriteOnce
     size: 10Gi
