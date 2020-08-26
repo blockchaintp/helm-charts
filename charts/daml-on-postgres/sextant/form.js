@@ -1,6 +1,6 @@
 const options = require('./options')
 const validators = require('./validators')
-//`^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*`
+// `^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*`
 const form = [
 
   'Network',
@@ -18,7 +18,7 @@ const form = [
         type: 'string',
         methods: [
           ['required', 'Required'],
-          validators.dns1123
+          validators.dns1123,
         ],
       },
     },
@@ -34,7 +34,7 @@ const form = [
         type: 'string',
         methods: [
           ['required', 'Required'],
-          validators.dns1123
+          validators.dns1123,
         ],
       },
     },
@@ -55,11 +55,11 @@ const form = [
         type: 'string',
         methods: [
           ['required', 'Required'],
-          validators.dns1123
+          validators.dns1123,
         ],
       },
     },
-    ''//empty string for form spacing
+    '', // empty string for form spacing
   ],
 
   {
@@ -95,7 +95,7 @@ const form = [
     options: options.activated,
     linked: {
       linkedId: 'postgres.enabled',
-      visibilityParameter: 'true' // for what value of linkedId, will this component be visible
+      visibilityParameter: 'true', // for what value of linkedId, will this component be visible
     },
     validate: {
       type: 'string',
@@ -113,12 +113,12 @@ const form = [
     },
     linked: {
       linkedId: 'postgres.persistence.enabled',
-      visibilityParameter: 'true' // for what value of linkedId, will this component be visible
+      visibilityParameter: 'true', // for what value of linkedId, will this component be visible
     },
     validate: {
       type: 'string',
       methods: [
-        validators.dns1123
+        validators.dns1123,
       ],
     },
   },
@@ -136,7 +136,7 @@ const form = [
     validate: {
       type: 'string',
       methods: [
-        ['required', 'Required']
+        ['required', 'Required'],
       ],
     },
   },
@@ -148,12 +148,12 @@ const form = [
     default: '',
     linked: {
       linkedId: 'passwordOrSecret',
-      visibilityParameter: 'true' // for what value of linkedId, will this component be visible
+      visibilityParameter: 'true', // for what value of linkedId, will this component be visible
     },
     validate: {
       type: 'string',
       methods: [
-        validators.password
+        validators.password,
       ],
     },
   },
@@ -165,17 +165,15 @@ const form = [
     default: '',
     linked: {
       linkedId: 'passwordOrSecret',
-      visibilityParameter: 'false' // for what value of linkedId, will this component be visible
+      visibilityParameter: 'false', // for what value of linkedId, will this component be visible
     },
     validate: {
       type: 'string',
       methods: [
-        validators.dns1123
+        validators.password,
       ],
     },
   },
-
-
 
   'Image Pull Secrets',
 
@@ -191,7 +189,7 @@ const form = [
     validate: {
       type: 'string',
       methods: [
-        ['required', 'Required']
+        ['required', 'Required'],
       ],
     },
   }, {
@@ -201,7 +199,7 @@ const form = [
     default: null,
     linked: {
       linkedId: 'imagePullSecrets.enabled',
-      visibilityParameter: 'true' // for what value of linkedId, will this component be visible
+      visibilityParameter: 'true', // for what value of linkedId, will this component be visible
     },
     list: {
       mainField: 'name',
@@ -214,15 +212,15 @@ const form = [
           type: 'string',
           methods: [
             ['required', 'Required'],
-            validators.dns1123
+            validators.dns1123,
           ],
         },
       }],
       table: [{
         title: 'Name',
         name: 'name',
-      }]
-    }
+      }],
+    },
   },
 ]
 
