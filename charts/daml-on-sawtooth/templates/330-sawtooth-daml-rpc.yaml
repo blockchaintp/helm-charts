@@ -62,7 +62,6 @@ spec:
             value: localhost
           - name: NOXY_API_PORT
             value: "5051"
-
       - name: daml-rpc
         image: {{.Values.images.daml_rpc}}
         command: [ "bash", "-xc"]
