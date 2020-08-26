@@ -1,5 +1,5 @@
-const options = require('./options')
 const randomString = require('randomstring')
+const options = require('./options')
 
 const form = [
 
@@ -18,7 +18,7 @@ const form = [
         type: 'string',
         methods: [
           ['required', 'Required'],
-          ['matches', [`^[a-z]([-a-z0-9]*[a-z0-9])*$`], "a DNS-1123 label must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character"]
+          ['matches', ['^[a-z]([-a-z0-9]*[a-z0-9])*$'], "a DNS-1123 label must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character"],
         ],
       },
     },
@@ -34,7 +34,7 @@ const form = [
         type: 'string',
         methods: [
           ['required', 'Required'],
-          ['matches', [`^[a-z]([-a-z0-9]*[a-z0-9])*$`], "a DNS-1123 label must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character"]
+          ['matches', ['^[a-z]([-a-z0-9]*[a-z0-9])*$'], "a DNS-1123 label must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character"],
         ],
       },
     },
@@ -54,7 +54,7 @@ const form = [
       validate: {
         type: 'string',
         methods: [
-          ['required', 'Required']
+          ['required', 'Required'],
         ],
       },
     },
@@ -70,7 +70,7 @@ const form = [
       validate: {
         type: 'string',
         methods: [
-          ['required', 'Required']
+          ['required', 'Required'],
         ],
       },
     },
@@ -88,7 +88,7 @@ const form = [
       validate: {
         type: 'string',
         methods: [
-          ['required', 'Required']
+          ['required', 'Required'],
         ],
       },
     },
@@ -104,7 +104,7 @@ const form = [
       validate: {
         type: 'number',
         methods: [
-          ['required', 'Required']
+          ['required', 'Required'],
         ],
       },
     },
@@ -122,12 +122,12 @@ const form = [
     validate: {
       type: 'string',
       methods: [
-        ['required', 'Required']
+        ['required', 'Required'],
       ],
     },
   },
 
-// hostname, IP, port
+  // hostname, IP, port
   {
     id: 'sawtooth.externalSeeds',
     title: 'External Seeds',
@@ -135,55 +135,55 @@ const form = [
     list: {
       mainField: 'hostname',
       schema: [{
-          id: 'hostname',
-          title: 'Hostname',
-          helperText: 'Type the hostname of a new external seed.',
-          component: 'text',
-          validate: {
-            type: 'string',
-            methods: [
-              ['required', 'Required'],
-              ['matches', [`^[a-z]([-a-z0-9]*[a-z0-9])*$`], "Must use a DNS-1123 safe label."]
-            ],
-          },
+        id: 'hostname',
+        title: 'Hostname',
+        helperText: 'Type the hostname of a new external seed.',
+        component: 'text',
+        validate: {
+          type: 'string',
+          methods: [
+            ['required', 'Required'],
+            ['matches', ['^[a-z]([-a-z0-9]*[a-z0-9])*$'], 'Must use a DNS-1123 safe label.'],
+          ],
         },
-        {
-          id: 'ip',
-          title: 'IP Address',
-          helperText: 'Type the IP address of a new external seed.',
-          component: 'text',
-          validate: {
-            type: 'string',
-            methods: [
-              ['required', 'Required'],
-              ['matches', [`^[0-9]+[.0-9]*[0-9]$`], "Must be an IPv4 compatible address."]
-            ],
-          }
-        },{
-          id: 'port',
-          title: 'Port',
-          helperText: 'Type the port of a new external seed.',
-          component: 'text',
-          validate: {
-            type: 'string',
-            methods: [
-              ['required', 'Required'],
-              ['matches', [`^[0-9]+$`], "Must be a number."]
-            ],
-          }
-        }
+      },
+      {
+        id: 'ip',
+        title: 'IP Address',
+        helperText: 'Type the IP address of a new external seed.',
+        component: 'text',
+        validate: {
+          type: 'string',
+          methods: [
+            ['required', 'Required'],
+            ['matches', ['^[0-9]+[.0-9]*[0-9]$'], 'Must be an IPv4 compatible address.'],
+          ],
+        },
+      }, {
+        id: 'port',
+        title: 'Port',
+        helperText: 'Type the port of a new external seed.',
+        component: 'text',
+        validate: {
+          type: 'string',
+          methods: [
+            ['required', 'Required'],
+            ['matches', ['^[0-9]+$'], 'Must be a number.'],
+          ],
+        },
+      },
       ],
       table: [{
         title: 'Hostname',
         name: 'hostname',
-      },{
+      }, {
         title: 'IP Address',
         name: 'ip',
-      },{
+      }, {
         title: 'Port',
         name: 'port',
-      }]
-    }
+      }],
+    },
   },
 
   'Custom Containers',
@@ -206,7 +206,7 @@ const form = [
             ['required', 'Required'],
           ],
         },
-      },{
+      }, {
         id: 'image',
         title: 'Image',
         helperText: 'The docker image for your container',
@@ -217,7 +217,7 @@ const form = [
             ['required', 'Required'],
           ],
         },
-      },{
+      }, {
         id: 'command',
         title: 'Command',
         helperText: 'The command for your container',
@@ -228,7 +228,7 @@ const form = [
 
           ],
         },
-      },{
+      }, {
         id: 'args',
         title: 'Arguments',
         helperText: 'The arguments for your container',
@@ -243,17 +243,17 @@ const form = [
       table: [{
         title: 'Name',
         name: 'name',
-      },{
+      }, {
         title: 'Image',
         name: 'image',
-      },{
+      }, {
         title: 'Command',
         name: 'command',
-      },{
+      }, {
         title: 'Arguments',
         name: 'args',
-      }]
-    }
+      }],
+    },
   },
 
   'Smart Contract Language Support',
@@ -270,10 +270,10 @@ const form = [
     validate: {
       type: 'string',
       methods: [
-        ['required', 'Required']
+        ['required', 'Required'],
       ],
     },
-  },{
+  }, {
     id: 'sawtooth.seth.enabled',
     title: 'Should SETH be supported on this network?',
     helperText: null,
@@ -285,7 +285,7 @@ const form = [
     validate: {
       type: 'string',
       methods: [
-        ['required', 'Required']
+        ['required', 'Required'],
       ],
     },
   }],
@@ -304,7 +304,7 @@ const form = [
     validate: {
       type: 'string',
       methods: [
-        ['required', 'Required']
+        ['required', 'Required'],
       ],
     },
   }, {
@@ -319,7 +319,7 @@ const form = [
     validate: {
       type: 'string',
       methods: [
-        ['required', 'Required']
+        ['required', 'Required'],
       ],
     },
   }],
@@ -338,7 +338,7 @@ const form = [
     validate: {
       type: 'string',
       methods: [
-        ['required', 'Required']
+        ['required', 'Required'],
       ],
     },
   }, {
@@ -348,7 +348,7 @@ const form = [
     default: null,
     linked: {
       linkedId: 'imagePullSecrets.enabled',
-      visibilityParameter: 'true' // for what value of linkedId, will this component be visible
+      visibilityParameter: 'true', // for what value of linkedId, will this component be visible
     },
     list: {
       mainField: 'name',
@@ -361,15 +361,15 @@ const form = [
           type: 'string',
           methods: [
             ['required', 'Required'],
-            ['matches', [`^[a-z]([-a-z0-9]*[a-z0-9])*$`], "a DNS-1123 label must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character"]
+            ['matches', ['^[a-z]([-a-z0-9]*[a-z0-9])*$'], "a DNS-1123 label must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character"],
           ],
         },
       }],
       table: [{
         title: 'Name',
         name: 'name',
-      }]
-    }
+      }],
+    },
   },
 
   'Advanced Options',
@@ -386,12 +386,12 @@ const form = [
       validate: {
         type: 'string',
         methods: [
-          ['required', 'Required']
+          ['required', 'Required'],
         ],
       },
     },
-    '' // emptry string acts as space in UI
-  ]
+    '', // emptry string acts as space in UI
+  ],
 
 ]
 

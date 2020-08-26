@@ -1,12 +1,11 @@
 const options = require('./options')
 
 const getConsensusTitle = (value) => {
-  const option = options.consensus.find(o => o.value == value)
+  const option = options.consensus.find((o) => o.value === value)
   return option ? option.title : 'unknown'
 }
 
 const summary = (values) => {
-
   const {
     sawtooth,
   } = values
@@ -31,13 +30,13 @@ const summary = (values) => {
     value: getConsensusTitle(sawtooth.consensus),
   }, {
     title: 'External Seeds',
-    value: sawtooth.externalSeeds.map(seed => seed.ip),
+    value: sawtooth.externalSeeds.map((seed) => seed.ip),
   }, {
     title: 'Sawtooth Validator Port',
-    value: '8800'
+    value: '8800',
   }, {
     title: 'Custom Transaction Processors',
-    value: sawtooth.customTPs.map(tp => `${tp.name} (${tp.image})`),
+    value: sawtooth.customTPs.map((tp) => `${tp.name} (${tp.image})`),
   }, {
     title: 'Sabre enabled?',
     value: sawtooth.sabre.enabled ? 'Yes' : 'No',
@@ -54,6 +53,3 @@ const summary = (values) => {
 }
 
 module.exports = summary
-
-
-
