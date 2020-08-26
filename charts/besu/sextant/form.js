@@ -69,7 +69,7 @@ const form = [
   },
   {
     id: 'besu.persistence.enabled',
-    title: 'Persistence',
+    title: 'Besu Persistence',
     helperText:
       'If enabled data will be stored on PersistentVolumeClaims ',
     component: 'radio',
@@ -87,7 +87,7 @@ const form = [
   },
   {
     id: 'besu.persistence.storageClass',
-    title: 'Storage Class',
+    title: 'Besu StorageClass',
     helperText: 'The name of the StorageClass for the PersistentVolumeClaims',
     component: 'text',
     default: null,
