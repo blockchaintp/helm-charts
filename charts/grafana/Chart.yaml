@@ -1,6 +1,6 @@
 apiVersion: v2
 name: grafana
-version: 0.0.1
+version: 0.0.2
 appVersion: 7.1.4
 description: Grafana is an open source, feature rich metrics dashboard and graph editor for Graphite, Elasticsearch, OpenTSDB, Prometheus and InfluxDB. Based on Bitnami's chart with Sextant customizations
 keywords:

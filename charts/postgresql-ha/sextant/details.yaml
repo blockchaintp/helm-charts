@@ -1,0 +1,29 @@
+apiVersion: v2
+name: postgresql-ha
+description: Chart for PostgreSQL with HA architecture (using Replication Manager (repmgr) and Pgpool).
+
+
+
+# Replaces the index.js in the deployment templates directory, sawtooth/index
+# The deploymentType and deploymentVersion help build the object structure
+deploymentType: postgresql-ha
+deploymentVersion: 11.9
+
+# absolute path to form.js
+form: postgresql-ha/sextant/form.js
+
+# absolute path to summary.jst
+summary: postgresql-ha/sextant/summary.js
+
+# paths to be used in the getField function
+namePath: deployment.name
+namespacePath: deployment.namespace
+
+# additional fields for the button
+# form: <same as deploymentVersion>
+title: PostgreSQL HA
+sextantVersion: 11.9
+buttonIcon: https://bitnami.com/assets/stacks/postgresql/img/postgresql-stack-110x117.png
+features:
+
+# documentation pull down mark down
