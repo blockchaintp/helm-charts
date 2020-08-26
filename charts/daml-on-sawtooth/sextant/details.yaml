@@ -4,8 +4,8 @@ description: The DAML smart contract runtime engine with Hyperledger Sawtooth as
 
 # Replaces the index.js in the deployment templates directory, daml-on-sawtooth/index
 # The deploymentType and deploymentVersion help build the object structure
-deploymentType: daml
-deploymentVersion: daml-on-sawtooth
+deploymentType: daml-on-sawtooth
+deploymentVersion: 0.13
 
 # absolute path to form.js
 form: daml-on-sawtooth/sextant/form.js
