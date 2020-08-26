@@ -94,9 +94,9 @@ sawtooth:
 # presented
 images:
   postgres: postgres:11
-  daml_rpc: blockchaintp/sawtooth-daml-rpc:BTP2.0
-  daml_tp: blockchaintp/sawtooth-daml-tp:BTP2.0
-  timekeeper: blockchaintp/timekeeper:BTP2.0
+  daml_rpc: dev.catenasys.com:8083/blockchaintp/sawtooth-daml-rpc:latest
+  daml_tp: dev.catenasys.com:8083/blockchaintp/sawtooth-daml-tp:latest
+  timekeeper: dev.catenasys.com:8083/blockchaintp/timekeeper:latest
   devmode_engine: blockchaintp/sawtooth-devmode-engine-rust:BTP2.0
   pbft_engine: blockchaintp/sawtooth-pbft-engine:BTP2.0
   poet_cli: blockchaintp/sawtooth-poet-cli:BTP2.0

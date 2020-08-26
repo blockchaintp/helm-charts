@@ -35,12 +35,16 @@ spec:
         command: [ "bash", "-xc"]
         args:
         - |
-            sleep {{.Values.sawtooth.client_wait}}
-            /opt/sawtooth-daml-rpc/entrypoint.sh --port {{.Values.sawtooth.ports.damlrpc}} \
-                --connect tcp://{{.Values.sawtooth.networkName}}-validator:{{.Values.sawtooth.ports.sawcomp}} \
-                --jdbc-url jdbc:postgresql://localhost/postgres?user=postgres \
-                --participant-id {{.Values.sawtooth.networkName}} \
-                {{ if .Values.sawtooth.daml.extra_args.enabled }}{{.Values.sawtooth.daml.extra_args.arg_str}}{{ else }}--auth wildcard {{ end }}
+          sleep {{.Values.sawtooth.client_wait}}
+          /opt/sawtooth-daml-rpc/entrypoint.sh \
+            --participant port={{.Values.sawtooth.ports.damlrpc}},address=0.0.0.0,participant-id={{.Values.sawtooth.networkName}},server-jdbc-url=jdbc:postgresql://postgres/postgres?user=postgres \
+            --log-level warn \
+            --max-outstanding-batches 2 \
+            --max-ops-per-batch 1000 \
+            --connect tcp://validator:4004 \
+        {{- if .Values.sawtooth.daml.extra_args.enabled }}
+            {{.Values.sawtooth.daml.extra_args.arg_str}}
+        {{- end }}
         resources:
           limits:
             cpu: "250m"
