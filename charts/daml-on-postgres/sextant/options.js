@@ -6,6 +6,16 @@ const activated = [{
   title: 'Disabled'
 }]
 
+const passwordOrSecret = [
+  {  value: true,
+    title: "Password"
+  },
+  {  value: false,
+    title: "Existing Secret"
+  },
+
+]
+
 const yesNo = [{
   value: true,
   title: 'Yes'

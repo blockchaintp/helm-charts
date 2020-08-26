@@ -62,10 +62,10 @@ const form = [
   ],
 
   {
-    id: 'postgres.persistence.enabled',
-    title: 'Postgres Persistence',
+    id: 'postgres.enabled',
+    title: 'Postgres Enabled',
     helperText:
-      'If enabled data will be stored on PersistentVolumeClaims ',
+      'If enabled, a local postgres database instance will be created',
     component: 'radio',
     default: false,
     dataType: 'boolean',
@@ -80,6 +80,28 @@ const form = [
     },
   },
   {
+    id: 'postgres.persistence.enabled',
+    title: 'Postgres Persistence',
+    helperText:
+      'If enabled data will be stored on PersistentVolumeClaims ',
+    component: 'radio',
+    default: false,
+    dataType: 'boolean',
+    editable: {
+      new: true,
+    },
+    row: true,
+    options: options.activated,
+    linked: {
+      linkedId: 'postgres.enabled',
+      visibilityParameter: 'true' // for what value of linkedId, will this component be visible
+    },
+    validate: {
+      type: 'string',
+      methods: [['required', 'Required']],
+    },
+  },
+  {
     id: 'postgres.persistence.storageClass',
     title: 'Postgres StorageClass',
     helperText: 'The name of the StorageClass for the PersistentVolumeClaims',
@@ -87,6 +109,10 @@ const form = [
     default: null,
     editable: {
       new: true,
+    },
+    linked: {
+      linkedId: 'postgres.persistence.enabled',
+      visibilityParameter: 'true' // for what value of linkedId, will this component be visible
     },
     validate: {
       type: 'string',
@@ -98,6 +124,66 @@ const form = [
       ],
     },
   },
+
+  'Postgres Credentials',
+  {
+    id: 'passwordOrSecret',
+    title: 'Password Or Secret',
+    helperText: 'Choose whether to enter a database password or the name of a secret',
+    component: 'radio',
+    default: true,
+    dataType: 'boolean',
+    row: true,
+    options: options.passwordOrSecret,
+    validate: {
+      type: 'string',
+      methods: [
+        ['required', 'Required']
+      ],
+    },
+  },
+  {
+    id: 'postgres.password',
+    title: 'Postgres Password',
+    helperText: 'The password for the postgres instance',
+    component: 'text',
+    default: null,
+    linked: {
+      linkedId: 'passwordOrSecret',
+      visibilityParameter: 'true' // for what value of linkedId, will this component be visible
+    },
+    validate: {
+      type: 'string',
+      methods: [
+        [
+          'matches', [`^[a-z]([-a-z0-9]*[a-z0-9])*$`],
+          'a DNS-1123 label must consist of lower case alphanumeric characters or \'-\', and must start and end with an alphanumeric character'
+        ]
+      ],
+    },
+  },
+  {
+    id: 'postgres.existingPasswordSecret',
+    title: 'Postgres Password Secret Name',
+    helperText: 'The name of a pre-existing secret with a field "password" containing the password of the postgres instance',
+    component: 'text',
+    default: null,
+    linked: {
+      linkedId: 'passwordOrSecret',
+      visibilityParameter: 'false' // for what value of linkedId, will this component be visible
+    },
+    validate: {
+      type: 'string',
+      methods: [
+        [
+          'matches', [`^[a-z]([-a-z0-9]*[a-z0-9])*$`],
+          'a DNS-1123 label must consist of lower case alphanumeric characters or \'-\', and must start and end with an alphanumeric character'
+        ]
+      ],
+    },
+  },
+
+
 
   'Image Pull Secrets',
 
