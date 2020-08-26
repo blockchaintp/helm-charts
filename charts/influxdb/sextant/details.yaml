@@ -1,0 +1,27 @@
+apiVersion: v2
+name: influxdb
+description: Scalable datastore for metrics, events, and real-time analytics.
+
+# Replaces the index.js in the deployment templates directory, sawtooth/index
+# The deploymentType and deploymentVersion help build the object structure
+deploymentType: influxdb
+deploymentVersion: 1.8
+
+# absolute path to form.js
+form: influxdb/sextant/form.js
+
+# absolute path to summary.jst
+summary: influxdb/sextant/summary.js
+
+# paths to be used in the getField function
+namePath: deployment.name
+namespacePath: deployment.namespace
+
+# additional fields for the button
+# form: <same as deploymentVersion>
+title: InfluxDB
+sextantVersion: 1.8
+buttonIcon: "https://github.com/influxdata/docs.influxdata.com/blob/master/static/img/influx-logo-cubo-dark.png?raw=true"
+features:
+
+# documentation pull down mark down
