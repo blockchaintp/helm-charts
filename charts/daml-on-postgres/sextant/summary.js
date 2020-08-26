@@ -1,23 +1,14 @@
-const options = require('./options')
-
-const getConsensusTitle = (value) => {
-  const option = options.consensus.find(o => o.value == value)
-  return option ? option.title : 'unknown'
-}
-
 const secretValue = (daml) => {
   if (daml.postgres) {
     return daml.postgres.secret
-  } else {
-    return null
   }
+  return null
 }
 
 const summary = (values) => {
-
   const {
     deployment,
-    daml
+    daml,
   } = values
 
   return [

@@ -1,31 +1,33 @@
 const activated = [{
   value: true,
-  title: 'Enabled'
-},{
+  title: 'Enabled',
+}, {
   value: false,
-  title: 'Disabled'
+  title: 'Disabled',
 }]
 
 const passwordOrSecret = [
-  {  value: true,
-    title: "Password"
+  {
+    value: true,
+    title: 'Password',
   },
-  {  value: false,
-    title: "Existing Secret"
+  {
+    value: false,
+    title: 'Existing Secret',
   },
 
 ]
 
 const yesNo = [{
   value: true,
-  title: 'Yes'
-},{
+  title: 'Yes',
+}, {
   value: false,
-  title: 'No'
+  title: 'No',
 }]
 
 module.exports = {
   activated,
   yesNo,
-  passwordOrSecret
+  passwordOrSecret,
 }
