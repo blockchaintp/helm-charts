@@ -16,8 +16,8 @@ deployment:
 
 daml:
   image:
-    repository: blockchaintp/daml-on-postgres
-    tag: BTP2.0
+    repository: dev.catenasys.com:8083/blockchaintp/daml-on-postgres
+    tag: latest
     pullPolicy: IfNotPresent
   ledgerId: someIdentifyingString
   extra_args:

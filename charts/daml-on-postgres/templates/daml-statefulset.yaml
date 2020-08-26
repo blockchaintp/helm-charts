@@ -48,7 +48,7 @@ spec:
             - -xc
           args:
             - |
-              /opt/digitalasset/bin/entrypoint.sh -w {{- if .Values.daml.extra_args }}{{- .Values.daml.extra_args |quote }}{{- end }}
+              /opt/digitalasset/bin/entrypoint.sh -a 0.0.0.0 -w {{- if .Values.daml.extra_args }}{{- .Values.daml.extra_args |quote }}{{- end }}
           env:
             - name: POSTGRES_USER
               value: {{ .Values.postgres.user }}
@@ -66,7 +66,9 @@ spec:
             - name: POSTGRES_DB
               value: {{ .Values.postgres.database }}
             - name: POSTGRES_PORT
-              value: {{ .Values.postgres.port | quote}}
+              value: {{ .Values.postgres.port | quote }}
+            - name: DAML_GRPC_PORT
+              value: {{ .Values.daml.rpc.port | quote }}
             - name: LEDGER_ID
               value: {{.Values.daml.ledgerId }}
       restartPolicy: Always
