@@ -36,32 +36,6 @@ spec:
         env:
         - name: POSTGRES_HOST_AUTH_METHOD
           value: trust
-      - name: tracer-ui
-        image: {{ .Values.images.tracer_ui }}
-        ports:
-        - containerPort: 8080
-          name: tracer-ui
-        env:
-          - name: NODE_ENV
-            value: production
-      - name: router
-        image: {{ .Values.images.noxy }}
-        ports:
-        - containerPort: 80
-          name: router
-        env:
-          - name: NOXY_DEFAULT_HOST
-            value: localhost
-          - name: NOXY_DEFAULT_PORT
-            value: "8080"
-          - name: NOXY_DEFAULT_WS
-            value: "1"
-          - name: NOXY_API_FRONT
-            value: /transactions
-          - name: NOXY_API_HOST
-            value: localhost
-          - name: NOXY_API_PORT
-            value: "5051"
       - name: daml-rpc
         image: {{.Values.images.daml_rpc}}
         command: [ "bash", "-xc"]
@@ -81,8 +55,6 @@ spec:
         ports:
         - containerPort: {{.Values.sawtooth.ports.damlrpc}}
           name: daml-ledger-api
-        - containerPort: 5051
-          name: tracer
         volumeMounts:
         - mountPath: "/etc/sawtooth"
           name: sawtooth-etc
