@@ -20,22 +20,21 @@ const summary = (values) => {
     daml
   } = values
 
-  return [{
-    title: 'Deployment Name',
-    value: deployment.name,
-  }, {
-    title: 'Namespace',
-    value: deployment.namespace,
-  }, {
-    title: 'DAML DB Connection Secret',
-    value: secretValue(daml),
-  }, {
-    title: 'DAML Ledger ID',
-    value: daml.ledgerId,
-  }, {
-    title: 'DAML GRPC Port',
-    value: daml.rpc.port
-  }]
+  return [
+    {
+      title: 'Deployment Name',
+      value: deployment.name,
+    }, {
+      title: 'Namespace',
+      value: deployment.namespace,
+    }, {
+      title: 'DAML DB Connection Secret',
+      value: secretValue(daml),
+    }, {
+      title: 'DAML Ledger ID',
+      value: daml.ledgerId,
+    },
+  ]
 }
 
 module.exports = summary
