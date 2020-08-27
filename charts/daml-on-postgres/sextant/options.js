@@ -8,11 +8,11 @@ const activated = [{
 
 const passwordOrSecret = [
   {
-    value: true,
+    value: '1',
     title: 'Password',
   },
   {
-    value: false,
+    value: '2',
     title: 'Existing Secret',
   },
 

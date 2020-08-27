@@ -96,8 +96,8 @@ const form = [
     title: 'Password Or Secret',
     helperText: 'Choose whether to enter a database password or the name of a secret',
     component: 'radio',
-    default: true,
-    dataType: 'boolean',
+    default: '1',
+    dataType: 'string',
     row: true,
     options: options.passwordOrSecret,
     validate: {
@@ -115,7 +115,7 @@ const form = [
     default: '',
     linked: {
       linkedId: 'passwordOrSecret',
-      visibilityParameter: true, // for what value of linkedId, will this component be visible
+      visibilityParameter: '1', // for what value of linkedId, will this component be visible
     },
     validate: {
       type: 'string',
@@ -132,7 +132,7 @@ const form = [
     default: '',
     linked: {
       linkedId: 'passwordOrSecret',
-      visibilityParameter: false, // for what value of linkedId, will this component be visible
+      visibilityParameter: '2', // for what value of linkedId, will this component be visible
     },
     validate: {
       type: 'string',
