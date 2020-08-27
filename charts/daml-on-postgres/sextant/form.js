@@ -115,7 +115,7 @@ const form = [
     default: '',
     linked: {
       linkedId: 'passwordOrSecret',
-      visibilityParameter: 'true', // for what value of linkedId, will this component be visible
+      visibilityParameter: true, // for what value of linkedId, will this component be visible
     },
     validate: {
       type: 'string',
@@ -132,7 +132,7 @@ const form = [
     default: '',
     linked: {
       linkedId: 'passwordOrSecret',
-      visibilityParameter: 'false', // for what value of linkedId, will this component be visible
+      visibilityParameter: false, // for what value of linkedId, will this component be visible
     },
     validate: {
       type: 'string',
