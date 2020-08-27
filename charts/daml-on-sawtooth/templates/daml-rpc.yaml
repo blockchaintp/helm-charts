@@ -41,7 +41,7 @@ spec:
             --log-level warn \
             --max-outstanding-batches 2 \
             --max-ops-per-batch 1000 \
-            --connect tcp://validator:4004 \
+            --connect tcp://{{.Values.sawtooth.networkName}}-validator:{{.Values.sawtooth.ports.sawcomp}} \
         {{- if .Values.sawtooth.daml.extra_args.enabled }}
             {{.Values.sawtooth.daml.extra_args.arg_str}}
         {{- end }}

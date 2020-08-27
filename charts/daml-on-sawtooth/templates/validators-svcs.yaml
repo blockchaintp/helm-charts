@@ -40,6 +40,6 @@ spec:
   - port: {{.Values.sawtooth.ports.sawcomp}}
     protocol: TCP
     targetPort: {{.Values.sawtooth.ports.sawcomp}}
-    name: sawncomp
+    name: sawcomp
   selector:
     app: {{.Values.sawtooth.networkName}}-validator
