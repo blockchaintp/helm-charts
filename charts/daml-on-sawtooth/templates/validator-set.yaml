@@ -398,10 +398,3 @@ spec:
           hostPath:
             type: DirectoryOrCreate
             path: {{.Values.sawtooth.volumes.hostPathBaseDir}}/{{.Values.sawtooth.namespace}}/{{.Values.sawtooth.networkName}}/sawtooth-data
-        - name: config-volume
-          configMap:
-            name: monitoring-cm
-            items:
-              - key: telegraf.conf
-                path: telegraf.conf
----
