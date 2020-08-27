@@ -101,7 +101,7 @@ const form = [
     row: true,
     options: options.passwordOrSecret,
     validate: {
-      type: 'string',
+      type: 'boolean',
       methods: [
         ['required', 'Required'],
       ],
