@@ -11,12 +11,12 @@ spec:
   sessionAffinity: ClientIP
   ports:
   - port: {{ .Values.sawtooth.ports.rest }}
-    protocol: TCP 
+    protocol: TCP
     targetPort: {{ .Values.sawtooth.ports.rest }}
     name: rest-api
 {{ if .Values.sawtooth.seth.enabled }}
   - port: 3030
-    protocol: TCP 
+    protocol: TCP
     targetPort: 3030
     name: seth-rpc
 {{ end }}
@@ -35,7 +35,7 @@ spec:
   clusterIP: None
   ports:
   - port: {{ .Values.sawtooth.ports.rest }}
-    protocol: TCP 
+    protocol: TCP
     targetPort: {{ .Values.sawtooth.ports.rest }}
     name: rest-api
   - port: {{ .Values.sawtooth.ports.sawnet }}
@@ -61,11 +61,10 @@ spec:
   sessionAffinity: ClientIP
   ports:
   - port: 80
-    protocol: TCP 
+    protocol: TCP
     targetPort: 80
     name: xo-demo
   selector:
     app: {{ .Values.sawtooth.networkName }}-validator
 ---
 {{ end }}
-
