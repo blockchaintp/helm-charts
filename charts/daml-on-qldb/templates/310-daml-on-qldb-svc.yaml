@@ -1,0 +1,18 @@
+# kubetpl:syntax:go-template
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{.Values.name}}-svc
+  namespace: {{.Values.namespace}}
+  labels:
+    app: {{.Values.name}}
+spec:
+  ports:
+  - port: 39000
+    protocol: TCP
+    targetPort: 39000
+    name: ledger-api
+  selector:
+    app: {{.Values.name}}
+---
