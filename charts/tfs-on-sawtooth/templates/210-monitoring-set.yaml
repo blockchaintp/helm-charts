@@ -1,0 +1,68 @@
+# kubetpl:syntax:go-template
+---
+###
+# Monitoring consists of
+#   a) an influxdb database which is targeted by all of the validators
+#     as well as a telegraf instance on each validator.
+#   b) a grafana instance which reads from the influxdb
+##
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{.Values.sawtooth.networkName}}-monitoring
+  namespace: {{.Values.sawtooth.namespace}}
+  labels:
+    app: {{.Values.sawtooth.networkName}}-monitoring
+spec:
+  selector:
+    matchLabels:
+      app: {{.Values.sawtooth.networkName}}-monitoring
+  serviceName: "{{.Values.sawtooth.networkName}}-monitoring"
+  template:
+    metadata:
+      labels:
+        app: {{.Values.sawtooth.networkName}}-monitoring
+    spec:
+      serviceAccountName: {{.Values.sawtooth.networkName}}-sa
+      {{ if .Values.imagePullSecrets.enabled }}
+      imagePullSecrets:
+      {{range .Values.imagePullSecrets.value }}
+        - name: {{ .name }}
+      {{ end }}
+      {{ end }}
+      containers:
+      - name: influxdb
+        image: {{.Values.images.influxdb}}
+        ports:
+          - containerPort: 8086
+            name: influxdb
+        {{if .Values.sawtooth.containers.influxdb.env}}
+        env:
+          {{ range .Values.sawtooth.containers.influxdb.env }}
+          - name: {{.name }}
+            value: {{.value}}
+          {{end}}
+        {{end}}
+        resources:
+          limits:
+            cpu: "100m"
+          requests:
+            cpu: "50m"
+      - name: grafana
+        image: {{.Values.images.grafana}}
+        ports:
+          - containerPort: 3000
+            name: grafana
+        {{if .Values.sawtooth.containers.grafana.env}}
+        env:
+          {{ range .Values.sawtooth.containers.grafana.env }}
+          - name: {{.name }}
+            value: {{.value}}
+          {{end}}
+        {{end}}
+        resources:
+          limits:
+            cpu: "100m"
+          requests:
+            cpu: "50m"
+---

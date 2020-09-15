@@ -1,0 +1,132 @@
+#This file is a reasonable defaults file for sawtooth 1.1
+
+affinity:
+  #Normally set this as disabled.
+  # If false - no effect, validators are run on every ( or in the case of devmode any one)
+  # node in the cluster.
+  # If True, then validators will be deployed only to k8s nodes with the label
+  #       app={{.sawtooth.networkName}}-validator
+  enabled: false
+
+# This is optional,
+# if false the values are ignored,
+# if true then there should exist a secret within the namespace
+#   of the given names, multiple values are acceptable
+imagePullSecrets:
+  enabled: false
+  value:
+    - name: regcred
+sawtooth:
+  opentsdb:
+    db: metrics
+    url:
+  minReadySeconds: 120
+  maxUnavailable: 1
+  containers:
+    grafana:
+      env:
+    influxdb:
+      env:
+    validator:
+      env:
+      imagePullPolicy: Always
+    monitor:
+      imagePullPolicy: Always
+    taekion_tp:
+      imagePullPolicy: IfNotPresent
+    taekion_rest_api:
+      imagePullPolicy: IfNotPresent
+  ports:
+    sawnet: 8800
+    consensus: 5050
+    sawcomp: 4004
+    rest: 8008
+    damlrpc: 39000
+    taekion_rest: 8000
+  livenessProbe:
+    enabled: false
+    initialDelaySeconds: 300
+    periodSeconds: 120
+    active: "false"
+    exitSignals: "block-info-tp"
+  heartbeat:
+    interval: 300
+  permissioned: false
+  #This MUST be chosen by the user
+  # Follows DNS naming rules
+  namespace: prod
+  # This MUST be chosen by the user.
+  # Follows DNS naming rules
+  networkName: mynetwork8
+  # serial or parallel
+  scheduler: serial
+  # 100 - DevMode, 200 - PoET,300 - Raft, 400 - pbft
+  # Engines can be enabled, but they aren't active unless they are selected
+  # as the consensus algorithm.
+  consensus: 400
+  genesis:
+    # If true, and the cluster is starting for the first time, then
+    # a node will be selected to create and submit the genesis block
+    # the node chosen will be the "alpha" node, the one node which has no
+    # other SEEDS or PEERS configured dynamically
+    enabled: true
+    # The seed is an arbitrary string which identifies a given genesis
+    # If the data of a given set of nodes is to be wiped out, change
+    # this value.
+    seed: 9a2de774-90b5-11e9-9df0-87e889b0f1c9
+  # Dynamic Peering should default to false, since it is a bit unreliable
+  # PBFT and RAFT should have dynamic peering
+  dynamicPeering: false
+  externalSeeds: []
+  seth:
+    # This should default to false, there appear to be problems with the required
+    # block_info block injector that this depends upon
+    enabled: false
+  xo:
+    # default this to false since you probably don't want it in real life
+    enabled: false
+  smallbank:
+    # default this to false since you probably don't want it in real life
+    enabled: false
+  daml:
+    # default daml to false at the moment
+    enabled: false
+    extra_args:
+      enabled: false
+      arg_str: some args
+  volumes:
+    # This MUST be set, and SHOULD be presented to the user as an option, as it is a likely area
+    # of customization
+    hostPathBaseDir: /var/lib/btp/
+  # This is an arbitrary cool down period to wait for validators to initialize
+  # before starting any client operations
+  client_wait: 90
+  customTPs:
+          # A list of basic container definitions
+          #    - name: intkey-tp
+          #      image: "blockchaintp/sawtooth-intkey-tp-go:1.0.5"
+          #      command: [ "bash", "-c" ]
+          #      args: [ "intkey-tp-go -v --connect tcp://localhost:4004" ]
+
+
+# The below are mostly controlled by BTP, although an "advanced" option to customize them may be
+# presented
+images:
+  postgres: postgres:11
+  devmode_engine: blockchaintp/sawtooth-devmode-engine-rust:BTP2.0
+  pbft_engine: blockchaintp/sawtooth-pbft-engine:BTP2.0
+  poet_cli: blockchaintp/sawtooth-poet-cli:BTP2.0
+  poet_engine: blockchaintp/sawtooth-poet-engine:BTP2.0
+  poet_validator_registry_tp: blockchaintp/sawtooth-poet-validator-registry-tp:BTP2.0
+  raft_engine: blockchaintp/sawtooth-raft-engine:BTP2.0
+  block_info_tp: blockchaintp/sawtooth-block-info-tp:BTP2.0
+  identity_tp: blockchaintp/sawtooth-identity-tp:BTP2.0
+  intkey_tp: blockchaintp/sawtooth-intkey-tp-go:BTP2.0
+  settings_tp: blockchaintp/sawtooth-settings-tp:BTP2.0
+  shell: blockchaintp/sawtooth-shell:BTP2.0
+  grafana: blockchaintp/metrics-grafana:BTP2.0
+  influxdb: blockchaintp/metrics-influxdb:BTP2.0
+  validator: blockchaintp/sawtooth-validator:BTP2.0
+  rest_api: blockchaintp/sawtooth-rest-api:BTP2.0
+  taekion_tp: taekion/taekion-fs-tp:latest
+  taekion_rest_api: taekion/taekion-fs-middleware:latest
