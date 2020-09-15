@@ -19,8 +19,8 @@ namespacePath: deployment.namespace
 
 # additional fields for the button
 # form: <same as deploymentVersion>
-title: DAML On Besu
-sextantVersion: daml-on-besu=1.0,besu=1.4,daml=1.3
+title: DAML on Besu
+sextantVersion: daml-on-besu 1.0, besu 1.4, daml 1.3
 buttonIcon: /thirdParty/daml.png
 features:
   - daml.parties
