@@ -19,7 +19,7 @@ namespacePath: sawtooth.namespace
 
 # additional fields for the button
 # form: <same as deploymentVersion>
-title: BTP daml-on-sawtooth
+title: DAML on Sawtooth
 sextantVersion: daml-on-sawtooth=1.3,daml=1.3,sawtooth=1.1,paralos=2.0
 buttonIcon: /thirdParty/daml.png
 features:
