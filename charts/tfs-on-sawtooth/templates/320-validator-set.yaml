@@ -5,12 +5,12 @@
 {{ $consensus := .Values.sawtooth.consensus | int }}
 ---
 apiVersion: apps/v1
-kind: {{ if eq .Values.sawtooth.consensus 100 }}StatefulSet{{else}}DaemonSet{{end}}
+kind: {{ if eq $consensus 100 }}StatefulSet{{else}}DaemonSet{{end}}
 metadata:
   name: {{.Values.sawtooth.networkName}}-validator
   namespace: {{.Values.sawtooth.namespace}}
 spec:
-  {{ if eq .Values.sawtooth.consensus 100}}
+  {{ if eq $consensus 100}}
   replicas: 1
   serviceName: {{.Values.sawtooth.networkName}}-validator
   {{ else }}
@@ -66,7 +66,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
-        {{ if eq .Values.sawtooth.consensus 400 }}
+        {{ if eq $consensus 400 }}
         - name: pbft-engine
           image: {{.Values.images.pbft_engine}}
           command: [ "bash", "-xc"]
@@ -80,7 +80,7 @@ spec:
           volumeMounts:
             - mountPath: "/var/lib/sawtooth"
               name: sawtooth-data
-        {{ else if eq .Values.sawtooth.consensus 300 }}
+        {{ else if eq $consensus 300 }}
         - name: raft-engine
           image: {{.Values.images.raft_engine}}
           command: [ "bash", "-xc"]
@@ -96,7 +96,7 @@ spec:
               name: sawtooth-etc
             - mountPath: "/var/lib/sawtooth"
               name: sawtooth-data
-        {{ else if eq .Values.sawtooth.consensus 200 }}
+        {{ else if eq $consensus 200 }}
         - name: poet-engine
           image: {{.Values.images.poet_engine}}
           command: [ "bash", "-xc"]
@@ -274,11 +274,11 @@ spec:
               sleep $start_delay
               if [ ! -r /etc/sawtooth/initialized ]; then
                 if [ $RUN_GENESIS -eq 1 ]; then
-            {{ if eq .Values.sawtooth.consensus 400 }}
+            {{ if eq $consensus 400 }}
                   bash -x /usr/local/bin/pbft_genesis_config.sh {{.Values.sawtooth.namespace}}
-            {{ else if eq .Values.sawtooth.consensus 300 }}
+            {{ else if eq $consensus 300 }}
                   bash -x /usr/local/bin/raft_genesis_config.sh {{.Values.sawtooth.namespace}}
-            {{ else if eq .Values.sawtooth.consensus 200 }}
+            {{ else if eq $consensus 200 }}
                   bash -x /usr/local/bin/poet_genesis_config.sh {{.Values.sawtooth.namespace}}
             {{ else }}
                   bash -x /usr/local/bin/devmode_genesis_config.sh {{.Values.sawtooth.namespace}}
@@ -385,7 +385,7 @@ spec:
                 sawadm keygen --force
               fi
         {{ if .Values.sawtooth.genesis.enabled }}
-          {{ if eq .Values.sawtooth.consensus 200 }}
+          {{ if eq $consensus 200 }}
         - name: poet-registration
           image: {{.Values.images.poet_cli}}
           command: [ "bash", "-xc" ]
