@@ -2,9 +2,6 @@
 ---
 {{ $peering := .Values.sawtooth.dynamicPeering }}
 
-# Convert value to an int type so that the compare works
-{{ $consensus := .Values.sawtooth.consensus | int }}
-
 apiVersion: v1
 kind: Service
 metadata:
