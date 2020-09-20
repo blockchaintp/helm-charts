@@ -1,11 +1,18 @@
+
 sextant:
-  images:
-  # Set an image to use for the API container, or remove to use default image
-    api: 117940112483.dkr.ecr.us-east-1.amazonaws.com/9aea0367-0dda-415b-895c-bb22b2ea347d/cg-1177458449/sextant-api-aws-sfs:1582240066
-  # Set an image to use for the UI container, or delete to use default image
-    ui: 117940112483.dkr.ecr.us-east-1.amazonaws.com/9aea0367-0dda-415b-895c-bb22b2ea347d/cg-1177458449/sextant-sfs:1582240091
-    noxy: 117940112483.dkr.ecr.us-east-1.amazonaws.com/9aea0367-0dda-415b-895c-bb22b2ea347d/cg-1177458449/noxy:1582240056
-  sextant-operator:
-    images:
-      operator: 117940112483.dkr.ecr.us-east-1.amazonaws.com/9aea0367-0dda-415b-895c-bb22b2ea347d/cg-1177458449/sextant-operator:1582240113
+  ui:
+    # Set an image to use for the UI container, or delete to use default image
+    image: 
+      repository: 117940112483.dkr.ecr.us-east-1.amazonaws.com/9aea0367-0dda-415b-895c-bb22b2ea347d/cg-1177458449/sextant-sfs
+      tag: "1582240091"
+  api:
+    # Set an image to use for the API container, or remove to use default image
+    image:
+      repository: 117940112483.dkr.ecr.us-east-1.amazonaws.com/9aea0367-0dda-415b-895c-bb22b2ea347d/cg-1177458449/sextant-api-aws-sfs
+      tag: "1582240066"
+  noxy:
+    image:
+      repository: 117940112483.dkr.ecr.us-east-1.amazonaws.com/9aea0367-0dda-415b-895c-bb22b2ea347d/cg-1177458449/noxy
+      tag: "1582240056"
+
   nameOverride: sextant-sfs

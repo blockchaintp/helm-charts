@@ -1,12 +1,18 @@
 
 sextant:
-  images:
-  # Set an image to use for the API container, or remove to use default image
-    api: 117940112483.dkr.ecr.us-east-1.amazonaws.com/5652e468-7547-41d0-9221-b1813ca321de/cg-2144657781/sextant-api-aws-sfd:1582240389
-  # Set an image to use for the UI container, or delete to use default image
-    ui: 117940112483.dkr.ecr.us-east-1.amazonaws.com/5652e468-7547-41d0-9221-b1813ca321de/cg-2144657781/sextant-sfd:1582240415
-    noxy: 117940112483.dkr.ecr.us-east-1.amazonaws.com/5652e468-7547-41d0-9221-b1813ca321de/cg-2144657781/noxy:1582240447
-  sextant-operator:
-    images:
-      operator: 117940112483.dkr.ecr.us-east-1.amazonaws.com/5652e468-7547-41d0-9221-b1813ca321de/cg-2144657781/sextant-operator:1582240202
+  ui:
+    # Set an image to use for the UI container, or delete to use default image
+    image: 
+      repository: 117940112483.dkr.ecr.us-east-1.amazonaws.com/5652e468-7547-41d0-9221-b1813ca321de/cg-2144657781/sextant-sfd
+      tag: "1582240415"
+  api:
+    # Set an image to use for the API container, or remove to use default image
+    image:
+      repository: 117940112483.dkr.ecr.us-east-1.amazonaws.com/5652e468-7547-41d0-9221-b1813ca321de/cg-2144657781/sextant-api-aws-sfd
+      tag: "1582240389"
+  noxy:
+    image:
+      repository: 117940112483.dkr.ecr.us-east-1.amazonaws.com/5652e468-7547-41d0-9221-b1813ca321de/cg-2144657781/noxy
+      tag: "1582240447"
+
   nameOverride: sextant-sfd
