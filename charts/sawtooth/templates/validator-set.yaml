@@ -60,7 +60,11 @@ spec:
           image: {{ .Values.images.pbft_engine }}
           command: [ "bash", "-xc"]
           args:
-          - "pbft-engine -vv -C tcp://127.0.0.1:{{ .Values.sawtooth.ports.consensus }} --storage-location disk+/var/lib/sawtooth/pbft.log"
+          - |
+            rm -f /var/lib/sawtooth/pbft.log
+            pbft-engine -vv \
+              -C tcp://127.0.0.1:{{ .Values.sawtooth.ports.consensus }} \
+              --storage-location disk+/var/lib/sawtooth/pbft.log
           resources:
             limits:
               cpu: "250m"
