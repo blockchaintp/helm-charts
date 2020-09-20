@@ -2,16 +2,16 @@ sextant:
   ui:
     # Set an image to use for the UI container, or delete to use default image
     image: 
-      repository: blockchaintp/sextant-enterprise
+      repository: dev.catenasys.com:8084/blockchaintp/sextant-enterprise
       tag: BTP2.0.8
   api:
     # Set an image to use for the API container, or remove to use default image
     image:
-      repository: blockchaintp/sextant-api-enterprise
+      repository: dev.catenasys.com:8084/blockchaintp/sextant-api-enterprise
       tag: BTP2.0.8
   noxy:
     image:
-      repository: blockchaintp/noxy
+      repository: dev.catenasys.com:8084/blockchaintp/noxy
       tag: BTP2.0.8
 
   nameOverride: sextant-enterprise
