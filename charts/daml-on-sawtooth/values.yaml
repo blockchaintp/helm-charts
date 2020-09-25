@@ -94,19 +94,19 @@ sawtooth:
 # presented
 images:
   postgres: postgres:11
-  daml_rpc: dev.catenasys.com:8083/blockchaintp/sawtooth-daml-rpc:latest
-  daml_tp: dev.catenasys.com:8083/blockchaintp/sawtooth-daml-tp:latest
-  timekeeper: dev.catenasys.com:8083/blockchaintp/timekeeper:latest
-  devmode_engine: blockchaintp/sawtooth-devmode-engine-rust:BTP2.0
-  pbft_engine: blockchaintp/sawtooth-pbft-engine:BTP2.0
-  poet_cli: blockchaintp/sawtooth-poet-cli:BTP2.0
-  poet_engine: blockchaintp/sawtooth-poet-engine:BTP2.0
-  poet_validator_registry_tp: blockchaintp/sawtooth-poet-validator-registry-tp:BTP2.0
-  raft_engine: blockchaintp/sawtooth-raft-engine:BTP2.0
-  block_info_tp: blockchaintp/sawtooth-block-info-tp:BTP2.0
-  identity_tp: blockchaintp/sawtooth-identity-tp:BTP2.0
-  intkey_tp: blockchaintp/sawtooth-intkey-tp-go:BTP2.0
-  settings_tp: blockchaintp/sawtooth-settings-tp:BTP2.0
-  shell: blockchaintp/sawtooth-shell:BTP2.0
-  validator: blockchaintp/sawtooth-validator:BTP2.0
-  rest_api: blockchaintp/sawtooth-rest-api:BTP2.0
+  daml_rpc: blockchaintp/sawtooth-daml-rpc:BTP2.1.0rc7
+  daml_tp: blockchaintp/sawtooth-daml-tp:BTP2.1.0rc7
+  timekeeper: blockchaintp/timekeeper:BTP2.1.0rc7
+  devmode_engine: blockchaintp/sawtooth-devmode-engine-rust:BTP2.1.0rc7
+  pbft_engine: blockchaintp/sawtooth-pbft-engine:BTP2.1.0rc7
+  poet_cli: blockchaintp/sawtooth-poet-cli:BTP2.1.0rc7
+  poet_engine: blockchaintp/sawtooth-poet-engine:BTP2.1.0rc7
+  poet_validator_registry_tp: blockchaintp/sawtooth-poet-validator-registry-tp:BTP2.1.0rc7
+  raft_engine: blockchaintp/sawtooth-raft-engine:BTP2.1.0rc7
+  block_info_tp: blockchaintp/sawtooth-block-info-tp:BTP2.1.0rc7
+  identity_tp: blockchaintp/sawtooth-identity-tp:BTP2.1.0rc7
+  intkey_tp: blockchaintp/sawtooth-intkey-tp-go:BTP2.1.0rc7
+  settings_tp: blockchaintp/sawtooth-settings-tp:BTP2.1.0rc7
+  shell: blockchaintp/sawtooth-shell:BTP2.1.0rc7
+  validator: blockchaintp/sawtooth-validator:BTP2.1.0rc7
+  rest_api: blockchaintp/sawtooth-rest-api:BTP2.1.0rc7
