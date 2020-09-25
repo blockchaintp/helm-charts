@@ -1,4 +1,4 @@
-apiVersion: v2
+aiVersion: v2
 name: sextant-enterprise
 description: Sextant Enterprise Edition
 
@@ -18,7 +18,7 @@ version: 2.1.1
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application.
-appVersion: 2.0.8
+appVersion: 2.1.0
 
 dependencies:
   - name: sextant
