@@ -23,5 +23,5 @@ deployment:
 # The below are mostly controlled by BTP, although an "advanced" option to customize them may be
 # presented
 images:
-  damlqldb: blockchaintp/daml-on-qldb:BTP2.0
+  damlqldb: blockchaintp/daml-on-qldb:BTP2.1.0rc7
   postgres: postgres:11
