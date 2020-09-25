@@ -20,7 +20,7 @@ namespacePath: sawtooth.namespace
 # additional fields for the button
 # form: <same as deploymentVersion>
 title: BTP Sawtooth
-sextantVersion: BTP2.0
+sextantVersion: sawtooth 1.2, paralos 2.1
 buttonIcon: /thirdParty/hyperledger-sawtooth.png
 features: []
 
