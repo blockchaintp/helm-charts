@@ -34,7 +34,7 @@ noxy:
 
 serviceAccount:
   create: true
-  name: sextant
+  name:
 
 postgres:
   # if enabled we allocate a postgres database here
