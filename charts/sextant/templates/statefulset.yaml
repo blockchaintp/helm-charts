@@ -17,6 +17,23 @@ spec:
 {{ include "sextant.labels" .| indent 8}}
     spec:
       serviceAccountName: {{ include "sextant.serviceAccountName" . }}
+      {{- if .Values.postgres.enabled }}
+      initContainers:
+        - name: init-chmod-data
+          image: "{{.Values.postgres.image.repository}}:{{.Values.postgres.image.tag}}"
+          imagePullPolicy: {{.Values.postgres.image.pullPolicy }}
+          command:
+            - sh
+            - -c
+            - |
+              mkdir -p /var/lib/postgresql/data
+              chmod 700 /var/lib/postgresql/data
+              find /var/lib/postgresql/ -mindepth 1 -maxdepth 1 -not -name ".snapshot" -not -name "lost+found" | \
+                xargs chown -R postgres:postgres
+          volumeMounts:
+            - mountPath: /var/lib/postgresql
+              name: "pgdata"
+      {{- end }}
       containers:
         {{- if .Values.postgres.enabled }}
         - name: postgres
@@ -35,7 +52,7 @@ spec:
             value: {{ .Values.postgres.password }}
             {{- end }}
           volumeMounts:
-            - mountPath: /var/lib/postgresql/data
+            - mountPath: /var/lib/postgresql
               name: "pgdata"
         {{- end }}
         - name: api
