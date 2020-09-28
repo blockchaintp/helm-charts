@@ -35,7 +35,7 @@ spec:
             value: {{ .Values.postgres.password }}
             {{- end }}
           volumeMounts:
-            - mountPath: /var/lib/postgresql
+            - mountPath: /var/lib/postgresql/data
               name: "pgdata"
         {{- end }}
         - name: api
