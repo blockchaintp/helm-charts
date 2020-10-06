@@ -23,6 +23,11 @@ sawtooth:
   minReadySeconds: 120
   maxUnavailable: 1
   containers:
+    jsonapi:
+      packageReloadInterval: "5s"
+      waitTimeSeconds: 0
+      env:
+      imagePullPolicy: Always
     validator:
       env:
       imagePullPolicy: Always
@@ -34,6 +39,7 @@ sawtooth:
     sawcomp: 4004
     rest: 8008
     damlrpc: 39000
+    jsonapi: 8080
   livenessProbe:
     enabled: false
     initialDelaySeconds: 300
@@ -94,19 +100,20 @@ sawtooth:
 # presented
 images:
   postgres: postgres:11
-  daml_rpc: blockchaintp/sawtooth-daml-rpc:BTP2.1.0rc7
-  daml_tp: blockchaintp/sawtooth-daml-tp:BTP2.1.0rc7
-  timekeeper: blockchaintp/timekeeper:BTP2.1.0rc7
-  devmode_engine: blockchaintp/sawtooth-devmode-engine-rust:BTP2.1.0rc7
-  pbft_engine: blockchaintp/sawtooth-pbft-engine:BTP2.1.0rc7
-  poet_cli: blockchaintp/sawtooth-poet-cli:BTP2.1.0rc7
-  poet_engine: blockchaintp/sawtooth-poet-engine:BTP2.1.0rc7
-  poet_validator_registry_tp: blockchaintp/sawtooth-poet-validator-registry-tp:BTP2.1.0rc7
-  raft_engine: blockchaintp/sawtooth-raft-engine:BTP2.1.0rc7
-  block_info_tp: blockchaintp/sawtooth-block-info-tp:BTP2.1.0rc7
-  identity_tp: blockchaintp/sawtooth-identity-tp:BTP2.1.0rc7
-  intkey_tp: blockchaintp/sawtooth-intkey-tp-go:BTP2.1.0rc7
-  settings_tp: blockchaintp/sawtooth-settings-tp:BTP2.1.0rc7
-  shell: blockchaintp/sawtooth-shell:BTP2.1.0rc7
-  validator: blockchaintp/sawtooth-validator:BTP2.1.0rc7
-  rest_api: blockchaintp/sawtooth-rest-api:BTP2.1.0rc7
+  daml_json_api: blockchaintp/daml-json-api:BTP2.1.0rc9
+  daml_rpc: blockchaintp/sawtooth-daml-rpc:BTP2.1.0rc9
+  daml_tp: blockchaintp/sawtooth-daml-tp:BTP2.1.0rc9
+  timekeeper: blockchaintp/timekeeper:BTP2.1.0rc9
+  devmode_engine: blockchaintp/sawtooth-devmode-engine-rust:BTP2.1.0rc9
+  pbft_engine: blockchaintp/sawtooth-pbft-engine:BTP2.1.0rc9
+  poet_cli: blockchaintp/sawtooth-poet-cli:BTP2.1.0rc9
+  poet_engine: blockchaintp/sawtooth-poet-engine:BTP2.1.0rc9
+  poet_validator_registry_tp: blockchaintp/sawtooth-poet-validator-registry-tp:BTP2.1.0rc9
+  raft_engine: blockchaintp/sawtooth-raft-engine:BTP2.1.0rc9
+  block_info_tp: blockchaintp/sawtooth-block-info-tp:BTP2.1.0rc9
+  identity_tp: blockchaintp/sawtooth-identity-tp:BTP2.1.0rc9
+  intkey_tp: blockchaintp/sawtooth-intkey-tp-go:BTP2.1.0rc9
+  settings_tp: blockchaintp/sawtooth-settings-tp:BTP2.1.0rc9
+  shell: blockchaintp/sawtooth-shell:BTP2.1.0rc9
+  validator: blockchaintp/sawtooth-validator:BTP2.1.0rc9
+  rest_api: blockchaintp/sawtooth-rest-api:BTP2.1.0rc9

@@ -30,6 +30,25 @@ spec:
         env:
         - name: POSTGRES_HOST_AUTH_METHOD
           value: trust
+      - name: daml-json-api
+        image: {{.Values.images.daml_json_api}}
+        imagePullPolicy: {{.Values.sawtooth.containers.jsonapi.imagePullPolicy}}
+        ports:
+        - containerPort: {{.Values.sawtooth.ports.jsonapi}}
+        env:
+          - name: LEDGER_HOST
+            value: localhost
+          - name: LEDGER_PORT
+            value: {{.Values.sawtooth.ports.damlrpc}}
+          - name: HTTP_PORT
+            value: {{.Values.sawtooth.ports.jsonapi}}
+          - name: PACKAGE_RELOAD_INTERVAL
+            value: {{.Values.sawtooth.containers.jsonapi.packageReloadInterval}}
+          - name: WAIT_FOR_TIME
+            value: {{.Values.sawtooth.containers.jsonapi.waitTimeSeconds}}
+          {{ if .Values.sawtooth.containers.validator.env }}
+          {{- toYaml .Values.postgres.persistence.annotations | nindent 10 }}
+          {{ end }}
       - name: daml-rpc
         image: {{.Values.images.daml_rpc}}
         command: [ "bash", "-xc"]
