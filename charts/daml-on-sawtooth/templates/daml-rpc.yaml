@@ -47,7 +47,7 @@ spec:
           - name: WAIT_FOR_TIME
             value: {{.Values.sawtooth.containers.jsonapi.waitTimeSeconds}}
           {{ if .Values.sawtooth.containers.validator.env }}
-          {{- toYaml .Values.postgres.persistence.annotations | nindent 10 }}
+          {{- toYaml .Values.sawtooth.containers.validator.env | nindent 10 }}
           {{ end }}
       - name: daml-rpc
         image: {{.Values.images.daml_rpc}}
