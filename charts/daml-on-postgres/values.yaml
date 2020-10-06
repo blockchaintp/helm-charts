@@ -17,7 +17,7 @@ deployment:
 daml:
   image:
     repository: blockchaintp/daml-on-postgres
-    tag: BTP2.1.0rc7
+    tag: BTP2.1.0rc9
     pullPolicy: IfNotPresent
   ledgerId: someIdentifyingString
   extra_args:
@@ -26,6 +26,18 @@ daml:
   serviceAccount:
     create: true
     name:
+
+jsonapi:
+  image:
+    repository: blockchaintp/daml-json-api
+    tag: BTP2.1.0rc9
+    pullPolicy: IfNotPresent
+  ports:
+    http: 8080
+  packageReloadInterval: "5s"
+  waitTimeSeconds: 0
+  env:
+
 
 # The below are mostly controlled by BTP, although an "advanced" option to customize them may be
 # presented

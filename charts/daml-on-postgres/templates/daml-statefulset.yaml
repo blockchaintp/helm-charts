@@ -38,6 +38,25 @@ spec:
             - mountPath: /var/lib/postgresql
               name: "pgdata"
         {{- end }}
+        - name: daml-json-api
+          image: "{{.Values.jsonapi.image.repository}}:{{.Values.jsonapi.image.tag}}"
+          imagePullPolicy: {{.Values.jsonapi.image.pullPolicy}}
+          ports:
+          - containerPort: {{.Values.jsonapi.ports.http}}
+          env:
+            - name: LEDGER_HOST
+              value: localhost
+            - name: LEDGER_PORT
+              value: {{.Values.daml.rpc.port}}
+            - name: HTTP_PORT
+              value: {{.Values.jsonapi.ports.http}}
+            - name: PACKAGE_RELOAD_INTERVAL
+              value: {{.Values.jsonapi.packageReloadInterval}}
+            - name: WAIT_FOR_TIME
+              value: {{.Values.jsonapi.waitTimeSeconds}}
+            {{ if .Values.jsonapi.env }}
+            {{- toYaml .Values.jsonapi.env | nindent 12 }}
+            {{ end }}
         - name: daml-on-postgres
           image: "{{.Values.daml.image.repository}}:{{.Values.daml.image.tag}}"
           imagePullPolicy: {{.Values.daml.image.pullPolicy }}
