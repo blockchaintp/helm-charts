@@ -16,3 +16,6 @@ spec:
     - name: daml-rpc
       port: {{.Values.daml.rpc.port}}
       targetPort: {{.Values.daml.rpc.port}}
+    - name: jsonapi
+      port: {{.Values.jsonapi.ports.http }}
+      targetPort: {{.Values.jsonapi.ports.http }}
