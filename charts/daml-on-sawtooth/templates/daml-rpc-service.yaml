@@ -1,0 +1,22 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{.Values.sawtooth.networkName}}-daml-rpc
+  namespace: {{.Values.sawtooth.namespace}}
+  labels:
+    app: {{.Values.sawtooth.networkName}}-daml-rpc
+spec:
+  sessionAffinity: ClientIP
+  ports:
+  - port: {{.Values.sawtooth.ports.jsonapi}}
+    protocol: TCP
+    targetPort: {{.Values.sawtooth.ports.jsonapi }}
+    name: jsonapi
+  - port: {{.Values.sawtooth.ports.damlrpc}}
+    protocol: TCP
+    targetPort: {{.Values.sawtooth.ports.damlrpc}}
+    name: daml-ledger-api
+  selector:
+    app: {{.Values.sawtooth.networkName}}-daml-rpc
+    daml: {{.Values.sawtooth.networkName}}-daml-rpc
