@@ -39,13 +39,13 @@ spec:
           - name: LEDGER_HOST
             value: localhost
           - name: LEDGER_PORT
-            value: {{.Values.sawtooth.ports.damlrpc}}
+            value: {{.Values.sawtooth.ports.damlrpc | quote }}
           - name: HTTP_PORT
-            value: {{.Values.sawtooth.ports.jsonapi}}
+            value: {{.Values.sawtooth.ports.jsonapi | quote }}
           - name: PACKAGE_RELOAD_INTERVAL
-            value: {{.Values.sawtooth.containers.jsonapi.packageReloadInterval}}
+            value: {{.Values.sawtooth.containers.jsonapi.packageReloadInterval | quote }}
           - name: WAIT_FOR_TIME
-            value: {{.Values.sawtooth.containers.jsonapi.waitTimeSeconds}}
+            value: {{.Values.sawtooth.containers.jsonapi.waitTimeSeconds | quote }}
           {{ if .Values.sawtooth.containers.validator.env }}
           {{- toYaml .Values.sawtooth.containers.validator.env | nindent 10 }}
           {{ end }}
