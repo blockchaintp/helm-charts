@@ -47,13 +47,13 @@ spec:
             - name: LEDGER_HOST
               value: localhost
             - name: LEDGER_PORT
-              value: {{.Values.daml.rpc.port}}
+              value: {{.Values.daml.rpc.port | quote }}
             - name: HTTP_PORT
-              value: {{.Values.jsonapi.ports.http}}
+              value: {{.Values.jsonapi.ports.http | quote }}
             - name: PACKAGE_RELOAD_INTERVAL
-              value: {{.Values.jsonapi.packageReloadInterval}}
+              value: {{.Values.jsonapi.packageReloadInterval | quote }}
             - name: WAIT_FOR_TIME
-              value: {{.Values.jsonapi.waitTimeSeconds}}
+              value: {{.Values.jsonapi.waitTimeSeconds | quote }}
             {{ if .Values.jsonapi.env }}
             {{- toYaml .Values.jsonapi.env | nindent 12 }}
             {{ end }}
