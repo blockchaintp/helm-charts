@@ -74,7 +74,7 @@ const form = [
     title: 'Postgres StorageClass',
     helperText: 'The name of the StorageClass for the PersistentVolumeClaims',
     component: 'text',
-    default: null,
+    default: 'gp2',
     editable: {
       new: true,
     },
