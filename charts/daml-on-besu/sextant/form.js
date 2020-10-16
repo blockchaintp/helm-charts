@@ -39,7 +39,11 @@ const form = [
     title: 'Besu StorageClass',
     helperText: 'The name of the StorageClass for the PersistentVolumeClaims',
     component: 'text',
-    default: null,
+    default: 'gp2',
+    linked: {
+      linkedId: 'besu.persistence.enabled',
+      visibilityParameter: 'true', // for what value of linkedId, will this component be visible
+    },
     editable: {
       new: true,
     },
@@ -74,7 +78,11 @@ const form = [
     title: 'Postgres StorageClass',
     helperText: 'The name of the StorageClass for the PersistentVolumeClaims',
     component: 'text',
-    default: null,
+    default: 'gp2',
+    linked: {
+      linkedId: 'postgres.persistence.enabled',
+      visibilityParameter: 'true', // for what value of linkedId, will this component be visible
+    },
     editable: {
       new: true,
     },
