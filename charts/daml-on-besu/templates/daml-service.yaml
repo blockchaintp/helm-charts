@@ -11,6 +11,8 @@ spec:
   sessionAffinity: ClientIP
   selector:
 {{include "daml.selectorLabels" . | indent 4 }}
+    app: {{ .Release.Name }}-rpc
+    daml: {{ .Release.Name }}-rpc
   ports:
     - name: daml-rpc
       port: {{.Values.daml.rpc.port}}
