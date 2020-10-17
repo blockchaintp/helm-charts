@@ -143,7 +143,7 @@ const form = [
           type: 'string',
           methods: [
             ['required', 'Required'],
-            ['matches', ['^[a-z]([-a-z0-9]*[a-z0-9])*$'], 'Must use a DNS-1123 safe label.'],
+            ['matches', ['^[a-z]([.]*[-a-z0-9]*[a-z0-9])*$'], 'Must use a DNS-1123 safe label.'],
           ],
         },
       },
