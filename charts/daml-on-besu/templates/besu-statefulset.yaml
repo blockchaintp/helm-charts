@@ -103,7 +103,7 @@ spec:
             - mountPath: /keys
               name: networkkeys-config
               readOnly: true
-            - mountPath: /data
+            - mountPath: {{ .Values.besu.dataPath | quote }}
               name: data
             - mountPath: /dev/random
               name: dev-random

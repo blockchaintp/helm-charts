@@ -18,7 +18,7 @@ besu:
     name:
   nodeCount: 4
   chainId: "19750424"
-  dataPath: /var/lib/besu
+  dataPath: /data
   rpc:
     enabled: true
     host: "0.0.0.0"
