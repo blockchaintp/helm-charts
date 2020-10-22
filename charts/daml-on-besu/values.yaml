@@ -95,7 +95,7 @@ besu:
 daml:
   privacy:
     enabled: false
-  privateIimage:
+  privateImage:
     repository: dev.catenasys.com:8084/blockchaintp/private-rpc
     tag: BTP2.1.0rc9
     imagePullPolicy: IfNotPresent
