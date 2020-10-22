@@ -75,7 +75,11 @@ besu:
     enabled: false
   image:
     repository: dev.catenasys.com:8084/blockchaintp/besu
-    tag: BTP2.1.0rc7
+    tag: BTP2.1.0r9
+    imagePullPolicy: IfNotPresent
+  image:
+    repository: dev.catenasys.com:8084/blockchaintp/besu-private
+    tag: BTP2.1.0rc9
     imagePullPolicy: IfNotPresent
   p2p:
     enabled: true
@@ -89,9 +93,15 @@ besu:
     retentionHours: 999
     maxSize: 1024
 daml:
+  privacy:
+    enabled: false
+  privateIimage:
+    repository: dev.catenasys.com:8084/blockchaintp/private-rpc
+    tag: BTP2.1.0rc9
+    imagePullPolicy: IfNotPresent
   image:
     repository: dev.catenasys.com:8084/blockchaintp/rpc
-    tag: BTP2.1.0rc7
+    tag: BTP2.1.0rc9
     imagePullPolicy: IfNotPresent
   rpcCount: 1
   rpc:

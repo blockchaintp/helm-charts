@@ -32,7 +32,11 @@ spec:
             - mountPath: /data
               name: "pgdata"
         - name: daml-on-besu
+          {{- if .Values.daml.privacy.enabled }}
+          image: "{{.Values.daml.privateImage.repository}}:{{.Values.daml.image.tag}}"
+          {{- else }}
           image: "{{.Values.daml.image.repository}}:{{.Values.daml.image.tag}}"
+          {{- end }}
           imagePullPolicy: {{.Values.daml.image.pullPolicy }}
           ports:
             - containerPort: {{.Values.daml.rpc.port}}
@@ -42,7 +46,11 @@ spec:
           args:
             - |
               sleep 120
+              {{- if .Values.daml.privacy.enabled }}
+              /opt/daml-on-besu/private-rpc/entrypoint.sh \
+              {{- else }}
               /opt/daml-on-besu/rpc/entrypoint.sh \
+              {{- end }}
                 --json-rpc-url http://{{include "besu.fullname" .}}-0.{{include "besu.fullname" .}}:{{.Values.besu.rpc.port}} \
                 --participant port={{.Values.daml.rpc.port}},address=0.0.0.0,participant-id={{.Values.daml.rpc.participantId}},server-jdbc-url=jdbc:postgresql://localhost/postgres?user=postgres \
                 --logging INFO \
