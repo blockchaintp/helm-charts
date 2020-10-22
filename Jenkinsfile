@@ -100,20 +100,18 @@ pipeline {
             def scm_version = sh(returnStdout: true, script: "git describe --match 'v*' |cut -c 2-").trim()
             def publish = false
             echo " ${long_version} == ${scm_version} "
-            if ( long_version == scm_version ) {
-              if (env.BRANCH_NAME == "master"){
-                echo " === This is the master and an untagged version, publishing to unstable repo === "
-                sh """
-                  ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/local \
-                    tools:${JOB_ID} -c "aws s3 sync . s3://${S3_TARGET}/charts"
-                  ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
-                    tools:${JOB_ID} -c "aws s3 sync s3://${S3_TARGET}/charts ."
-                  ${DOCKER_RUN} -v `pwd`:/project -w /project/dist/remote tools:${JOB_ID} -c "helm repo index ./ --url https://${S3_TARGET}.s3.amazonaws.com/charts"
-                  ${DOCKER_RUN} -v `pwd`:/project -w /project/charts tools:${JOB_ID} -c "chown -R ${JENKINS_UID}:${JENKINS_GID} /project/dist"
-                  ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
-                    tools:${JOB_ID} -c "aws s3 cp index.yaml s3://${S3_TARGET}/charts/index.yaml"
-                """
-              }
+            if (env.BRANCH_NAME == "master"){
+              echo " === This is the master and an untagged version, publishing to unstable repo === "
+              sh """
+                ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/local \
+                  tools:${JOB_ID} -c "aws s3 sync . s3://${S3_TARGET}/charts"
+                ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
+                  tools:${JOB_ID} -c "aws s3 sync s3://${S3_TARGET}/charts ."
+                ${DOCKER_RUN} -v `pwd`:/project -w /project/fix(pipeline): always publish to unstable on the master branchdist/remote tools:${JOB_ID} -c "helm repo index ./ --url https://${S3_TARGET}.s3.amazonaws.com/charts"
+                ${DOCKER_RUN} -v `pwd`:/project -w /project/charts tools:${JOB_ID} -c "chown -R ${JENKINS_UID}:${JENKINS_GID} /project/dist"
+                ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
+                  tools:${JOB_ID} -c "aws s3 cp index.yaml s3://${S3_TARGET}/charts/index.yaml"
+              """
             }
             if ( long_version != scm_version) {
               echo " === This is a tagged version of the charts publishing to stable repo === "
