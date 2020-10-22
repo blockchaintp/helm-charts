@@ -77,7 +77,7 @@ besu:
     repository: dev.catenasys.com:8084/blockchaintp/besu
     tag: BTP2.1.0r9
     imagePullPolicy: IfNotPresent
-  image:
+  privateImage:
     repository: dev.catenasys.com:8084/blockchaintp/besu-private
     tag: BTP2.1.0rc9
     imagePullPolicy: IfNotPresent
