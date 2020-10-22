@@ -35,9 +35,9 @@ spec:
               value: {{ .Values.postgres.password }}
             {{- end }}
             - name: PGDATA
-              value: /var/lib/postgresql/data
+              value: /data/data
           volumeMounts:
-            - mountPath: /var/lib/postgresql
+            - mountPath: /data
               name: "pgdata"
         {{- end }}
         - name: daml-json-api
