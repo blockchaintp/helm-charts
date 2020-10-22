@@ -102,15 +102,22 @@ pipeline {
             echo " ${long_version} == ${scm_version} "
             if ( long_version == scm_version ) {
               if (env.BRANCH_NAME == "master"){
-                echo " === This is the master and an untagged version, using unstable repo === "
-                publish = true
+                echo " === This is the master and an untagged version, publishing to unstable repo === "
+                sh """
+                  ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/local \
+                    tools:${JOB_ID} -c "aws s3 sync . s3://${S3_TARGET}/charts"
+                  ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
+                    tools:${JOB_ID} -c "aws s3 sync s3://${S3_TARGET}/charts ."
+                  ${DOCKER_RUN} -v `pwd`:/project -w /project/dist/remote tools:${JOB_ID} -c "helm repo index ./ --url https://${S3_TARGET}.s3.amazonaws.com/charts"
+                  ${DOCKER_RUN} -v `pwd`:/project -w /project/charts tools:${JOB_ID} -c "chown -R ${JENKINS_UID}:${JENKINS_GID} /project/dist"
+                  ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
+                    tools:${JOB_ID} -c "aws s3 cp index.yaml s3://${S3_TARGET}/charts/index.yaml"
+                """
               }
-            } else {
-              echo " === This is a tagged version of the charts using stable repo === "
-              S3_TARGET="btp-charts-stable"
-              publish=true
             }
-            if ( publish ) {
+            if ( long_version != scm_version) {
+              echo " === This is a tagged version of the charts publishing to stable repo === "
+              S3_TARGET="btp-charts-stable"
               sh """
                 ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/local \
                   tools:${JOB_ID} -c "aws s3 sync . s3://${S3_TARGET}/charts"
