@@ -58,10 +58,10 @@ spec:
                 bootnode_enode=$(cat /keys/{{include "besu.fullname" .}}-0.pub| sed -e 's/^0x//')
                 BOOT_NODE_ARGS=("enode://$bootnode_enode@$bootnode_ip:{{.Values.besu.p2p.port}}")
               fi
-              {{- if .Values.besu.privacy.enabled }}
+              {{- if .Values.daml.privacy.enabled }}
               exec /opt/daml-on-besu/besu-private/entrypoint.sh \
               {{- else }}
-              exec /opt/daml-on-besu/besu-private/entrypoint.sh \
+              exec /opt/daml-on-besu/besu/entrypoint.sh \
               {{- end }}
               --node-private-key-file=/keys/${POD_NAME} \
               --config-file=/etc/besu/config.toml \
