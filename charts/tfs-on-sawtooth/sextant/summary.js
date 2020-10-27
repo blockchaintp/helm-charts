@@ -11,7 +11,7 @@ const summary = (values) => {
   } = values
 
   return [{
-    title: 'Network Name',
+    title: 'Deployment Name',
     value: sawtooth.networkName,
   }, {
     title: 'Namespace',

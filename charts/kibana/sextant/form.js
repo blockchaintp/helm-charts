@@ -13,8 +13,8 @@ const form = [
   [
     {
       id: 'deployment.name',
-      title: 'Network Name',
-      helperText: 'The name of the Besu network',
+      title: 'Deployment Name',
+      helperText: 'The name of the Besu deployment',
       component: 'text',
       editable: {
         new: true,

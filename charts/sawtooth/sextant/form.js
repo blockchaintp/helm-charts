@@ -8,8 +8,8 @@ const form = [
   [
     {
       id: 'sawtooth.networkName',
-      title: 'Network Name',
-      helperText: 'The name of the sawtooth network',
+      title: 'Deployment Name',
+      helperText: 'The name of the sawtooth deployment',
       component: 'text',
       editable: {
         new: true,
