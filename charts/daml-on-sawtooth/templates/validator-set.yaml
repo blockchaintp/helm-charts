@@ -356,11 +356,13 @@ spec:
                 if [ "$OLD_SEED" != "{{.Values.sawtooth.genesis.seed}}" ]; then
                   echo "${OLD_SEED} != ${{.Values.sawtooth.genesis.seed}} -- resetting environment"
                   rm -rf /var/lib/sawtooth/*
+                  rm -f /etc/sawtooth/initialized
                   echo {{.Values.sawtooth.genesis.seed}} > /etc/sawtooth/genesis.seed
                 fi
               else
                   echo "Resetting environment and setting Genesis Seed to {{.Values.sawtooth.genesis.seed}}"
                   rm -rf /var/lib/sawtooth/*
+                  rm -f /etc/sawtooth/initialized
                   echo {{.Values.sawtooth.genesis.seed}} > /etc/sawtooth/genesis.seed
               fi
               mkdir -p /etc/sawtooth/genesis
