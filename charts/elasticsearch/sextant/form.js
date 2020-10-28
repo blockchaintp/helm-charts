@@ -13,7 +13,7 @@ const form = [
   [
     {
       id: 'deployment.name',
-      title: 'Network Name',
+      title: 'Deployment Name',
       helperText: 'The name of the Besu network',
       component: 'text',
       editable: {

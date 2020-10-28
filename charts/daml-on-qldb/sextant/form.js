@@ -7,7 +7,7 @@ const form = [
   [
     {
       id: 'deployment.name',
-      title: 'Network Name',
+      title: 'Deployment Name',
       helperText: 'The name of the DAML on QLDB Deployment',
       component: 'text',
       editable: {
