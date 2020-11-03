@@ -130,7 +130,7 @@ spec:
           image: {{.Values.images.settings_tp}}
           command: [ "bash", "-xc"]
           args:
-          - "settings-tp -v --connect tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}"
+          - "settings-tp {{.Values.sawtooth.containers.settings_tp.args}} --connect tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}"
           resources:
             limits:
               cpu: "250m"
@@ -140,7 +140,7 @@ spec:
           image: {{.Values.images.block_info_tp}}
           command: [ "bash", "-xc"]
           args:
-          - "block-info-tp -v -C tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}"
+          - "block-info-tp {{.Values.sawtooth.containers.block_info.args}} -C tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}"
           resources:
             limits:
               cpu: "250m"
@@ -150,7 +150,7 @@ spec:
           image: {{.Values.images.intkey_tp}}
           command: [ "bash", "-xc"]
           args:
-          - "intkey-tp-go -v --connect tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}"
+          - "intkey-tp-go --connect tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}"
           resources:
             limits:
               cpu: "250m"
@@ -161,7 +161,7 @@ spec:
           image: {{.Values.images.identity_tp}}
           command: [ "bash", "-xc" ]
           args:
-          - "identity-tp -v -C tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}"
+          - "identity-tp {{.Values.sawtooth.containers.identity_tp.args}} -C tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}"
           resources:
             limits:
               cpu: "250m"
@@ -173,7 +173,7 @@ spec:
           image: {{.Values.images.daml_tp}}
           command: [ "bash", "-xc"]
           args:
-          - "/opt/sawtooth-daml-tp/entrypoint.sh tcp://localhost:{{.Values.sawtooth.ports.sawcomp}}"
+          - "/opt/sawtooth-daml-tp/entrypoint.sh {{.Values.sawtooth.containers.daml_tp.args}} tcp://localhost:{{.Values.sawtooth.ports.sawcomp}}"
           resources:
             limits:
               cpu: "250m"
@@ -183,7 +183,7 @@ spec:
           image: {{.Values.images.timekeeper}}
           command: [ "bash", "-xc"]
           args:
-          - "/opt/timekeeper/entrypoint.sh tcp://localhost:{{.Values.sawtooth.ports.sawcomp}}"
+          - "/opt/timekeeper/entrypoint.sh {{.Values.sawtooth.containers.timekeeper.args}} tcp://localhost:{{.Values.sawtooth.ports.sawcomp}}"
           resources:
             limits:
               cpu: "250m"
@@ -202,7 +202,7 @@ spec:
           args:
           - |
             sleep {{.Values.sawtooth.client_wait}}
-            sawtooth-rest-api -v --bind 0.0.0.0:{{.Values.sawtooth.ports.rest}} \
+            sawtooth-rest-api {{.Values.sawtooth.containers.rest_api.args}} --bind 0.0.0.0:{{.Values.sawtooth.ports.rest}} \
               --connect tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}} \
           {{- if .Values.sawtooth.opentsdb.enabled }}
               --opentsdb-db {{.Values.sawtooth.opentsdb.db}} \
