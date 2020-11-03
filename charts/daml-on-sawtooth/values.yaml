@@ -90,6 +90,8 @@ sawtooth:
   dynamicPeering: false
   externalSeeds: []
   daml:
+    maxOpsPerBatch: 3
+    maxOuststandingBatches: 1
     # default daml to false at the moment
     enabled: true
     extra_args:

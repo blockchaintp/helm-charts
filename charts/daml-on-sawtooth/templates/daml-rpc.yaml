@@ -57,8 +57,8 @@ spec:
           sleep {{.Values.sawtooth.client_wait}}
           /opt/sawtooth-daml-rpc/entrypoint.sh \
             --participant port={{.Values.sawtooth.ports.damlrpc}},address=0.0.0.0,participant-id={{.Values.sawtooth.networkName}},server-jdbc-url=jdbc:postgresql://localhost/postgres?user=postgres \
-            --max-outstanding-batches 2 \
-            --max-ops-per-batch 1000 \
+            --max-outstanding-batches {{.Values.sawtooth.daml.maxOutstandingBatches}} \
+            --max-ops-per-batch {{.Values.sawtooth.daml.maxOpsPerBatch}} \
             --connect tcp://{{.Values.sawtooth.networkName}}-validator:{{.Values.sawtooth.ports.sawcomp}} \
         {{- if .Values.sawtooth.daml.extra_args.enabled }}
             {{.Values.sawtooth.daml.extra_args.arg_str}}
