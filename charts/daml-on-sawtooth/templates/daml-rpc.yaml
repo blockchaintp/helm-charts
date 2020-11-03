@@ -46,8 +46,8 @@ spec:
             value: {{.Values.sawtooth.containers.jsonapi.packageReloadInterval | quote }}
           - name: WAIT_FOR_TIME
             value: {{.Values.sawtooth.containers.jsonapi.waitTimeSeconds | quote }}
-          {{ if .Values.sawtooth.containers.validator.env }}
-          {{- toYaml .Values.sawtooth.containers.validator.env | nindent 10 }}
+          {{ if .Values.sawtooth.containers.jsonapi.env }}
+          {{- toYaml .Values.sawtooth.containers.jsonapi.env | nindent 10 }}
           {{ end }}
       - name: daml-rpc
         image: {{.Values.images.daml_rpc}}

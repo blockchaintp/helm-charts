@@ -22,13 +22,27 @@ sawtooth:
     url:
   minReadySeconds: 120
   maxUnavailable: 1
+# .Values.sawtooth.containers.validator.args
   containers:
     jsonapi:
       packageReloadInterval: "5s"
       waitTimeSeconds: 0
       env:
       imagePullPolicy: Always
+    timekeeper:
+      args:
+    block_info:
+      args:
+    daml_tp:
+      args:
+    identity_tp:
+      args:
+    rest_api:
+      args:   
+    settings_tp:
+      args:   
     validator:
+      args:
       env:
       imagePullPolicy: Always
     monitor:
