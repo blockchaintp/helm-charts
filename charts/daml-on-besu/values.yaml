@@ -105,6 +105,9 @@ daml:
     imagePullPolicy: IfNotPresent
   rpcCount: 1
   rpc:
+    extra_args:
+      enabled: false
+      arg_str:
     port: 39000
     postgresqlUrl:
     participantId: daml-participant
