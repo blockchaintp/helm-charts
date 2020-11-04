@@ -257,13 +257,13 @@ spec:
               if [ ! -r /etc/sawtooth/initialized ]; then
                 if [ $RUN_GENESIS -eq 1 ]; then
             {{ if eq $consensus 400 }}
-                  bash -x /usr/local/bin/pbft_genesis_config.sh {{.Values.sawtooth.namespace}}
+                  source /usr/local/bin/pbft_genesis_config.sh {{.Values.sawtooth.namespace}}
             {{ else if eq $consensus 300 }}
-                  bash -x /usr/local/bin/raft_genesis_config.sh {{.Values.sawtooth.namespace}}
+                  source /usr/local/bin/raft_genesis_config.sh {{.Values.sawtooth.namespace}}
             {{ else if eq $consensus 200 }}
-                  bash -x /usr/local/bin/poet_genesis_config.sh {{.Values.sawtooth.namespace}}
+                  source /usr/local/bin/poet_genesis_config.sh {{.Values.sawtooth.namespace}}
             {{ else }}
-                  bash -x /usr/local/bin/devmode_genesis_config.sh {{.Values.sawtooth.namespace}}
+                  source /usr/local/bin/devmode_genesis_config.sh {{.Values.sawtooth.namespace}}
             {{ end }}
             {{ if .Values.sawtooth.permissioned }}
                   /usr/local/bin/identity_genesis_config.sh {{.Values.sawtooth.namespace}}
