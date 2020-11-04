@@ -257,13 +257,13 @@ spec:
               if [ ! -r /etc/sawtooth/initialized ]; then
                 if [ $RUN_GENESIS -eq 1 ]; then
             {{ if eq $consensus 400 }}
-                  source /usr/local/bin/pbft_genesis_config.sh {{.Values.sawtooth.namespace}}
+                  bash -x /usr/local/bin/pbft_genesis_config.sh {{.Values.sawtooth.namespace}}
             {{ else if eq $consensus 300 }}
-                  source /usr/local/bin/raft_genesis_config.sh {{.Values.sawtooth.namespace}}
+                  bash -x /usr/local/bin/raft_genesis_config.sh {{.Values.sawtooth.namespace}}
             {{ else if eq $consensus 200 }}
-                  source /usr/local/bin/poet_genesis_config.sh {{.Values.sawtooth.namespace}}
+                  bash -x /usr/local/bin/poet_genesis_config.sh {{.Values.sawtooth.namespace}}
             {{ else }}
-                  source /usr/local/bin/devmode_genesis_config.sh {{.Values.sawtooth.namespace}}
+                  bash -x /usr/local/bin/devmode_genesis_config.sh {{.Values.sawtooth.namespace}}
             {{ end }}
             {{ if .Values.sawtooth.permissioned }}
                   /usr/local/bin/identity_genesis_config.sh {{.Values.sawtooth.namespace}}
@@ -356,12 +356,14 @@ spec:
                 if [ "$OLD_SEED" != "{{.Values.sawtooth.genesis.seed}}" ]; then
                   echo "${OLD_SEED} != ${{.Values.sawtooth.genesis.seed}} -- resetting environment"
                   rm -rf /var/lib/sawtooth/*
+                  rm -f /etc/sawtooth/genesis/*
                   rm -f /etc/sawtooth/initialized
                   echo {{.Values.sawtooth.genesis.seed}} > /etc/sawtooth/genesis.seed
                 fi
               else
                   echo "Resetting environment and setting Genesis Seed to {{.Values.sawtooth.genesis.seed}}"
                   rm -rf /var/lib/sawtooth/*
+                  rm -f /etc/sawtooth/genesis/*
                   rm -f /etc/sawtooth/initialized
                   echo {{.Values.sawtooth.genesis.seed}} > /etc/sawtooth/genesis.seed
               fi
