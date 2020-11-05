@@ -35,6 +35,7 @@ sawtooth:
       args:
     daml_tp:
       args:
+      env:
     identity_tp:
       args:
     rest_api:

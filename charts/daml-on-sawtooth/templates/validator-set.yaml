@@ -175,10 +175,18 @@ spec:
           args:
           - "/opt/sawtooth-daml-tp/entrypoint.sh {{.Values.sawtooth.containers.daml_tp.args}} tcp://localhost:{{.Values.sawtooth.ports.sawcomp}}"
           resources:
-            limits:
-              cpu: "1000m"
+            limits: {}
             requests:
               cpu: "50m"
+          env:
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+            {{ range .Values.sawtooth.containers.daml_tp.env }}
+            - name: {{.name }}
+              value: {{.value | quote }}
+            {{end}}
         - name: timekeeper
           image: {{.Values.images.timekeeper}}
           command: [ "bash", "-xc"]
