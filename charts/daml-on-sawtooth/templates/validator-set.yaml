@@ -176,7 +176,7 @@ spec:
           - "/opt/sawtooth-daml-tp/entrypoint.sh {{.Values.sawtooth.containers.daml_tp.args}} tcp://localhost:{{.Values.sawtooth.ports.sawcomp}}"
           resources:
             limits:
-              cpu: "250m"
+              cpu: "1000m"
             requests:
               cpu: "50m"
         - name: timekeeper
