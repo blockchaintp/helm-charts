@@ -183,10 +183,10 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: metadata.name
-            {{ range .Values.sawtooth.containers.daml_tp.env }}
-            - name: {{.name }}
-              value: {{.value | quote }}
-            {{end}}
+          {{ range .Values.sawtooth.containers.daml_tp.env }}
+          - name: {{.name }}
+            value: {{.value | quote }}
+          {{end}}
         - name: timekeeper
           image: {{.Values.images.timekeeper}}
           command: [ "bash", "-xc"]
