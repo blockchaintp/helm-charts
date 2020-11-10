@@ -49,6 +49,59 @@ spec:
           {{ if .Values.sawtooth.containers.jsonapi.env }}
           {{- toYaml .Values.sawtooth.containers.jsonapi.env | nindent 10 }}
           {{ end }}
+      - name: daml-trigger
+        image: {{.Values.images.daml_trigger}}
+        imagePullPolicy: {{.Values.sawtooth.containers.daml_trigger.imagePullPolicy}}
+        ports:
+        - containerPort: {{.Values.sawtooth.ports.trigger_http_port}}
+        env:
+          - name: LEDGER_HOST
+            value: localhost
+          - name: LEDGER_PORT
+            value: {{.Values.sawtooth.ports.damlrpc | quote }}
+          {{- if .Values.sawtooth.daml.trigger.jdbcConfig}}
+          - name: JDBC_CONFIG
+            value: {{.Values.sawtooth.daml.trigger.jdbcConfig}}
+          {{- end}}
+          - name: TTL
+            value: {{.Values.sawtooth.daml.trigger.ttl | quote}}
+          {{- if .Values.sawtooth.daml.trigger.timeParam}}
+          - name: TIME_PARAM
+            value: {{.Values.sawtooth.daml.trigger.timeParam}}
+          {{- end}}
+          {{- if .Values.sawtooth.daml.trigger.maxRestartInterval}}
+          - name: MAX_RESTART_INTERVAL
+            value: {{.Values.sawtooth.daml.trigger.maxRestartInterval |quote}}
+          {{- end}}
+          {{- if .Values.sawtooth.daml.trigger.minRestartInterval}}
+          - name: MIN_RESTART_INTERVAL
+            value: {{.Values.sawtooth.daml.trigger.minRestartInterval |quote}}
+          {{- end}}
+          {{- if .Values.sawtooth.daml.maxInboundMessageSize}}
+          - name: MAX_INBOUND_MESSAGE_SIZE
+            value: {{.Values.sawtooth.daml.maxInboundMessageSize |quote}}
+          {{- end}}
+          {{- if .Values.sawtooth.daml.trigger.secretKey}}
+          - name: TRIGGER_SERVICE_SECRET_KEY
+            value: {{.Values.sawtooth.daml.trigger.secretKey |quote}}
+          {{- end}}
+          {{- if .Values.sawtooth.daml.trigger.darFile}}
+          - name: DAR_FILE
+            value: {{.Values.sawtooth.daml.trigger.darFile |quote}}
+          {{- end}}
+          {{- if .Values.sawtooth.daml.trigger.darId }}
+          - name: DAR_PACKAGE_ID
+            value: {{.Values.sawtooth.daml.trigger.darId |quote}}
+          {{- end}}
+          {{- if .Values.sawtooth.daml.trigger.extraArgs }}
+          - name: EXTRA_ARGS
+            value: {{.Values.sawtooth.daml.trigger.extraArgs |quote}}
+          {{- end}}
+          - name: HTTP_PORT
+            value: {{.Values.sawtooth.ports.trigger_http_port | quote }}
+          {{ if .Values.sawtooth.containers.daml_trigger.env }}
+          {{- toYaml .Values.sawtooth.containers.daml_trigger.env | nindent 10 }}
+          {{ end }}
       - name: daml-rpc
         image: {{.Values.images.daml_rpc}}
         command: [ "bash", "-xc"]

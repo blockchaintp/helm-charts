@@ -28,11 +28,14 @@ sawtooth:
       packageReloadInterval: "5s"
       waitTimeSeconds: 0
       env:
-      imagePullPolicy: Always
+      imagePullPolicy: IfNotPresent
     timekeeper:
       args:
     block_info:
       args:
+    daml_trigger:
+      env:
+      imagePullPolicy: IfNotPresent
     daml_tp:
       args:
       env:
@@ -55,6 +58,7 @@ sawtooth:
     rest: 8008
     damlrpc: 39000
     jsonapi: 8080
+    trigger_http_port: 8080
   livenessProbe:
     enabled: false
     initialDelaySeconds: 300
@@ -91,6 +95,17 @@ sawtooth:
   dynamicPeering: false
   externalSeeds: []
   daml:
+    trigger:
+      extraArgs:
+      darId:
+      darFile:
+      secretKey:
+      minRestartInterval:
+      maxRestartInterval:
+      timeParam:
+      ttl: 30
+      jdbcConfig:
+    maxInboundMessageSize: 10000000
     maxOpsPerBatch: 3
     maxOutstandingBatches: 1
     # default daml to false at the moment
@@ -123,25 +138,37 @@ jsonapi:
         paths:
           - /
 
+trigger:
+  ingress:
+    enabled: false
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: chart-example.local
+        paths:
+          - /
+
 
 # The below are mostly controlled by BTP, although an "advanced" option to customize them may be
 # presented
 images:
   postgres: postgres:11
-  daml_json_api: blockchaintp/daml-json-api:BTP2.1.0rc9
-  daml_rpc: blockchaintp/sawtooth-daml-rpc:BTP2.1.0rc9
-  daml_tp: blockchaintp/sawtooth-daml-tp:BTP2.1.0rc9
-  timekeeper: blockchaintp/timekeeper:BTP2.1.0rc9
-  devmode_engine: blockchaintp/sawtooth-devmode-engine-rust:BTP2.1.0rc9
-  pbft_engine: blockchaintp/sawtooth-pbft-engine:BTP2.1.0rc9
-  poet_cli: blockchaintp/sawtooth-poet-cli:BTP2.1.0rc9
-  poet_engine: blockchaintp/sawtooth-poet-engine:BTP2.1.0rc9
-  poet_validator_registry_tp: blockchaintp/sawtooth-poet-validator-registry-tp:BTP2.1.0rc9
-  raft_engine: blockchaintp/sawtooth-raft-engine:BTP2.1.0rc9
-  block_info_tp: blockchaintp/sawtooth-block-info-tp:BTP2.1.0rc9
-  identity_tp: blockchaintp/sawtooth-identity-tp:BTP2.1.0rc9
-  intkey_tp: blockchaintp/sawtooth-intkey-tp-go:BTP2.1.0rc9
-  settings_tp: blockchaintp/sawtooth-settings-tp:BTP2.1.0rc9
-  shell: blockchaintp/sawtooth-shell:BTP2.1.0rc9
-  validator: blockchaintp/sawtooth-validator:BTP2.1.0rc9
-  rest_api: blockchaintp/sawtooth-rest-api:BTP2.1.0rc9
+  daml_trigger: blockchaintp/daml-trigger-service:BTP2.1.0rc10
+  daml_json_api: blockchaintp/daml-json-api:BTP2.1.0rc10
+  daml_rpc: blockchaintp/sawtooth-daml-rpc:BTP2.1.0rc10
+  daml_tp: blockchaintp/sawtooth-daml-tp:BTP2.1.0rc10
+  timekeeper: blockchaintp/timekeeper:BTP2.1.0rc10
+  devmode_engine: blockchaintp/sawtooth-devmode-engine-rust:BTP2.1.0rc10
+  pbft_engine: blockchaintp/sawtooth-pbft-engine:BTP2.1.0rc10
+  poet_cli: blockchaintp/sawtooth-poet-cli:BTP2.1.0rc10
+  poet_engine: blockchaintp/sawtooth-poet-engine:BTP2.1.0rc10
+  poet_validator_registry_tp: blockchaintp/sawtooth-poet-validator-registry-tp:BTP2.1.0rc10
+  raft_engine: blockchaintp/sawtooth-raft-engine:BTP2.1.0rc10
+  block_info_tp: blockchaintp/sawtooth-block-info-tp:BTP2.1.0rc10
+  identity_tp: blockchaintp/sawtooth-identity-tp:BTP2.1.0rc10
+  intkey_tp: blockchaintp/sawtooth-intkey-tp-go:BTP2.1.0rc10
+  settings_tp: blockchaintp/sawtooth-settings-tp:BTP2.1.0rc10
+  shell: blockchaintp/sawtooth-shell:BTP2.1.0rc10
+  validator: blockchaintp/sawtooth-validator:BTP2.1.0rc10
+  rest_api: blockchaintp/sawtooth-rest-api:BTP2.1.0rc10
