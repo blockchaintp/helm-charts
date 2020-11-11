@@ -22,6 +22,20 @@ spec:
         daml: {{.Values.sawtooth.networkName}}-daml-rpc
     spec:
       serviceAccountName: {{.Values.sawtooth.networkName}}-sa
+      {{- if .Values.sawtooth.daml.trigger.extraVolumeMounts }}
+      initContainers:
+      - name: change-permissions
+        image: busybox
+        command: 
+          - "sh"
+          - "-xc"
+          - |
+            {{- range .Values.sawtooth.daml.trigger.extraVolumeMounts }}
+              chown -R 1000:1000 {{.mountPath}} 
+            {{- end}}
+        volumeMounts:
+          {{- toYaml .Values.sawtooth.daml.trigger.extraVolumeMounts | nindent 12 }}
+      {{- end }}
       containers:
       - name: postgres
         image: {{.Values.images.postgres}}
