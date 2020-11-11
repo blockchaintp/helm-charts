@@ -102,6 +102,11 @@ spec:
           {{ if .Values.sawtooth.containers.daml_trigger.env }}
           {{- toYaml .Values.sawtooth.containers.daml_trigger.env | nindent 10 }}
           {{ end }}
+        resources: {}
+        {{- if .Values.sawtooth.daml.trigger.extraVolumeMounts }}
+        volumeMounts:
+          {{- toYaml .Values.sawtooth.daml.trigger.extraVolumeMounts | nindent 12 }}
+        {{- end }}
       - name: daml-rpc
         image: {{.Values.images.daml_rpc}}
         command: [ "bash", "-xc"]
@@ -132,5 +137,8 @@ spec:
           hostPath:
             type: DirectoryOrCreate
             path: {{.Values.sawtooth.volumes.hostPathBaseDir}}/{{.Values.sawtooth.namespace}}/{{.Values.sawtooth.networkName}}/sawtooth-etc
+        {{- if .Values.sawtooth.daml.trigger.extraVolumes }}
+            {{- toYaml .Values.sawtooth.daml.trigger.extraVolumes | nindent 8 }}
+        {{- end }}
 {{ end }}
 ---

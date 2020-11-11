@@ -105,6 +105,8 @@ sawtooth:
       timeParam:
       ttl: 30
       jdbcConfig:
+      extraVolumeMounts:
+      extraVolumes:
     maxInboundMessageSize: 10000000
     maxOpsPerBatch: 3
     maxOutstandingBatches: 1
