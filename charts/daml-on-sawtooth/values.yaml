@@ -58,7 +58,7 @@ sawtooth:
     rest: 8008
     damlrpc: 39000
     jsonapi: 8080
-    trigger_http_port: 8080
+    trigger_http_port: 8081
   livenessProbe:
     enabled: false
     initialDelaySeconds: 300
