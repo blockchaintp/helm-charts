@@ -28,6 +28,7 @@ sawtooth:
       packageReloadInterval: "5s"
       waitTimeSeconds: 0
       env:
+      args:
       imagePullPolicy: IfNotPresent
     timekeeper:
       args:
