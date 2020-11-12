@@ -49,6 +49,10 @@ spec:
         imagePullPolicy: {{.Values.sawtooth.containers.jsonapi.imagePullPolicy}}
         ports:
         - containerPort: {{.Values.sawtooth.ports.jsonapi}}
+        {{- if .Values.sawtooth.containers.jsonapi.args }}
+        args:
+            {{.Values.sawtooth.containers.jsonapi.args}}
+        {{- end }}
         env:
           - name: LEDGER_HOST
             value: localhost
