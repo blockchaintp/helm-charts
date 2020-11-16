@@ -5,7 +5,7 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: {{.Values.sawtooth.networkName}}-jsonapi
+  name: {{.Values.sawtooth.networkName}}-trigger
   {{- with .Values.trigger.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
