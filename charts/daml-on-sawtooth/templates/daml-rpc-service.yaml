@@ -17,6 +17,10 @@ spec:
     protocol: TCP
     targetPort: {{.Values.sawtooth.ports.damlrpc}}
     name: daml-ledger-api
+  - port: {{.Values.sawtooth.ports.trigger_http_port}}
+    protocol: TCP
+    targetPort: {{.Values.sawtooth.ports.trigger_http_port}}
+    name: trigger-service-http
   selector:
     app: {{.Values.sawtooth.networkName}}-daml-rpc
     daml: {{.Values.sawtooth.networkName}}-daml-rpc
