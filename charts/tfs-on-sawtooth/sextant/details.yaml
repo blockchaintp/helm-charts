@@ -21,7 +21,7 @@ namespacePath: sawtooth.namespace
 # form: <same as deploymentVersion>
 title: TFS on Sawtooth
 sextantVersion: tfs-on-sawtooth(Early Access), sawtooth 1.1
-buttonIcon: /thirdParty/taekion-transparent.png
+buttonIcon: /thirdParty/taekion-tfs.png
 features:
   - taekion.cli
   - taekion.keys
