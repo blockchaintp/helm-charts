@@ -14,7 +14,7 @@ const form = [
     {
       id: 'deployment.name',
       title: 'Deployment Name',
-      helperText: 'The name of the Besu deployment',
+      helperText: 'The name of the deployment',
       component: 'text',
       editable: {
         new: true,

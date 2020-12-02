@@ -9,7 +9,7 @@ const form = [
     {
       id: 'sawtooth.networkName',
       title: 'Deployment Name',
-      helperText: 'The name of the sawtooth deployment',
+      helperText: 'The name of the deployment',
       component: 'text',
       editable: {
         new: true,
