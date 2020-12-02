@@ -14,8 +14,6 @@ const form = [
 
   common.deploymentFields,
 
-  common.affinityEnabled,
-
   {
     id: 'besu.persistence.enabled',
     title: 'Besu Persistence',

@@ -12,8 +12,6 @@ const form = [
 
   common.deploymentFields,
 
-  common.affinityEnabled,
-
   'Image Pull Secrets',
 
   common.imagePullSecretsSwitch,
