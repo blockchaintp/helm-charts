@@ -8,7 +8,7 @@ const common = require('./common')
 
 const form = [
 
-  'Network',
+  'Hashicorp Vault Deployment',
 
   common.deploymentFields,
 

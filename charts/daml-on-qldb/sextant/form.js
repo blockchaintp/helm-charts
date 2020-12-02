@@ -2,7 +2,7 @@ const options = require('./options')
 
 const form = [
 
-  'Network',
+  'DAML on QLDB Deployment',
 
   [
     {

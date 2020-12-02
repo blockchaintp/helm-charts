@@ -3,7 +3,7 @@ const options = require('./options')
 
 const form = [
 
-  'Network',
+  'TFS on Sawtooth Deployment',
 
   [
     {

@@ -3,7 +3,7 @@ const validators = require('./validators')
 // `^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*`
 const form = [
 
-  'Network',
+  'Sextant Deployment',
   [
     {
       id: 'deployment.name',

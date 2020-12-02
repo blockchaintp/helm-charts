@@ -4,7 +4,7 @@ const common = require('./common')
 // `^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*`
 const form = [
 
-  'Network',
+  'DAML on Postgres Deployment',
 
   common.deploymentFields,
 

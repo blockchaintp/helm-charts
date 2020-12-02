@@ -10,7 +10,7 @@ const validators = require('./validators')
 
 const form = [
 
-  'Network',
+  'Hyperledger Besu Deployment',
 
   common.deploymentFields,
 

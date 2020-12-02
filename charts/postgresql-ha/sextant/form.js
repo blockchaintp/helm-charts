@@ -8,7 +8,7 @@ const common = require('./common')
 
 const form = [
 
-  'Network',
+  'PostgreSQL HA Deployment',
 
   common.deploymentFields,
 

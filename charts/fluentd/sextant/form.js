@@ -8,7 +8,7 @@ const options = require('./options')
 
 const form = [
 
-  'Network',
+  'Fluentd Deployment',
 
   [
     {
