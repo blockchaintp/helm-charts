@@ -1,13 +1,13 @@
 apiVersion: v2
 name: sawtooth
-description: BTP's Sawtooth distribution based on Hyperledger Sawtooth 1.1
+description: Utilises BTP Paralos open source distribution of Hyperledger Sawtooth
 
 # Replaces the index.js in the deployment templates directory, sawtooth/index
 # The deploymentType and deploymentVersion help build the object structure
 deploymentType: sawtooth
 deploymentVersion: 1.1
 
-# absolute path to form.js 
+# absolute path to form.js
 form: sawtooth/sextant/form.js
 
 # absolute path to summary.jst
@@ -19,10 +19,9 @@ namespacePath: sawtooth.namespace
 
 # additional fields for the button
 # form: <same as deploymentVersion>
-title: BTP Sawtooth
+title: Hyperledger Sawtooth
 sextantVersion: sawtooth 1.2, paralos 2.1
 buttonIcon: /thirdParty/hyperledger-sawtooth.png
 features: []
 
-# documentation pull down mark down 
-
+# documentation pull down mark down
