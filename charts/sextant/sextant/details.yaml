@@ -21,7 +21,7 @@ namespacePath: deployment.namespace
 # form: <same as deploymentVersion>
 title: Sextant
 sextantVersion: 2.1
-buttonIcon: /small-logo-blue.png
+buttonIcon: /sextant-detailed.png
 features:
 
 # documentation pull down mark down

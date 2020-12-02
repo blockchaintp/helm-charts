@@ -8,11 +8,9 @@ const common = require('./common')
 
 const form = [
 
-  'Network',
+  'PostgreSQL HA Deployment',
 
   common.deploymentFields,
-
-  common.affinityEnabled,
 
   'Image Pull Secrets',
 

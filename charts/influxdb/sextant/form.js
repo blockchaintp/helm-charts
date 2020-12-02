@@ -8,11 +8,9 @@ const common = require('./common')
 
 const form = [
 
-  'Network',
+  'InfluxDB Deployment',
 
   common.deploymentFields,
-
-  common.affinityEnabled,
 
   'Image Pull Secrets',
 

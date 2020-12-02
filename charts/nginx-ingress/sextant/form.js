@@ -8,11 +8,9 @@ const common = require('./common')
 
 const form = [
 
-  'Network',
+  'NGINX Ingres Deployment',
 
   common.deploymentFields,
-
-  common.affinityEnabled,
 
   'Image Pull Secrets',
 

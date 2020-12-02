@@ -5,7 +5,7 @@ const deploymentFields = [
   {
     id: 'deployment.name',
     title: 'Deployment Name',
-    helperText: 'The name of the Deployment',
+    helperText: 'The name of the deployment',
     component: 'text',
     editable: {
       new: true,
@@ -56,7 +56,7 @@ const imagePullSecretsSwitch = {
   id: 'imagePullSecrets.enabled',
   title: 'Do you need to enable image pull secrets?',
   helperText:
-    'Provide secrets to be injected into Sawtooth namespace and used to pull images from your secure registry',
+    'Provide secrets to be injected into the namespace and used to pull images from your secure registry',
   component: 'radio',
   default: false,
   dataType: 'boolean',

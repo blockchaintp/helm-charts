@@ -19,7 +19,7 @@ namespacePath: deployment.namespace
 
 # additional fields for the button
 # form: <same as deploymentVersion>
-title: kibana
+title: Kibana
 sextantVersion: 7.8
 buttonIcon: https://bitnami.com/assets/stacks/kibana/img/kibana-stack-220x234.png
 features:
