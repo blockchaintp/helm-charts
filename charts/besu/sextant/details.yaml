@@ -21,7 +21,7 @@ namespacePath: deployment.namespace
 # form: <same as deploymentVersion>
 title: Hyperledger Besu
 sextantVersion: 1.4
-buttonIcon: https://raw.githubusercontent.com/hyperledger/besu-docs/5c8545bc08e45188d939ae15d35b49ed2bf7f6b8/custom_theme/logo.svg
+buttonIcon: /thirdParty/besu.png
 features:
 
 # documentation pull down mark down
