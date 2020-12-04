@@ -1,6 +1,6 @@
 apiVersion: v2
 name: elasticsearch
-description: A highly scalable open-source full-text search and analytics engine.
+description: A highly scalable open-source full-text search and analytics engine
 
 # Replaces the index.js in the deployment templates directory, sawtooth/index
 # The deploymentType and deploymentVersion help build the object structure

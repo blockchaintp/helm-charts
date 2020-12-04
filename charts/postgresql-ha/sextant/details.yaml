@@ -1,6 +1,6 @@
 apiVersion: v2
 name: postgresql-ha
-description: Chart for PostgreSQL with HA architecture (using Replication Manager (repmgr) and Pgpool).
+description: Chart for PostgreSQL with HA architecture (using Replication Manager (repmgr) and Pgpool)
 
 
 
