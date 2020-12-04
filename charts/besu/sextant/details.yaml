@@ -1,6 +1,6 @@
 apiVersion: v2
 name: besu
-description: Besu is an Apache 2.0 licensed, MainNet compatible, Ethereum client written in Java.
+description: Besu is an Apache 2.0 licensed, MainNet compatible, Ethereum client written in Java
 
 # Replaces the index.js in the deployment templates directory, sawtooth/index
 # The deploymentType and deploymentVersion help build the object structure
@@ -20,7 +20,7 @@ namespacePath: deployment.namespace
 # additional fields for the button
 # form: <same as deploymentVersion>
 title: Hyperledger Besu
-sextantVersion: 1.4
+sextantVersion: besu 1.4
 buttonIcon: /thirdParty/besu.png
 features:
 
