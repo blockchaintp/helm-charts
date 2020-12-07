@@ -359,6 +359,7 @@ spec:
               - /bin/bash
               - -c
               - |
+                export SIGNALS_DIR=/var/run/signals
                 export EXIT_SIGNALS="{{.Values.sawtooth.livenessProbe.exitSignals}}"
                 export LIVENESS_PROBE_ACTIVE="{{.Values.sawtooth.livenessProbe.active}}"
                 /usr/local/bin/liveness_probe.sh
