@@ -71,7 +71,7 @@ spec:
                 break
               fi
               sleep 3
-              if ! KILL -0 "$PID" 2> /dev/null; then
+              if ! kill -0 "$PID" 2> /dev/null; then
                 echo "Exiting since the the $SIGNAL_NAME process exited"
                 break
               fi
@@ -175,7 +175,7 @@ spec:
                 break
               fi
               sleep 3
-              if ! KILL -0 "$PID" 2> /dev/null; then
+              if ! kill -0 "$PID" 2> /dev/null; then
                 echo "Exiting since the the $SIGNAL_NAME process exited"
                 break
               fi
