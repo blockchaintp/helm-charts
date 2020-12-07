@@ -83,6 +83,8 @@ spec:
             requests:
               cpu: "50m"
           volumeMounts:
+            - mountPath: /var/run/signals
+              name: sawtooth-signals              
             - mountPath: "/var/lib/sawtooth"
               name: sawtooth-data
         {{ else if eq $consensus 300 }}
@@ -185,6 +187,9 @@ spec:
               cpu: "250m"
             requests:
               cpu: "50m"
+          volumeMounts:
+            - mountPath: /var/run/signals
+              name: sawtooth-signals              
         - name: intkey-tp
           image: {{.Values.images.intkey_tp}}
           command: [ "bash", "-xc"]
@@ -341,6 +346,8 @@ spec:
                 --opentsdb-url {{ .Values.sawtooth.opentsdb.url}}
                 {{- end }}
           volumeMounts:
+            - mountPath: /var/run/signals
+              name: sawtooth-signals              
             - mountPath: "/etc/sawtooth"
               name: sawtooth-etc
             - mountPath: "/var/lib/sawtooth"
@@ -448,6 +455,8 @@ spec:
           {{ end }}
         {{ end }}
       volumes:
+        - name: sawtooth-signals
+          emptyDir: {}
         - name: sawtooth-etc
           hostPath:
             type: DirectoryOrCreate
