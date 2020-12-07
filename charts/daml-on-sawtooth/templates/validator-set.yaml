@@ -52,13 +52,31 @@ spec:
         {{ if eq $consensus 400 }}
         - name: pbft-engine
           image: {{.Values.images.pbft_engine}}
-          command: [ "bash", "-xc"]
+          command: [ "bash", "-c"]
           args:
           - |
             rm -f /var/lib/sawtooth/pbft.log
+            SIGNAL_NAME=pbft-engine
+            if [ -r "/var/run/signals/$SIGNAL_NAME" ]; then
+              rm -f "/var/run/signals/$SIGNAL_NAME"
+            fi
             pbft-engine -vv \
               -C tcp://127.0.0.1:{{ .Values.sawtooth.ports.consensus }} \
-              --storage-location disk+/var/lib/sawtooth/pbft.log
+              --storage-location disk+/var/lib/sawtooth/pbft.log &
+            export PID=$!
+            while true; do 
+              if [ -r "/var/run/signals/$SIGNAL_NAME" ]; then
+                echo "Recieved signal to shutdown $SIGNAL_NAME"
+                kill "$PID"
+                break
+              fi
+              sleep 3
+              if ! KILL -0 "$PID" 2> /dev/null; then
+                echo "Exiting since the the $SIGNAL_NAME process exited"
+                break
+              fi
+            done
+
           resources:
             limits:
               cpu: "250m"
@@ -130,7 +148,9 @@ spec:
           image: {{.Values.images.settings_tp}}
           command: [ "bash", "-xc"]
           args:
-          - "settings-tp {{.Values.sawtooth.containers.settings_tp.args}} --connect tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}"
+          - |
+            settings-tp {{.Values.sawtooth.containers.settings_tp.args}} \
+              --connect tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}
           resources:
             limits:
               cpu: "250m"
@@ -138,9 +158,28 @@ spec:
               cpu: "50m"
         - name: block-info-tp
           image: {{.Values.images.block_info_tp}}
-          command: [ "bash", "-xc"]
+          command: [ "bash", "-c"]
           args:
-          - "block-info-tp {{.Values.sawtooth.containers.block_info.args}} -C tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}"
+          - |
+            SIGNAL_NAME=block-info-tp
+            if [ -r "/var/run/signals/$SIGNAL_NAME" ]; then
+              rm -f "/var/run/signals/$SIGNAL_NAME"
+            fi
+            block-info-tp {{.Values.sawtooth.containers.block_info.args}} \
+              -C tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}} &
+            export PID=$!
+            while true; do 
+              if [ -r "/var/run/signals/$SIGNAL_NAME" ]; then
+                echo "Recieved signal to shutdown $SIGNAL_NAME"
+                kill "$PID"
+                break
+              fi
+              sleep 3
+              if ! KILL -0 "$PID" 2> /dev/null; then
+                echo "Exiting since the the $SIGNAL_NAME process exited"
+                break
+              fi
+            done
           resources:
             limits:
               cpu: "250m"
@@ -210,7 +249,8 @@ spec:
           args:
           - |
             sleep {{.Values.sawtooth.client_wait}}
-            sawtooth-rest-api {{.Values.sawtooth.containers.rest_api.args}} --bind 0.0.0.0:{{.Values.sawtooth.ports.rest}} \
+            sawtooth-rest-api {{.Values.sawtooth.containers.rest_api.args}} \
+              --bind 0.0.0.0:{{.Values.sawtooth.ports.rest}} \
               --connect tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}} \
           {{- if .Values.sawtooth.opentsdb.enabled }}
               --opentsdb-db {{.Values.sawtooth.opentsdb.db}} \
@@ -237,7 +277,9 @@ spec:
             - |
               sawtooth keygen && \
               sleep {{.Values.sawtooth.client_wait}} && \
-              /usr/local/bin/heartbeat_loop.sh http://127.0.0.1:{{.Values.sawtooth.ports.rest}} test-$RANDOM {{.Values.sawtooth.heartbeat.interval}}
+              /usr/local/bin/heartbeat_loop.sh \
+                http://127.0.0.1:{{.Values.sawtooth.ports.rest}} \
+                test-$RANDOM {{.Values.sawtooth.heartbeat.interval}}
           volumeMounts:
             - mountPath: "/etc/sawtooth"
               name: sawtooth-etc
