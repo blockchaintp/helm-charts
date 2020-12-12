@@ -346,7 +346,7 @@ spec:
                 {{- if .Values.sawtooth.opentsdb.enabled }}
                 --opentsdb-db {{.Values.sawtooth.opentsdb.db}} \
                 --opentsdb-url {{ .Values.sawtooth.opentsdb.url}}
-                {{- end }}
+                {{- end }};
               exit_code=$?
               SIGNALS_DIR=/var/run/sawtooth
               export EXIT_SIGNALS="{{.Values.sawtooth.livenessProbe.exitSignals}}"
