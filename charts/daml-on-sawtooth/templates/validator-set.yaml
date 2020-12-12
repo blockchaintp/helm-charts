@@ -346,14 +346,15 @@ spec:
                 {{- if .Values.sawtooth.opentsdb.enabled }}
                 --opentsdb-db {{.Values.sawtooth.opentsdb.db}} \
                 --opentsdb-url {{ .Values.sawtooth.opentsdb.url}}
-                {{- end }};
+                {{- end }}
+                
               exit_code=$?
               SIGNALS_DIR=/var/run/sawtooth
               export EXIT_SIGNALS="{{.Values.sawtooth.livenessProbe.exitSignals}}"
               for signal in ${EXIT_SIGNALS}; do
                 touch "${SIGNALS_DIR}/$signal"
               done
-              exit $?
+              exit $exit_code
           volumeMounts:
             - mountPath: /var/run/sawtooth
               name: sawtooth-signals              
