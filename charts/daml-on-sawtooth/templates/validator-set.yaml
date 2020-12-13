@@ -65,7 +65,7 @@ spec:
               -C tcp://127.0.0.1:{{ .Values.sawtooth.ports.consensus }} \
               --storage-location disk+/var/lib/sawtooth/pbft.log &
             export PID=$!
-            while true; do 
+            while true; do
               if [ -r "$SIGNALS_DIR/$SIGNAL_NAME" ]; then
                 echo "Recieved signal to shutdown $SIGNAL_NAME"
                 kill "$PID"
@@ -85,7 +85,7 @@ spec:
               cpu: "50m"
           volumeMounts:
             - mountPath: /var/run/sawtooth
-              name: sawtooth-signals              
+              name: sawtooth-signals
             - mountPath: "/var/lib/sawtooth"
               name: sawtooth-data
         {{ else if eq $consensus 300 }}
@@ -172,7 +172,7 @@ spec:
             block-info-tp {{.Values.sawtooth.containers.block_info.args}} \
               -C tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}} &
             export PID=$!
-            while true; do 
+            while true; do
               if [ -r "$SIGNALS_DIR/$SIGNAL_NAME" ]; then
                 echo "Recieved signal to shutdown $SIGNAL_NAME"
                 kill "$PID"
@@ -191,7 +191,7 @@ spec:
               cpu: "50m"
           volumeMounts:
             - mountPath: /var/run/sawtooth
-              name: sawtooth-signals              
+              name: sawtooth-signals
         - name: intkey-tp
           image: {{.Values.images.intkey_tp}}
           command: [ "bash", "-xc"]
@@ -303,6 +303,17 @@ spec:
         - name: validator
           image: {{.Values.images.validator}}
           imagePullPolicy: {{.Values.sawtooth.containers.validator.imagePullPolicy}}
+          lifecycle:
+            preStop:
+              exec:
+                - bash
+                - -c
+                - |
+                  SIGNALS_DIR=/var/run/sawtooth
+                  export EXIT_SIGNALS="{{.Values.sawtooth.livenessProbe.exitSignals}}"
+                  for signal in ${EXIT_SIGNALS}; do
+                    touch "${SIGNALS_DIR}/$signal"
+                  done
           command: ["bash", "-xc" ]
           args:
             - |
@@ -347,17 +358,9 @@ spec:
                 --opentsdb-db {{.Values.sawtooth.opentsdb.db}} \
                 --opentsdb-url {{ .Values.sawtooth.opentsdb.url}}
                 {{- end }}
-                
-              exit_code=$?
-              SIGNALS_DIR=/var/run/sawtooth
-              export EXIT_SIGNALS="{{.Values.sawtooth.livenessProbe.exitSignals}}"
-              for signal in ${EXIT_SIGNALS}; do
-                touch "${SIGNALS_DIR}/$signal"
-              done
-              exit $exit_code
           volumeMounts:
             - mountPath: /var/run/sawtooth
-              name: sawtooth-signals              
+              name: sawtooth-signals
             - mountPath: "/etc/sawtooth"
               name: sawtooth-etc
             - mountPath: "/var/lib/sawtooth"
