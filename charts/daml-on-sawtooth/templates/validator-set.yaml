@@ -306,14 +306,15 @@ spec:
           lifecycle:
             preStop:
               exec:
-                - bash
-                - -c
-                - |
-                  SIGNALS_DIR=/var/run/sawtooth
-                  export EXIT_SIGNALS="{{.Values.sawtooth.livenessProbe.exitSignals}}"
-                  for signal in ${EXIT_SIGNALS}; do
-                    touch "${SIGNALS_DIR}/$signal"
-                  done
+                command:
+                  - bash
+                  - -c
+                  - |
+                    SIGNALS_DIR=/var/run/sawtooth
+                    export EXIT_SIGNALS="{{.Values.sawtooth.livenessProbe.exitSignals}}"
+                    for signal in ${EXIT_SIGNALS}; do
+                      touch "${SIGNALS_DIR}/$signal"
+                    done
           command: ["bash", "-xc" ]
           args:
             - |
