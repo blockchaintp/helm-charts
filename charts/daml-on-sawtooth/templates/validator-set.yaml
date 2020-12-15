@@ -315,6 +315,17 @@ spec:
                     for signal in ${EXIT_SIGNALS}; do
                       touch "${SIGNALS_DIR}/$signal"
                     done
+            postStart:
+              exec:
+                command:
+                  - bash
+                  - -c
+                  - |
+                    RUN_DIR=/var/run/sawtooth
+                    rm -f $RUN_DIR/probe.*
+                    rm -f $RUN_DIR/catchup.started
+                    rm -f $RUN_DIR/last*
+                    rm -f $RUN_DIR/pbft_seq*
           command: ["bash", "-xc" ]
           args:
             - |
