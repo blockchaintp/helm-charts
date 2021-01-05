@@ -1,0 +1,63 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "daml.fullname" . }}-cert
+  namespace: {{.Release.Namespace}}
+  labels:
+{{ include "daml.labels" . | indent 4 }}
+  annotations:
+    helm.sh/hook-delete-policy: "hook-succeeded"
+spec:
+  backoffLimit: 3
+  completions: 1
+  template:
+    metadata:
+      labels:
+{{ include "daml.selectorLabels" . |indent 8 }}
+    spec:
+      serviceAccountName: {{ include "daml.serviceAccountName" . }}
+      restartPolicy: Never
+      containers:
+        - name: openssl
+          image: "{{.Values.openssl.image.repository }}:{{ .Values.openssl.image.tag }}"
+          imagePullPolicy: {{ .Values.daml.image.imagePullPolicy }}
+          volumeMounts:
+            - name: scratch
+              mountPath: /scratch
+          command:
+            - sh
+            - -ec
+          args:
+            - |
+              mkdir -p /scratch/rsa
+              ls -R /scratch
+              cd /scratch/rsa
+              openssl req -x509 -nodes -days 365 \
+                -subj '/C=US/ST=NY/L=Brooklyn/CN=selfsigned' \
+                -newkey rsa:1024 -keyout jwt.key -out jwt.crt
+              touch /scratch/openssl.done
+        - name: k8s
+          image: "{{.Values.k8s.image.repository }}:{{ .Values.k8s.image.tag }}"
+          imagePullPolicy: {{ .Values.daml.image.imagePullPolicy }}
+          volumeMounts:
+            - name: scratch
+              mountPath: /scratch
+          command:
+            - sh
+            - -c
+          args:
+            - |
+              if [ -r /scratch/openssl.don ]; then
+                exit 1
+              fi
+              kubectl get secret {{ include "daml.fullname" . }}-jwt-cert
+              if [ $? -eq 0 ]; then
+                exit 0
+              fi
+              kubectl create secret generic \
+                --namespace {{ .Release.Namespace }} \
+                {{ include "daml.fullname" . }}-jwt-cert \
+                --from-file=/scratch/rsa
+      volumes:
+        - name: scratch
+          emptyDir: {}

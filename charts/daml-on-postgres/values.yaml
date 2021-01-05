@@ -83,3 +83,12 @@ postgres:
       - "ReadWriteOnce"
     accessMode: ReadWriteOnce
     size: 10Gi
+
+openssl:
+  image:
+    repository: alpine/openssl
+    tag: latest
+k8s:
+  image:
+    repository: alpine/k8s
+    tag: 1.18.2

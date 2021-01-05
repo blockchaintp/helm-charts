@@ -43,9 +43,9 @@ sawtooth:
     identity_tp:
       args:
     rest_api:
-      args:   
+      args:
     settings_tp:
-      args:   
+      args:
     validator:
       args:
       env:
@@ -152,6 +152,18 @@ trigger:
         paths:
           - /
 
+openssl:
+  image:
+    repository: alpine/openssl
+    tag: latest
+k8s:
+  image:
+    repository: alpine/k8s
+    tag: 1.18.2
+
+daml:
+  image:
+    imagePullPolicy: IfNotPresent
 
 # The below are mostly controlled by BTP, although an "advanced" option to customize them may be
 # presented
