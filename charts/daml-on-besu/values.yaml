@@ -122,3 +122,11 @@ postgres:
   image:
     repository: postgres
     tag: 11
+openssl:
+  image:
+    repository: alpine/openssl
+    tag: latest
+k8s:
+  image:
+    repository: alpine/k8s
+    tag: 1.18.2
