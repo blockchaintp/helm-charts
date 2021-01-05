@@ -54,22 +54,11 @@ pipeline {
     stage("Build Tools") {
       steps {
         sh """
-          docker build -t tools:${JOB_ID} -f Dockerfile .
+          docker build -t tools:${JOB_ID} -f docker/tool.docker docker
         """
       }
     }
 
-// Disable this for now, GPG and helm have made incompatible choices
-/*    stage("Import Keys") {
-      steps {
-        withCredentials([file(credentialsId: 'gpg-signing-key-asc', variable: 'GPG_KEY')]) {
-          sh """
-          ${DOCKER_RUN} -v \$GPG_KEY:/tmp/signing-key.asc tools:${JOB_ID} -c "export GPG_TTY=\\\$(tty) && gpg-agent --daemon && gpg --batch --import /tmp/signing-key.asc && gpg --export-secret-keys > /root/.gnupg/secring.gpg"
-          """
-        }
-      }
-    }
-*/
     stage("Update dependencies and package") {
       steps {
         sh """
