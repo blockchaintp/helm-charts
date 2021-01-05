@@ -29,10 +29,10 @@ pipeline {
   }
 
   environment {
-    JOB_ID = sh(returnStdout: true, script: 'echo $BUILD_TAG | sha256sum | cut -c1-16').trim()
+    ISOLATION_ID = sh(returnStdout: true, script: 'echo $BUILD_TAG | sha256sum | cut -c1-16').trim()
     JENKINS_UID = sh(returnStdout: true, script: 'id --user').trim()
     JENKINS_GID = sh(returnStdout: true, script: 'id --group').trim()
-    DOCKER_RUN="docker run --rm -v root_${JOB_ID}:/root "
+    AWS_DOCKER_RUN="docker run --rm -v root_${ISOLATION_ID}:/root "
   }
 
   stages {
@@ -54,33 +54,16 @@ pipeline {
     stage("Build Tools") {
       steps {
         sh """
-          docker build -t tools:${JOB_ID} -f Dockerfile .
+          make clean
+          make tool.docker
         """
       }
     }
 
-// Disable this for now, GPG and helm have made incompatible choices
-/*    stage("Import Keys") {
-      steps {
-        withCredentials([file(credentialsId: 'gpg-signing-key-asc', variable: 'GPG_KEY')]) {
-          sh """
-          ${DOCKER_RUN} -v \$GPG_KEY:/tmp/signing-key.asc tools:${JOB_ID} -c "export GPG_TTY=\\\$(tty) && gpg-agent --daemon && gpg --batch --import /tmp/signing-key.asc && gpg --export-secret-keys > /root/.gnupg/secring.gpg"
-          """
-        }
-      }
-    }
-*/
     stage("Update dependencies and package") {
       steps {
         sh """
-          src_dir=`pwd`
-          cd \$src_dir/charts
-          for chart in `ls`; do
-            set -x
-            ${DOCKER_RUN} -v \$src_dir:/project -w /project/charts tools:${JOB_ID} -c "helm dep up \$chart"
-            ${DOCKER_RUN} -v \$src_dir:/project -w /project/charts tools:${JOB_ID} -c "helm package -d /project/dist/local ./\$chart"
-          done
-          ${DOCKER_RUN} -v \$src_dir:/project -w /project/charts tools:${JOB_ID} -c "chown -R ${JENKINS_UID}:${JENKINS_GID} /project/dist"
+          make all
         """
       }
     }
@@ -104,28 +87,56 @@ pipeline {
               echo " === This is the master and an untagged version, publishing to unstable repo === "
               S3_TARGET="btp-charts-unstable"
               sh """
-                ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/local \
-                  tools:${JOB_ID} -c "aws s3 sync . s3://${S3_TARGET}/charts"
-                ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
-                  tools:${JOB_ID} -c "aws s3 sync s3://${S3_TARGET}/charts ."
-                ${DOCKER_RUN} -v `pwd`:/project -w /project/dist/remote tools:${JOB_ID} -c "helm repo index ./ --url https://${S3_TARGET}.s3.amazonaws.com/charts"
-                ${DOCKER_RUN} -v `pwd`:/project -w /project/charts tools:${JOB_ID} -c "chown -R ${JENKINS_UID}:${JENKINS_GID} /project/dist"
-                ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
-                  tools:${JOB_ID} -c "aws s3 cp index.yaml s3://${S3_TARGET}/charts/index.yaml"
+                [ -d dist/local ] && rm -rf dist/local
+                [ -d dist/remote ] && rm -rf dist/remote
+                mkdir -p dist/local
+                mkdir -p dist/remote
+                cp dist/*.tgz dist/local
+                ${AWS_DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID \
+                  -e AWS_SECRET_ACCESS_KEY -w /project/dist/local \
+                  tool:${ISOLATION_ID} -c "aws s3 sync . s3://${S3_TARGET}/charts"
+                ${AWS_DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID \
+                  -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
+                  tool:${ISOLATION_ID} -c "aws s3 sync s3://${S3_TARGET}/charts ."
+                ${AWS_DOCKER_RUN} -v `pwd`:/project -w /project/dist/remote \
+                  tool:${ISOLATION_ID} \
+                  -c "helm repo index ./ --url https://${S3_TARGET}.s3.amazonaws.com/charts"
+                ${AWS_DOCKER_RUN} -v `pwd`:/project \
+                  -w /project/charts tool:${ISOLATION_ID} \
+                  -c "chown -R ${JENKINS_UID}:${JENKINS_GID} /project/dist"
+                ${AWS_DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID \
+                  -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
+                  tool:${ISOLATION_ID} \
+                  -c "aws s3 cp index.yaml s3://${S3_TARGET}/charts/index.yaml"
               """
             }
             if ( long_version != scm_version) {
               echo " === This is a tagged version of the charts publishing to stable repo === "
               S3_TARGET="btp-charts-stable"
               sh """
-                ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/local \
-                  tools:${JOB_ID} -c "aws s3 sync . s3://${S3_TARGET}/charts"
-                ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
-                  tools:${JOB_ID} -c "aws s3 sync s3://${S3_TARGET}/charts ."
-                ${DOCKER_RUN} -v `pwd`:/project -w /project/dist/remote tools:${JOB_ID} -c "helm repo index ./ --url https://${S3_TARGET}.s3.amazonaws.com/charts"
-                ${DOCKER_RUN} -v `pwd`:/project -w /project/charts tools:${JOB_ID} -c "chown -R ${JENKINS_UID}:${JENKINS_GID} /project/dist"
-                ${DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
-                  tools:${JOB_ID} -c "aws s3 cp index.yaml s3://${S3_TARGET}/charts/index.yaml"
+                [ -d dist/local ] && rm -rf dist/local
+                [ -d dist/remote ] && rm -rf dist/remote
+                mkdir -p dist/local
+                mkdir -p dist/remote
+                cp dist/*.tgz dist/local
+                ${AWS_DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID \
+                  -e AWS_SECRET_ACCESS_KEY -w /project/dist/local \
+                  tool:${ISOLATION_ID} -c \
+                    "aws s3 sync . s3://${S3_TARGET}/charts"
+                ${AWS_DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID \
+                  -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
+                  tool:${ISOLATION_ID} \
+                  -c "aws s3 sync s3://${S3_TARGET}/charts ."
+                ${AWS_DOCKER_RUN} -v `pwd`:/project -w \
+                  /project/dist/remote tool:${ISOLATION_ID} \
+                  -c "helm repo index ./ --url https://${S3_TARGET}.s3.amazonaws.com/charts"
+                ${AWS_DOCKER_RUN} -v `pwd`:/project -w /project/charts \
+                  tool:${ISOLATION_ID} \
+                  -c "chown -R ${JENKINS_UID}:${JENKINS_GID} /project/dist"
+                ${AWS_DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID \
+                  -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
+                  tool:${ISOLATION_ID} \
+                  -c "aws s3 cp index.yaml s3://${S3_TARGET}/charts/index.yaml"
               """
             }
           }
@@ -139,7 +150,7 @@ pipeline {
   post {
       cleanup {
           sh """
-            docker volume rm root_${JOB_ID}
+            docker volume rm root_${ISOLATION_ID}
           """
       }
       aborted {

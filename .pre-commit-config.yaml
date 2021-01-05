@@ -8,14 +8,14 @@ repos:
     rev: v0.1.0 # Use the ref you want to point at
     hooks:
       - id: checkstyle
-        exclude: ".*/src/test/*"
+        exclude: ".*/src/test/.*"
         args:
           - -c
           - build-tools/src/main/resources/checkstyle.xml
       - id: cpd
-        exclude: ".*/src/test/*"
+        exclude: ".*/src/test/.*"
       - id: pmd
-        exclude: ".*/src/test/*"
+        exclude: ".*/src/test/.*"
   - repo: https://github.com/pre-commit/mirrors-eslint
     rev: v7.5.0 # Use the sha / tag you want to point at
     hooks:
@@ -26,7 +26,7 @@ repos:
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-yaml
-        exclude: "charts/*"
+        exclude: "charts/.*/templates/.*"
         args:
           - --allow-multiple-documents
       - id: check-added-large-files
@@ -46,6 +46,10 @@ repos:
         args:
           - -i
           - "2"
+  - repo: https://github.com/Lucas-C/pre-commit-hooks-go
+    rev: v1.0.1
+    hooks:
+      - id: checkmake
   - repo: https://github.com/Lucas-C/pre-commit-hooks
     rev: v1.1.7
     hooks:
