@@ -9,6 +9,9 @@ rules:
   - apiGroups: ["cloudformation.linki.space"] # "" refers to the core API group
     resources: ["stacks",]
     verbs: ["get","list"]
+  - apiGroups: ["","apps/v1"] # "" refers to the core API group
+    resources: ["secrets"]
+    verbs: ["get", "create", "list", "watch", "patch"]
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1

@@ -9,7 +9,7 @@ rules:
     resources: ["services", "statefulsets.apps","endpoints", "nodes", "pods"]
     verbs: ["get", "list", "watch", "patch"]
   - apiGroups: ["","apps/v1"] # "" refers to the core API group
-    resources: ["configmaps"]
+    resources: ["configmaps", "secrets"]
     verbs: ["get", "create", "list", "watch", "patch"]
 
 ---
