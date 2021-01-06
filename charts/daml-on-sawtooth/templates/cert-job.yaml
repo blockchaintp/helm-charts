@@ -49,9 +49,15 @@ spec:
             - -c
           args:
             - |
-              if [ -r /scratch/openssl.done ]; then
-                exit 1
-              fi
+              loops=0
+              while [ ! -r /scratch/openssl.done ]; do
+                loops=$((loops+1))
+                if [ $loops -gt 100 ]; then
+                  echo &2>1 "did not find key after 100 seconds"
+                  exit 1
+                fi
+                sleep 1
+              done
               kubectl get secret {{.Values.sawtooth.networkName}}-jwt-cert
               if [ $? -eq 0 ]; then
                 exit 0
