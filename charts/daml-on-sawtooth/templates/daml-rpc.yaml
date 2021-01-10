@@ -26,12 +26,12 @@ spec:
       initContainers:
       - name: change-permissions
         image: busybox
-        command: 
+        command:
           - "sh"
           - "-xc"
           - |
             {{- range .Values.sawtooth.daml.trigger.extraVolumeMounts }}
-              chown -R 1000:1000 {{.mountPath}} 
+              chown -R 1000:1000 {{.mountPath}}
             {{- end}}
         volumeMounts:
           {{- toYaml .Values.sawtooth.daml.trigger.extraVolumeMounts | nindent 12 }}
@@ -145,16 +145,21 @@ spec:
           requests:
             cpu: "50m"
         ports:
-        - containerPort: {{.Values.sawtooth.ports.damlrpc}}
-          name: daml-ledger-api
+          - containerPort: {{.Values.sawtooth.ports.damlrpc}}
+            name: daml-ledger-api
         volumeMounts:
-        - mountPath: "/etc/sawtooth"
-          name: sawtooth-etc
+          - mountPath: "/etc/sawtooth"
+            name: sawtooth-etc
+          - mountPath: /secrets/jwt
+            name: jwt-secret
       volumes:
         - name: sawtooth-etc
           hostPath:
             type: DirectoryOrCreate
             path: {{.Values.sawtooth.volumes.hostPathBaseDir}}/{{.Values.sawtooth.namespace}}/{{.Values.sawtooth.networkName}}/sawtooth-etc
+        - name: jwt-secret
+          secret:
+            secretName: {{.Values.networkName}}-cert
         {{- if .Values.sawtooth.daml.trigger.extraVolumes }}
             {{- toYaml .Values.sawtooth.daml.trigger.extraVolumes | nindent 8 }}
         {{- end }}

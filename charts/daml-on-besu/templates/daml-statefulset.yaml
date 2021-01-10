@@ -67,6 +67,8 @@ spec:
               name: dev-random
             - mountPath: /dev/urandom
               name: dev-urandom
+            - mountPath: /secrets/jwt
+              name: jwt-secret
       restartPolicy: Always
       volumes:
         - name: networkkeys-config
@@ -80,6 +82,9 @@ spec:
           hostPath:
             path: /dev/urandom
             type: CharDevice
+        - name: jwt-secret
+          secret:
+            secretName: {{ include "daml.fullname" . }}-cert
 {{- if not .Values.postgres.persistence.enabled }}
         - name: "pgdata"
           emptyDir: {}

@@ -92,6 +92,9 @@ spec:
               value: {{ .Values.daml.rpc.port | quote }}
             - name: LEDGER_ID
               value: {{.Values.daml.ledgerId }}
+          volumeMounts:
+            - mountPath: /secrets/jwt
+              name: jwt-secret
       restartPolicy: Always
       volumes:
         - name: dev-random
@@ -102,6 +105,9 @@ spec:
           hostPath:
             path: /dev/urandom
             type: CharDevice
+        - name: jwt-secret
+          secret:
+            secretName: {{ include "daml.fullname" . }}-cert
 {{- if not .Values.postgres.persistence.enabled }}
         - name: "pgdata"
           emptyDir: {}

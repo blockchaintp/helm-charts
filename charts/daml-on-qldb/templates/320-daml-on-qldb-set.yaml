@@ -39,16 +39,24 @@ spec:
         image: {{.Values.images.damlqldb}}
         imagePullPolicy: Always
         ports:
-        - containerPort: 39000
+          - containerPort: 39000
         command: [ "bash","-xc"]
         args:
-        - |
-          sleep 30
-          /opt/daml-on-qldb/entrypoint.sh --port 39000 \
-            --jdbc-url jdbc:postgresql://localhost/postgres?user=postgres \
-            --ledger ${LEDGER_ID} \
-            --participant-id daml-on-qldb-participant {{ if .Values.daml.extra_args.enabled }}{{ .Values.daml.extra_args.arg_str }}{{ end }}
+          - |
+            sleep 30
+            /opt/daml-on-qldb/entrypoint.sh --port 39000 \
+              --jdbc-url jdbc:postgresql://localhost/postgres?user=postgres \
+              --ledger ${LEDGER_ID} \
+              --participant-id daml-on-qldb-participant {{ if .Values.daml.extra_args.enabled }}{{ .Values.daml.extra_args.arg_str }}{{ end }}
         env:
-        - name: LEDGER_ID
-          value: {{.Values.daml.ledgerId}}
+          - name: LEDGER_ID
+            value: {{.Values.daml.ledgerId}}
+        volumeMounts:
+          - mountPath: /secrets/jwt
+            name: jwt-secret
+      volumes:
+        - name: jwt-secret
+          secret:
+            secretName: {{.Values.deployment.name}}-cert
+
 ---
