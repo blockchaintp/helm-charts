@@ -162,6 +162,8 @@ k8s:
     tag: 1.18.2
 
 daml:
+  auth:
+    enabled: false
   image:
     imagePullPolicy: IfNotPresent
 
