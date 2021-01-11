@@ -171,21 +171,21 @@ daml:
 # presented
 images:
   postgres: postgres:11
-  daml_trigger: blockchaintp/daml-trigger-service:BTP2.1.0rc11
-  daml_json_api: blockchaintp/daml-json-api:BTP2.1.0rc11
-  daml_rpc: blockchaintp/sawtooth-daml-rpc:BTP2.1.0rc11
-  daml_tp: blockchaintp/sawtooth-daml-tp:BTP2.1.0rc11
-  timekeeper: blockchaintp/timekeeper:BTP2.1.0rc11
-  devmode_engine: blockchaintp/sawtooth-devmode-engine-rust:BTP2.1.0rc11
-  pbft_engine: blockchaintp/sawtooth-pbft-engine:BTP2.1.0rc11
-  poet_cli: blockchaintp/sawtooth-poet-cli:BTP2.1.0rc11
-  poet_engine: blockchaintp/sawtooth-poet-engine:BTP2.1.0rc11
-  poet_validator_registry_tp: blockchaintp/sawtooth-poet-validator-registry-tp:BTP2.1.0rc11
-  raft_engine: blockchaintp/sawtooth-raft-engine:BTP2.1.0rc11
-  block_info_tp: blockchaintp/sawtooth-block-info-tp:BTP2.1.0rc11
-  identity_tp: blockchaintp/sawtooth-identity-tp:BTP2.1.0rc11
-  intkey_tp: blockchaintp/sawtooth-intkey-tp-go:BTP2.1.0rc11
-  settings_tp: blockchaintp/sawtooth-settings-tp:BTP2.1.0rc11
-  shell: blockchaintp/sawtooth-shell:BTP2.1.0rc11
-  validator: blockchaintp/sawtooth-validator:BTP2.1.0rc11
-  rest_api: blockchaintp/sawtooth-rest-api:BTP2.1.0rc11
+  daml_trigger: blockchaintp/daml-trigger-service:BTP2.1.0rc14
+  daml_json_api: blockchaintp/daml-json-api:BTP2.1.0rc14
+  daml_rpc: blockchaintp/sawtooth-daml-rpc:BTP2.1.0rc14
+  daml_tp: blockchaintp/sawtooth-daml-tp:BTP2.1.0rc14
+  timekeeper: blockchaintp/timekeeper:BTP2.1.0rc14
+  devmode_engine: blockchaintp/sawtooth-devmode-engine-rust:BTP2.1.0rc14
+  pbft_engine: blockchaintp/sawtooth-pbft-engine:BTP2.1.0rc14
+  poet_cli: blockchaintp/sawtooth-poet-cli:BTP2.1.0rc14
+  poet_engine: blockchaintp/sawtooth-poet-engine:BTP2.1.0rc14
+  poet_validator_registry_tp: blockchaintp/sawtooth-poet-validator-registry-tp:BTP2.1.0rc14
+  raft_engine: blockchaintp/sawtooth-raft-engine:BTP2.1.0rc14
+  block_info_tp: blockchaintp/sawtooth-block-info-tp:BTP2.1.0rc14
+  identity_tp: blockchaintp/sawtooth-identity-tp:BTP2.1.0rc14
+  intkey_tp: blockchaintp/sawtooth-intkey-tp-go:BTP2.1.0rc14
+  settings_tp: blockchaintp/sawtooth-settings-tp:BTP2.1.0rc14
+  shell: blockchaintp/sawtooth-shell:BTP2.1.0rc14
+  validator: blockchaintp/sawtooth-validator:BTP2.1.0rc14
+  rest_api: blockchaintp/sawtooth-rest-api:BTP2.1.0rc14
