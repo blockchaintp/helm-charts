@@ -58,13 +58,13 @@ spec:
                 fi
                 sleep 1
               done
-              kubectl get secret {{.Values.sawtooth.networkName}}-jwt-cert
+              kubectl get secret {{.Values.sawtooth.networkName}}-cert
               if [ $? -eq 0 ]; then
                 exit 0
               fi
               kubectl create secret generic \
                 --namespace {{ .Release.Namespace }} \
-                {{.Values.sawtooth.networkName}}-jwt-cert \
+                {{.Values.sawtooth.networkName}}-cert \
                 --from-file=/scratch/rsa
       volumes:
         - name: scratch
