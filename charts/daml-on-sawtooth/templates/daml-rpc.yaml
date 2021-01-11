@@ -163,7 +163,7 @@ spec:
             path: {{.Values.sawtooth.volumes.hostPathBaseDir}}/{{.Values.sawtooth.namespace}}/{{.Values.sawtooth.networkName}}/sawtooth-etc
         - name: jwt-secret
           secret:
-            secretName: {{.Values.networkName}}-cert
+            secretName: {{.Values.sawtooth.networkName}}-cert
         {{- if .Values.sawtooth.daml.trigger.extraVolumes }}
             {{- toYaml .Values.sawtooth.daml.trigger.extraVolumes | nindent 8 }}
         {{- end }}
