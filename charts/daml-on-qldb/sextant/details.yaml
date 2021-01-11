@@ -23,5 +23,3 @@ title: DAML on QLDB
 sextantVersion: daml-on-qldb(Early Access), AWS QLDB, DAML 0.13.41
 buttonIcon: /thirdParty/daml-a.png
 features:
-  - daml.parties
-  - daml.archives

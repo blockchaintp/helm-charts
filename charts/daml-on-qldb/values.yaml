@@ -10,6 +10,8 @@ imagePullSecrets:
     - name: regcred
 
 daml:
+  auth:
+    enabled: false
   image:
     imagePullPolicy: IfNotPresent
   postgres:

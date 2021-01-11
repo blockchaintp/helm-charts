@@ -93,6 +93,8 @@ besu:
     retentionHours: 999
     maxSize: 1024
 daml:
+  auth:
+    enabled: false
   privacy:
     enabled: false
   privateImage:
