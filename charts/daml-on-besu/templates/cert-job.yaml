@@ -56,13 +56,13 @@ spec:
                 fi
                 sleep 1
               done
-              kubectl get secret {{ include "besu.fullname" . }}-jwt-cert
+              kubectl get secret {{ include "besu.fullname" . }}-cert
               if [ $? -eq 0 ]; then
                 exit 0
               fi
               kubectl create secret generic \
                 --namespace {{ .Release.Namespace }} \
-                {{ include "besu.fullname" . }}-jwt-cert \
+                {{ include "besu.fullname" . }}-cert \
                 --from-file=/scratch/rsa
       volumes:
         - name: scratch
