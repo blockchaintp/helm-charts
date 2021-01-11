@@ -24,134 +24,138 @@ spec:
       serviceAccountName: {{.Values.sawtooth.networkName}}-sa
       {{- if .Values.sawtooth.daml.trigger.extraVolumeMounts }}
       initContainers:
-      - name: change-permissions
-        image: busybox
-        command:
-          - "sh"
-          - "-xc"
-          - |
-            {{- range .Values.sawtooth.daml.trigger.extraVolumeMounts }}
-              chown -R 1000:1000 {{.mountPath}}
-            {{- end}}
-        volumeMounts:
-          {{- toYaml .Values.sawtooth.daml.trigger.extraVolumeMounts | nindent 12 }}
+        - name: change-permissions
+          image: busybox
+          command:
+            - "sh"
+            - "-xc"
+            - |
+              {{- range .Values.sawtooth.daml.trigger.extraVolumeMounts }}
+                chown -R 1000:1000 {{.mountPath}}
+              {{- end}}
+          volumeMounts:
+            {{- toYaml .Values.sawtooth.daml.trigger.extraVolumeMounts | nindent 12 }}
       {{- end }}
       containers:
-      - name: postgres
-        image: {{.Values.images.postgres}}
-        ports:
-        - containerPort: 5432
-        env:
-        - name: POSTGRES_HOST_AUTH_METHOD
-          value: trust
-      - name: daml-json-api
-        image: {{.Values.images.daml_json_api}}
-        imagePullPolicy: {{.Values.sawtooth.containers.jsonapi.imagePullPolicy}}
-        ports:
-        - containerPort: {{.Values.sawtooth.ports.jsonapi}}
-        {{- if .Values.sawtooth.containers.jsonapi.args }}
-        args:
-            {{.Values.sawtooth.containers.jsonapi.args}}
-        {{- end }}
-        env:
-          - name: LEDGER_HOST
-            value: localhost
-          - name: LEDGER_PORT
-            value: {{.Values.sawtooth.ports.damlrpc | quote }}
-          - name: HTTP_PORT
-            value: {{.Values.sawtooth.ports.jsonapi | quote }}
-          - name: PACKAGE_RELOAD_INTERVAL
-            value: {{.Values.sawtooth.containers.jsonapi.packageReloadInterval | quote }}
-          - name: WAIT_FOR_TIME
-            value: {{.Values.sawtooth.containers.jsonapi.waitTimeSeconds | quote }}
-          {{ if .Values.sawtooth.containers.jsonapi.env }}
-          {{- toYaml .Values.sawtooth.containers.jsonapi.env | nindent 10 }}
-          {{ end }}
-      - name: daml-trigger
-        image: {{.Values.images.daml_trigger}}
-        imagePullPolicy: {{.Values.sawtooth.containers.daml_trigger.imagePullPolicy}}
-        ports:
-        - containerPort: {{.Values.sawtooth.ports.trigger_http_port}}
-        env:
-          - name: LEDGER_HOST
-            value: localhost
-          - name: LEDGER_PORT
-            value: {{.Values.sawtooth.ports.damlrpc | quote }}
-          {{- if .Values.sawtooth.daml.trigger.jdbcConfig}}
-          - name: JDBC_CONFIG
-            value: {{.Values.sawtooth.daml.trigger.jdbcConfig}}
-          {{- end}}
-          - name: TTL
-            value: {{.Values.sawtooth.daml.trigger.ttl | quote}}
-          {{- if .Values.sawtooth.daml.trigger.timeParam}}
-          - name: TIME_PARAM
-            value: {{.Values.sawtooth.daml.trigger.timeParam}}
-          {{- end}}
-          {{- if .Values.sawtooth.daml.trigger.maxRestartInterval}}
-          - name: MAX_RESTART_INTERVAL
-            value: {{.Values.sawtooth.daml.trigger.maxRestartInterval |quote}}
-          {{- end}}
-          {{- if .Values.sawtooth.daml.trigger.minRestartInterval}}
-          - name: MIN_RESTART_INTERVAL
-            value: {{.Values.sawtooth.daml.trigger.minRestartInterval |quote}}
-          {{- end}}
-          {{- if .Values.sawtooth.daml.maxInboundMessageSize}}
-          - name: MAX_INBOUND_MESSAGE_SIZE
-            value: {{.Values.sawtooth.daml.maxInboundMessageSize |quote}}
-          {{- end}}
-          {{- if .Values.sawtooth.daml.trigger.secretKey}}
-          - name: TRIGGER_SERVICE_SECRET_KEY
-            value: {{.Values.sawtooth.daml.trigger.secretKey |quote}}
-          {{- end}}
-          {{- if .Values.sawtooth.daml.trigger.darFile}}
-          - name: DAR_FILE
-            value: {{.Values.sawtooth.daml.trigger.darFile |quote}}
-          {{- end}}
-          {{- if .Values.sawtooth.daml.trigger.darId }}
-          - name: DAR_PACKAGE_ID
-            value: {{.Values.sawtooth.daml.trigger.darId |quote}}
-          {{- end}}
-          {{- if .Values.sawtooth.daml.trigger.extraArgs }}
-          - name: EXTRA_ARGS
-            value: {{.Values.sawtooth.daml.trigger.extraArgs |quote}}
-          {{- end}}
-          - name: HTTP_PORT
-            value: {{.Values.sawtooth.ports.trigger_http_port | quote }}
-          {{ if .Values.sawtooth.containers.daml_trigger.env }}
-          {{- toYaml .Values.sawtooth.containers.daml_trigger.env | nindent 10 }}
-          {{ end }}
-        resources: {}
-        {{- if .Values.sawtooth.daml.trigger.extraVolumeMounts }}
-        volumeMounts:
-          {{- toYaml .Values.sawtooth.daml.trigger.extraVolumeMounts | nindent 12 }}
-        {{- end }}
-      - name: daml-rpc
-        image: {{.Values.images.daml_rpc}}
-        command: [ "bash", "-xc"]
-        args:
-        - |
-          sleep {{.Values.sawtooth.client_wait}}
-          /opt/sawtooth-daml-rpc/entrypoint.sh \
-            --participant port={{.Values.sawtooth.ports.damlrpc}},address=0.0.0.0,participant-id={{.Values.sawtooth.networkName}},server-jdbc-url=jdbc:postgresql://localhost/postgres?user=postgres \
-            --max-outstanding-batches {{.Values.sawtooth.daml.maxOutstandingBatches}} \
-            --max-ops-per-batch {{.Values.sawtooth.daml.maxOpsPerBatch}} \
-            --connect tcp://{{.Values.sawtooth.networkName}}-validator:{{.Values.sawtooth.ports.sawcomp}} \
-        {{- if .Values.sawtooth.daml.extra_args.enabled }}
-            {{.Values.sawtooth.daml.extra_args.arg_str}}
-        {{- end }}
-        resources:
-          limits:
-            cpu: "250m"
-          requests:
-            cpu: "50m"
-        ports:
-          - containerPort: {{.Values.sawtooth.ports.damlrpc}}
-            name: daml-ledger-api
-        volumeMounts:
-          - mountPath: "/etc/sawtooth"
-            name: sawtooth-etc
-          - mountPath: /secrets/jwt
-            name: jwt-secret
+        - name: postgres
+          image: {{.Values.images.postgres}}
+          ports:
+          - containerPort: 5432
+          env:
+          - name: POSTGRES_HOST_AUTH_METHOD
+            value: trust
+        - name: daml-json-api
+          image: {{.Values.images.daml_json_api}}
+          imagePullPolicy: {{.Values.sawtooth.containers.jsonapi.imagePullPolicy}}
+          ports:
+          - containerPort: {{.Values.sawtooth.ports.jsonapi}}
+          {{- if .Values.sawtooth.containers.jsonapi.args }}
+          args:
+              {{.Values.sawtooth.containers.jsonapi.args}}
+          {{- end }}
+          env:
+            - name: LEDGER_HOST
+              value: localhost
+            - name: LEDGER_PORT
+              value: {{.Values.sawtooth.ports.damlrpc | quote }}
+            - name: HTTP_PORT
+              value: {{.Values.sawtooth.ports.jsonapi | quote }}
+            - name: PACKAGE_RELOAD_INTERVAL
+              value: {{.Values.sawtooth.containers.jsonapi.packageReloadInterval | quote }}
+            - name: WAIT_FOR_TIME
+              value: {{.Values.sawtooth.containers.jsonapi.waitTimeSeconds | quote }}
+            {{ if .Values.sawtooth.containers.jsonapi.env }}
+            {{- toYaml .Values.sawtooth.containers.jsonapi.env | nindent 10 }}
+            {{ end }}
+        - name: daml-trigger
+          image: {{.Values.images.daml_trigger}}
+          imagePullPolicy: {{.Values.sawtooth.containers.daml_trigger.imagePullPolicy}}
+          ports:
+          - containerPort: {{.Values.sawtooth.ports.trigger_http_port}}
+          env:
+            - name: LEDGER_HOST
+              value: localhost
+            - name: LEDGER_PORT
+              value: {{.Values.sawtooth.ports.damlrpc | quote }}
+            {{- if .Values.sawtooth.daml.trigger.jdbcConfig}}
+            - name: JDBC_CONFIG
+              value: {{.Values.sawtooth.daml.trigger.jdbcConfig}}
+            {{- end}}
+            - name: TTL
+              value: {{.Values.sawtooth.daml.trigger.ttl | quote}}
+            {{- if .Values.sawtooth.daml.trigger.timeParam}}
+            - name: TIME_PARAM
+              value: {{.Values.sawtooth.daml.trigger.timeParam}}
+            {{- end}}
+            {{- if .Values.sawtooth.daml.trigger.maxRestartInterval}}
+            - name: MAX_RESTART_INTERVAL
+              value: {{.Values.sawtooth.daml.trigger.maxRestartInterval |quote}}
+            {{- end}}
+            {{- if .Values.sawtooth.daml.trigger.minRestartInterval}}
+            - name: MIN_RESTART_INTERVAL
+              value: {{.Values.sawtooth.daml.trigger.minRestartInterval |quote}}
+            {{- end}}
+            {{- if .Values.sawtooth.daml.maxInboundMessageSize}}
+            - name: MAX_INBOUND_MESSAGE_SIZE
+              value: {{.Values.sawtooth.daml.maxInboundMessageSize |quote}}
+            {{- end}}
+            {{- if .Values.sawtooth.daml.trigger.secretKey}}
+            - name: TRIGGER_SERVICE_SECRET_KEY
+              value: {{.Values.sawtooth.daml.trigger.secretKey |quote}}
+            {{- end}}
+            {{- if .Values.sawtooth.daml.trigger.darFile}}
+            - name: DAR_FILE
+              value: {{.Values.sawtooth.daml.trigger.darFile |quote}}
+            {{- end}}
+            {{- if .Values.sawtooth.daml.trigger.darId }}
+            - name: DAR_PACKAGE_ID
+              value: {{.Values.sawtooth.daml.trigger.darId |quote}}
+            {{- end}}
+            {{- if .Values.sawtooth.daml.trigger.extraArgs }}
+            - name: EXTRA_ARGS
+              value: {{.Values.sawtooth.daml.trigger.extraArgs |quote}}
+            {{- end}}
+            - name: HTTP_PORT
+              value: {{.Values.sawtooth.ports.trigger_http_port | quote }}
+            {{ if .Values.sawtooth.containers.daml_trigger.env }}
+            {{- toYaml .Values.sawtooth.containers.daml_trigger.env | nindent 10 }}
+            {{ end }}
+          resources: {}
+          {{- if .Values.sawtooth.daml.trigger.extraVolumeMounts }}
+          volumeMounts:
+            {{- toYaml .Values.sawtooth.daml.trigger.extraVolumeMounts | nindent 12 }}
+          {{- end }}
+        - name: daml-rpc
+          image: {{.Values.images.daml_rpc}}
+          command: [ "bash", "-xc"]
+          args:
+            - |
+              sleep {{.Values.sawtooth.client_wait}}
+              /opt/sawtooth-daml-rpc/entrypoint.sh \
+                --participant port={{.Values.sawtooth.ports.damlrpc}},address=0.0.0.0,participant-id={{.Values.sawtooth.networkName}},server-jdbc-url=jdbc:postgresql://localhost/postgres?user=postgres \
+                --max-outstanding-batches {{.Values.sawtooth.daml.maxOutstandingBatches}} \
+                --max-ops-per-batch {{.Values.sawtooth.daml.maxOpsPerBatch}} \
+                --connect tcp://{{.Values.sawtooth.networkName}}-validator:{{.Values.sawtooth.ports.sawcomp}} \
+                {{- if .Values.daml.auth.enabled }}
+                --auth-jwt-rs256-crt /secrets/jwt/jwt.crt \
+                {{- end }}
+                {{- if .Values.sawtooth.daml.extra_args.enabled }}
+                {{ .Values.sawtooth.daml.extra_args.arg_str }} \
+                {{- end }}
+              ;
+          resources:
+            limits:
+              cpu: "250m"
+            requests:
+              cpu: "50m"
+          ports:
+            - containerPort: {{.Values.sawtooth.ports.damlrpc}}
+              name: daml-ledger-api
+          volumeMounts:
+            - mountPath: "/etc/sawtooth"
+              name: sawtooth-etc
+            - mountPath: /secrets/jwt
+              name: jwt-secret
       volumes:
         - name: sawtooth-etc
           hostPath:

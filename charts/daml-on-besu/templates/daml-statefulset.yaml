@@ -55,9 +55,13 @@ spec:
                 --participant port={{.Values.daml.rpc.port}},address=0.0.0.0,participant-id={{.Values.daml.rpc.participantId}},server-jdbc-url=jdbc:postgresql://localhost/postgres?user=postgres \
                 --logging INFO \
                 --private-key-file /keys/{{ include "besu.fullname" .}}-0 \
-              {{- if .Values.daml.rpc.extra_args.enabled }}
-                {{.Values.daml.rpc.extra_args.arg_str}}
-              {{- end }}
+                {{- if .Values.daml.auth.enabled }}
+                --auth-jwt-rs256-crt /secrets/jwt/jwt.crt \
+                {{- end }}
+                {{- if .Values.daml.extra_args }}
+                {{ .Values.daml.extra_args }} \
+                {{- end }}
+              ;
           resources: {}
           volumeMounts:
             - mountPath: /keys
