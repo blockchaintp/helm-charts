@@ -17,11 +17,11 @@ repos:
       - id: pmd
         exclude: ".*/src/test/.*"
   - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v7.5.0 # Use the sha / tag you want to point at
+    rev: v7.17.0 # Use the sha / tag you want to point at
     hooks:
       - id: eslint
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.1.0
+    rev: v3.4.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
@@ -29,29 +29,44 @@ repos:
         exclude: "charts/.*/templates/.*"
         args:
           - --allow-multiple-documents
+      - id: check-executables-have-shebangs
       - id: check-added-large-files
       - id: check-json
       - id: check-merge-conflict
       - id: detect-aws-credentials
       - id: detect-private-key
       - id: mixed-line-ending
+      - id: no-commit-to-branch
+        args:
+          - --pattern
+          - '^(?!((fix|feature)\/[a-zA-Z0-9\-]+)$).*'
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v2.13.0
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]
+  - repo: https://github.com/markdownlint/markdownlint
+    rev: master
+    hooks:
+      - id: markdownlint_docker
   - repo: https://github.com/jumanjihouse/pre-commit-hooks
     rev: 2.1.4
     hooks:
-      - id: markdownlint
       - id: shellcheck
       - id: script-must-have-extension
       - id: script-must-not-have-extension
       - id: shfmt
         args:
+          - -l
           - -i
           - "2"
+          - -ci
   - repo: https://github.com/Lucas-C/pre-commit-hooks-go
     rev: v1.0.1
     hooks:
       - id: checkmake
   - repo: https://github.com/Lucas-C/pre-commit-hooks
-    rev: v1.1.7
+    rev: v1.1.9
     hooks:
       - id: forbid-tabs
   - repo: https://github.com/doublify/pre-commit-clang-format
@@ -60,7 +75,7 @@ repos:
       - id: clang-format
         files: \.(c|cc|cxx|cpp|frag|glsl|h|hpp|hxx|ih|ispc|ipp|m|proto|vert)$
   - repo: https://github.com/gruntwork-io/pre-commit
-    rev: v0.1.9 # Get the latest from: https://github.com/gruntwork-io/pre-commit/releases
+    rev: v0.1.12 # Get the latest from: https://github.com/gruntwork-io/pre-commit/releases
     hooks:
       - id: helmlint
     # https://gruntwork.io/repos/v0.1.9/pre-commit for notes if there are issues with this hook
