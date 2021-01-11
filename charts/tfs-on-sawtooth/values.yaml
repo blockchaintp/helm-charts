@@ -113,20 +113,20 @@ sawtooth:
 # presented
 images:
   postgres: postgres:11
-  devmode_engine: blockchaintp/sawtooth-devmode-engine-rust:BTP2.0
-  pbft_engine: blockchaintp/sawtooth-pbft-engine:BTP2.0
-  poet_cli: blockchaintp/sawtooth-poet-cli:BTP2.0
-  poet_engine: blockchaintp/sawtooth-poet-engine:BTP2.0
-  poet_validator_registry_tp: blockchaintp/sawtooth-poet-validator-registry-tp:BTP2.0
-  raft_engine: blockchaintp/sawtooth-raft-engine:BTP2.0
-  block_info_tp: blockchaintp/sawtooth-block-info-tp:BTP2.0
-  identity_tp: blockchaintp/sawtooth-identity-tp:BTP2.0
-  intkey_tp: blockchaintp/sawtooth-intkey-tp-go:BTP2.0
-  settings_tp: blockchaintp/sawtooth-settings-tp:BTP2.0
-  shell: blockchaintp/sawtooth-shell:BTP2.0
-  grafana: blockchaintp/metrics-grafana:BTP2.0
-  influxdb: blockchaintp/metrics-influxdb:BTP2.0
-  validator: blockchaintp/sawtooth-validator:BTP2.0
-  rest_api: blockchaintp/sawtooth-rest-api:BTP2.0
+  devmode_engine: blockchaintp/sawtooth-devmode-engine-rust:BTP2.1.0rc14
+  pbft_engine: blockchaintp/sawtooth-pbft-engine:BTP2.1.0rc14
+  poet_cli: blockchaintp/sawtooth-poet-cli:BTP2.1.0rc14
+  poet_engine: blockchaintp/sawtooth-poet-engine:BTP2.1.0rc14
+  poet_validator_registry_tp: blockchaintp/sawtooth-poet-validator-registry-tp:BTP2.1.0rc14
+  raft_engine: blockchaintp/sawtooth-raft-engine:BTP2.1.0rc14
+  block_info_tp: blockchaintp/sawtooth-block-info-tp:BTP2.1.0rc14
+  identity_tp: blockchaintp/sawtooth-identity-tp:BTP2.1.0rc14
+  intkey_tp: blockchaintp/sawtooth-intkey-tp-go:BTP2.1.0rc14
+  settings_tp: blockchaintp/sawtooth-settings-tp:BTP2.1.0rc14
+  shell: blockchaintp/sawtooth-shell:BTP2.1.0rc14
+  grafana: blockchaintp/metrics-grafana:BTP2.1.0rc14
+  influxdb: blockchaintp/metrics-influxdb:BTP2.1.0rc14
+  validator: blockchaintp/sawtooth-validator:BTP2.1.0rc14
+  rest_api: blockchaintp/sawtooth-rest-api:BTP2.1.0rc14
   taekion_tp: taekion/taekion-fs-tp:latest
   taekion_rest_api: taekion/taekion-fs-middleware:latest

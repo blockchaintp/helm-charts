@@ -108,30 +108,29 @@ sawtooth:
 # presented
 images:
   postgres: postgres:11
-  daml_rpc: blockchaintp/sawtooth-daml-rpc:BTP2.1.0rc7
-  daml_tp: blockchaintp/sawtooth-daml-tp:BTP2.1.0rc7
-  tracer_ui: blockchaintp/tracer-ui:BTP2.1.0rc7
-  noxy: blockchaintp/noxy:BTP2.1.0rc7
-  timekeeper: blockchaintp/timekeeper:BTP2.1.0rc7
-  devmode_engine: blockchaintp/sawtooth-devmode-engine-rust:BTP2.1.0rc7
-  pbft_engine: blockchaintp/sawtooth-pbft-engine:BTP2.1.0rc7
-  poet_cli: blockchaintp/sawtooth-poet-cli:BTP2.1.0rc7
-  poet_engine: blockchaintp/sawtooth-poet-engine:BTP2.1.0rc7
-  poet_validator_registry_tp: blockchaintp/sawtooth-poet-validator-registry-tp:BTP2.1.0rc7
-  raft_engine: blockchaintp/sawtooth-raft-engine:BTP2.1.0rc7
-  block_info_tp: blockchaintp/sawtooth-block-info-tp:BTP2.1.0rc7
-  identity_tp: blockchaintp/sawtooth-identity-tp:BTP2.1.0rc7
-  intkey_tp: blockchaintp/sawtooth-intkey-tp-go:BTP2.1.0rc7
-  settings_tp: blockchaintp/sawtooth-settings-tp:BTP2.1.0rc7
-  shell: blockchaintp/sawtooth-shell:BTP2.1.0rc7
-  smallbank_tp: blockchaintp/sawtooth-smallbank-tp-go:BTP2.1.0rc7
-  grafana: blockchaintp/metrics-grafana:BTP2.1.0rc7
-  influxdb: blockchaintp/metrics-influxdb:BTP2.1.0rc7
-  validator: blockchaintp/sawtooth-validator:BTP2.1.0rc7
-  xo_tp: blockchaintp/sawtooth-xo-tp-go:BTP2.1.0rc7
-  rest_api: blockchaintp/sawtooth-rest-api:BTP2.1.0rc7
-  sabre_tp: blockchaintp/sawtooth-sabre-tp:BTP2.1.0rc7
-  seth_rpc: blockchaintp/sawtooth-seth-rpc:BTP2.1.0rc7
-  seth_tp: blockchaintp/sawtooth-seth-tp:BTP2.1.0rc7
-  xo_demo: blockchaintp/xo-demo:BTP2.1.0rc7
-
+  daml_rpc: blockchaintp/sawtooth-daml-rpc:BTP2.1.0rc14
+  daml_tp: blockchaintp/sawtooth-daml-tp:BTP2.1.0rc14
+  tracer_ui: blockchaintp/tracer-ui:BTP2.1.0rc14
+  noxy: blockchaintp/noxy:BTP2.1.0rc14
+  timekeeper: blockchaintp/timekeeper:BTP2.1.0rc14
+  devmode_engine: blockchaintp/sawtooth-devmode-engine-rust:BTP2.1.0rc14
+  pbft_engine: blockchaintp/sawtooth-pbft-engine:BTP2.1.0rc14
+  poet_cli: blockchaintp/sawtooth-poet-cli:BTP2.1.0rc14
+  poet_engine: blockchaintp/sawtooth-poet-engine:BTP2.1.0rc14
+  poet_validator_registry_tp: blockchaintp/sawtooth-poet-validator-registry-tp:BTP2.1.0rc14
+  raft_engine: blockchaintp/sawtooth-raft-engine:BTP2.1.0rc14
+  block_info_tp: blockchaintp/sawtooth-block-info-tp:BTP2.1.0rc14
+  identity_tp: blockchaintp/sawtooth-identity-tp:BTP2.1.0rc14
+  intkey_tp: blockchaintp/sawtooth-intkey-tp-go:BTP2.1.0rc14
+  settings_tp: blockchaintp/sawtooth-settings-tp:BTP2.1.0rc14
+  shell: blockchaintp/sawtooth-shell:BTP2.1.0rc14
+  smallbank_tp: blockchaintp/sawtooth-smallbank-tp-go:BTP2.1.0rc14
+  grafana: blockchaintp/metrics-grafana:BTP2.1.0rc14
+  influxdb: blockchaintp/metrics-influxdb:BTP2.1.0rc14
+  validator: blockchaintp/sawtooth-validator:BTP2.1.0rc14
+  xo_tp: blockchaintp/sawtooth-xo-tp-go:BTP2.1.0rc14
+  rest_api: blockchaintp/sawtooth-rest-api:BTP2.1.0rc14
+  sabre_tp: blockchaintp/sawtooth-sabre-tp:BTP2.1.0rc14
+  seth_rpc: blockchaintp/sawtooth-seth-rpc:BTP2.1.0rc13
+  seth_tp: blockchaintp/sawtooth-seth-tp:BTP2.1.0rc13
+  xo_demo: blockchaintp/xo-demo:BTP2.1.0rc14
