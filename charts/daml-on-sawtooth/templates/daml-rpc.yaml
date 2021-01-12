@@ -64,9 +64,10 @@ spec:
               value: {{.Values.sawtooth.containers.jsonapi.packageReloadInterval | quote }}
             - name: WAIT_FOR_TIME
               value: {{.Values.sawtooth.containers.jsonapi.waitTimeSeconds | quote }}
-            {{ if .Values.sawtooth.containers.jsonapi.env }}
-            {{- toYaml .Values.sawtooth.containers.jsonapi.env | nindent 10 }}
-            {{ end }}
+            {{- range .Values.sawtooth.containers.jsonapi.env }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+            {{- end }}
         - name: daml-trigger
           image: {{.Values.images.daml_trigger}}
           imagePullPolicy: {{.Values.sawtooth.containers.daml_trigger.imagePullPolicy}}
@@ -117,9 +118,10 @@ spec:
             {{- end}}
             - name: HTTP_PORT
               value: {{.Values.sawtooth.ports.trigger_http_port | quote }}
-            {{ if .Values.sawtooth.containers.daml_trigger.env }}
-            {{- toYaml .Values.sawtooth.containers.daml_trigger.env | nindent 10 }}
-            {{ end }}
+            {{- range .Values.sawtooth.containers.daml_trigger.env }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+            {{- end }}
           resources: {}
           {{- if .Values.sawtooth.daml.trigger.extraVolumeMounts }}
           volumeMounts:
@@ -165,7 +167,7 @@ spec:
           secret:
             secretName: {{.Values.sawtooth.networkName}}-cert
         {{- if .Values.sawtooth.daml.trigger.extraVolumes }}
-            {{- toYaml .Values.sawtooth.daml.trigger.extraVolumes | nindent 8 }}
+        {{- toYaml .Values.sawtooth.daml.trigger.extraVolumes | nindent 8 }}
         {{- end }}
 {{ end }}
 ---
