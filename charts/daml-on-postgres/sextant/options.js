@@ -6,6 +6,14 @@ const activated = [{
   title: 'Disabled',
 }]
 
+const remoteOrLocal = [{
+  value: true,
+  title: 'Local',
+}, {
+  value: false,
+  title: 'Remote',
+}]
+
 const passwordOrSecret = [
   {
     value: '1',
@@ -30,4 +38,5 @@ module.exports = {
   activated,
   yesNo,
   passwordOrSecret,
+  remoteOrLocal,
 }
