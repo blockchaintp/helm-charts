@@ -93,6 +93,7 @@ besu:
     retentionHours: 999
     maxSize: 1024
 daml:
+  ledgerId: default-ledger-id
   auth:
     enabled: false
   privacy:
