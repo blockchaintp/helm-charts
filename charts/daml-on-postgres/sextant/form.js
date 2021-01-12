@@ -31,7 +31,7 @@ const form = [
 
   {
     id: 'postgres.enabled',
-    title: 'Postgres Enabled',
+    title: 'Postgres',
     helperText:
       'If local, a local postgres database instance will be created',
     component: 'radio',
@@ -175,6 +175,10 @@ const form = [
       new: true,
     },
     linked: [
+      {
+        linkedId: 'postgres.enabled',
+        visibilityParameter: 'true', // for what value of linkedId, will this component be visible
+      },
       {
         linkedId: 'postgres.persistence.enabled',
         visibilityParameter: 'true', // for what value of linkedId, will this component be visible
