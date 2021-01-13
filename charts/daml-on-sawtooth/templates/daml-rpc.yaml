@@ -51,7 +51,9 @@ spec:
           - containerPort: {{.Values.sawtooth.ports.jsonapi}}
           {{- if .Values.sawtooth.containers.jsonapi.args }}
           args:
-              {{.Values.sawtooth.containers.jsonapi.args}}
+            {{- range .Values.sawtooth.containers.jsonapi.args }}
+            - {{ . | quote }}
+            {{- end -}}
           {{- end }}
           env:
             - name: LEDGER_HOST
