@@ -31,9 +31,9 @@ const form = [
 
   {
     id: 'postgres.enabled',
-    title: 'Postgres Enabled',
+    title: 'Postgres',
     helperText:
-      'If enabled, a local postgres database instance will be created',
+      'If local, a local postgres database instance will be created',
     component: 'radio',
     default: false,
     dataType: 'boolean',
@@ -41,12 +41,106 @@ const form = [
       new: true,
     },
     row: true,
-    options: options.activated,
+    options: options.remoteOrLocal,
     validate: {
       type: 'string',
       methods: [['required', 'Required']],
     },
   },
+  [
+    {
+      id: 'postgres.host',
+      title: 'Host',
+      helperText: '',
+      component: 'text',
+      editable: {
+        new: true,
+      },
+      linked: [
+        {
+          linkedId: 'postgres.enabled',
+          visibilityParameter: 'false', // for what value of linkedId, will this component be visible
+        },
+      ],
+      validate: {
+        type: 'string',
+        methods: [
+          ['required', 'Required'],
+          validators.dns1123,
+        ],
+      },
+    },
+    {
+      id: 'postgres.user',
+      title: 'User',
+      helperText: '',
+      component: 'text',
+      default: 'postgres',
+      editable: {
+        new: true,
+      },
+      linked: [
+        {
+          linkedId: 'postgres.enabled',
+          visibilityParameter: 'false', // for what value of linkedId, will this component be visible
+        },
+      ],
+      validate: {
+        type: 'string',
+        methods: [
+          ['required', 'Required'],
+          validators.dns1123,
+        ],
+      },
+    },
+    {
+      id: 'postgres.databse',
+      title: 'Database',
+      helperText: '',
+      component: 'text',
+      default: 'postgres',
+      editable: {
+        new: true,
+      },
+      linked: [
+        {
+          linkedId: 'postgres.enabled',
+          visibilityParameter: 'false', // for what value of linkedId, will this component be visible
+        },
+      ],
+      validate: {
+        type: 'string',
+        methods: [
+          ['required', 'Required'],
+          validators.dns1123,
+        ],
+      },
+    },
+    {
+      id: 'postgres.port',
+      title: 'Port',
+      helperText: '',
+      component: 'text',
+      default: 'postgres',
+      editable: {
+        new: true,
+      },
+      linked: [
+        {
+          linkedId: 'postgres.enabled',
+          visibilityParameter: 'false', // for what value of linkedId, will this component be visible
+        },
+      ],
+      validate: {
+        type: 'string',
+        methods: [
+          ['required', 'Required'],
+          validators.dns1123,
+        ],
+      },
+    },
+
+  ],
   {
     id: 'postgres.persistence.enabled',
     title: 'Postgres Persistence',
@@ -60,10 +154,12 @@ const form = [
     },
     row: true,
     options: options.activated,
-    linked: {
-      linkedId: 'postgres.enabled',
-      visibilityParameter: 'true', // for what value of linkedId, will this component be visible
-    },
+    linked: [
+      {
+        linkedId: 'postgres.enabled',
+        visibilityParameter: 'true', // for what value of linkedId, will this component be visible
+      },
+    ],
     validate: {
       type: 'string',
       methods: [['required', 'Required']],
@@ -78,10 +174,16 @@ const form = [
     editable: {
       new: true,
     },
-    linked: {
-      linkedId: 'postgres.persistence.enabled',
-      visibilityParameter: 'true', // for what value of linkedId, will this component be visible
-    },
+    linked: [
+      {
+        linkedId: 'postgres.enabled',
+        visibilityParameter: 'true', // for what value of linkedId, will this component be visible
+      },
+      {
+        linkedId: 'postgres.persistence.enabled',
+        visibilityParameter: 'true', // for what value of linkedId, will this component be visible
+      },
+    ],
     validate: {
       type: 'string',
       methods: [
@@ -113,10 +215,12 @@ const form = [
     helperText: 'The password for the postgres instance',
     component: 'text',
     default: '',
-    linked: {
-      linkedId: 'passwordOrSecret',
-      visibilityParameter: '1', // for what value of linkedId, will this component be visible
-    },
+    linked: [
+      {
+        linkedId: 'passwordOrSecret',
+        visibilityParameter: '1', // for what value of linkedId, will this component be visible
+      },
+    ],
     validate: {
       type: 'string',
       methods: [
@@ -130,10 +234,12 @@ const form = [
     helperText: 'The name of a pre-existing secret with a field "password" containing the password of the postgres instance',
     component: 'text',
     default: '',
-    linked: {
-      linkedId: 'passwordOrSecret',
-      visibilityParameter: '2', // for what value of linkedId, will this component be visible
-    },
+    linked: [
+      {
+        linkedId: 'passwordOrSecret',
+        visibilityParameter: '2', // for what value of linkedId, will this component be visible
+      },
+    ],
     validate: {
       type: 'string',
       methods: [
