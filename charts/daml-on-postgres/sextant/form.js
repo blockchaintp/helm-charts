@@ -33,7 +33,7 @@ const form = [
     id: 'postgres.enabled',
     title: 'Postgres',
     helperText:
-      'Should a local postgres be created, remote credentials need to be provided',
+      'Should a local postgres be created, or will remote credentials be provided?',
     component: 'radio',
     default: false,
     dataType: 'boolean',
@@ -96,7 +96,7 @@ const form = [
     {
       id: 'postgres.databse',
       title: 'Database',
-      helperText: 'Postgres endpoint databse',
+      helperText: 'Postgres endpoint database',
       component: 'text',
       default: 'postgres',
       editable: {
