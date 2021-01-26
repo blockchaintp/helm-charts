@@ -33,7 +33,7 @@ const form = [
     id: 'postgres.enabled',
     title: 'Postgres',
     helperText:
-      'If local, a local postgres database instance will be created',
+      'Should a local postgres be created, or will remote credentials be provided?',
     component: 'radio',
     default: false,
     dataType: 'boolean',
@@ -51,7 +51,7 @@ const form = [
     {
       id: 'postgres.host',
       title: 'Host',
-      helperText: '',
+      helperText: 'Postgres endpoint host',
       component: 'text',
       editable: {
         new: true,
@@ -73,7 +73,7 @@ const form = [
     {
       id: 'postgres.user',
       title: 'User',
-      helperText: '',
+      helperText: 'Postgres endpoint user',
       component: 'text',
       default: 'postgres',
       editable: {
@@ -96,7 +96,7 @@ const form = [
     {
       id: 'postgres.databse',
       title: 'Database',
-      helperText: '',
+      helperText: 'Postgres endpoint database',
       component: 'text',
       default: 'postgres',
       editable: {
@@ -119,9 +119,9 @@ const form = [
     {
       id: 'postgres.port',
       title: 'Port',
-      helperText: '',
+      helperText: 'Postgres endpoint port',
       component: 'text',
-      default: 'postgres',
+      default: '5432',
       editable: {
         new: true,
       },
@@ -231,7 +231,7 @@ const form = [
   {
     id: 'postgres.existingPasswordSecret',
     title: 'Postgres Password Secret Name',
-    helperText: 'The name of a pre-existing secret with a field "password" containing the password of the postgres instance',
+    helperText: 'The name of a secret with a field "password" containing the database password',
     component: 'text',
     default: '',
     linked: [
