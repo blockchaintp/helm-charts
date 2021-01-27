@@ -164,6 +164,8 @@ k8s:
 daml:
   auth:
     enabled: false
+  trigger_service:
+    enabled: false
   image:
     imagePullPolicy: IfNotPresent
 
