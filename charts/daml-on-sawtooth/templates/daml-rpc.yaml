@@ -70,6 +70,7 @@ spec:
             - name: {{ .name }}
               value: {{ .value | quote }}
             {{- end }}
+        {{ if .Values.daml.trigger_service.enabled }}
         - name: daml-trigger
           image: {{.Values.images.daml_trigger}}
           imagePullPolicy: {{.Values.sawtooth.containers.daml_trigger.imagePullPolicy}}
@@ -129,6 +130,7 @@ spec:
           volumeMounts:
             {{- toYaml .Values.sawtooth.daml.trigger.extraVolumeMounts | nindent 12 }}
           {{- end }}
+        {{ end }}
         - name: daml-rpc
           image: {{.Values.images.daml_rpc}}
           command: [ "bash", "-xc"]
