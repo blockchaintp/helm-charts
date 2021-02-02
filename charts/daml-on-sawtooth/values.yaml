@@ -65,7 +65,7 @@ sawtooth:
     initialDelaySeconds: 300
     periodSeconds: 120
     active: "false"
-    exitSignals: "block-info-tp pbft-engine"
+    exitSignals: "block-info-tp pbft-engine timekeeper daml-tp"
   heartbeat:
     interval: 300
   permissioned: false
