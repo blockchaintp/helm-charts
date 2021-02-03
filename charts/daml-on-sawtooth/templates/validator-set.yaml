@@ -58,7 +58,7 @@ spec:
             rm -f /var/lib/sawtooth/pbft.log
             pbft-engine -vv \
               -C tcp://127.0.0.1:{{ .Values.sawtooth.ports.consensus }} \
-              --storage-location disk+/var/lib/sawtooth/pbft.log &
+              --storage-location disk+/var/lib/sawtooth/pbft.log
           lifecycle:
             postStart:
               exec:
@@ -167,7 +167,7 @@ spec:
           args:
             - |
               block-info-tp {{.Values.sawtooth.containers.block_info.args}} \
-                -C tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}} &
+                -C tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}
           lifecycle:
             postStart:
               exec:
