@@ -240,6 +240,7 @@ spec:
           {{end}}
           volumeMounts:
             - mountPath: /var/run/sawtooth
+              name: sawtooth-signals
           lifecycle:
             postStart:
               exec:
@@ -273,6 +274,7 @@ spec:
               cpu: "50m"
           volumeMounts:
             - mountPath: /var/run/sawtooth
+              name: sawtooth-signals
           lifecycle:
             postStart:
               exec:
@@ -323,6 +325,7 @@ spec:
                   fi
           volumeMounts:
             - mountPath: /var/run/sawtooth
+              name: sawtooth-signals
         {{end}}
         - name: rest-api
           image: {{.Values.images.rest_api}}
