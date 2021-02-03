@@ -56,28 +56,30 @@ spec:
           args:
           - |
             rm -f /var/lib/sawtooth/pbft.log
-            SIGNALS_DIR=/var/run/sawtooth
-            SIGNAL_NAME=pbft-engine
-            if [ -r "$SIGNALS_DIR/$SIGNAL_NAME" ]; then
-              rm -f "$SIGNALS_DIR/$SIGNAL_NAME"
-            fi
             pbft-engine -vv \
               -C tcp://127.0.0.1:{{ .Values.sawtooth.ports.consensus }} \
               --storage-location disk+/var/lib/sawtooth/pbft.log &
-            export PID=$!
-            while true; do
-              if [ -r "$SIGNALS_DIR/$SIGNAL_NAME" ]; then
-                echo "Recieved signal to shutdown $SIGNAL_NAME"
-                kill "$PID"
-                break
-              fi
-              sleep 3
-              if ! kill -0 "$PID" 2> /dev/null; then
-                echo "Exiting since the the $SIGNAL_NAME process exited"
-                break
-              fi
-            done
-
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - |
+                    SIGNALS_DIR=/var/run/sawtooth
+                    rm -f $SIGNALS_DIR/pbft-engine
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - |
+                  SIGNALS_DIR=/var/run/sawtooth
+                  if [ -r $SIGNALS_DIR/pbft-engine ]; then
+                    exit 1
+                  else
+                    exit 0
+                  fi
           resources:
             limits:
               cpu: "250m"
@@ -163,27 +165,30 @@ spec:
           image: {{.Values.images.block_info_tp}}
           command: [ "bash", "-c"]
           args:
-          - |
-            SIGNAL_NAME=block-info-tp
-            SIGNALS_DIR=/var/run/sawtooth
-            if [ -r "$SIGNALS_DIR/$SIGNAL_NAME" ]; then
-              rm -f "$SIGNALS_DIR/$SIGNAL_NAME"
-            fi
-            block-info-tp {{.Values.sawtooth.containers.block_info.args}} \
-              -C tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}} &
-            export PID=$!
-            while true; do
-              if [ -r "$SIGNALS_DIR/$SIGNAL_NAME" ]; then
-                echo "Recieved signal to shutdown $SIGNAL_NAME"
-                kill "$PID"
-                break
-              fi
-              sleep 3
-              if ! kill -0 "$PID" 2> /dev/null; then
-                echo "Exiting since the the $SIGNAL_NAME process exited"
-                break
-              fi
-            done
+            - |
+              block-info-tp {{.Values.sawtooth.containers.block_info.args}} \
+                -C tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}} &
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - |
+                    SIGNALS_DIR=/var/run/sawtooth
+                    rm -f $SIGNALS_DIR/block-info-tp
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - |
+                  SIGNALS_DIR=/var/run/sawtooth
+                  if [ -r $SIGNALS_DIR/block-info-tp ]; then
+                    exit 1
+                  else
+                    exit 0
+                  fi
           resources:
             limits:
               cpu: "250m"
@@ -233,6 +238,29 @@ spec:
           - name: {{.name }}
             value: {{.value | quote }}
           {{end}}
+          volumeMounts:
+            - mountPath: /var/run/sawtooth
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - |
+                    SIGNALS_DIR=/var/run/sawtooth
+                    rm -f $SIGNALS_DIR/daml-tp
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - |
+                  SIGNALS_DIR=/var/run/sawtooth
+                  if [ -r $SIGNALS_DIR/daml-tp ]; then
+                    exit 1
+                  else
+                    exit 0
+                  fi
         - name: timekeeper
           image: {{.Values.images.timekeeper}}
           command: [ "bash", "-xc"]
@@ -243,12 +271,58 @@ spec:
               cpu: "250m"
             requests:
               cpu: "50m"
+          volumeMounts:
+            - mountPath: /var/run/sawtooth
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - |
+                    SIGNALS_DIR=/var/run/sawtooth
+                    rm -f $SIGNALS_DIR/timekeeper
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - |
+                  SIGNALS_DIR=/var/run/sawtooth
+                  if [ -r $SIGNALS_DIR/timekeeper ]; then
+                    exit 1
+                  else
+                    exit 0
+                  fi
         {{ end }}
         {{range .Values.sawtooth.customTPs}}
         - name: {{.name}}
           image: {{.image}}
           {{if .command}}command: [ {{ range .command }}"{{.}}",{{end}} ]{{end}}
           {{if .args}}args: [ {{ range .args}}"{{.}}", {{end}} ]{{end}}
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - |
+                    SIGNALS_DIR=/var/run/sawtooth
+                    rm -f $SIGNALS_DIR/{{.name}}
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - |
+                  SIGNALS_DIR=/var/run/sawtooth
+                  if [ -r $SIGNALS_DIR/{{.name}} ]; then
+                    exit 1
+                  else
+                    exit 0
+                  fi
+          volumeMounts:
+            - mountPath: /var/run/sawtooth
         {{end}}
         - name: rest-api
           image: {{.Values.images.rest_api}}
@@ -368,8 +442,16 @@ spec:
                 --maximum-peer-connectivity 255 \
                 {{- if .Values.sawtooth.opentsdb.enabled }}
                 --opentsdb-db {{.Values.sawtooth.opentsdb.db}} \
-                --opentsdb-url {{ .Values.sawtooth.opentsdb.url}}
+                --opentsdb-url {{ .Values.sawtooth.opentsdb.url}} \
                 {{- end }}
+                ;
+              exit_code=$?
+              SIGNALS_DIR=/var/run/sawtooth
+              export EXIT_SIGNALS="{{.Values.sawtooth.livenessProbe.exitSignals}}"
+              for signal in ${EXIT_SIGNALS}; do
+                touch "${SIGNALS_DIR}/$signal"
+              done
+              exit $exit_code
           volumeMounts:
             - mountPath: /var/run/sawtooth
               name: sawtooth-signals
