@@ -20,6 +20,7 @@ sawtooth:
   opentsdb:
     db: metrics
     url:
+    enabled: false
   minReadySeconds: 120
   maxUnavailable: 1
   containers:
@@ -27,14 +28,27 @@ sawtooth:
       env:
     influxdb:
       env:
+    block_info:
+      args:
+    identity_tp:
+      args:
+    rest_api:
+      args:
+    settings_tp:
+      args:
     validator:
+      args:
       env:
       imagePullPolicy: Always
     monitor:
       imagePullPolicy: Always
     taekion_tp:
+      args:
+      env:
       imagePullPolicy: IfNotPresent
     taekion_rest_api:
+      args:
+      env:
       imagePullPolicy: IfNotPresent
   ports:
     sawnet: 8800
@@ -48,7 +62,7 @@ sawtooth:
     initialDelaySeconds: 300
     periodSeconds: 120
     active: "false"
-    exitSignals: "block-info-tp"
+    exitSignals: "block-info-tp pbft-engine"
   heartbeat:
     interval: 300
   permissioned: false

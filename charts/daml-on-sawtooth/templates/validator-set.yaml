@@ -192,10 +192,7 @@ spec:
         {{ end }}
         - name: settings-tp
           image: {{.Values.images.settings_tp}}
-<<<<<<< HEAD
           imagePullPolicy: {{.Values.sawtooth.containers.settings_tp.imagePullPolicy}}
-=======
->>>>>>> 4a99d64... fix(daml-on-sawtooth): resolve differences between d-o-s and other sawtooth charts
           command: [ "bash", "-c"]
           args:
           - |
@@ -257,10 +254,7 @@ spec:
               name: sawtooth-signals
         - name: intkey-tp
           image: {{.Values.images.intkey_tp}}
-<<<<<<< HEAD
           imagePullPolicy: {{.Values.sawtooth.containers.intkey_tp.imagePullPolicy}}
-=======
->>>>>>> 4a99d64... fix(daml-on-sawtooth): resolve differences between d-o-s and other sawtooth charts
           command: [ "bash", "-c"]
           args:
           - |
