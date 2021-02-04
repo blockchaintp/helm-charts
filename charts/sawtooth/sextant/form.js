@@ -259,21 +259,6 @@ const form = [
   'Smart Contract Language Support',
 
   [{
-    id: 'sawtooth.sabre.enabled',
-    title: 'Should Sabre be supported on this network?',
-    helperText: null,
-    component: 'radio',
-    default: false,
-    dataType: 'boolean',
-    row: true,
-    options: options.yesNo,
-    validate: {
-      type: 'string',
-      methods: [
-        ['required', 'Required'],
-      ],
-    },
-  }, {
     id: 'sawtooth.seth.enabled',
     title: 'Should SETH be supported on this network?',
     helperText: null,
