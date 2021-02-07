@@ -52,13 +52,19 @@ spec:
         {{ if eq $consensus 400 }}
         - name: pbft-engine
           image: {{.Values.images.pbft_engine}}
+          imagePullPolicy: {{.Values.sawtooth.containers.pbft_engine.imagePullPolicy}}
           command: [ "bash", "-c"]
           args:
           - |
             rm -f /var/lib/sawtooth/pbft.log
-            pbft-engine -vv \
+            pbft-engine {{.Values.sawtooth.containers.pbft_engine.args}} \
               -C tcp://127.0.0.1:{{ .Values.sawtooth.ports.consensus }} \
               --storage-location disk+/var/lib/sawtooth/pbft.log
+          env:
+            {{ range .Values.sawtooth.containers.pbft_engine.env }}
+            - name: {{.name }}
+              value: {{.value | quote }}
+            {{end}}
           lifecycle:
             postStart:
               exec:
@@ -93,9 +99,17 @@ spec:
         {{ else if eq $consensus 300 }}
         - name: raft-engine
           image: {{.Values.images.raft_engine}}
-          command: [ "bash", "-xc"]
+          imagePullPolicy: {{.Values.sawtooth.containers.raft_engine.imagePullPolicy}}
+          command: [ "bash", "-c"]
           args:
-          - "raft-engine -v -C tcp://127.0.0.1:{{.Values.sawtooth.ports.consensus}}"
+          - |
+            raft-engine {{.Values.sawtooth.containers.raft_engine.args}} \
+              -C tcp://127.0.0.1:{{.Values.sawtooth.ports.consensus}}
+          env:
+            {{ range .Values.sawtooth.containers.raft_engine.env }}
+            - name: {{.name }}
+              value: {{.value | quote }}
+            {{end}}
           resources:
             limits:
               cpu: "250m"
@@ -109,9 +123,18 @@ spec:
         {{ else if eq $consensus 200 }}
         - name: poet-engine
           image: {{.Values.images.poet_engine}}
-          command: [ "bash", "-xc"]
+          imagePullPolicy: {{.Values.sawtooth.containers.poet_engine.imagePullPolicy}}
+          command: [ "bash", "-c"]
           args:
-          - "poet-engine -v --connect tcp://127.0.0.1:{{.Values.sawtooth.ports.consensus}} --component tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}} -v"
+          - |
+            poet-engine {{.Values.sawtooth.containers.poet_engine.args}} \
+              --connect tcp://127.0.0.1:{{.Values.sawtooth.ports.consensus}} \
+              --component tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}
+          env:
+            {{ range .Values.sawtooth.containers.poet_engine.env }}
+            - name: {{.name }}
+              value: {{.value | quote }}
+            {{end}}
           volumeMounts:
             - mountPath: "/etc/sawtooth"
               name: sawtooth-etc
@@ -124,9 +147,17 @@ spec:
               cpu: "50m"
         - name: poet-validator-registry-tp
           image: {{.Values.images.poet_validator_registry_tp}}
-          command: [ "bash", "-xc"]
+          imagePullPolicy: {{.Values.sawtooth.containers.poet_validator_registry_tp.imagePullPolicy}}
+          command: [ "bash", "-c"]
           args:
-          - "poet-validator-registry-tp -v -C tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}"
+          - |
+            poet-validator-registry-tp {{.Values.sawtooth.containers.poet_validator_registry_tp.args}} \
+              -C tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}
+          env:
+            {{ range .Values.sawtooth.containers.poet_validator_registry_tp.env }}
+            - name: {{.name }}
+              value: {{.value | quote }}
+            {{end}}
           volumeMounts:
             - mountPath: "/etc/sawtooth"
               name: sawtooth-etc
@@ -140,9 +171,17 @@ spec:
         {{ else }}
         - name: devmode-engine
           image: {{.Values.images.devmode_engine}}
-          command: [ "bash", "-xc"]
+          imagePullPolicy: {{.Values.sawtooth.containers.devmode_engine.imagePullPolicy}}
+          command: [ "bash", "-c"]
           args:
-          - "devmode-engine-rust -v -C tcp://127.0.0.1:{{.Values.sawtooth.ports.consensus}}"
+          - |
+            devmode-engine-rust {{.Values.sawtooth.containers.devmode_engine.args}} \
+              -C tcp://127.0.0.1:{{.Values.sawtooth.ports.consensus}}
+          env:
+            {{ range .Values.sawtooth.containers.devmode_engine.env }}
+            - name: {{.name }}
+              value: {{.value | quote }}
+            {{end}}
           resources:
             limits:
               cpu: "250m"
@@ -151,11 +190,17 @@ spec:
         {{ end }}
         - name: settings-tp
           image: {{.Values.images.settings_tp}}
-          command: [ "bash", "-xc"]
+          imagePullPolicy: {{.Values.sawtooth.containers.settings_tp.imagePullPolicy}}
+          command: [ "bash", "-c"]
           args:
           - |
             settings-tp {{.Values.sawtooth.containers.settings_tp.args}} \
               --connect tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}
+          env:
+            {{ range .Values.sawtooth.containers.settings_tp.env }}
+            - name: {{.name }}
+              value: {{.value | quote }}
+            {{end}}
           resources:
             limits:
               cpu: "250m"
@@ -163,11 +208,17 @@ spec:
               cpu: "50m"
         - name: block-info-tp
           image: {{.Values.images.block_info_tp}}
+          imagePullPolicy: {{.Values.sawtooth.containers.block_info.imagePullPolicy}}
           command: [ "bash", "-c"]
           args:
             - |
               block-info-tp {{.Values.sawtooth.containers.block_info.args}} \
                 -C tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}
+          env:
+            {{ range .Values.sawtooth.containers.block_info.env }}
+            - name: {{.name }}
+              value: {{.value | quote }}
+            {{end}}
           lifecycle:
             postStart:
               exec:
@@ -199,9 +250,17 @@ spec:
               name: sawtooth-signals
         - name: intkey-tp
           image: {{.Values.images.intkey_tp}}
-          command: [ "bash", "-xc"]
+          imagePullPolicy: {{.Values.sawtooth.containers.intkey_tp.imagePullPolicy}}
+          command: [ "bash", "-c"]
           args:
-          - "intkey-tp-go --connect tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}"
+          - |
+            intkey-tp-go {{.Values.sawtooth.containers.intkey_tp.args}} \
+              --connect tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}
+          env:
+            {{ range .Values.sawtooth.containers.intkey_tp.env }}
+            - name: {{.name }}
+              value: {{.value | quote }}
+            {{end}}
           resources:
             limits:
               cpu: "250m"
@@ -210,9 +269,17 @@ spec:
         {{ if .Values.sawtooth.permissioned }}
         - name: identity-tp
           image: {{.Values.images.identity_tp}}
-          command: [ "bash", "-xc" ]
+          imagePullPolicy: {{.Values.sawtooth.containers.identity_tp.imagePullPolicy}}
+          command: [ "bash", "-c" ]
           args:
-          - "identity-tp {{.Values.sawtooth.containers.identity_tp.args}} -C tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}"
+          - |
+            identity-tp {{.Values.sawtooth.containers.identity_tp.args}} \
+              -C tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}
+          env:
+            {{ range .Values.sawtooth.containers.identity_tp.env }}
+            - name: {{.name }}
+              value: {{.value | quote }}
+            {{end}}
           resources:
             limits:
               cpu: "250m"
@@ -222,9 +289,12 @@ spec:
         {{ if .Values.sawtooth.daml.enabled }}
         - name: daml-tp
           image: {{.Values.images.daml_tp}}
-          command: [ "bash", "-xc"]
+          imagePullPolicy: {{.Values.sawtooth.containers.daml_tp.imagePullPolicy}}
+          command: [ "bash", "-c"]
           args:
-          - "/opt/sawtooth-daml-tp/entrypoint.sh {{.Values.sawtooth.containers.daml_tp.args}} tcp://localhost:{{.Values.sawtooth.ports.sawcomp}}"
+          - |
+            /opt/sawtooth-daml-tp/entrypoint.sh {{.Values.sawtooth.containers.daml_tp.args}} \
+              tcp://localhost:{{.Values.sawtooth.ports.sawcomp}}
           resources:
             limits: {}
             requests:
@@ -264,9 +334,17 @@ spec:
                   fi
         - name: timekeeper
           image: {{.Values.images.timekeeper}}
-          command: [ "bash", "-xc"]
+          imagePullPolicy: {{.Values.sawtooth.containers.timekeeper.imagePullPolicy}}
+          command: [ "bash", "-c"]
           args:
-          - "/opt/timekeeper/entrypoint.sh {{.Values.sawtooth.containers.timekeeper.args}} tcp://localhost:{{.Values.sawtooth.ports.sawcomp}}"
+          - |
+            /opt/timekeeper/entrypoint.sh {{.Values.sawtooth.containers.timekeeper.args}} \
+              tcp://localhost:{{.Values.sawtooth.ports.sawcomp}}
+          env:
+            {{ range .Values.sawtooth.containers.timekeeper.env }}
+            - name: {{.name }}
+              value: {{.value | quote }}
+            {{end}}
           resources:
             limits:
               cpu: "250m"
@@ -329,7 +407,8 @@ spec:
         {{end}}
         - name: rest-api
           image: {{.Values.images.rest_api}}
-          command: [ "bash", "-xc"]
+          imagePullPolicy: {{.Values.sawtooth.containers.rest_api.imagePullPolicy}}
+          command: [ "bash", "-c"]
           args:
           - |
             sleep {{.Values.sawtooth.client_wait}}
@@ -348,6 +427,10 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
+            {{ range .Values.sawtooth.containers.rest_api.env }}
+            - name: {{.name }}
+              value: {{.value | quote }}
+            {{end}}
           resources:
             limits:
               cpu: "250m"
@@ -356,7 +439,7 @@ spec:
         - name: monitor
           image: {{.Values.images.shell}}
           imagePullPolicy: {{.Values.sawtooth.containers.monitor.imagePullPolicy}}
-          command: [ "bash", "-xc"]
+          command: [ "bash", "-c"]
           args:
             - |
               sawtooth keygen && \
@@ -403,7 +486,7 @@ spec:
                     rm -f $RUN_DIR/catchup.started
                     rm -f $RUN_DIR/last*
                     rm -f $RUN_DIR/pbft_seq*
-          command: ["bash", "-xc" ]
+          command: ["bash", "-c" ]
           args:
             - |
               sleep 30
@@ -434,7 +517,8 @@ spec:
               fi
               PEERS=$(echo $PEERS | sed -e 's/:8800/:{{.Values.sawtooth.ports.sawnet}}/g')
               SEEDS=$(echo $SEEDS | sed -e 's/:8800/:{{.Values.sawtooth.ports.sawnet}}/g')
-              sawtooth-validator {{.Values.sawtooth.containers.validator.args}} --scheduler {{.Values.sawtooth.scheduler}} \
+              sawtooth-validator {{.Values.sawtooth.containers.validator.args}} \
+                --scheduler {{.Values.sawtooth.scheduler}} \
                 --endpoint tcp://${NODE_NAME}:{{.Values.sawtooth.ports.sawnet}} \
                 --bind component:tcp://0.0.0.0:{{.Values.sawtooth.ports.sawcomp}} \
                 --bind consensus:tcp://0.0.0.0:{{.Values.sawtooth.ports.consensus}} \
@@ -506,12 +590,13 @@ spec:
       initContainers:
         - name: setup
           image: {{.Values.images.validator}}
+          imagePullPolicy: {{.Values.sawtooth.containers.validator.imagePullPolicy}}
           volumeMounts:
             - mountPath: "/etc/sawtooth"
               name: sawtooth-etc
             - mountPath: "/var/lib/sawtooth"
               name: sawtooth-data
-          command: [ "bash", "-xc" ]
+          command: [ "bash", "-c" ]
           env:
             - name: NODE_NAME
               valueFrom:
@@ -544,7 +629,8 @@ spec:
           {{ if eq $consensus 200 }}
         - name: poet-registration
           image: {{.Values.images.poet_cli}}
-          command: [ "bash", "-xc" ]
+          imagePullPolicy: {{.Values.sawtooth.containers.poet_cli.imagePullPolicy}}
+          command: [ "bash", "-c" ]
           args:
           - |
             mkdir -p /sawtooth-etc/poet
