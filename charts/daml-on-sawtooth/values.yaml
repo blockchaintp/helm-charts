@@ -25,33 +25,71 @@ sawtooth:
 # .Values.sawtooth.containers.validator.args
   containers:
     jsonapi:
+      args:
+      env:
+      imagePullPolicy: IfNotPresent
       packageReloadInterval: "5s"
       waitTimeSeconds: 0
-      env:
-      args:
-      imagePullPolicy: IfNotPresent
-    timekeeper:
-      args:
     block_info:
       args:
+      env:
+      imagePullPolicy: IfNotPresent
     daml_trigger:
+      args:
       env:
       imagePullPolicy: IfNotPresent
     daml_tp:
       args:
       env:
+      imagePullPolicy: IfNotPresent
+    devmode_engine:
+      args:
+      env:
+      imagePullPolicy: IfNotPresent
     identity_tp:
       args:
+      env:
+      imagePullPolicy: IfNotPresent
+    intkey_tp:
+      args:
+      env:
+      imagePullPolicy: IfNotPresent
+    monitor:
+      args:
+      env:
+      imagePullPolicy: IfNotPresent
+    pbft_engine:
+      args:
+      env:
+      imagePullPolicy: IfNotPresent
+    poet_cli:
+      args:
+      env:
+      imagePullPolicy: IfNotPresent
+    poet_engine:
+      args:
+      env:
+      imagePullPolicy: IfNotPresent
+    poet_validator_registry_tp:
+      args:
+      env:
+      imagePullPolicy: IfNotPresent
     rest_api:
       args:
+      env:
+      imagePullPolicy: IfNotPresent
     settings_tp:
       args:
+      env:
+      imagePullPolicy: IfNotPresent
+    timekeeper:
+      args:
+      env:
+      imagePullPolicy: IfNotPresent
     validator:
       args:
       env:
-      imagePullPolicy: Always
-    monitor:
-      imagePullPolicy: Always
+      imagePullPolicy: IfNotPresent
   ports:
     sawnet: 8800
     consensus: 5050
