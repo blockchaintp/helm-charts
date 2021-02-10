@@ -86,6 +86,8 @@ spec:
                   else
                     exit 0
                   fi
+            failureThreshold: 1
+            periodSeconds: 3
           resources:
             limits:
               cpu: "250m"
@@ -240,6 +242,8 @@ spec:
                   else
                     exit 0
                   fi
+            failureThreshold: 1
+            periodSeconds: 3
           resources:
             limits:
               cpu: "250m"
@@ -261,6 +265,20 @@ spec:
             - name: {{.name }}
               value: {{.value | quote }}
             {{end}}
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - |
+                  SIGNALS_DIR=/var/run/sawtooth
+                  if [ -r $SIGNALS_DIR/intkey-tp ]; then
+                    exit 1
+                  else
+                    exit 0
+                  fi
+            failureThreshold: 1
+            periodSeconds: 3
           resources:
             limits:
               cpu: "250m"
@@ -332,6 +350,8 @@ spec:
                   else
                     exit 0
                   fi
+            failureThreshold: 1
+            periodSeconds: 3
         - name: timekeeper
           image: {{.Values.images.timekeeper}}
           imagePullPolicy: {{.Values.sawtooth.containers.timekeeper.imagePullPolicy}}
@@ -374,6 +394,8 @@ spec:
                   else
                     exit 0
                   fi
+            failureThreshold: 1
+            periodSeconds: 3
         {{ end }}
         {{range .Values.sawtooth.customTPs}}
         - name: {{.name}}
@@ -401,6 +423,8 @@ spec:
                   else
                     exit 0
                   fi
+            failureThreshold: 1
+            periodSeconds: 3
           volumeMounts:
             - mountPath: /var/run/sawtooth
               name: sawtooth-signals
@@ -431,6 +455,23 @@ spec:
             - name: {{.name }}
               value: {{.value | quote }}
             {{end}}
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - |
+                  SIGNALS_DIR=/var/run/sawtooth
+                  if [ -r $SIGNALS_DIR/rest-api ]; then
+                    exit 1
+                  else
+                    exit 0
+                  fi
+            failureThreshold: 1
+            periodSeconds: 3
+          volumeMounts:
+            - mountPath: /var/run/sawtooth
+              name: sawtooth-signals
           resources:
             limits:
               cpu: "250m"
@@ -514,6 +555,9 @@ spec:
                   cd -
                 fi
                 touch /etc/sawtooth/initialized;
+              fi
+              if [ -r /var/lib/sawtooth/data.reset ]; then
+                rm -rf /var/lib/sawtooth/*
               fi
               PEERS=$(echo $PEERS | sed -e 's/:8800/:{{.Values.sawtooth.ports.sawnet}}/g')
               SEEDS=$(echo $SEEDS | sed -e 's/:8800/:{{.Values.sawtooth.ports.sawnet}}/g')
