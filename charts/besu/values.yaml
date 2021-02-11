@@ -74,8 +74,8 @@ besu:
   affinity:
     enabled: false
   image:
-    repository: dev.catenasys.com:8083/blockchaintp/besu
-    tag: latest
+    repository: blockchaintp/besu
+    tag: BTP2.1.0rc14
     imagePullPolicy: IfNotPresent
   p2p:
     enabled: true
