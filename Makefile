@@ -56,7 +56,7 @@ setup_dist:
 	$(TOOL_RUN) -c "mkdir -p /project/dist"
 
 define helm_tmpl =
-.PHONY: helmlint-$(1) helmdep-$(1) helmpkg-$(1) $(1)
+.PHONY: helmlint-$(1) helmdep-$(1) helmpkg-$(1) helmdoc-$(1) $(1)
 tmpl-dep: helmdep-$(1)
 helmdep-$(1): repos.helm
 	$(TMPL_TOOL_RUN) -c "cd /project/$(CHART_BASE)/$(1); \
@@ -65,11 +65,14 @@ tmpl-lint: helmlint-$(1)
 helmlint-$(1): helmdep-$(1) tool.docker
 	$(TMPL_TOOL_RUN) -c "cd /project/$(CHART_BASE)/$(1); \
 		helm lint ./"
+tmpl-docs: helmdoc-$(1)
+helmdoc-$(1):
+	cd charts/$(1); mddoc values.yaml > README.md
 tmpl-test: helmtest-$(1)
 helmtest-$(1): helmlint-$(1)
 	$(TMPL_TOOL_RUN) -c "cd /project/$(CHART_BASE)/$(1); \
 		helm test ./"
-tmpl-pkg: helmpkg-$(1)
+tmpl-pkg: helmpkg-$(1) helmdoc-$(1)
 helmpkg-$(1): setup_dist helmlint-$(1)
 	$(TMPL_TOOL_RUN) -c "cd /project/$(CHART_BASE)/$(1); \
 		helm package ./ --destination=/project/dist"

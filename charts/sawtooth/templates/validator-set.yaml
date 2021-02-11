@@ -223,28 +223,6 @@ spec:
             requests:
               cpu: "50m"
         {{ end }}
-        {{ if .Values.sawtooth.daml.enabled }}
-        - name: daml-tp
-          image: {{ .Values.images.daml_tp }}
-          command: [ "bash", "-xc"]
-          args:
-          - "/opt/sawtooth-daml-tp/entrypoint.sh tcp://localhost:{{ .Values.sawtooth.ports.sawcomp }}"
-          resources:
-            limits:
-              cpu: "250m"
-            requests:
-              cpu: "50m"
-        - name: timekeeper
-          image: {{ .Values.images.timekeeper }}
-          command: [ "bash", "-xc"]
-          args:
-          - "/opt/timekeeper/entrypoint.sh tcp://localhost:{{ .Values.sawtooth.ports.sawcomp }}"
-          resources:
-            limits:
-              cpu: "250m"
-            requests:
-              cpu: "50m"
-        {{ end }}
         {{ range .Values.sawtooth.customTPs }}
         - name: {{ .name }}
           image: {{ .image }}

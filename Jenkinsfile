@@ -40,15 +40,11 @@ pipeline {
 
     stage('Fetch Tags') {
       steps {
-        checkout([$class: 'GitSCM', branches: [[name: "${GIT_BRANCH}"]],
-            doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [],
-            userRemoteConfigs: [[credentialsId: 'github-credentials',noTags:false, url: "${GIT_URL}"]],
-            extensions: [
-                  [$class: 'CloneOption',
-                  shallow: false,
-                  noTags: false,
-                  timeout: 60]
-            ]])
+        gitConfig()
+        checkoutComponent("catenasys/helm-charts", "${GIT_BRANCH}")
+        dir ("shell-scripts") {
+          checkoutComponent("catenasys/shell-scripts","main")
+        }
       }
     }
 
@@ -61,11 +57,24 @@ pipeline {
       }
     }
 
+    stage("Make documentation and checkin") {
+      steps {
+        sh '''
+          PATH=$PATH:$(pwd)/shell-scripts/bash
+          export PATH
+          make tmpl-docs
+        '''
+        updateReadmes("${GIT_BRANCH}")
+      }
+    }
+
     stage("Update dependencies and package") {
       steps {
-        sh """
+        sh '''
+          PATH=$PATH:$(pwd)/shell-scripts/bash
+          export PATH
           make all
-        """
+        '''
       }
     }
 
@@ -160,5 +169,45 @@ pipeline {
       failure {
           error "Failed, exiting now"
       }
+  }
+}
+
+def checkoutComponent(component, tagOrBranch) {
+  checkout([$class: 'GitSCM', branches: [[name: "${tagOrBranch}"]],
+  doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [],
+  userRemoteConfigs: [[credentialsId: 'btp-build.github', url: "https://github.com/${component}.git"]],
+  extensions: [
+      [$class: 'LocalBranch',
+        localBranch: tagOrBranch],
+      [$class: 'CloneOption',
+        shallow: false,
+        noTags: false,
+        timeout: 60]
+  ]])
+}
+
+def gitConfig() {
+  sh '''
+    git config --global credential.helper cache
+    git config --global user.email "btp-build@blockchaintp.com"
+    git config --global user.name "BTP Build"
+  '''
+}
+
+
+def updateReadmes(branch) {
+  withCredentials([usernamePassword(credentialsId: 'btp-build.github',
+                                    passwordVariable: 'GIT_PASSWORD',
+                                    usernameVariable: 'GIT_USERNAME')]) {
+    withEnv(["branch=${branch}"]) {
+      sh '''
+        diff_readmes=$(git diff --name-only |grep README.md|wc -l)
+        if [ "$diff_readmes" -gt 0 ]; then
+          git add charts/*/README.md
+          git commit -m "ci: Updating README.md files"
+          git push origin HEAD:${branch}
+        fi
+      '''
+    }
   }
 }
