@@ -201,11 +201,13 @@ def updateReadmes(branch) {
                                     usernameVariable: 'GIT_USERNAME')]) {
     withEnv(["branch=${branch}"]) {
       sh '''
-        diff_readmes=$(git diff --name-only |grep README.md|wc -l)
-        if [ "$diff_readmes" -gt 0 ]; then
-          git add charts/*/README.md
-          git commit -m "ci: Updating README.md files"
-          git push origin HEAD:${branch}
+        if [ "$branch" = "master" ]; then
+          diff_readmes=$(git diff --name-only |grep README.md|wc -l)
+          if [ "$diff_readmes" -gt 0 ]; then
+            git add charts/*/README.md
+            git commit -m "ci: Updating README.md files"
+            git push origin HEAD:${branch}
+          fi
         fi
       '''
     }
