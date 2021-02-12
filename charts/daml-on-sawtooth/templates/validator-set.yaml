@@ -563,6 +563,13 @@ spec:
               fi
               PEERS=$(echo $PEERS | sed -e 's/:8800/:{{.Values.sawtooth.ports.sawnet}}/g')
               SEEDS=$(echo $SEEDS | sed -e 's/:8800/:{{.Values.sawtooth.ports.sawnet}}/g')
+              SIGNALS_DIR=/var/run/sawtooth
+              export EXIT_SIGNALS="{{.Values.sawtooth.livenessProbe.exitSignals}}"
+              for signal in ${EXIT_SIGNALS}; do
+                while [ -r "$SIGNALS_DIR/$signal" ]; do
+                  sleep 1
+                done
+              done
               sawtooth-validator {{.Values.sawtooth.containers.validator.args}} \
                 --scheduler {{.Values.sawtooth.scheduler}} \
                 --endpoint tcp://${NODE_NAME}:{{.Values.sawtooth.ports.sawnet}} \
@@ -579,8 +586,6 @@ spec:
                 {{- end }}
                 ;
               exit_code=$?
-              SIGNALS_DIR=/var/run/sawtooth
-              export EXIT_SIGNALS="{{.Values.sawtooth.livenessProbe.exitSignals}}"
               for signal in ${EXIT_SIGNALS}; do
                 touch "${SIGNALS_DIR}/$signal"
               done
