@@ -11,10 +11,20 @@
 | `sawtooth.opentsdb` | group of opentsdb parameters for sawtooth | map | N/A |
 | `sawtooth.opentsdb.db` | name of the opentsdb database to be used | string | metrics |
 | `sawtooth.opentsdb.url` | url of the opentsdb database to be used | string | nil |
+| `sawtooth.opentsdb.enabled` | whether to enable the opentsdb metrics | boolean | false |
 | `sawtooth.minReadySeconds` | the minimum time a pod must be Running before proceeeding on a rolling update | int | 120 |
 | `sawtooth.maxUnavailable` | maximum number of pods allowed down on a rollout or update  | int | 1 |
 | `sawtooth.containers` | settings group for all sawtooth containers | map | N/A |
+| `sawtooth.containers.block_info` | settings group for all sawtooth block-info-tp container | map | N/A |
+| `sawtooth.containers.block_info.args` | extra args for block-info-tp | string | nil |
+| `sawtooth.containers.identity_tp` | settings group for all sawtooth identity-tp container | map | N/A |
+| `sawtooth.containers.identity_tp.args` | extra args for identity-tp | string | nil |
+| `sawtooth.containers.rest-api` | settings group for all sawtooth rest-api container | map | N/A |
+| `sawtooth.containers.rest_api.args` | extra args for rest-api | string | nil |
+| `sawtooth.containers.settings_tp` | settings group for all sawtooth settings-tp container | map | N/A |
+| `sawtooth.containers.settings_tp.args` | extra args for settings-tp | string | nil |
 | `sawtooth.containers.validator` | settings group for all sawtooth validator container | map | N/A |
+| `sawtooth.containers.validator.args` | extra args for validator | string | nil |
 | `sawtooth.containers.validator.env` | list of environment name/valie dicts | map | nil |
 | `sawtooth.containers.validator.imagePullPolicy` | imagePullPolicy for sawtooth validator container | string | IfNotPresent |
 | `sawtooth.containers.monitor.imagePullPolicy` | imagePullPolicy for sawtooth monitor container | string | IfNotPresent |
