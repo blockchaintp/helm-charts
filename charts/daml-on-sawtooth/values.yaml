@@ -13,16 +13,16 @@ affinity:
 # if true then there should exist a secret within the namespace
 #   of the given names, multiple values are acceptable
 imagePullSecrets:
-  enabled: true
+  enabled: false
   value:
     - name: regcred
 sawtooth:
   opentsdb:
     db: metrics
     url:
+    enabled: false
   minReadySeconds: 120
   maxUnavailable: 1
-# .Values.sawtooth.containers.validator.args
   containers:
     jsonapi:
       args:

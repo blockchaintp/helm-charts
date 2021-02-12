@@ -531,8 +531,9 @@ spec:
           args:
             - |
               sleep 30
-              source /usr/local/bin/validator_env.sh {{.Values.sawtooth.namespace}} {{.Values.sawtooth.networkName}} \
-                ${POD_NAME} ${POD_IP} ${NODE_NAME} {{.Values.sawtooth.ports.sawnet}}
+              source /usr/local/bin/validator_env.sh {{.Values.sawtooth.namespace}} \
+                {{.Values.sawtooth.networkName}} ${POD_NAME} ${POD_IP} ${NODE_NAME} \
+                {{.Values.sawtooth.ports.sawnet}}
               start_delay=$(( $DELAY * 5 ))
               sleep $start_delay
               if [ ! -r /etc/sawtooth/initialized ]; then
@@ -549,7 +550,8 @@ spec:
             {{ if .Values.sawtooth.permissioned }}
                   /usr/local/bin/identity_genesis_config.sh {{.Values.sawtooth.namespace}}
             {{ end }}
-                  sawset genesis -k /etc/sawtooth/keys/validator.priv -o /etc/sawtooth/genesis/000-genesis.batch
+                  sawset genesis -k /etc/sawtooth/keys/validator.priv \
+                    -o /etc/sawtooth/genesis/000-genesis.batch
                   cd /etc/sawtooth/genesis
                   sawadm genesis `ls |sort`
                   cd -
@@ -573,7 +575,7 @@ spec:
                 --maximum-peer-connectivity 255 \
                 {{- if .Values.sawtooth.opentsdb.enabled }}
                 --opentsdb-db {{.Values.sawtooth.opentsdb.db}} \
-                --opentsdb-url {{ .Values.sawtooth.opentsdb.url}} \
+                --opentsdb-url {{.Values.sawtooth.opentsdb.url}} \
                 {{- end }}
                 ;
               exit_code=$?

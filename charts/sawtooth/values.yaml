@@ -31,14 +31,34 @@ sawtooth:
     db: metrics
     ## @md | `sawtooth.opentsdb.url` | url of the opentsdb database to be used | string | nil |
     url:
+    ## @md | `sawtooth.opentsdb.enabled` | whether to enable the opentsdb metrics | boolean | false |
+    enabled: false
   ## @md | `sawtooth.minReadySeconds` | the minimum time a pod must be Running before proceeeding on a rolling update | int | 120 |
   minReadySeconds: 120
   ## @md | `sawtooth.maxUnavailable` | maximum number of pods allowed down on a rollout or update  | int | 1 |
   maxUnavailable: 1
   ## @md | `sawtooth.containers` | settings group for all sawtooth containers | map | N/A |
   containers:
+    ## @md | `sawtooth.containers.block_info` | settings group for all sawtooth block-info-tp container | map | N/A |
+    block_info:
+      ## @md | `sawtooth.containers.block_info.args` | extra args for block-info-tp | string | nil |
+      args:
+    ## @md | `sawtooth.containers.identity_tp` | settings group for all sawtooth identity-tp container | map | N/A |
+    identity_tp:
+      ## @md | `sawtooth.containers.identity_tp.args` | extra args for identity-tp | string | nil |
+      args:
+    ## @md | `sawtooth.containers.rest-api` | settings group for all sawtooth rest-api container | map | N/A |
+    rest_api:
+      ## @md | `sawtooth.containers.rest_api.args` | extra args for rest-api | string | nil |
+      args:
+    ## @md | `sawtooth.containers.settings_tp` | settings group for all sawtooth settings-tp container | map | N/A |
+    settings_tp:
+      ## @md | `sawtooth.containers.settings_tp.args` | extra args for settings-tp | string | nil |
+      args:
     ## @md | `sawtooth.containers.validator` | settings group for all sawtooth validator container | map | N/A |
     validator:
+      ## @md | `sawtooth.containers.validator.args` | extra args for validator | string | nil |
+      args:
       ## @md | `sawtooth.containers.validator.env` | list of environment name/valie dicts | map | nil |
       env:
       ## @md | `sawtooth.containers.validator.imagePullPolicy` | imagePullPolicy for sawtooth validator container | string | IfNotPresent |
@@ -67,7 +87,7 @@ sawtooth:
     ## @md | `sawtooth.livenessProbe.active` | if false, the liveness probe will run and evaluate the the situation, but always return successfully | string | "false"
     active: "false"
     ## @md | `sawtooth.livenessProbe.exitSignals` | when restarting due to a livenessProbe failue, the validator pod has a "signal" system which will cause it to restart the named containers in this var | string | "block-info-tp" |
-    exitSignals: "block-info-tp"
+    exitSignals: "block-info-tp pbft-engine"
   ## @md | `sawtooth.heartbeat` | group containing the heartbeat service settings | map | N/A |
   heartbeat:
     ## @md | `sawtooth.heartbeat.interval` | interval in seconds to issue a heartbeat | int | 300 |
