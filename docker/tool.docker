@@ -1,8 +1,8 @@
-FROM mikefarah/yq as yqstage
+FROM mikefarah/yq:4.5.1 as yqstage
 
 FROM alpine/k8s:1.18.2 as k8s-stage
 
-FROM weaveworks/eksctl as eksctl-stage
+FROM weaveworks/eksctl:0.37.0 as eksctl-stage
 
 FROM ubuntu:bionic
 
@@ -18,8 +18,8 @@ COPY --from=yqstage /usr/bin/yq /usr/local/bin
 # Install eksctl
 COPY --from=eksctl-stage /usr/local/bin/eksctl /usr/local/bin
 
-RUN apt-get update -y && \
-  apt-get install -yq \
+RUN apt-get update -yqq && \
+  apt-get install --no-install-recommends -yq \
   apt-transport-https \
   apt-utils \
   build-essential \
@@ -28,10 +28,12 @@ RUN apt-get update -y && \
   gpg \
   make \
   python3-pip \
-  software-properties-common
+  python3-setuptools \
+  software-properties-common && \
+  apt-get clean && rm -rf /var/lib/apt/lists/*
 
 #Install Latest AWS CLI
-RUN pip3 install awscli --upgrade
+RUN pip3 install --no-cache-dir awscli==1.19.7 --upgrade
 
 #Cleanup
 RUN apt-get autoremove -yq

@@ -105,6 +105,13 @@ post_correct_ownership: tool.docker
 	$(TOOL_RUN) -c "find /project/$(CHART_BASE) -name Chart.lock \
 		-exec chown -R $(UID):$(GID) {} \;"
 
+.PHONY: docs
+docs: tmpl-docs
+	echo > README.md
+	echo \# BTP charts >> README.md
+	echo >> README.md
+	for f in $$(find charts -name README.md| awk -F/ '{print $$2}' | sort); do  chart_name=$$f; echo \* \[$$chart_name\]\(charts/$$chart_name/README.md\); done >> README.md
+
 .PHONY: test
 test:
 
