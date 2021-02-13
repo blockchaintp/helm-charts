@@ -3,10 +3,10 @@
 | field | description | type | default |
 |-|-|-|-|
 | `affinity` | group of affinity related parameters | map | N/A |
-| `affinity.enabled` | false: no efffect <br>true: then validators will be deployed only to k8s nodes with the label `app={{.sawtooth.networkName}}-validator` | boolean | false |
+| `affinity.enabled` | false: no efffect   true: then validators will be deployed only to k8s nodes with the label `app={{.sawtooth.networkName}}-validator` | boolean | false |
 | `imagePullSecrets` | group of image pull secrets related parameters | map | N/A |
 | `imagePullSecrets.enabled` | if true use the list of named imagePullSecrests | boolean | false |
-| `imagePullSecrets.value` | a list if named secret references of the form <br>```- name: secretName```| list | [] |
+| `imagePullSecrets.value` | a list if named secret references of the form   ```- name: secretName```| list | [] |
 | `sawtooth` | group of sawtooth related parameters | map | N/A |
 | `sawtooth.opentsdb` | group of opentsdb parameters for sawtooth | map | N/A |
 | `sawtooth.opentsdb.db` | name of the opentsdb database to be used | string | metrics |
@@ -47,8 +47,8 @@
 | `sawtooth.scheduler` | name of the sawtooth transaction scheduler to use | string | "serial"
 | `sawtooth.consensus` | id of the the consensus algorithm to use< valid values: 100:DevMode, 200, PoET, 300 - Raft, 400, PBFT | int | 200
 | `sawtooth.genesis` | sawtooth genesis configuration block | map | N/A |
-| `sawtooth.genesis.enabled` | If true, and the cluster is starting for the first time, then<br> a node will be selected to create and submit the genesis block | boolean | true |
-| `sawtooth.genesis.seed` | The seed is an arbitrary string which identifies a given genesis<br>If the data of a given set of nodes is to be wiped out, change this value. | string | "9a2de774-90b5-11e9-9df0-87e889b0f1c9" |
+| `sawtooth.genesis.enabled` | If true, and the cluster is starting for the first time, then   a node will be selected to create and submit the genesis block | boolean | true |
+| `sawtooth.genesis.seed` | The seed is an arbitrary string which identifies a given genesis  If the data of a given set of nodes is to be wiped out, change this value. | string | "9a2de774-90b5-11e9-9df0-87e889b0f1c9" |
 | `sawtooth.dynamicPeering` | Dynamic Peering should default to false, since it is a bit unreliable  | boolean | false |
 | `sawtooth.externalSeeds` | a list of maps defining validator endpoints external to this deployment | list | [] |
 | `sawtooth.seth` | settings related to seth | map | N/A |
@@ -86,13 +86,14 @@
 | `images.seth_rpc` | blockchaintp/sawtooth-seth-rpc:BTP2.1.0rc13
 | `images.seth_tp` | blockchaintp/sawtooth-seth-tp:BTP2.1.0rc13
 | `images.xo_demo` | blockchaintp/xo-demo:BTP2.1.0rc14
+
 ## Custom TP Definitions
 
 Custom TP definitions are describe using maps with the following fields
 
 | field | description | type | default |
 |-|-|-|-|
-| name | name of the custom tp container(must be unique within the pod) | string | nil |
-| image | url of the image for this tp | string | nil |
-| command | list of command tokens for this tp | list | nil
-| arg | list of arguments to the command | list | nil] |
+| `name` | name of the custom tp container(must be unique within the pod) | string | nil |
+| `image` | url of the image for this tp | string | nil |
+| `command` | list of command tokens for this tp | list | nil
+| `arg` | list of arguments to the command | list | nil] |
