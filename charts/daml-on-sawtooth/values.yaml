@@ -67,6 +67,13 @@ sawtooth:
       env:
       ## @md | `sawtooth.containers.daml_trigger.imagePullPolicy` | imagePullPolicy for container | string | IfNotPresent |
       imagePullPolicy: IfNotPresent
+    daml_rpc:
+      ## @md | `sawtooth.containers.daml_rpc.args` | extra args | string | nil |
+      args:
+      ## @md | `sawtooth.containers.daml_rpc.env` | list of environment name/valie dicts | map | nil |
+      env:
+      ## @md | `sawtooth.containers.daml_rpc.imagePullPolicy` | imagePullPolicy for container | string | IfNotPresent |
+      imagePullPolicy: IfNotPresent
     daml_tp:
       ## @md | `sawtooth.containers.daml_tp.args` | extra args | string | nil |
       args:
@@ -343,8 +350,10 @@ images:
   ## @md |- |- |
   ## @md | `images.postgres` | postgres:11
   postgres: postgres:11
+  ## @md | `images.daml_trigger` | blockchaintp/daml-trigger:BTP2.1.0rc14
+  daml_trigger: blockchaintp/daml-trigger:BTP2.1.0rc14
   ## @md | `images.daml_trigger` | blockchaintp/daml-trigger-service:BTP2.1.0rc14
-  daml_trigger: blockchaintp/daml-trigger-service:BTP2.1.0rc14
+  daml_trigger_service: blockchaintp/daml-trigger-service:BTP2.1.0rc14
   ## @md | `images.daml_json_api` | blockchaintp/daml-json-api:BTP2.1.0rc14
   daml_json_api: blockchaintp/daml-json-api:BTP2.1.0rc14
   ## @md | `images.daml_rpc` | blockchaintp/sawtooth-daml-rpc:BTP2.1.0rc14
@@ -387,10 +396,11 @@ images:
 ## @md
 ## @md | field | description | required | type | default |
 ## @md |- |- |- |- |- |
-## @md | `name` | kubernetes name of the trigger container | no | string | (system-determined) |
+## @md | `name` | kubernetes name of the trigger container | yes | string | (system-determined) |
 ## @md | `triggerName` | daml name of the trigger to be run | yes | string | nil |
 ## @md | `darFile` | path of the dar file to use | yes | string | nil |
 ## @md | `party` | name of the party to use | yes | string | nil |
+## @md | `env` | environment var for the trigger | no | list | [] |
 
 ## @md
 ## @md ## Custom TP Definitions

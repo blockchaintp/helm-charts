@@ -27,6 +27,9 @@
 | `sawtooth.containers.daml_trigger.args` | extra args | string | nil |
 | `sawtooth.containers.daml_trigger.env` | list of environment name/valie dicts | map | nil |
 | `sawtooth.containers.daml_trigger.imagePullPolicy` | imagePullPolicy for container | string | IfNotPresent |
+| `sawtooth.containers.daml_rpc.args` | extra args | string | nil |
+| `sawtooth.containers.daml_rpc.env` | list of environment name/valie dicts | map | nil |
+| `sawtooth.containers.daml_rpc.imagePullPolicy` | imagePullPolicy for container | string | IfNotPresent |
 | `sawtooth.containers.daml_tp.args` | extra args | string | nil |
 | `sawtooth.containers.daml_tp.env` | list of environment name/valie dicts | map | nil |
 | `sawtooth.containers.daml_tp.imagePullPolicy` | imagePullPolicy for container | string | IfNotPresent |
@@ -139,6 +142,7 @@
 | field | default |
 |- |- |
 | `images.postgres` | postgres:11
+| `images.daml_trigger` | blockchaintp/daml-trigger:BTP2.1.0rc14
 | `images.daml_trigger` | blockchaintp/daml-trigger-service:BTP2.1.0rc14
 | `images.daml_json_api` | blockchaintp/daml-json-api:BTP2.1.0rc14
 | `images.daml_rpc` | blockchaintp/sawtooth-daml-rpc:BTP2.1.0rc14
@@ -164,10 +168,11 @@ Tiggers are described using maps of the following parameters
 
 | field | description | required | type | default |
 |- |- |- |- |- |
-| `name` | kubernetes name of the trigger container | no | string | (system-determined) |
+| `name` | kubernetes name of the trigger container | yes | string | (system-determined) |
 | `triggerName` | daml name of the trigger to be run | yes | string | nil |
 | `darFile` | path of the dar file to use | yes | string | nil |
 | `party` | name of the party to use | yes | string | nil |
+| `env` | environment var for the trigger | no | list | [] |
 
 ## Custom TP Definitions
 
