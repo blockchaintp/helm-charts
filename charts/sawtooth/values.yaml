@@ -44,18 +44,100 @@ sawtooth:
     block_info:
       ## @md | `sawtooth.containers.block_info.args` | extra args for block-info-tp | string | nil |
       args:
+      resources:
+        limits:
+          cpu: "250m"
+        requests:
+          cpu: "50m"
+    devmode_engine:
+      resources:
+        limits:
+          cpu: "250m"
+        requests:
+          cpu: "50m"
     ## @md | `sawtooth.containers.identity_tp` | settings group for all sawtooth identity-tp container | map | N/A |
     identity_tp:
       ## @md | `sawtooth.containers.identity_tp.args` | extra args for identity-tp | string | nil |
       args:
+      resources:
+        limits:
+          cpu: "250m"
+        requests:
+          cpu: "50m"
+    intkey_tp:
+      resources:
+        limits:
+          cpu: "250m"
+        requests:
+          cpu: "50m"
+    monitor:
+      ## @md | `sawtooth.containers.monitor.imagePullPolicy` | imagePullPolicy for sawtooth monitor container | string | IfNotPresent |
+      imagePullPolicy: IfNotPresent
+      resources:
+        limits:
+          cpu: "100m"
+        requests:
+          cpu: "100m"
+    pbft_engine:
+      resources:
+        limits:
+          cpu: "250m"
+        requests:
+          cpu: "50m"
+    poet_engine:
+      resources:
+        limits:
+          cpu: "250m"
+        requests:
+          cpu: "50m"
+    poet_validator_registry_tp:
+      resources:
+        limits:
+          cpu: "250m"
+        requests:
+          cpu: "50m"
+    raft_engine:
+      resources:
+        limits:
+          cpu: "250m"
+        requests:
+          cpu: "50m"
     ## @md | `sawtooth.containers.rest-api` | settings group for all sawtooth rest-api container | map | N/A |
     rest_api:
       ## @md | `sawtooth.containers.rest_api.args` | extra args for rest-api | string | nil |
       args:
+      resources:
+        limits:
+          cpu: "250m"
+        requests:
+          cpu: "50m"
+    seth_rpc:
+      resources:
+        limits:
+          cpu: "250m"
+        requests:
+          cpu: "50m"
+    seth_tp:
+      resources:
+        limits:
+          cpu: "250m"
+        requests:
+          cpu: "50m"
     ## @md | `sawtooth.containers.settings_tp` | settings group for all sawtooth settings-tp container | map | N/A |
     settings_tp:
       ## @md | `sawtooth.containers.settings_tp.args` | extra args for settings-tp | string | nil |
       args:
+      resources:
+        limits:
+          cpu: "250m"
+        requests:
+          cpu: "50m"
+    smallbank_tp:
+      resources:
+        limits:
+          cpu: "250m"
+        requests:
+          cpu: "50m"
     ## @md | `sawtooth.containers.validator` | settings group for all sawtooth validator container | map | N/A |
     validator:
       ## @md | `sawtooth.containers.validator.args` | extra args for validator | string | nil |
@@ -64,9 +146,13 @@ sawtooth:
       env:
       ## @md | `sawtooth.containers.validator.imagePullPolicy` | imagePullPolicy for sawtooth validator container | string | IfNotPresent |
       imagePullPolicy: IfNotPresent
-    monitor:
-      ## @md | `sawtooth.containers.monitor.imagePullPolicy` | imagePullPolicy for sawtooth monitor container | string | IfNotPresent |
-      imagePullPolicy: IfNotPresent
+      resources: {}
+    xo_tp:
+      resources:
+        limits:
+          cpu: "250m"
+        requests:
+          cpu: "50m"
   ## @md | `sawtooth.ports` | group defining sawtooth port parameters | map | N/A |
   ports:
     ## @md | `sawtooth.ports.sawnet` | port for the sawtooth validator network | int | 8800 |

@@ -80,11 +80,7 @@ spec:
                   else
                     exit 0
                   fi
-          resources:
-            limits:
-              cpu: "250m"
-            requests:
-              cpu: "50m"
+          resources: {{ toYaml .Values.sawtooth.containers.pbft_engine.resources | nindent 12 }}
           volumeMounts:
             - mountPath: /var/run/sawtooth
               name: sawtooth-signals
@@ -96,11 +92,7 @@ spec:
           command: [ "bash", "-xc"]
           args:
           - "raft-engine -v -C tcp://127.0.0.1:{{.Values.sawtooth.ports.consensus}}"
-          resources:
-            limits:
-              cpu: "250m"
-            requests:
-              cpu: "50m"
+          resources: {{ toYaml .Values.sawtooth.containers.raft_engine.resources | nindent 12 }}
           volumeMounts:
             - mountPath: "/etc/sawtooth"
               name: sawtooth-etc
@@ -117,11 +109,7 @@ spec:
               name: sawtooth-etc
             - mountPath: "/var/lib/sawtooth"
               name: sawtooth-data
-          resources:
-            limits:
-              cpu: "250m"
-            requests:
-              cpu: "50m"
+          resources: {{ toYaml .Values.sawtooth.containers.poet_engine.resources | nindent 12 }}
         - name: poet-validator-registry-tp
           image: {{.Values.images.poet_validator_registry_tp}}
           command: [ "bash", "-xc"]
@@ -132,22 +120,14 @@ spec:
               name: sawtooth-etc
             - mountPath: "/var/lib/sawtooth"
               name: sawtooth-data
-          resources:
-            limits:
-              cpu: "250m"
-            requests:
-              cpu: "50m"
+          resources: {{ toYaml .Values.sawtooth.containers.poet_validator_registry_tp.resources | nindent 12 }}
         {{ else }}
         - name: devmode-engine
           image: {{.Values.images.devmode_engine}}
           command: [ "bash", "-xc"]
           args:
           - "devmode-engine-rust -v -C tcp://127.0.0.1:{{.Values.sawtooth.ports.consensus}}"
-          resources:
-            limits:
-              cpu: "250m"
-            requests:
-              cpu: "50m"
+          resources: {{ toYaml .Values.sawtooth.containers.devmode_engine.resources | nindent 12 }}
         {{ end }}
         - name: settings-tp
           image: {{.Values.images.settings_tp}}
@@ -156,11 +136,7 @@ spec:
           - |
             settings-tp {{.Values.sawtooth.containers.settings_tp.args}} \
               --connect tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}
-          resources:
-            limits:
-              cpu: "250m"
-            requests:
-              cpu: "50m"
+          resources: {{ toYaml .Values.sawtooth.containers.settings_tp.resources | nindent 12 }}
         - name: block-info-tp
           image: {{.Values.images.block_info_tp}}
           command: [ "bash", "-c"]
@@ -189,11 +165,7 @@ spec:
                   else
                     exit 0
                   fi
-          resources:
-            limits:
-              cpu: "250m"
-            requests:
-              cpu: "50m"
+          resources: {{ toYaml .Values.sawtooth.containers.block_info.resources | nindent 12 }}
           volumeMounts:
             - mountPath: /var/run/sawtooth
               name: sawtooth-signals
@@ -202,22 +174,14 @@ spec:
           command: [ "bash", "-c"]
           args:
           - "intkey-tp-go --connect tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}"
-          resources:
-            limits:
-              cpu: "250m"
-            requests:
-              cpu: "50m"
+          resources: {{ toYaml .Values.sawtooth.containers.intkey_tp.resources | nindent 12 }}
         {{ if .Values.sawtooth.permissioned }}
         - name: identity-tp
           image: {{.Values.images.identity_tp}}
           command: [ "bash", "-xc" ]
           args:
           - "identity-tp {{.Values.sawtooth.containers.identity_tp.args}} -C tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}"
-          resources:
-            limits:
-              cpu: "250m"
-            requests:
-              cpu: "50m"
+          resources: {{ toYaml .Values.sawtooth.containers.identity_tp.resources | nindent 12 }}
         {{ end }}
         {{ if .Values.sawtooth.seth.enabled}}
         - name: seth-tp
@@ -225,11 +189,7 @@ spec:
           command: [ "bash", "-xc"]
           args:
           - "seth-tp -v --connect tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}"
-          resources:
-            limits:
-              cpu: "250m"
-            requests:
-              cpu: "50m"
+          resources: {{ toYaml .Values.sawtooth.containers.seth_tp.resources | nindent 12 }}
         - name: seth-rpc
           image: {{.Values.images.seth_rpc}}
           command: [ "bash", "-xc"]
@@ -238,11 +198,7 @@ spec:
           ports:
             - containerPort: 3030
               name: seth-rpc
-          resources:
-            limits:
-              cpu: "250m"
-            requests:
-              cpu: "50m"
+          resources: {{ toYaml .Values.sawtooth.containers.seth_rpc.resources | nindent 12 }}
         {{ end }}
         {{ if .Values.sawtooth.smallbank.enabled}}
         - name: smallbank-tp
@@ -250,11 +206,7 @@ spec:
           command: [ "bash", "-xc"]
           args:
           - "smallbank-tp-go -v --connect tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}"
-          resources:
-            limits:
-              cpu: "250m"
-            requests:
-              cpu: "50m"
+          resources: {{ toYaml .Values.sawtooth.containers.smallbank_tp.resources | nindent 12 }}
         {{ end }}
         {{ if .Values.sawtooth.xo.enabled}}
         - name: xo-tp
@@ -262,11 +214,7 @@ spec:
           command: [ "bash", "-xc"]
           args:
           - "xo-tp-go -v --connect tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}"
-          resources:
-            limits:
-              cpu: "250m"
-            requests:
-              cpu: "50m"
+          resources: {{ toYaml .Values.sawtooth.containers.xo_tp.resources | nindent 12 }}
         {{ end }}
         {{range .Values.sawtooth.customTPs}}
         - name: {{.name}}
@@ -319,11 +267,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
-          resources:
-            limits:
-              cpu: "250m"
-            requests:
-              cpu: "50m"
+          resources: {{ toYaml .Values.sawtooth.containers.rest_api.resources | nindent 12 }}
         - name: monitor
           image: {{.Values.images.shell}}
           imagePullPolicy: {{.Values.sawtooth.containers.monitor.imagePullPolicy}}
@@ -343,11 +287,7 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: metadata.name
-          resources:
-            limits:
-              cpu: "100m"
-            requests:
-              cpu: "100m"
+          resources: {{ toYaml .Values.sawtooth.containers.seth_rpc.resources | nindent 12 }}
         - name: validator
           image: {{.Values.images.validator}}
           imagePullPolicy: {{.Values.sawtooth.containers.validator.imagePullPolicy}}
@@ -477,6 +417,7 @@ spec:
               name: sawnet
             - containerPort: {{.Values.sawtooth.ports.consensus}}
               name: consensus
+          resources: {{ toYaml .Values.sawtooth.containers.validator.resources | nindent 12 }}
       initContainers:
         - name: setup
           image: {{.Values.images.validator}}
