@@ -1,3 +1,4 @@
+---
 ## @md # These are the reasonable defaults file sawtooth 1.2
 ## @md
 ## @md | field | description | type | default |
@@ -5,7 +6,7 @@
 
 ## @md | `affinity` | group of affinity related parameters | map | N/A |
 affinity:
-  ## @md | `affinity.enabled` | false: no efffect <br>true: then validators will be deployed only to k8s nodes with the label `app={{.sawtooth.networkName}}-validator` | boolean | false |
+  ## @md | `affinity.enabled` | false: no efffect   true: then validators will be deployed only to k8s nodes with the label `app={{.sawtooth.networkName}}-validator` | boolean | false |
   # Normally set this as disabled.
   # If false - no effect, validators are run on every ( or in the case of devmode any one)
   # node in the cluster.
@@ -21,7 +22,7 @@ affinity:
 imagePullSecrets:
   ## @md | `imagePullSecrets.enabled` | if true use the list of named imagePullSecrests | boolean | false |
   enabled: false
-  ## @md | `imagePullSecrets.value` | a list if named secret references of the form <br>```- name: secretName```| list | [] |
+  ## @md | `imagePullSecrets.value` | a list if named secret references of the form   ```- name: secretName```| list | [] |
   value: []
 ## @md | `sawtooth` | group of sawtooth related parameters | map | N/A |
 sawtooth:
@@ -113,9 +114,9 @@ sawtooth:
   consensus: 200
   ## @md | `sawtooth.genesis` | sawtooth genesis configuration block | map | N/A |
   genesis:
-    ## @md | `sawtooth.genesis.enabled` | If true, and the cluster is starting for the first time, then<br> a node will be selected to create and submit the genesis block | boolean | true |
+    ## @md | `sawtooth.genesis.enabled` | If true, and the cluster is starting for the first time, then   a node will be selected to create and submit the genesis block | boolean | true |
     enabled: true
-    ## @md | `sawtooth.genesis.seed` | The seed is an arbitrary string which identifies a given genesis<br>If the data of a given set of nodes is to be wiped out, change this value. | string | "9a2de774-90b5-11e9-9df0-87e889b0f1c9" |
+    ## @md | `sawtooth.genesis.seed` | The seed is an arbitrary string which identifies a given genesis  If the data of a given set of nodes is to be wiped out, change this value. | string | "9a2de774-90b5-11e9-9df0-87e889b0f1c9" |
     seed: 9a2de774-90b5-11e9-9df0-87e889b0f1c9
   ## @md | `sawtooth.dynamicPeering` | Dynamic Peering should default to false, since it is a bit unreliable  | boolean | false |
   dynamicPeering: false
@@ -149,11 +150,11 @@ sawtooth:
   client_wait: 90
   ## @md | `sawtooth.customTPs` | a list of [custom tp definitions](#custom-tp-definitions) | list | nil |
   customTPs:
-          # A list of basic container definitions
-          #    - name: intkey-tp
-          #      image: "blockchaintp/sawtooth-intkey-tp-go:1.0.5"
-          #      command: [ "bash", "-c" ]
-          #      args: [ "intkey-tp-go -v --connect tcp://localhost:4004" ]
+  # A list of basic container definitions
+  #    - name: intkey-tp
+  #      image: "blockchaintp/sawtooth-intkey-tp-go:1.0.5"
+  #      command: [ "bash", "-c" ]
+  #      args: [ "intkey-tp-go -v --connect tcp://localhost:4004" ]
 
 
 # The below are mostly controlled by BTP, although an "advanced" option to customize them may be
@@ -204,13 +205,14 @@ images:
   ## @md | `images.xo_demo` | blockchaintp/xo-demo:BTP2.1.0rc14
   xo_demo: blockchaintp/xo-demo:BTP2.1.0rc14
 
+## @md
 ## @md ## Custom TP Definitions
 ## @md
 ## @md Custom TP definitions are describe using maps with the following fields
 ## @md
 ## @md | field | description | type | default |
 ## @md |-|-|-|-|
-## @md | name | name of the custom tp container(must be unique within the pod) | string | nil |
-## @md | image | url of the image for this tp | string | nil |
-## @md | command | list of command tokens for this tp | list | nil
-## @md | arg | list of arguments to the command | list | nil] |
+## @md | `name` | name of the custom tp container(must be unique within the pod) | string | nil |
+## @md | `image` | url of the image for this tp | string | nil |
+## @md | `command` | list of command tokens for this tp | list | nil
+## @md | `arg` | list of arguments to the command | list | nil] |

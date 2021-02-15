@@ -62,7 +62,7 @@ pipeline {
         sh '''
           PATH=$PATH:$(pwd)/shell-scripts/bash
           export PATH
-          make tmpl-docs
+          make docs
         '''
         updateReadmes("${GIT_BRANCH}")
       }
@@ -205,6 +205,7 @@ def updateReadmes(branch) {
           diff_readmes=$(git diff --name-only |grep README.md|wc -l)
           if [ "$diff_readmes" -gt 0 ]; then
             git add charts/*/README.md
+            git add README.md
             git commit -m "ci: Updating README.md files"
             git push origin HEAD:${branch}
           fi

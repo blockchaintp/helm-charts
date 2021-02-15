@@ -71,8 +71,8 @@ spec:
               value: {{ .value | quote }}
             {{- end }}
         {{ if .Values.daml.trigger_service.enabled }}
-        - name: daml-trigger
-          image: {{.Values.images.daml_trigger}}
+        - name: daml-trigger-service
+          image: {{.Values.images.daml_trigger_service}}
           imagePullPolicy: {{.Values.sawtooth.containers.daml_trigger.imagePullPolicy}}
           ports:
           - containerPort: {{.Values.sawtooth.ports.trigger_http_port}}
@@ -130,9 +130,44 @@ spec:
           volumeMounts:
             {{- toYaml .Values.sawtooth.daml.trigger.extraVolumeMounts | nindent 12 }}
           {{- end }}
-        {{ end }}
+        {{- end }}
+        {{- range .Values.daml.triggers }}
+        - name: {{.name}}
+          image: {{$.Values.images.daml_trigger}}
+          imagePullPolicy: {{$.Values.sawtooth.containers.daml_trigger.imagePullPolicy}}
+          command:
+            - bash
+            - -c
+          args:
+            - |
+              /home/daml/.daml/bin/trigger-entrypoint \
+              {{- if $.Values.sawtooth.containers.daml_trigger.args }}
+              {{$.Values.sawtooth.containers.daml_trigger.args }} \
+              {{- end}}
+              {{- if .args }}
+              {{.args }} \
+              {{- end}}
+          env:
+            - name: DAR_FILE
+              value: {{.darFile | quote}}
+            - name: LEDGER_PARTY
+              value: {{.party | quote}}
+            - name: TRIGGER_NAME
+              value: {{.triggerName | quote}}
+            {{- range .env }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+            {{- end }}
+            {{- range $.Values.sawtooth.containers.daml_trigger.env }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+            {{- end }}
+          volumeMounts:
+            {{- toYaml $.Values.sawtooth.daml.trigger.extraVolumeMounts | nindent 12 }}
+        {{- end }}
         - name: daml-rpc
           image: {{.Values.images.daml_rpc}}
+          imagePullPolicy: {{.Values.sawtooth.containers.daml_rpc.imagePullPolicy}}
           command: [ "bash", "-xc"]
           args:
             - |
@@ -145,10 +180,18 @@ spec:
                 {{- if .Values.daml.auth.enabled }}
                 --auth-jwt-rs256-crt /secrets/jwt/jwt.crt \
                 {{- end }}
+                {{- if .Values.sawtooth.containers.daml_rpc.args }}
+                {{.Values.sawtooth.containers.daml_rpc.args }} \
+                {{- end}}
                 {{- if .Values.sawtooth.daml.extra_args.enabled }}
                 {{ .Values.sawtooth.daml.extra_args.arg_str }} \
                 {{- end }}
               ;
+          env:
+            {{- range .Values.sawtooth.containers.daml_rpc.env }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+            {{- end }}
           resources:
             limits:
               cpu: "250m"
