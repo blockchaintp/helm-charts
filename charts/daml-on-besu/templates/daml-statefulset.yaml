@@ -58,8 +58,8 @@ spec:
                 {{- if .Values.daml.auth.enabled }}
                 --auth-jwt-rs256-crt /secrets/jwt/jwt.crt \
                 {{- end }}
-                {{- if .Values.daml.extra_args }}
-                {{ .Values.daml.extra_args }} \
+                {{- if .Values.daml.rpc.extra_args.enabled }}
+                {{ .Values.daml.rpc.extra_args }} \
                 {{- end }}
               ;
           resources: {}

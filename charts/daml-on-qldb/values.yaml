@@ -1,14 +1,16 @@
-#This file is a reasonable defaults file for daml-on-aurora
-
-# This is optional,
-# if false the values are ignored,
-# if true then there should exist a secret within the namespace
-#   of the given names, multiple values are acceptable
+---
+## @md # DAML on QLDB Chart
+## @md
+## @md ## Configuration
+## @md
+## @md | field | description | type | default |
+## @md |- |- |- |- |
 imagePullSecrets:
   enabled: true
   value:
     - name: regcred
 
+## @md | `daml` | settings for DAML subsystem | map | N/A |
 daml:
   auth:
     enabled: false
@@ -17,9 +19,12 @@ daml:
   postgres:
       secret: postgressecret
   ledgerId: someIdentifyingString
+  ## @md | `daml.extra_args` | extra arguments settings for daml-rpc | map | N/A |
   extra_args:
+    ## @md | `daml.extra_args.enabled` | if true add the extra arguments | boolean | false |
     enabled: false
-    arg_str: some args
+    ## @md | `daml.extra_args.arg_str` | string of extra arguments to add | string | nil |
+    arg_str:
 deployment:
   namespace:  test
   name: test
