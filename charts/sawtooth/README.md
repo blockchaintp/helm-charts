@@ -19,6 +19,7 @@
 | `sawtooth.containers.block_info.args` | extra args for block-info-tp | string | nil |
 | `sawtooth.containers.identity_tp` | settings group for all sawtooth identity-tp container | map | N/A |
 | `sawtooth.containers.identity_tp.args` | extra args for identity-tp | string | nil |
+| `sawtooth.containers.monitor.imagePullPolicy` | imagePullPolicy for sawtooth monitor container | string | IfNotPresent |
 | `sawtooth.containers.rest-api` | settings group for all sawtooth rest-api container | map | N/A |
 | `sawtooth.containers.rest_api.args` | extra args for rest-api | string | nil |
 | `sawtooth.containers.settings_tp` | settings group for all sawtooth settings-tp container | map | N/A |
@@ -27,7 +28,6 @@
 | `sawtooth.containers.validator.args` | extra args for validator | string | nil |
 | `sawtooth.containers.validator.env` | list of environment name/valie dicts | map | nil |
 | `sawtooth.containers.validator.imagePullPolicy` | imagePullPolicy for sawtooth validator container | string | IfNotPresent |
-| `sawtooth.containers.monitor.imagePullPolicy` | imagePullPolicy for sawtooth monitor container | string | IfNotPresent |
 | `sawtooth.ports` | group defining sawtooth port parameters | map | N/A |
 | `sawtooth.ports.sawnet` | port for the sawtooth validator network | int | 8800 |
 | `sawtooth.ports.consensus` | port for the sawtooth consensus network | int | 5050 |

@@ -50,6 +50,7 @@ sawtooth:
       imagePullPolicy: IfNotPresent
       ## @md | `sawtooth.containers.jsonapi.packageReloadInterval` | how often to periodically check the daml-rpc for new daml packages | string | 5s |
       packageReloadInterval: "5s"
+      resources: {}
       ## @md | `sawtooth.containers.jsonapi.waitTimeSeconds` | how long to wait for the daml-rpc server to come available | int | 0 (forever) |
       waitTimeSeconds: 0
     ## @md | `sawtooth.containers.block_info` | settings group for all sawtooth block-info-tp container | map | N/A |
@@ -60,6 +61,11 @@ sawtooth:
       env:
       ## @md | `sawtooth.containers.block_info.imagePullPolicy` | imagePullPolicy for container | string | IfNotPresent |
       imagePullPolicy: IfNotPresent
+      resources:
+        limits:
+          cpu: "250m"
+        requests:
+          cpu: "50m"
     daml_trigger:
       ## @md | `sawtooth.containers.daml_trigger.args` | extra args | string | nil |
       args:
@@ -81,6 +87,7 @@ sawtooth:
       env:
       ## @md | `sawtooth.containers.daml_tp.imagePullPolicy` | imagePullPolicy for container | string | IfNotPresent |
       imagePullPolicy: IfNotPresent
+      resources: {}
     devmode_engine:
       ## @md | `sawtooth.containers.devmode_engine.args` | extra args | string | nil |
       args:
@@ -88,6 +95,11 @@ sawtooth:
       env:
       ## @md | `sawtooth.containers.devmode_engine.imagePullPolicy` | imagePullPolicy for container | string | IfNotPresent |
       imagePullPolicy: IfNotPresent
+      resources:
+        limits:
+          cpu: "250m"
+        requests:
+          cpu: "50m"
     ## @md | `sawtooth.containers.identity_tp` | settings group for all sawtooth identity-tp container | map | N/A |
     identity_tp:
       ## @md | `sawtooth.containers.identity_tp.args` | extra args | string | nil |
@@ -96,6 +108,11 @@ sawtooth:
       env:
       ## @md | `sawtooth.containers.identity_tp.imagePullPolicy` | imagePullPolicy for container | string | IfNotPresent |
       imagePullPolicy: IfNotPresent
+      resources:
+        limits:
+          cpu: "250m"
+        requests:
+          cpu: "50m"
     intkey_tp:
       ## @md | `sawtooth.containers.intkey_tp.args` | extra args | string | nil |
       args:
@@ -103,6 +120,11 @@ sawtooth:
       env:
       ## @md | `sawtooth.containers.intkey_tp.imagePullPolicy` | imagePullPolicy for container | string | IfNotPresent |
       imagePullPolicy: IfNotPresent
+      resources:
+        limits:
+          cpu: "250m"
+        requests:
+          cpu: "50m"
     monitor:
       ## @md | `sawtooth.containers.monitor.args` | extra args | string | nil |
       args:
@@ -110,6 +132,11 @@ sawtooth:
       env:
       ## @md | `sawtooth.containers.monitor.imagePullPolicy` | imagePullPolicy for container | string | IfNotPresent |
       imagePullPolicy: IfNotPresent
+      resources:
+        limits:
+          cpu: "100m"
+        requests:
+          cpu: "100m"
     pbft_engine:
       ## @md | `sawtooth.containers.pbft_engine.args` | extra args | string | nil |
       args:
@@ -117,6 +144,11 @@ sawtooth:
       env:
       ## @md | `sawtooth.containers.pbft_engine.imagePullPolicy` | imagePullPolicy for container | string | IfNotPresent |
       imagePullPolicy: IfNotPresent
+      resources:
+        limits:
+          cpu: "250m"
+        requests:
+          cpu: "50m"
     poet_cli:
       ## @md | `sawtooth.containers.poet_cli.args` | extra args | string | nil |
       args:
@@ -131,6 +163,11 @@ sawtooth:
       env:
       ## @md | `sawtooth.containers.poet_engine.imagePullPolicy` | imagePullPolicy for container | string | IfNotPresent |
       imagePullPolicy: IfNotPresent
+      resources:
+        limits:
+          cpu: "250m"
+        requests:
+          cpu: "50m"
     poet_validator_registry_tp:
       ## @md | `sawtooth.containers.poet_validator_registry_tp.args` | extra args | string | nil |
       args:
@@ -138,6 +175,19 @@ sawtooth:
       env:
       ## @md | `sawtooth.containers.poet_validator_registry_tp.imagePullPolicy` | imagePullPolicy for container | string | IfNotPresent |
       imagePullPolicy: IfNotPresent
+      resources:
+        limits:
+          cpu: "250m"
+        requests:
+          cpu: "50m"
+    raft_engine:
+      args:
+      env:
+      resources:
+        limits:
+          cpu: "250m"
+        requests:
+          cpu: "50m"
     ## @md | `sawtooth.containers.rest_api` | settings group for all sawtooth rest-api container | map | N/A |
     rest_api:
       ## @md | `sawtooth.containers.rest_api.args` | extra args | string | nil |
@@ -146,6 +196,11 @@ sawtooth:
       env:
       ## @md | `sawtooth.containers.rest_api.imagePullPolicy` | imagePullPolicy for container | string | IfNotPresent |
       imagePullPolicy: IfNotPresent
+      resources:
+        limits:
+          cpu: "250m"
+        requests:
+          cpu: "50m"
     ## @md | `sawtooth.containers.settings_tp` | settings group for all sawtooth settings-tp container | map | N/A |
     settings_tp:
       ## @md | `sawtooth.containers.settings_tp.args` | extra args | string | nil |
@@ -154,6 +209,11 @@ sawtooth:
       env:
       ## @md | `sawtooth.containers.settings_tp.imagePullPolicy` | imagePullPolicy for container | string | IfNotPresent |
       imagePullPolicy: IfNotPresent
+      resources:
+        limits:
+          cpu: "250m"
+        requests:
+          cpu: "50m"
     timekeeper:
       ## @md | `sawtooth.containers.timekeeper.args` | extra args | string | nil |
       args:
@@ -161,6 +221,7 @@ sawtooth:
       env:
       ## @md | `sawtooth.containers.timeeeper.imagePullPolicy` | imagePullPolicy for container | string | IfNotPresent |
       imagePullPolicy: IfNotPresent
+      resources: {}
     validator:
       ## @md | `sawtooth.containers.validator.args` | extra args for validator | string | nil |
       args:
@@ -168,6 +229,7 @@ sawtooth:
       env:
       ## @md | `sawtooth.containers.validator.imagePullPolicy` | imagePullPolicy for sawtooth validator container | string | IfNotPresent |
       imagePullPolicy: IfNotPresent
+      resources: {}
   ## @md | `sawtooth.ports` | group defining sawtooth port parameters | map | N/A |
   ports:
     ## @md | `sawtooth.ports.sawnet` | port for the sawtooth validator network | int | 8800 |
