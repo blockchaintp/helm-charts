@@ -1,3 +1,11 @@
+---
+## @md # DAML on Besu Chart
+## @md
+## @md ## Configuration
+## @md
+## @md | field | description | type | default |
+## @md |- |- |- |- |
+
 imagePullSecrets:
   enabled: false
   value:
@@ -54,7 +62,9 @@ besu:
     enabled: false
     nodes:
       enabled: false
-      whitelist: ["enode://6f8a80d14311c39f35f516fa664deaaaa13e85b2f7493f37f6144d86991ec012937307647bd3b9a82abe2974e1407241d54947bbb39763a4cac9f77166ad92a0@192.168.0.9:4567","enode://6f8a80d14311c39f35f516fa664deaaaa13e85b2f7493f37f6144d86991ec012937307647bd3b9a82abe2974e1407241d54947bbb39763a4cac9f77166ad92a0@192.169.0.9:4568"]
+      whitelist: []
+      # - "enode://6f8a80d14311c39f35f516fa664deaaaa13e85b2f7493f37f6144d86991ec012937307647bd3b9a82abe2974e1407241d54947bbb39763a4cac9f77166ad92a0@192.168.0.9:4567"
+      # - "enode://6f8a80d14311c39f35f516fa664deaaaa13e85b2f7493f37f6144d86991ec012937307647bd3b9a82abe2974e1407241d54947bbb39763a4cac9f77166ad92a0@192.169.0.9:4568"
     nodesContract:
       enabled: false
       address: "0x0000000000000000000000000000000000001234"
@@ -92,6 +102,7 @@ besu:
   txPool:
     retentionHours: 999
     maxSize: 1024
+## @md | `daml` | settings for DAML subsystem | map | N/A |
 daml:
   ledgerId: default-ledger-id
   auth:
@@ -107,12 +118,18 @@ daml:
     tag: BTP2.1.0rc14
     imagePullPolicy: IfNotPresent
   rpcCount: 1
+  ## @md | `daml.rpc` | settings for daml-rpc | map | N/A |
   rpc:
+    ## @md | `daml.rpc.extra_args` | extra arguments settings for daml-rpc | map | N/A |
     extra_args:
+      ## @md | `daml.rpc.extra_args.enabled` | if true add the extra arguments | boolean | false |
       enabled: false
+      ## @md | `daml.rpc.extra_args.arg_str` | string of extra arguments to add | string | nil |
       arg_str:
+    ## @md | `daml.rpc.port` | DAML grpc listening port | int | 39000 |
     port: 39000
     postgresqlUrl:
+    ## @md | `daml.rpc.participantId` | DAML participant id for this participant | string | daml-participant |
     participantId: daml-participant
 postgres:
   persistence:
