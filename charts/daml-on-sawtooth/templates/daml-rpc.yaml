@@ -1,8 +1,6 @@
-# kubetpl:syntax:go-template
-{{ if .Values.sawtooth.daml.enabled }}
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{.Values.sawtooth.networkName}}-daml-rpc
   namespace: {{.Values.sawtooth.namespace}}
@@ -22,7 +20,6 @@ spec:
         daml: {{.Values.sawtooth.networkName}}-daml-rpc
     spec:
       serviceAccountName: {{.Values.sawtooth.networkName}}-sa
-      {{- if .Values.sawtooth.daml.trigger.extraVolumeMounts }}
       initContainers:
         - name: change-permissions
           image: busybox
@@ -30,20 +27,34 @@ spec:
             - "sh"
             - "-xc"
             - |
+              echo Updating permissions
               {{- range .Values.sawtooth.daml.trigger.extraVolumeMounts }}
                 chown -R 1000:1000 {{.mountPath}}
               {{- end}}
+              {{- range .Values.sawtooth.daml.extraVolumeMounts }}
+                chown -R 1000:1000 {{.mountPath}}
+              {{- end}}
           volumeMounts:
+            {{- if .Values.sawtooth.daml.trigger.extraVolumeMounts }}
             {{- toYaml .Values.sawtooth.daml.trigger.extraVolumeMounts | nindent 12 }}
-      {{- end }}
+            {{- end}}
+            {{- if .Values.sawtooth.daml.extraVolumeMounts }}
+            {{- toYaml $.Values.sawtooth.daml.extraVolumeMounts | nindent 12 }}
+            {{- end}}
       containers:
         - name: postgres
-          image: {{.Values.images.postgres}}
+          image: "{{.Values.postgres.image.repository}}:{{.Values.postgres.image.tag}}"
+          imagePullPolicy: {{.Values.postgres.image.pullPolicy }}
           ports:
           - containerPort: 5432
           env:
           - name: POSTGRES_HOST_AUTH_METHOD
             value: trust
+          - name: PGDATA
+            value: /data/{{ include "daml.participantId" .}}
+          volumeMounts:
+            - mountPath: /data
+              name: "pgdata"
         - name: daml-json-api
           image: {{.Values.images.daml_json_api}}
           imagePullPolicy: {{.Values.sawtooth.containers.jsonapi.imagePullPolicy}}
@@ -183,7 +194,7 @@ spec:
             - |
               sleep {{.Values.sawtooth.client_wait}}
               /opt/sawtooth-daml-rpc/entrypoint.sh \
-                --participant port={{.Values.sawtooth.ports.damlrpc}},address=0.0.0.0,participant-id={{.Values.sawtooth.networkName}},server-jdbc-url=jdbc:postgresql://localhost/postgres?user=postgres \
+                --participant port={{.Values.sawtooth.ports.damlrpc}},address=0.0.0.0,participant-id={{include "daml.participantId" .}},server-jdbc-url=jdbc:postgresql://localhost/postgres?user=postgres \
                 --max-outstanding-batches {{.Values.sawtooth.daml.maxOutstandingBatches}} \
                 --max-ops-per-batch {{.Values.sawtooth.daml.maxOpsPerBatch}} \
                 --connect tcp://{{.Values.sawtooth.networkName}}-validator:{{.Values.sawtooth.ports.sawcomp}} \
@@ -232,5 +243,20 @@ spec:
         {{- if .Values.sawtooth.daml.extraVolumes }}
         {{- toYaml .Values.sawtooth.daml.extraVolumes | nindent 8 }}
         {{- end }}
-{{ end }}
----
+{{- if not .Values.postgres.persistence.enabled }}
+        - name: "pgdata"
+          emptyDir: {}
+{{- else }}
+  volumeClaimTemplates:
+    - metadata:
+        name: "pgdata"
+        {{- if .Values.postgres.persistence.annotations }}
+        annotations: {{- toYaml .Values.postgres.persistence.annotations | nindent 10 }}
+        {{- end }}
+      spec:
+        accessModes: {{- toYaml .Values.postgres.persistence.accessModes | nindent 10 }}
+        storageClassName: {{ default "gp2" .Values.postgres.persistence.storageClass | quote }}
+        resources:
+          requests:
+            storage: {{ .Values.postgres.persistence.size | quote }}
+{{- end }}
