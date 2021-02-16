@@ -137,13 +137,23 @@
 | `daml.trigger_service` | (deprecated) daml trigger service settings | map | N/A |
 | `daml.trigger_service.enabled` | (deprecated) set true to enable trigger service | boolean | true |
 | `daml.triggers` | settings for the individual trigger deployments which replaces the trigger-service | list [see trigger definitions](##triggers) | [] |
+| `daml.participantId` | use this participant id otherwise one choose based on network | string | nil |
+| `postgres` | postgres settings | map | N/A |
+| `postgres.persistence` | postgres persistence settings | map | N/A |
+| `postgres.persistence.enabled` | if true allocate a PVC for the postgres instance | boolean | false |
+| `postgres.persistence.annotations` | any custom annotations for the postgres PVC's | map | {} |
+| `postgres.persistence.accessModes` | access modes the postgres PVC's | list | ["ReadWriteOnce"] |
+| `postgres.persistence.storageClass` | storage class for the postgres PVC's | list | "gp2" |
+| `postgres.persistence.size` | storage class for the postgres PVC's | string | "40Gi" |
+| `postgres.image` | postgres image settings | map | N/A |
+| `postgres.image.repository` | postgres image repository | string | "postgres" |
+| `postgres.image.tag` | postgres image tag | string | "11" |
 | `images` | a map containing all of the image urls used by this template| map | N/A |
 
 ## Images
 
 | field | default |
 |- |- |
-| `images.postgres` | postgres:11
 | `images.daml_trigger` | blockchaintp/daml-trigger:BTP2.1.0rc14
 | `images.daml_trigger` | blockchaintp/daml-trigger-service:BTP2.1.0rc14
 | `images.daml_json_api` | blockchaintp/daml-json-api:BTP2.1.0rc14

@@ -404,6 +404,29 @@ daml:
   triggers: []
   image:
     imagePullPolicy: IfNotPresent
+  ## @md | `daml.participantId` | use this participant id otherwise one choose based on network | string | nil |
+  participantId:
+## @md | `postgres` | postgres settings | map | N/A |
+postgres:
+  ## @md | `postgres.persistence` | postgres persistence settings | map | N/A |
+  persistence:
+    ## @md | `postgres.persistence.enabled` | if true allocate a PVC for the postgres instance | boolean | false |
+    enabled: false
+    ## @md | `postgres.persistence.annotations` | any custom annotations for the postgres PVC's | map | {} |
+    annotations: {}
+    ## @md | `postgres.persistence.accessModes` | access modes the postgres PVC's | list | ["ReadWriteOnce"] |
+    accessModes:
+      - "ReadWriteOnce"
+    ## @md | `postgres.persistence.storageClass` | storage class for the postgres PVC's | list | "gp2" |
+    storageClass: "gp2"
+    ## @md | `postgres.persistence.size` | storage class for the postgres PVC's | string | "40Gi" |
+    size: "40Gi"
+  ## @md | `postgres.image` | postgres image settings | map | N/A |
+  image:
+    ## @md | `postgres.image.repository` | postgres image repository | string | "postgres" |
+    repository: postgres
+    ## @md | `postgres.image.tag` | postgres image tag | string | "11" |
+    tag: 11
 
 # The below are mostly controlled by BTP, although an "advanced" option to customize them may be
 # presented
@@ -414,8 +437,6 @@ images:
   ## @md
   ## @md | field | default |
   ## @md |- |- |
-  ## @md | `images.postgres` | postgres:11
-  postgres: postgres:11
   ## @md | `images.daml_trigger` | blockchaintp/daml-trigger:BTP2.1.0rc14
   daml_trigger: blockchaintp/daml-trigger:BTP2.1.0rc14
   ## @md | `images.daml_trigger` | blockchaintp/daml-trigger-service:BTP2.1.0rc14
