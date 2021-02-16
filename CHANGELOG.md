@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+* feat(daml-on-sawtooth): add persistence options for postgres
+
+## v0.2.37
+
 * fix: fix scoping in triggers
 
 ## v0.2.36
