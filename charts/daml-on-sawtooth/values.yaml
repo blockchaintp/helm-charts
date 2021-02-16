@@ -288,6 +288,10 @@ sawtooth:
   externalSeeds: []
   ## @md | `sawtooth.daml` | daml on sawtooth specific settings | map | N/A |
   daml:
+    ## @md | `sawtooth.daml.extraVolumes` | extra volumes declarations for the daml-rpc deployment | list | nil
+    extraVolumes:
+    ## @md | `sawtooth.daml.extraVolumeMounts` | extra volume mounts for daml-rpc deployment | list | nil
+    extraVolumeMounts:
     trigger:
       ## @md | `sawtooth.daml.trigger.extraArgs` | extra arguments for the daml trigger-service | string | nil |
       extraArgs:
@@ -306,9 +310,9 @@ sawtooth:
       ttl: 30
       ## @md | `sawtooth.daml.trigger.jdbcConfig` | JDBC config for  trigger-service | string | nil |
       jdbcConfig:
-      ## @md | `sawtooth.daml.trigger.extraVolumeMounts` | extra volume mounts for trigger service | list | []
+      ## @md | `sawtooth.daml.trigger.extraVolumeMounts` | extra volume mounts for trigger service | list | nil
       extraVolumeMounts: []
-      ## @md | `sawtooth.daml.trigger.extraVolumes` | extra volumes declarations for trigger service | list | []
+      ## @md | `sawtooth.daml.trigger.extraVolumes` | extra volumes declarations for trigger service | list | nil
       extraVolumes: []
     ## @md | `sawtooth.daml.maxInboundMessageSize` | GRPC Max inbound message size for daml-rpc | int | 10000000 |
     maxInboundMessageSize: 10000000
