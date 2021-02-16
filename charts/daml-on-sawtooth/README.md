@@ -95,6 +95,8 @@
 | `sawtooth.dynamicPeering` | Dynamic Peering should default to false, since it is a bit unreliable  | boolean | false |
 | `sawtooth.externalSeeds` | a list of maps defining validator endpoints external to this deployment | list | [] |
 | `sawtooth.daml` | daml on sawtooth specific settings | map | N/A |
+| `sawtooth.daml.extraVolumes` | extra volumes declarations for the daml-rpc deployment | list | nil
+| `sawtooth.daml.extraVolumeMounts` | extra volume mounts for daml-rpc deployment | list | nil
 | `sawtooth.daml.trigger.extraArgs` | extra arguments for the daml trigger-service | string | nil |
 | `sawtooth.daml.trigger.darId` | package id of the dar to download from the chain | string | nil |
 | `sawtooth.daml.trigger.darFile` | path of a dar file to load into the trigger service | string | nil |
@@ -103,8 +105,8 @@
 | `sawtooth.daml.trigger.timeParam` | time parameter to trigger-service | string | nil |
 | `sawtooth.daml.trigger.ttl` | ttl trigger-service | int | 30 |
 | `sawtooth.daml.trigger.jdbcConfig` | JDBC config for  trigger-service | string | nil |
-| `sawtooth.daml.trigger.extraVolumeMounts` | extra volume mounts for trigger service | list | []
-| `sawtooth.daml.trigger.extraVolumes` | extra volumes declarations for trigger service | list | []
+| `sawtooth.daml.trigger.extraVolumeMounts` | extra volume mounts for trigger service | list | nil
+| `sawtooth.daml.trigger.extraVolumes` | extra volumes declarations for trigger service | list | nil
 | `sawtooth.daml.maxInboundMessageSize` | GRPC Max inbound message size for daml-rpc | int | 10000000 |
 | `sawtooth.daml.maxOpsPerBatch` | maximum number of Daml operations/commands which can be combined into a single sawtooth batch | int | 3 |
 | `sawtooth.daml.maxOutstandingBatches` | maximum number of sawtooth batches to allow pending before waiting for completion | int | 1 |
