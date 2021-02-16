@@ -168,10 +168,10 @@ spec:
               value: {{ .value | quote }}
             {{- end }}
           volumeMounts:
-            {{- if .Values.sawtooth.daml.trigger.extraVolumeMounts }}
-            {{- toYaml .Values.sawtooth.daml.trigger.extraVolumeMounts | nindent 12 }}
+            {{- if $.Values.sawtooth.daml.trigger.extraVolumeMounts }}
+            {{- toYaml $.Values.sawtooth.daml.trigger.extraVolumeMounts | nindent 12 }}
             {{- end}}
-            {{- if .Values.sawtooth.daml.extraVolumeMounts }}
+            {{- if $.Values.sawtooth.daml.extraVolumeMounts }}
             {{- toYaml $.Values.sawtooth.daml.extraVolumeMounts | nindent 12 }}
             {{- end}}
         {{- end }}
