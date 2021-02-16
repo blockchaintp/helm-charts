@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+* fix: fix scoping in triggers
+
+## v0.2.36
+
 * feat(daml-on-sawtooth): add extraVolumeMounts across rpc pod
 * fix: correct extra_args parsing for daml-rpc
 
