@@ -523,7 +523,7 @@ spec:
                   sleep 1
                 done
               done
-              find /var/lib/sawtooth -name '.atomicwrite.*' -exec rm -rf {} -print
+              find /var/lib/sawtooth -name '.atomicwrite.*' -exec rm -rf {}  \; -print
               sawtooth-validator {{.Values.sawtooth.containers.validator.args}} \
                 --scheduler {{.Values.sawtooth.scheduler}} \
                 --endpoint tcp://${NODE_NAME}:{{.Values.sawtooth.ports.sawnet}} \
