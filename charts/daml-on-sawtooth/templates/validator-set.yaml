@@ -7,7 +7,6 @@ apiVersion: apps/v1
 kind: {{ if eq $consensus 100 }}StatefulSet{{else}}DaemonSet{{end}}
 metadata:
   name: {{.Values.sawtooth.networkName}}-validator
-  namespace: {{.Values.sawtooth.namespace}}
 spec:
   {{ if eq $consensus 100}}
   replicas: 1
@@ -55,11 +54,11 @@ spec:
           imagePullPolicy: {{.Values.sawtooth.containers.pbft_engine.imagePullPolicy}}
           command: [ "bash", "-c"]
           args:
-          - |
-            rm -f /var/lib/sawtooth/pbft.log
-            pbft-engine {{.Values.sawtooth.containers.pbft_engine.args}} \
-              -C tcp://127.0.0.1:{{ .Values.sawtooth.ports.consensus }} \
-              --storage-location disk+/var/lib/sawtooth/pbft.log
+            - |
+              rm -f /var/lib/sawtooth/pbft.log
+              pbft-engine {{.Values.sawtooth.containers.pbft_engine.args}} \
+                -C tcp://127.0.0.1:{{ .Values.sawtooth.ports.consensus }} \
+                --storage-location disk+/var/lib/sawtooth/pbft.log
           env:
             {{ range .Values.sawtooth.containers.pbft_engine.env }}
             - name: {{.name }}
@@ -100,59 +99,134 @@ spec:
           imagePullPolicy: {{.Values.sawtooth.containers.raft_engine.imagePullPolicy}}
           command: [ "bash", "-c"]
           args:
-          - |
-            raft-engine {{.Values.sawtooth.containers.raft_engine.args}} \
-              -C tcp://127.0.0.1:{{.Values.sawtooth.ports.consensus}}
+            - |
+              raft-engine {{.Values.sawtooth.containers.raft_engine.args}} \
+                -C tcp://127.0.0.1:{{.Values.sawtooth.ports.consensus}}
           env:
             {{ range .Values.sawtooth.containers.raft_engine.env }}
             - name: {{.name }}
               value: {{.value | quote }}
             {{end}}
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - |
+                    SIGNALS_DIR=/var/run/sawtooth
+                    rm -f $SIGNALS_DIR/raft-engine
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - |
+                  SIGNALS_DIR=/var/run/sawtooth
+                  if [ -r $SIGNALS_DIR/raft-engine ]; then
+                    exit 1
+                  else
+                    exit 0
+                  fi
+            failureThreshold: 1
+            periodSeconds: 3
           resources: {{ toYaml .Values.sawtooth.containers.raft_engine.resources | nindent 12 }}
           volumeMounts:
             - mountPath: "/etc/sawtooth"
               name: sawtooth-etc
             - mountPath: "/var/lib/sawtooth"
               name: sawtooth-data
+            - mountPath: /var/run/sawtooth
+              name: sawtooth-signals
         {{ else if eq $consensus 200 }}
         - name: poet-engine
           image: {{.Values.images.poet_engine}}
           imagePullPolicy: {{.Values.sawtooth.containers.poet_engine.imagePullPolicy}}
           command: [ "bash", "-c"]
           args:
-          - |
-            poet-engine {{.Values.sawtooth.containers.poet_engine.args}} \
-              --connect tcp://127.0.0.1:{{.Values.sawtooth.ports.consensus}} \
-              --component tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}
+            - |
+              poet-engine {{.Values.sawtooth.containers.poet_engine.args}} \
+                --connect tcp://127.0.0.1:{{.Values.sawtooth.ports.consensus}} \
+                --component tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}
           env:
             {{ range .Values.sawtooth.containers.poet_engine.env }}
             - name: {{.name }}
               value: {{.value | quote }}
             {{end}}
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - |
+                    SIGNALS_DIR=/var/run/sawtooth
+                    rm -f $SIGNALS_DIR/poet-engine
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - |
+                  SIGNALS_DIR=/var/run/sawtooth
+                  if [ -r $SIGNALS_DIR/poet-engine ]; then
+                    exit 1
+                  else
+                    exit 0
+                  fi
+            failureThreshold: 1
+            periodSeconds: 3
           volumeMounts:
             - mountPath: "/etc/sawtooth"
               name: sawtooth-etc
             - mountPath: "/var/lib/sawtooth"
               name: sawtooth-data
+            - mountPath: /var/run/sawtooth
+              name: sawtooth-signals
           resources: {{ toYaml .Values.sawtooth.containers.poet_engine.resources | nindent 12 }}
         - name: poet-validator-registry-tp
           image: {{.Values.images.poet_validator_registry_tp}}
           imagePullPolicy: {{.Values.sawtooth.containers.poet_validator_registry_tp.imagePullPolicy}}
           command: [ "bash", "-c"]
           args:
-          - |
-            poet-validator-registry-tp {{.Values.sawtooth.containers.poet_validator_registry_tp.args}} \
-              -C tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}
+            - |
+              poet-validator-registry-tp {{.Values.sawtooth.containers.poet_validator_registry_tp.args}} \
+                -C tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}
           env:
             {{ range .Values.sawtooth.containers.poet_validator_registry_tp.env }}
             - name: {{.name }}
               value: {{.value | quote }}
             {{end}}
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - |
+                    SIGNALS_DIR=/var/run/sawtooth
+                    rm -f $SIGNALS_DIR/poet-validatory-registry-tp
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - |
+                  SIGNALS_DIR=/var/run/sawtooth
+                  if [ -r $SIGNALS_DIR/poet-validator-registry-tp ]; then
+                    exit 1
+                  else
+                    exit 0
+                  fi
+            failureThreshold: 1
+            periodSeconds: 3
           volumeMounts:
             - mountPath: "/etc/sawtooth"
               name: sawtooth-etc
             - mountPath: "/var/lib/sawtooth"
               name: sawtooth-data
+            - mountPath: /var/run/sawtooth
+              name: sawtooth-signals
           resources: {{ toYaml .Values.sawtooth.containers.poet_validator_registry_tp.resources | nindent 12 }}
         {{ else }}
         - name: devmode-engine
@@ -160,14 +234,40 @@ spec:
           imagePullPolicy: {{.Values.sawtooth.containers.devmode_engine.imagePullPolicy}}
           command: [ "bash", "-c"]
           args:
-          - |
-            devmode-engine-rust {{.Values.sawtooth.containers.devmode_engine.args}} \
-              -C tcp://127.0.0.1:{{.Values.sawtooth.ports.consensus}}
+            - |
+              devmode-engine-rust {{.Values.sawtooth.containers.devmode_engine.args}} \
+                -C tcp://127.0.0.1:{{.Values.sawtooth.ports.consensus}}
           env:
             {{ range .Values.sawtooth.containers.devmode_engine.env }}
             - name: {{.name }}
               value: {{.value | quote }}
             {{end}}
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - |
+                    SIGNALS_DIR=/var/run/sawtooth
+                    rm -f $SIGNALS_DIR/devmode-engine
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - |
+                  SIGNALS_DIR=/var/run/sawtooth
+                  if [ -r $SIGNALS_DIR/devmode-engine ]; then
+                    exit 1
+                  else
+                    exit 0
+                  fi
+            failureThreshold: 1
+            periodSeconds: 3
+          volumeMounts:
+            - mountPath: /var/run/sawtooth
+              name: sawtooth-signals
           resources: {{ toYaml .Values.sawtooth.containers.devmode_engine.resources | nindent 12 }}
         {{ end }}
         - name: settings-tp
@@ -175,15 +275,41 @@ spec:
           imagePullPolicy: {{.Values.sawtooth.containers.settings_tp.imagePullPolicy}}
           command: [ "bash", "-c"]
           args:
-          - |
-            settings-tp {{.Values.sawtooth.containers.settings_tp.args}} \
-              --connect tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}
+            - |
+              settings-tp {{.Values.sawtooth.containers.settings_tp.args}} \
+                --connect tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}
           env:
             {{ range .Values.sawtooth.containers.settings_tp.env }}
             - name: {{.name }}
               value: {{.value | quote }}
             {{end}}
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - |
+                    SIGNALS_DIR=/var/run/sawtooth
+                    rm -f $SIGNALS_DIR/settings-tp
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - |
+                  SIGNALS_DIR=/var/run/sawtooth
+                  if [ -r $SIGNALS_DIR/settings-tp ]; then
+                    exit 1
+                  else
+                    exit 0
+                  fi
+            failureThreshold: 1
+            periodSeconds: 3
           resources: {{ toYaml .Values.sawtooth.containers.settings_tp.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /var/run/sawtooth
+              name: sawtooth-signals
         - name: block-info-tp
           image: {{.Values.images.block_info_tp}}
           imagePullPolicy: {{.Values.sawtooth.containers.block_info.imagePullPolicy}}
@@ -229,14 +355,23 @@ spec:
           imagePullPolicy: {{.Values.sawtooth.containers.intkey_tp.imagePullPolicy}}
           command: [ "bash", "-c"]
           args:
-          - |
-            intkey-tp-go {{.Values.sawtooth.containers.intkey_tp.args}} \
-              --connect tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}
+            - |
+              intkey-tp-go {{.Values.sawtooth.containers.intkey_tp.args}} \
+                --connect tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}
           env:
             {{ range .Values.sawtooth.containers.intkey_tp.env }}
             - name: {{.name }}
               value: {{.value | quote }}
             {{end}}
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - |
+                    SIGNALS_DIR=/var/run/sawtooth
+                    rm -f $SIGNALS_DIR/intkey-tp
           livenessProbe:
             exec:
               command:
@@ -252,21 +387,50 @@ spec:
             failureThreshold: 1
             periodSeconds: 3
           resources: {{ toYaml .Values.sawtooth.containers.intkey_tp.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /var/run/sawtooth
+              name: sawtooth-signals
         {{ if .Values.sawtooth.permissioned }}
         - name: identity-tp
           image: {{.Values.images.identity_tp}}
           imagePullPolicy: {{.Values.sawtooth.containers.identity_tp.imagePullPolicy}}
           command: [ "bash", "-c" ]
           args:
-          - |
-            identity-tp {{.Values.sawtooth.containers.identity_tp.args}} \
-              -C tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}
+            - |
+              identity-tp {{.Values.sawtooth.containers.identity_tp.args}} \
+                -C tcp://127.0.0.1:{{.Values.sawtooth.ports.sawcomp}}
           env:
             {{ range .Values.sawtooth.containers.identity_tp.env }}
             - name: {{.name }}
               value: {{.value | quote }}
             {{end}}
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - |
+                    SIGNALS_DIR=/var/run/sawtooth
+                    rm -f $SIGNALS_DIR/identity-tp
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - |
+                  SIGNALS_DIR=/var/run/sawtooth
+                  if [ -r $SIGNALS_DIR/identity-tp ]; then
+                    exit 1
+                  else
+                    exit 0
+                  fi
+            failureThreshold: 1
+            periodSeconds: 3
           resources: {{ toYaml .Values.sawtooth.containers.identity_tp.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /var/run/sawtooth
+              name: sawtooth-signals
         {{ end }}
         {{ if .Values.sawtooth.daml.enabled }}
         - name: daml-tp
@@ -274,22 +438,22 @@ spec:
           imagePullPolicy: {{.Values.sawtooth.containers.daml_tp.imagePullPolicy}}
           command: [ "bash", "-c"]
           args:
-          - |
-            /opt/sawtooth-daml-tp/entrypoint.sh {{.Values.sawtooth.containers.daml_tp.args}} \
-              tcp://localhost:{{.Values.sawtooth.ports.sawcomp}}
+            - |
+              /opt/sawtooth-daml-tp/entrypoint.sh {{.Values.sawtooth.containers.daml_tp.args}} \
+                tcp://localhost:{{.Values.sawtooth.ports.sawcomp}}
           resources:
             limits: {}
             requests:
               cpu: "50m"
           env:
-          - name: POD_NAME
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.name
-          {{ range .Values.sawtooth.containers.daml_tp.env }}
-          - name: {{.name }}
-            value: {{.value | quote }}
-          {{end}}
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            {{ range .Values.sawtooth.containers.daml_tp.env }}
+            - name: {{.name }}
+              value: {{.value | quote }}
+            {{end}}
           volumeMounts:
             - mountPath: /var/run/sawtooth
               name: sawtooth-signals
@@ -322,18 +486,14 @@ spec:
           imagePullPolicy: {{.Values.sawtooth.containers.timekeeper.imagePullPolicy}}
           command: [ "bash", "-c"]
           args:
-          - |
-            /opt/timekeeper/entrypoint.sh {{.Values.sawtooth.containers.timekeeper.args}} \
-              tcp://localhost:{{.Values.sawtooth.ports.sawcomp}}
+            - |
+              /opt/timekeeper/entrypoint.sh {{.Values.sawtooth.containers.timekeeper.args}} \
+                tcp://localhost:{{.Values.sawtooth.ports.sawcomp}}
           env:
             {{ range .Values.sawtooth.containers.timekeeper.env }}
             - name: {{.name }}
               value: {{.value | quote }}
             {{end}}
-          resources: {{ toYaml .Values.sawtooth.containers.timekeeper.resources | nindent 12 }}
-          volumeMounts:
-            - mountPath: /var/run/sawtooth
-              name: sawtooth-signals
           lifecycle:
             postStart:
               exec:
@@ -357,6 +517,10 @@ spec:
                   fi
             failureThreshold: 1
             periodSeconds: 3
+          resources: {{ toYaml .Values.sawtooth.containers.timekeeper.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /var/run/sawtooth
+              name: sawtooth-signals
         {{ end }}
         {{range .Values.sawtooth.customTPs}}
         - name: {{.name}}
@@ -416,6 +580,15 @@ spec:
             - name: {{.name }}
               value: {{.value | quote }}
             {{end}}
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - |
+                    SIGNALS_DIR=/var/run/sawtooth
+                    rm -f $SIGNALS_DIR/rest-api
           livenessProbe:
             exec:
               command:
@@ -448,6 +621,8 @@ spec:
           volumeMounts:
             - mountPath: "/etc/sawtooth"
               name: sawtooth-etc
+            - mountPath: /var/run/sawtooth
+              name: sawtooth-signals
           env:
           - name: POD_NAME
             valueFrom:
@@ -523,7 +698,7 @@ spec:
                   sleep 1
                 done
               done
-              find /var/lib/sawtooth -name '.atomicwrite.*' -exec rm -rf {} -print
+              find /var/lib/sawtooth -name '.atomicwrite.*' -exec rm -rf {}  \; -print
               sawtooth-validator {{.Values.sawtooth.containers.validator.args}} \
                 --scheduler {{.Values.sawtooth.scheduler}} \
                 --endpoint tcp://${NODE_NAME}:{{.Values.sawtooth.ports.sawnet}} \
