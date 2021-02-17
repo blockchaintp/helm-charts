@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+* fix(daml-on-sawtooth): add serviceName to statefulset
+
+## v0.2.38
+
 * feat(daml-on-sawtooth): add persistence options for postgres
 
 ## v0.2.37
