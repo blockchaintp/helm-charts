@@ -3,7 +3,6 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: {{.Values.sawtooth.networkName}}-daml-rpc
-  namespace: {{.Values.sawtooth.namespace}}
   labels:
     app: {{.Values.sawtooth.networkName}}-daml-rpc
     daml: {{.Values.sawtooth.networkName}}-daml-rpc
@@ -13,6 +12,7 @@ spec:
     matchLabels:
       app: {{.Values.sawtooth.networkName}}-daml-rpc
       daml: {{.Values.sawtooth.networkName}}-daml-rpc
+  serviceName: {{.Values.sawtooth.networkName}}-daml-rpc
   template:
     metadata:
       labels:

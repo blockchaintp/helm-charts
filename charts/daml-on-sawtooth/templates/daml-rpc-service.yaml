@@ -3,10 +3,11 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{.Values.sawtooth.networkName}}-daml-rpc
-  namespace: {{.Values.sawtooth.namespace}}
   labels:
     app: {{.Values.sawtooth.networkName}}-daml-rpc
 spec:
+  type: ClusterIP
+  clusterIP: None
   sessionAffinity: ClientIP
   ports:
   - port: {{.Values.sawtooth.ports.jsonapi}}
