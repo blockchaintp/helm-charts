@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v0.2.40
+
+* feat(daml-on-sawtooth): enable signals on the remaining containers [view commit](https://github.com/catenasys/helm-charts/commit/bf2d8610fde59e246539f17161dd0f12c5029a7a)
+* fix(daml-on-sawtooth): correct a typo in the atomicwrite cleanup [view commit](https://github.com/catenasys/helm-charts/commit/83e1d1e1358e2d8b06ce87e8c0381a8b57dfb073)
+
 ## v0.2.39
 
 * fix(daml-on-sawtooth): add serviceName to statefulset [view commit](https://github.com/catenasys/helm-charts/commit/9be7c4059b32197d1f6ffad999cfbbb07527f03d)
