@@ -59,7 +59,7 @@ spec:
                 --auth-jwt-rs256-crt /secrets/jwt/jwt.crt \
                 {{- end }}
                 {{- if .Values.daml.rpc.extra_args.enabled }}
-                {{ .Values.daml.rpc.extra_args }} \
+                {{ .Values.daml.rpc.extra_args.arg_str }} \
                 {{- end }}
               ;
           resources: {}
