@@ -1,75 +1,130 @@
-# Default values for sextant.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+## @md # Sextant
+## @md
+## @md This chart is the base chart to install BTP Sextant. By default it
+## @md installs the development version of Sextant. It's intended use is as
+## @md a dependency of other charts which install particular editions of the
+## @md software.
+## @md
 
+## @md ## Configuration
+## @md
+## @md | field | description | type | default |
+## @md |-|-|-|-|
+## @md | `deployment` | Sextant support variable, don't change manually | map | N/A |
 deployment:
   name: sextant
   namespace: default
 
+## @md | `imagePullSecrets` | imagePullSecrets configuration | map | N/A |
 imagePullSecrets:
+  ## @md | `imagePullSecrets.enabled` | true if imagePullSecrets are required | boolean | false |
   enabled: false
+  ## @md | `imagePullSecrets.value` | a list if named secret references of the form   ```- name: secretName```| list | [] |
   value: []
-#    - name: regcred
 
+## @md | `replicaCount` | number of Sextant replicas to run | int | 1 |
 replicaCount: 1
 
+## @md | `logging` | default logging level | string | "1" |
 logging: "1"
 
+## @md | `ui` | UI configuration settings | map | N/A |
 ui:
+  ## @md | `ui.image` | UI image settings | map | N/A |
   image:
+    ## @md | `ui.image.repository` | UI image repository | string | "dev.catenasys.com:8083/blockchaintp/sextant" |
     repository: dev.catenasys.com:8083/blockchaintp/sextant
+    ## @md | `ui.image.tag` | UI image tag | string | "latest" |
     tag: latest
+    ## @md | `ui.image.pullPolicy` | UI image pull policy | string | "IfNotPresent" |
     pullPolicy: IfNotPresent
+## @md | `api` | UI configuration settings | map | N/A |
 api:
+  ## @md | `api.image` | API image settings | map | N/A |
   image:
+    ## @md | `api.image.repository` | API image repository | string | "dev.catenasys.com:8083/blockchaintp/sextant-api" |
     repository: dev.catenasys.com:8083/blockchaintp/sextant-api
+    ## @md | `api.image.tag` | API image tag | string | "latest" |
     tag: latest
+    ## @md | `api.image.pullPolicy` | API image pull policy | string | "IfNotPresent" |
     pullPolicy: IfNotPresent
+## @md | `noxy` | UI configuration settings | map | N/A |
 noxy:
+  ## @md | `noxy.image` | noxy image settings | map | N/A |
   image:
+    ## @md | `noxy.image.repository` | NOXY image repository | string | "dev.catenasys.com:8083/blockchaintp/noxy" |
     repository: dev.catenasys.com:8083/blockchaintp/noxy
+    ## @md | `noxy.image.tag` | noxy image tag | string | "latest" |
     tag: latest
+    ## @md | `noxy.image.pullPolicy` | API image pull policy | string | "IfNotPresent" |
     pullPolicy: IfNotPresent
 
 
+## @md | `serviceAccount` | service account settings | map | N/A |
 serviceAccount:
+  ## @md | `serviceAccount.create` | if true create the service account | boolean | true |
   create: true
+  ## @md | `serviceAccount.name` | name of the service account for sextant | string | nil |
   name:
 
+## @md | `postgres` | postgres settings | map | N/A |
 postgres:
   # if enabled we allocate a postgres database here
+  ## @md | `postgres.enabled` | if true create an internal postgres instance | boolean | true |
   enabled: true
+  ## @md | `postgres.image` | postgres image settings | map | N/A |
   image:
+    ## @md | `postgres.image.repository` | postgres image repository | string | "postgres" |
     repository: postgres
+    ## @md | `postgres.image.tag` | postgres image tag | string | "11" |
     tag: 11
+  ## @md | `postgres.user` | user for the postgres database | string | "postgres" |
   user: postgres
+  ## @md | `postgres.host` | host for the postgres database | string | "localhost" |
   host: localhost
+  ## @md | `postgres.database` | database for the postgres database | string | "postgres" |
   database: postgres
+  ## @md | `postgres.port` | port for the postgres database | int | 5432 |
   port: 5432
+  ## @md | `postgres.password` | password for the postgres database | string | "postgres" |
   password: postgres
+  ## @md | `postgres.existingPasswordSecret` | name of a secret containing the postgres password | string | nil |
   existingPasswordSecret:
+  ## @md | `postgres.tls` | postgres TLS configuration | string | nil |
   tls:
+  ## @md | `postgres.persistence` | postgres persistence settings | map | N/A |
   persistence:
+    ## @md | `postgres.persistence.enabled` | if true allocate a PVC for the postgres instance | boolean | false |
     enabled: false
+    ## @md | `postgres.persistence.annotations` | any custom annotations to the postgres PVC's | map | {} |
     annotations: {}
+    ## @md | `postgres.persistence.accessModes` | postgres PVC access modes | list | [ "ReadWriteOnce" ] |
     accessModes:
       - "ReadWriteOnce"
+    ## @md | `postgres.persistence.storageCloss` | postgres PVC storageClass | string | "gp2" |
     storageClass: "gp2"
+    ## @md | `postgres.persistence.size` | postgres PVC volume size | string | "40Gi" |
     size: "40Gi"
 
+## @md | `service` | service settings | map | N/A |
 service:
+  ## @md | `service.type` | Sextant service type | string | ClusterIP |
   type: ClusterIP
+  ## @md | `service.port` | Sextant service port | int | 8000 |
   port: 8000
 
+## @md | `ingress` | ingress settings | map | N/A |
 ingress:
+  ## @md | `ingress.enabled` | true to enable an ingress for sextant | boolean | false |
   enabled: false
+  ## @md | `ingress.annotations` | any custom annotations to the Sextant ingress | map | {} |
   annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: chart-example.local
-      paths: []
+  ## @md | `ingress.hosts` | a list of host and path lists to publish in the ingress | map | {} |
+  hosts: []
+  # - host: chart-example.local
+  #   paths: []
 
+  ## @md | `ingress.tls` | Sextant ingress TLS cofiguration | list | [] |
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
