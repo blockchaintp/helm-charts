@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* fix(sextant-test): correct values.yaml [view commit](https://github.com/catenasys/helm-charts/commit/289f45e50240d58ed0f9c0ab92023a473f843a3d)
 * docs(sextant): update sextant documentation [view commit](https://github.com/catenasys/helm-charts/commit/2151d746d6f83be4822d6e338d1add07c076a77f)
 
 ## v0.2.41
