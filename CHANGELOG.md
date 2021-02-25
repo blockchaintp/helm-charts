@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* fix(sawtooth): deprecate seth and sample applications [view commit](https://github.com/catenasys/helm-charts/commit/9edf4e0cb4b5ac6100009b1aabef42db36383441)
+* fix(sextant-test): correct image urls [view commit](https://github.com/catenasys/helm-charts/commit/c2313bb295796aaa90aad4c0c43cb7527948d823)
 * fix(sextant-test): correct values.yaml [view commit](https://github.com/catenasys/helm-charts/commit/289f45e50240d58ed0f9c0ab92023a473f843a3d)
 * docs(sextant): update sextant documentation [view commit](https://github.com/catenasys/helm-charts/commit/2151d746d6f83be4822d6e338d1add07c076a77f)
 
