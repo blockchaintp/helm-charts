@@ -241,7 +241,8 @@ sawtooth:
   #      image: "blockchaintp/sawtooth-intkey-tp-go:1.0.5"
   #      command: [ "bash", "-c" ]
   #      args: [ "intkey-tp-go -v --connect tcp://localhost:4004" ]
-
+  ## @md | `sawtooth.affinity` | custom affinity rules for the sawtooth validator deamonset | map | nil |
+  affinity: {}
 
 # The below are mostly controlled by BTP, although an "advanced" option to customize them may be
 # presented
