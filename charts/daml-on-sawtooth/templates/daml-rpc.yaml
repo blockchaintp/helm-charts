@@ -20,6 +20,20 @@ spec:
         daml: {{.Values.sawtooth.networkName}}-daml-rpc
     spec:
       serviceAccountName: {{.Values.sawtooth.networkName}}-sa
+      {{if .Values.affinity.enabled}}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - {{.Values.sawtooth.networkName}}-validator
+      {{ else }}
+      affinity:
+        {{ toYaml .Values.sawtooth.affinity | nindent 8 }}
+      {{ end }}
       initContainers:
         - name: change-permissions
           image: busybox

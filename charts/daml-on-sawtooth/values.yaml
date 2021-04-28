@@ -344,7 +344,8 @@ sawtooth:
   #      image: "blockchaintp/sawtooth-intkey-tp-go:1.0.5"
   #      command: [ "bash", "-c" ]
   #      args: [ "intkey-tp-go -v --connect tcp://localhost:4004" ]
-
+  ## @md | `sawtooth.affinity` | custom affinity rules for the sawtooth validator deamonset | map | nil |
+  affinity: {}
 ## @md | `jsonapi` | settings for the jsonapi | map | N/A |
 jsonapi:
   ingress:

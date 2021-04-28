@@ -37,6 +37,9 @@ spec:
                   operator: In
                   values:
                   - {{.Values.sawtooth.networkName}}-validator
+      {{ else }}
+      affinity:
+        {{ toYaml .Values.sawtooth.affinity | nindent 8 }}
       {{ end }}
       tolerations:
         - key: node-role.kubernetes.io/master
