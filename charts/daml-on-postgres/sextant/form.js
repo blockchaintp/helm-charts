@@ -53,6 +53,7 @@ const form = [
       title: 'Host',
       helperText: 'Postgres endpoint host',
       component: 'text',
+      default: 'postgres',
       editable: {
         new: true,
       },
@@ -135,7 +136,6 @@ const form = [
         type: 'string',
         methods: [
           ['required', 'Required'],
-          validators.dns1123,
         ],
       },
     },
