@@ -53,10 +53,7 @@ const form = [
       title: 'Host',
       helperText: 'Postgres endpoint host',
       component: 'text',
-      default: 'postgres',
-      editable: {
-        new: true,
-      },
+      default: 'localhost',
       linked: [
         {
           linkedId: 'postgres.enabled',
@@ -77,9 +74,6 @@ const form = [
       helperText: 'Postgres endpoint user',
       component: 'text',
       default: 'postgres',
-      editable: {
-        new: true,
-      },
       linked: [
         {
           linkedId: 'postgres.enabled',
@@ -100,9 +94,6 @@ const form = [
       helperText: 'Postgres endpoint database',
       component: 'text',
       default: 'postgres',
-      editable: {
-        new: true,
-      },
       linked: [
         {
           linkedId: 'postgres.enabled',
@@ -123,9 +114,6 @@ const form = [
       helperText: 'Postgres endpoint port',
       component: 'text',
       default: '5432',
-      editable: {
-        new: true,
-      },
       linked: [
         {
           linkedId: 'postgres.enabled',

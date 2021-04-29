@@ -89,8 +89,13 @@ spec:
             {{- else }}
               value: {{ .Values.postgres.password }}
             {{- end }}
+            {{- if .Values.postgres.enabled }}
+            - name: POSTGRES_HOST
+              value: localhost
+            {{- else }}
             - name: POSTGRES_HOST
               value: {{ .Values.postgres.host }}
+            {{- end }}
             - name: POSTGRES_DB
               value: {{ .Values.postgres.database }}
             - name: POSTGRES_PORT
