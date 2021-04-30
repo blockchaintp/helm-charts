@@ -407,7 +407,7 @@ daml:
     imagePullPolicy: IfNotPresent
   ## @md | `daml.participantId` | use this participant id otherwise one choose based on network | string | nil |
   participantId:
-    ## @md | `daml.affinity` | custom affinity rules for the daml-rpc pod | map | nil |
+  ## @md | `daml.affinity` | custom affinity rules for the daml-rpc pod | map | nil |
   affinity: {}
 ## @md | `postgres` | postgres settings | map | N/A |
 postgres:
