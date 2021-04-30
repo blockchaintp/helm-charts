@@ -1,7 +1,9 @@
 # CHANGELOG
 
-## Unreleased
+## v0.2.42
 
+* fix(daml-on-postgres): corrections to form [view commit](https://github.com/catenasys/helm-charts/commit/bccd0bd1868e06f8a06c68cc5ff1ec07908ce697)
+* fix(daml-on-postgres): port isn't a dns1123 field, and for now give Host a default [view commit](https://github.com/catenasys/helm-charts/commit/a2c93b80f432bb28f3f3f634bb7979ea5841271b)
 * fix(sawtooth): deprecate seth and sample applications [view commit](https://github.com/catenasys/helm-charts/commit/9edf4e0cb4b5ac6100009b1aabef42db36383441)
 * fix(sextant-test): correct image urls [view commit](https://github.com/catenasys/helm-charts/commit/c2313bb295796aaa90aad4c0c43cb7527948d823)
 * fix(sextant-test): correct values.yaml [view commit](https://github.com/catenasys/helm-charts/commit/289f45e50240d58ed0f9c0ab92023a473f843a3d)
