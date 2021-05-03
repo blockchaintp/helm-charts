@@ -56,13 +56,13 @@ spec:
                 fi
                 sleep 1
               done
-              kubectl get secret {{ include "daml.fullname" . }}-cert
+              kubectl get secret {{ .Values.deployment.name }}-cert
               if [ $? -eq 0 ]; then
                 exit 0
               fi
               kubectl create secret generic \
                 --namespace {{ .Release.Namespace }} \
-                {{ include "daml.fullname" . }}-cert \
+                {{ .Values.deployment.name }}-cert \
                 --from-file=/scratch/rsa
       volumes:
         - name: scratch
