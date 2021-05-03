@@ -20,6 +20,8 @@ spec:
         daml: {{.Values.sawtooth.networkName}}-daml-rpc
     spec:
       serviceAccountName: {{.Values.sawtooth.networkName}}-sa
+      affinity:
+        {{ toYaml .Values.daml.affinity | nindent 8 }}
       initContainers:
         - name: change-permissions
           image: busybox
