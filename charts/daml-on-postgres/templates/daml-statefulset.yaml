@@ -119,7 +119,7 @@ spec:
             type: CharDevice
         - name: jwt-secret
           secret:
-            secretName: {{ include "daml.fullname" . }}-cert
+            secretName: {{ .Values.deployment.name }}-cert
 {{- if not .Values.postgres.persistence.enabled }}
         - name: "pgdata"
           emptyDir: {}
