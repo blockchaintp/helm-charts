@@ -61,6 +61,7 @@
 | `sawtooth.hostPathBaseDir` | all sawtooth hostPath directories will be based here | string | /var/lib/btp
 | `sawtooth.client_wait` | arbitrary delay to validator client startup, such as the rest-api | int | 90 |
 | `sawtooth.customTPs` | a list of [custom tp definitions](#custom-tp-definitions) | list | nil |
+| `sawtooth.affinity` | custom affinity rules for the sawtooth validator deamonset | map | nil |
 | `images` | a map containing all of the image urls used by this template| map | N/A |
 
 ## Images

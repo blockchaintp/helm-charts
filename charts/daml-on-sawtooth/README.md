@@ -117,6 +117,7 @@
 | `sawtooth.hostPathBaseDir` | all sawtooth hostPath directories will be based here | string | /var/lib/btp
 | `sawtooth.client_wait` | arbitrary delay to validator client startup, such as the rest-api | int | 90 |
 | `sawtooth.customTPs` | a list of [custom tp definitions](#custom-tp-definitions) | list | nil |
+| `sawtooth.affinity` | custom affinity rules for the sawtooth validator deamonset | map | nil |
 | `jsonapi` | settings for the jsonapi | map | N/A |
 | `jsonapi.ingress.enabled` | enable the ingress for the jsonapi | boolean | false |
 | `jsonapi.ingress.annotations` | custom annotations for the jsonapi | map | {} |
@@ -138,6 +139,7 @@
 | `daml.trigger_service.enabled` | (deprecated) set true to enable trigger service | boolean | true |
 | `daml.triggers` | settings for the individual trigger deployments which replaces the trigger-service | list [see trigger definitions](##triggers) | [] |
 | `daml.participantId` | use this participant id otherwise one choose based on network | string | nil |
+| `daml.affinity` | custom affinity rules for the daml-rpc pod | map | nil |
 | `postgres` | postgres settings | map | N/A |
 | `postgres.persistence` | postgres persistence settings | map | N/A |
 | `postgres.persistence.enabled` | if true allocate a PVC for the postgres instance | boolean | false |
