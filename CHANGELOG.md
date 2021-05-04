@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## Unreleased
+
+* fix: correct cert names in d-o-p and d-o-b [view commit](https://github.com/catenasys/helm-charts/commit/42bd2e5e3b59c7bdcb159b5f66532cafc2613f79)
+* docs(daml-on-sawtooth): correct values file markdown [view commit](https://github.com/catenasys/helm-charts/commit/351fa37929f3236367cecc21f209dcfebef08de0)
+* fix(daml-on-sawtooth): remove affinity rule switch and set from daml values [view commit](https://github.com/catenasys/helm-charts/commit/87bac686ca06053efa8bd9cd62b24232a52dbb19)
+* feat(sawtooth): allow setting arbitrary affinity rules [view commit](https://github.com/catenasys/helm-charts/commit/c5a8a0ff513e4cf0b4a5be1956f21e34ad972dcf)
+* feat(daml-on-sawtooth): allow setting arbitrary affinity rules [view commit](https://github.com/catenasys/helm-charts/commit/034b32e08ff278eb93be0f8e646ce430ff173043)
+* test(pre-commit-config): autoupdate hook repos [view commit](https://github.com/catenasys/helm-charts/commit/cb2d79f20eb9d7e8dddc988c65c29ecb599df1de)
+* fix(daml-on-postgres): correct daml certificate name [view commit](https://github.com/catenasys/helm-charts/commit/d59021d5b414c794d9573ffe63386cd5d334b4f2)
+
 ## v0.2.42
 
 * fix(daml-on-postgres): corrections to form [view commit](https://github.com/catenasys/helm-charts/commit/bccd0bd1868e06f8a06c68cc5ff1ec07908ce697)
