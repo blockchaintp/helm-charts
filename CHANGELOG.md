@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Unreleased
+## v0.2.43
 
 * fix: correct cert names in d-o-p and d-o-b [view commit](https://github.com/catenasys/helm-charts/commit/42bd2e5e3b59c7bdcb159b5f66532cafc2613f79)
 * docs(daml-on-sawtooth): correct values file markdown [view commit](https://github.com/catenasys/helm-charts/commit/351fa37929f3236367cecc21f209dcfebef08de0)
