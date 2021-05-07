@@ -53,7 +53,7 @@ spec:
               {{- end }}
                 --json-rpc-url http://{{include "besu.fullname" .}}:{{.Values.besu.rpc.port}} \
                 --participant port={{.Values.daml.rpc.port}},address=0.0.0.0,participant-id={{.Values.daml.rpc.participantId}},server-jdbc-url=jdbc:postgresql://localhost/postgres?user=postgres \
-                --private-key-file /keys/{{ include "besu.fullname" .}}-0 \
+                --private-key-file /keys/{{ include "besu.fullname" .}}-rpc-0 \
                 --ledger-id {{.Values.daml.ledgerId }} \
                 {{- if .Values.daml.auth.enabled }}
                 --auth-jwt-rs256-crt /secrets/jwt/jwt.crt \
@@ -77,7 +77,7 @@ spec:
       volumes:
         - name: networkkeys-config
           secret:
-            secretName: {{ include "besu.fullname" .}}-keys
+            secretName: {{include "daml.fullname" .}}-rpc-keys
         - name: dev-random
           hostPath:
             path: /dev/random

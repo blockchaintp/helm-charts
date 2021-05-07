@@ -13,7 +13,20 @@ imagePullSecrets:
 deployment:
   name: default
   namespace: default
+## @md |`besu` | besu settings | map | N/A |
 besu:
+  ## @md | `besu.seedNetwork` | whether or not this is a seed or genesis network | boolean | true |
+  seedNetwork: true
+  ## @md | `besu.seedGenesis` | the genesis configuration used if this is not a seed network | string | nil |
+  seedGenesis:
+  ## @md | `besu.additionalBootnodeUrls` | A list of enode defining objects defined as below | list | `[]` |
+  additionalBootnodeUrls: []
+    ## @md | `besu.additionalBootnodeUrls[].pubkey` | the public key of the enode url | string | |
+    ## @md | `besu.additionalBootnodeUrls[].host` | the hostname of the enode url (it will be resolved if not an ip) | string | |
+    ## @md | `besu.additionalBootnodeUrls[].port` | the port for the enode url | number | |
+    # - pubkey:  abcdef1234567890
+    #   host: somehostname
+    #   port: 30303
   persistence:
     enabled: false
     annotations: {}
@@ -24,6 +37,7 @@ besu:
   serviceAccount:
     create: true
     name:
+  ## @md | `besu.nodeCount` | the number of besu nodes to start an initial genesis requires 4 | number | 4 |
   nodeCount: 4
   chainId: "19750424"
   dataPath: /data
@@ -63,8 +77,8 @@ besu:
     nodes:
       enabled: false
       whitelist: []
-      # - "enode://6f8a80d14311c39f35f516fa664deaaaa13e85b2f7493f37f6144d86991ec012937307647bd3b9a82abe2974e1407241d54947bbb39763a4cac9f77166ad92a0@192.168.0.9:4567"
-      # - "enode://6f8a80d14311c39f35f516fa664deaaaa13e85b2f7493f37f6144d86991ec012937307647bd3b9a82abe2974e1407241d54947bbb39763a4cac9f77166ad92a0@192.169.0.9:4568"
+      # - "enode://PUBKEY@192.168.0.9:4567"
+      # - "enode://PUBKEY@192.169.0.9:4568"
     nodesContract:
       enabled: false
       address: "0x0000000000000000000000000000000000001234"
@@ -104,6 +118,7 @@ besu:
     maxSize: 1024
 ## @md | `daml` | settings for DAML subsystem | map | N/A |
 daml:
+  ## @md | `daml.ledgerId` | ledger id for this participant | string | default-ledger-id |
   ledgerId: default-ledger-id
   auth:
     enabled: false
@@ -117,6 +132,7 @@ daml:
     repository: dev.catenasys.com:8084/blockchaintp/rpc
     tag: BTP2.1.0rc14
     imagePullPolicy: IfNotPresent
+  ## @md | `daml.rpcCount` | number identical rpc participants to allocate | number | 1 |
   rpcCount: 1
   ## @md | `daml.rpc` | settings for daml-rpc | map | N/A |
   rpc:

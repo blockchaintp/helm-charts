@@ -46,6 +46,7 @@ spec:
             - bash
             - -xc
             - |
+              {{- if .Values.besu.seedNetwork }}
               bootnode={{include "besu.fullname" .}}-0
               if [ ! -r /data/database/CURRENT ] && [ "$POD_NAME" = "$bootnode" ]; then
                 BOOT_NODE_ARGS=()
@@ -80,14 +81,35 @@ spec:
                 bootnode_enode=$(cat /keys/{{include "besu.fullname" .}}-0.pub| sed -e 's/^0x//')
                 BOOT_NODE_ARGS=("enode://$bootnode_enode@$bootnode_ip:{{.Values.besu.p2p.port}}")
               fi
-              {{- if .Values.daml.privacy.enabled }}
-              exec /opt/daml-on-besu/besu-private/entrypoint.sh \
-              {{- else }}
-              exec /opt/daml-on-besu/besu/entrypoint.sh \
               {{- end }}
-              --node-private-key-file=/keys/${POD_NAME} \
-              --config-file=/etc/besu/config.toml \
-              --bootnodes "${BOOT_NODE_ARGS[@]}"
+              {{- range .Values.besu.additionalBootnodeUrls }}
+              bootnode_ip=$(getent hosts {{.host}} | awk '{print $1}' | head -1)
+              while [ -z "$bootnode_ip" ]; do
+                sleep 1
+                bootnode_ip=$(getent hosts {{.host}} | awk '{print $1}' | head -1)
+              done
+              BOOT_NODE_ARGS+=("enode://{{.pubkey}}@$bootnode_ip:{{.port}}")
+              {{- end}}
+              boot_node_string="${BOOT_NODE_ARGS[@]}"
+              boot_node_string=${boot_node_string// /,}
+              if [ -r /keys/${POD_NAME} ]; then
+                {{- if .Values.daml.privacy.enabled }}
+                exec /opt/daml-on-besu/besu-private/entrypoint.sh \
+                {{- else }}
+                exec /opt/daml-on-besu/besu/entrypoint.sh \
+                {{- end }}
+                  --node-private-key-file=/keys/${POD_NAME} \
+                  --config-file=/etc/besu/config.toml \
+                  --bootnodes "$boot_node_string"
+              else
+                {{- if .Values.daml.privacy.enabled }}
+                exec /opt/daml-on-besu/besu-private/entrypoint.sh \
+                {{- else }}
+                exec /opt/daml-on-besu/besu/entrypoint.sh \
+                {{- end }}
+                  --config-file=/etc/besu/config.toml \
+                  --bootnodes "$boot_node_string"
+              fi
           {{- if .Values.daml.privacy.enabled }}
           image: "{{.Values.besu.privateImage.repository}}:{{.Values.besu.privateImage.tag}}"
           {{- else }}
@@ -130,9 +152,11 @@ spec:
             - name: config-toml
               mountPath: /etc/besu
               readOnly: true
+            {{- if .Values.besu.seedNetwork }}
             - mountPath: /keys
               name: networkkeys-config
               readOnly: true
+            {{- end }}
             - mountPath: {{ .Values.besu.dataPath | quote }}
               name: data
             - mountPath: /dev/random
@@ -158,9 +182,11 @@ spec:
             items:
               - key: genesis.json
                 path: genesis.json
+        {{- if .Values.besu.seedNetwork }}
         - name: networkkeys-config
           secret:
             secretName: {{ include "besu.fullname" .}}-keys
+        {{- end }}
 {{- if not .Values.besu.persistence.enabled }}
         - name: "data"
           emptyDir: {}
