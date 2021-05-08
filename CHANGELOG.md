@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v0.2.44
+
+* feat(daml-on-besu): update chart version [view commit](https://github.com/catenasys/helm-charts/commit/fc7afc98f28ec9830d2dafe39e822615efdbb3c5)
+* docs(daml-on-besu): add multiple network documents [view commit](https://github.com/catenasys/helm-charts/commit/6e2ce103d9649a3baeb10da7522aa2bcdef67273)
+* feat(daml-on-besu): add pod specific services to each besu node to maintain a stable endpoint [view commit](https://github.com/catenasys/helm-charts/commit/ce2662c0e7b8b43ee7361cb51b3312cc961f2f06)
+* feat(daml-on-besu): add capabilities to connect to a remote besu network [view commit](https://github.com/catenasys/helm-charts/commit/994af1e75f65d221c82b2f46f018ea82ceab8e49)
+
 ## v0.2.43
 
 * fix: correct cert names in d-o-p and d-o-b [view commit](https://github.com/catenasys/helm-charts/commit/42bd2e5e3b59c7bdcb159b5f66532cafc2613f79)
