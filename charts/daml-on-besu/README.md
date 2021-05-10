@@ -12,6 +12,7 @@
 | `besu.additionalBootnodeUrls[].host` | the hostname of the enode url (it will be resolved if not an ip) | string | |
 | `besu.additionalBootnodeUrls[].port` | the port for the enode url | number | |
 | `besu.nodeCount` | the number of besu nodes to start an initial genesis requires 4 | number | 4 |
+| `besu.affinity` | custom affinity rules for the besu statefulset | map | nil |
 | `daml` | settings for DAML subsystem | map | N/A |
 | `daml.ledgerId` | ledger id for this participant | string | default-ledger-id |
 | `daml.rpcCount` | number identical rpc participants to allocate | number | 1 |
