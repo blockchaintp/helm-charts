@@ -28,6 +28,8 @@ spec:
         prometheus.io/path: "/metrics"
     spec:
       serviceAccountName: {{ include "besu.serviceAccountName" . }}
+      affinity:
+        {{ toYaml .Values.besu.affinity | nindent 8 }}
       containers:
         - env:
             - name: POD_IP

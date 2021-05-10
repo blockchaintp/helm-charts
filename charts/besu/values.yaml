@@ -71,8 +71,8 @@ besu:
     ibftRequestTimeoutSeconds: 10
   genesisFilePath: /etc/genesis/genesis.json
   logging: "info"
-  affinity:
-    enabled: false
+  ## @md | `besu.affinity` | custom affinity rules for the besu statefulset | map | nil |
+  affinity: {}
   image:
     repository: blockchaintp/besu
     tag: BTP2.1.0rc14
