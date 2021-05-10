@@ -31,6 +31,7 @@ spec:
           volumeMounts:
             - mountPath: /data
               name: "pgdata"
+          resources: {{ toYaml .Values.postgres.resources | nindent 12 }}
         - name: daml-on-besu
           {{- if .Values.daml.privacy.enabled }}
           image: "{{.Values.daml.privateImage.repository}}:{{.Values.daml.image.tag}}"
@@ -73,6 +74,7 @@ spec:
               name: dev-urandom
             - mountPath: /secrets/jwt
               name: jwt-secret
+          resources: {{ toYaml .Values.daml.rpc.resources | nindent 12 }}
       restartPolicy: Always
       volumes:
         - name: networkkeys-config
