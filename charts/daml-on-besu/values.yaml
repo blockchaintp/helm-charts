@@ -34,6 +34,7 @@ besu:
       - "ReadWriteOnce"
     storageClass: "gp2"
     size: "40Gi"
+  resources: {}
   serviceAccount:
     create: true
     name:
@@ -136,6 +137,7 @@ daml:
   rpcCount: 1
   ## @md | `daml.rpc` | settings for daml-rpc | map | N/A |
   rpc:
+    resources: {}
     ## @md | `daml.rpc.extra_args` | extra arguments settings for daml-rpc | map | N/A |
     extra_args:
       ## @md | `daml.rpc.extra_args.enabled` | if true add the extra arguments | boolean | false |
@@ -153,6 +155,7 @@ postgres:
     annotations: {}
     accessModes:
       - "ReadWriteOnce"
+    resources: {}
     storageClass: "gp2"
     size: "40Gi"
   image:
