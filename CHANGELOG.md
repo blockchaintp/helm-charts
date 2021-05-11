@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.2.45
+
+* feat(daml-on-besu): besu child network capabilities [view commit](https://github.com/catenasys/helm-charts/commit/1e0982adba4d17c4b3c505aad9ad3beeb57e4d33)
+* feat(daml-on-besu): allow arbitrary affinity rules to be set for the statefulset [view commit](https://github.com/catenasys/helm-charts/commit/bbad9e4b31fe17b9d453a2c0e599a473a5b5ae6f)
+* feat(besu): allow arbitrary affinity rules to be set for the statefulset [view commit](https://github.com/catenasys/helm-charts/commit/29fe018385ab4be1a14d34f2bb57b77cec2b0306)
+
 ## v0.2.44
 
 * feat(daml-on-besu): update chart version [view commit](https://github.com/catenasys/helm-charts/commit/fc7afc98f28ec9830d2dafe39e822615efdbb3c5)
