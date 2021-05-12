@@ -2,8 +2,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "besu.fullname" .}}-genesis-cm
   namespace: {{.Release.Namespace }}
+{{ if .Values.besu.seedNetwork }}
+  name: {{ include "besu.fullname" .}}-genesis-cm
 data:
   config.json: |
     {
@@ -33,3 +34,9 @@ data:
         }
       }
     }
+{{ else }}
+  name: {{ include "besu.fullname" .}}-genesis
+data:
+  genesis.json: |
+{{ .Values.besu.seedGenesis | indent 4}}
+{{ end }}

@@ -1,0 +1,47 @@
+
+{{ $labels := include "besu.labels" .  }}
+{{ $name := include "besu.fullname" . }}
+{{ $shortname := include "besu.name" . }}
+{{range untilStep 0 (int .Values.besu.nodeCount) 1 }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+{{ $labels | indent 4}}
+  name: {{ $name }}-{{ . }}
+  namespace: {{ $.Release.Namespace}}
+spec:
+  type: ClusterIP
+  clusterIP: None
+  sessionAffinity: ClientIP
+  selector:
+    statefulset.kubernetes.io/pod-name: {{ $name }}-{{.}}
+    app: {{ $shortname }}
+    release: {{ $.Release.Name }}
+    component: besu-node
+    app.kubernetes.io/name: {{ $shortname }}
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+  ports:
+    - name: json-rpc
+      port: {{ $.Values.besu.rpc.port}}
+      targetPort: {{$.Values.besu.rpc.port}}
+    - name: ws
+      port: {{ $.Values.besu.ws.port }}
+      targetPort: ws
+      protocol: TCP
+    - name: graphql
+      port: {{ $.Values.besu.graphql.port }}
+      targetPort: graphql
+      protocol: TCP
+    - name: rlpx
+      port: {{ $.Values.besu.p2p.port }}
+      targetPort: rlpx
+      protocol: TCP
+    - name: discovery
+      port: {{ $.Values.besu.p2p.port }}
+      targetPort: discovery
+      protocol: UDP
+
+{{- end -}}
