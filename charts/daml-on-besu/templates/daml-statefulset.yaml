@@ -36,6 +36,34 @@ spec:
             - mountPath: /data
               name: "pgdata"
           resources: {{ toYaml .Values.postgres.resources | nindent 12 }}
+        - name: daml-json-api
+          image: "{{.Values.daml.jsonapi.image.repository}}:{{.Values.daml.jsonapi.image.tag}}"
+          imagePullPolicy: {{.Values.daml.jsonapi.image.imagePullPolicy}}
+          ports:
+          - containerPort: {{.Values.daml.jsonapi.port}}
+          {{- if .Values.daml.jsonapi.args }}
+          args:
+            {{- range .Values.daml.jsonapi.args }}
+            - {{ . | quote }}
+            {{- end -}}
+          {{- end }}
+          env:
+            - name: LEDGER_HOST
+              value: localhost
+            - name: LEDGER_PORT
+              value: {{.Values.daml.rpc.port | quote }}
+            - name: HTTP_PORT
+              value: {{.Values.daml.jsonapi.port | quote }}
+            - name: PACKAGE_RELOAD_INTERVAL
+              value: {{.Values.daml.jsonapi.packageReloadInterval | quote }}
+            - name: WAIT_FOR_TIME
+              value: {{.Values.daml.jsonapi.waitTimeSeconds | quote }}
+            {{ if .Values.daml.jsonapi.env }}
+            {{- toYaml .Values.daml.jsonapi.env | nindent 12 }}
+            {{ end }}
+          volumeMounts:
+            {{- toYaml $.Values.daml.extraVolumeMounts | nindent 12 }}
+          resources: {{ toYaml .Values.daml.jsonapi.resources | nindent 12 }}
         - name: daml-on-besu
           {{- if .Values.daml.privacy.enabled }}
           image: "{{.Values.daml.privateImage.repository}}:{{.Values.daml.image.tag}}"
@@ -95,6 +123,9 @@ spec:
         - name: jwt-secret
           secret:
             secretName: {{ .Values.deployment.name }}-cert
+        {{- if .Values.daml.extraVolumes }}
+        {{- toYaml .Values.daml.extraVolumes | nindent 8 }}
+        {{- end }}
 {{- if not .Values.postgres.persistence.enabled }}
         - name: "pgdata"
           emptyDir: {}
