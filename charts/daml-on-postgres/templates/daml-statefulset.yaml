@@ -41,24 +41,33 @@ spec:
               name: "pgdata"
         {{- end }}
         - name: daml-json-api
-          image: "{{.Values.jsonapi.image.repository}}:{{.Values.jsonapi.image.tag}}"
-          imagePullPolicy: {{.Values.jsonapi.image.pullPolicy}}
+          image: "{{.Values.daml.jsonapi.image.repository}}:{{.Values.daml.jsonapi.image.tag}}"
+          imagePullPolicy: {{.Values.daml.jsonapi.image.pullPolicy}}
           ports:
-          - containerPort: {{.Values.jsonapi.ports.http}}
+          - containerPort: {{.Values.daml.jsonapi.ports.http}}
+          {{- if .Values.daml.jsonapi.args }}
+          args:
+            {{- range .Values.daml.jsonapi.args }}
+            - {{ . | quote }}
+            {{- end -}}
+          {{- end }}
           env:
             - name: LEDGER_HOST
               value: localhost
             - name: LEDGER_PORT
               value: {{.Values.daml.rpc.port | quote }}
             - name: HTTP_PORT
-              value: {{.Values.jsonapi.ports.http | quote }}
+              value: {{.Values.daml.jsonapi.ports.http | quote }}
             - name: PACKAGE_RELOAD_INTERVAL
-              value: {{.Values.jsonapi.packageReloadInterval | quote }}
+              value: {{.Values.daml.jsonapi.packageReloadInterval | quote }}
             - name: WAIT_FOR_TIME
-              value: {{.Values.jsonapi.waitTimeSeconds | quote }}
-            {{ if .Values.jsonapi.env }}
-            {{- toYaml .Values.jsonapi.env | nindent 12 }}
+              value: {{.Values.daml.jsonapi.waitTimeSeconds | quote }}
+            {{ if .Values.daml.jsonapi.env }}
+            {{- toYaml .Values.daml.jsonapi.env | nindent 12 }}
             {{ end }}
+          volumeMounts:
+            {{- toYaml $.Values.daml.extraVolumeMounts | nindent 12 }}
+          resources: {{ toYaml .Values.daml.jsonapi.resources | nindent 12 }}
         - name: daml-on-postgres
           image: "{{.Values.daml.image.repository}}:{{.Values.daml.image.tag}}"
           imagePullPolicy: {{.Values.daml.image.pullPolicy }}
@@ -104,9 +113,13 @@ spec:
               value: {{ .Values.daml.rpc.port | quote }}
             - name: LEDGER_ID
               value: {{.Values.daml.ledgerId }}
+            {{ if .Values.daml.rpc.env }}
+            {{- toYaml .Values.daml.rpc.env | nindent 12 }}
+            {{ end }}
           volumeMounts:
             - mountPath: /secrets/jwt
               name: jwt-secret
+          resources: {{ toYaml .Values.daml.rpc.resources | nindent 12 }}
       restartPolicy: Always
       volumes:
         - name: dev-random
@@ -120,6 +133,9 @@ spec:
         - name: jwt-secret
           secret:
             secretName: {{ .Values.deployment.name }}-cert
+        {{- if .Values.daml.extraVolumes }}
+        {{- toYaml .Values.daml.extraVolumes | nindent 8 }}
+        {{- end }}
 {{- if not .Values.postgres.persistence.enabled }}
         - name: "pgdata"
           emptyDir: {}
