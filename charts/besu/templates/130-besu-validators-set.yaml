@@ -46,22 +46,62 @@ spec:
             - bash
             - -xc
             - |
+              {{- if .Values.besu.seedNetwork }}
               bootnode={{include "besu.fullname" .}}-0
-              if [ "$POD_NAME" = "$bootnode" ]; then
+              if [ ! -r /data/database/CURRENT ] && [ "$POD_NAME" = "$bootnode" ]; then
                 BOOT_NODE_ARGS=()
               else
-                bootnode_ip=$(getent hosts {{include "besu.fullname" .}}-0.{{include "besu.fullname" .}} | awk '{print $1}' | head -1)
+                bootnode_ip=$(getent hosts {{include "besu.fullname" .}} | awk '{print $1}' | head -1)
+                bootnode_host=$(getent hosts $bootnode_ip |
+                  awk '{print $NF}' | awk -F. '{print $1}')
+                if [ "$bootnode_host" = "$POD_NAME" ]; then
+                  bootnode_ip=
+                  bootnode_host=
+                elif echo $bootnode_host | grep -q {{include "besu.fullname" .}}; then
+                  echo Bootnode to use $bootnode_host
+                else
+                  bootnode_ip=
+                  bootnode_host=
+                fi
                 while [ -z "$bootnode_ip" ]; do
                   sleep 1;
-                  bootnode_ip=$(getent hosts {{include "besu.fullname" .}}-0.{{include "besu.fullname" .}} | awk '{print $1}' | head -1)
+                  bootnode_ip=$(getent hosts {{include "besu.fullname" .}} | awk '{print $1}' | head -1)
+                  bootnode_host=$(getent hosts $bootnode_ip |
+                    awk '{print $NF}' | awk -F. '{print $1}')
+                  if [ "$bootnode_host" = "$POD_NAME" ]; then
+                    bootnode_ip=
+                    bootnode_host=
+                  elif echo $bootnode_host | grep -q {{include "besu.fullname" .}}; then
+                    echo Bootnode to use $bootnode_host
+                  else
+                    bootnode_ip=
+                    bootnode_host=
+                  fi
                 done
                 bootnode_enode=$(cat /keys/{{include "besu.fullname" .}}-0.pub| sed -e 's/^0x//')
                 BOOT_NODE_ARGS=("enode://$bootnode_enode@$bootnode_ip:{{.Values.besu.p2p.port}}")
               fi
-              exec /opt/besu/bin/besu \
-              --node-private-key-file=/keys/${POD_NAME} \
-              --config-file=/etc/besu/config.toml \
-              --bootnodes "${BOOT_NODE_ARGS[@]}"
+              {{- end }}
+              {{- range .Values.besu.additionalBootnodeUrls }}
+              bootnode_ip=$(getent hosts {{.host}} | awk '{print $1}' | head -1)
+              while [ -z "$bootnode_ip" ]; do
+                sleep 1
+                bootnode_ip=$(getent hosts {{.host}} | awk '{print $1}' | head -1)
+              done
+              BOOT_NODE_ARGS+=("enode://{{.pubkey}}@$bootnode_ip:{{.port}}")
+              {{- end}}
+              boot_node_string="${BOOT_NODE_ARGS[@]}"
+              boot_node_string=${boot_node_string// /,}
+              if [ -r /keys/${POD_NAME} ]; then
+                exec /opt/besu/bin/besu \
+                  --node-private-key-file=/keys/${POD_NAME} \
+                  --config-file=/etc/besu/config.toml \
+                  --bootnodes "$boot_node_string"
+              else
+                exec /opt/besu/bin/besu \
+                  --config-file=/etc/besu/config.toml \
+                  --bootnodes "$boot_node_string"
+              fi
           image: "{{.Values.besu.image.repository}}:{{.Values.besu.image.tag}}"
           name: besu
           ports:
@@ -92,7 +132,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
-          resources: {}
+          resources: {{ toYaml .Values.besu.resources | nindent 12 }}
           volumeMounts:
             - name: genesis
               mountPath: /etc/genesis
@@ -100,10 +140,12 @@ spec:
             - name: config-toml
               mountPath: /etc/besu
               readOnly: true
+            {{- if .Values.besu.seedNetwork }}
             - mountPath: /keys
               name: networkkeys-config
               readOnly: true
-            - mountPath: /data
+            {{- end }}
+            - mountPath: {{ .Values.besu.dataPath | quote }}
               name: data
             - mountPath: /dev/random
               name: dev-random
@@ -128,9 +170,11 @@ spec:
             items:
               - key: genesis.json
                 path: genesis.json
+        {{- if .Values.besu.seedNetwork }}
         - name: networkkeys-config
           secret:
             secretName: {{ include "besu.fullname" .}}-keys
+        {{- end }}
 {{- if not .Values.besu.persistence.enabled }}
         - name: "data"
           emptyDir: {}
