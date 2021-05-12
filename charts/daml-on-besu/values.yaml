@@ -35,6 +35,8 @@ besu:
     storageClass: "gp2"
     size: "40Gi"
   resources: {}
+  ## @md | `besu.annotations` | annotations for the besu statefulset | map | null |
+  annotations: {}
   serviceAccount:
     create: true
     name:
@@ -133,6 +135,8 @@ daml:
     repository: dev.catenasys.com:8084/blockchaintp/rpc
     tag: BTP2.1.0rc14
     imagePullPolicy: IfNotPresent
+  ## @md | `daml.annotations` | annotations for the daml rpc statefulset | map | null |
+  annotations: {}
   ## @md | `daml.rpcCount` | number identical rpc participants to allocate | number | 1 |
   rpcCount: 1
   ## @md | `daml.rpc` | settings for daml-rpc | map | N/A |

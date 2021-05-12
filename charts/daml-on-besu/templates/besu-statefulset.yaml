@@ -26,6 +26,9 @@ spec:
         prometheus.io/scrape: "true"
         prometheus.io/port: "9545"
         prometheus.io/path: "/metrics"
+        {{- if .Values.besu.annotations }}
+        {{- toYaml .Values.besu.annotations | nindent 8 }}
+        {{- end }}
     spec:
       serviceAccountName: {{ include "besu.serviceAccountName" . }}
       affinity:
