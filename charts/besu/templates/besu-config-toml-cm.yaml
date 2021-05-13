@@ -10,6 +10,7 @@ data:
   config.toml: |-
     data-path={{ .Values.besu.dataPath | quote }}
     genesis-file={{ .Values.besu.genesisFilePath | quote }}
+    min-gas-price=0
     # TODO : insert as command line & mount Volume
     # rpc-http-authentication-credentials-file="none"
     # TODO : insert as command line & mount Volume
