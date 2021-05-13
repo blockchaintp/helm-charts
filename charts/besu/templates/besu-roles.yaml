@@ -26,3 +26,17 @@ rules:
       - get
       - list
       - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "besu.fullname" . }}-rb
+  namespace: {{.Release.Namespace}}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ include "besu.fullname" . }}-role
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "besu.serviceAccountName" . }}
+    namespace: {{.Release.Namespace}}

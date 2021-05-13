@@ -1,20 +1,20 @@
-{{- if .Values.jsonapi.ingress.enabled -}}
+{{- if .Values.daml.jsonapi.ingress.enabled -}}
 {{- $fullName := include "daml.fullname" . -}}
-{{- $svcPort := .Values.jsonapi.ports.http -}}
+{{- $svcPort := .Values.daml.jsonapi.ports.http -}}
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
 {{ include "daml.labels" . | indent 4 }}
-  {{- with .Values.jsonapi.ingress.annotations }}
+  {{- with .Values.daml.jsonapi.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-{{- if .Values.jsonapi.ingress.tls }}
+{{- if .Values.daml.jsonapi.ingress.tls }}
   tls:
-  {{- range .Values.jsonapi.ingress.tls }}
+  {{- range .Values.daml.jsonapi.ingress.tls }}
     - hosts:
       {{- range .hosts }}
         - {{ . | quote }}
@@ -23,7 +23,7 @@ spec:
   {{- end }}
 {{- end }}
   rules:
-  {{- range .Values.jsonapi.ingress.hosts }}
+  {{- range .Values.daml.jsonapi.ingress.hosts }}
     - host: {{ .host | quote }}
       http:
         paths:
