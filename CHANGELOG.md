@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## Unreleased
+
+* feat(daml-on-besu): add annotations option for besu and daml-rpc statefulsets [view commit](https://github.com/catenasys/helm-charts/commit/6f70c1645b4772acbc19eb2cbc81d04f3f0925bf)
+* feat(besu): bump chart version [view commit](https://github.com/catenasys/helm-charts/commit/c9b88f1a1e7b728f2cb1ed4101372355413a7bff)
+* feat(besu): add secondary network capabilities [view commit](https://github.com/catenasys/helm-charts/commit/d7f1a461e5f269b6abaf0201882040cc01b45c00)
+* fix(daml-on-besu): remove extraneous labels on SS [view commit](https://github.com/catenasys/helm-charts/commit/6e98c28d9b4424697430ff7f50bee1a17a3182a5)
+
 ## v0.2.45
 
 * feat(daml-on-besu): besu child network capabilities [view commit](https://github.com/catenasys/helm-charts/commit/1e0982adba4d17c4b3c505aad9ad3beeb57e4d33)
