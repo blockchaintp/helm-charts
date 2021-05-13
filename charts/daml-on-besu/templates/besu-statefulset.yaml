@@ -147,6 +147,18 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+          livenessProbe:
+            httpGet:
+              path: /liveness
+              port: {{ .Values.besu.rpc.port }}
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /readiness
+              port: {{ .Values.besu.rpc.port }}
+            initialDelaySeconds: 120
+            periodSeconds: 30
           resources: {{ toYaml .Values.besu.resources | nindent 12 }}
           volumeMounts:
             - name: genesis
