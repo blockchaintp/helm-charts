@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+* refactor(besu): align filenames b/w besu and daml-on-besu [view commit](https://github.com/catenasys/helm-charts/commit/396024c0f1a23bd9aa90c1ec2fb6388101623c04)
+* feat(besu): add default readiness and liveness probes to besu impls [view commit](https://github.com/catenasys/helm-charts/commit/0683b30b2014f8496723ae908038f861e5d028e2)
+* feat(daml-on-postgres): add jsonapi [view commit](https://github.com/catenasys/helm-charts/commit/3a87a0b9e149e2f41036e9c12653e00e2ef0a679)
+* feat(daml-on-besu): add jsonapi [view commit](https://github.com/catenasys/helm-charts/commit/d0ec433e2744eaa1895bd613aa240a475161b3b2)
 * feat(daml-on-besu): add annotations option for besu and daml-rpc statefulsets [view commit](https://github.com/catenasys/helm-charts/commit/6f70c1645b4772acbc19eb2cbc81d04f3f0925bf)
 * feat(besu): bump chart version [view commit](https://github.com/catenasys/helm-charts/commit/c9b88f1a1e7b728f2cb1ed4101372355413a7bff)
 * feat(besu): add secondary network capabilities [view commit](https://github.com/catenasys/helm-charts/commit/d7f1a461e5f269b6abaf0201882040cc01b45c00)
