@@ -17,7 +17,23 @@ spec:
   selector:
     app: {{.Values.sawtooth.networkName}}-validator
 ---
-
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{.Values.sawtooth.networkName}}-middleware
+  namespace: {{.Values.sawtooth.namespace}}
+  labels:
+    app: {{.Values.sawtooth.networkName}}-validator
+spec:
+  sessionAffinity: ClientIP
+  ports:
+  - port: {{.Values.sawtooth.ports.taekion_rest}}
+    protocol: TCP
+    targetPort: {{.Values.sawtooth.ports.taekion_rest}}
+    name: taekionrest
+  selector:
+    app: {{.Values.sawtooth.networkName}}-validator
+---
 apiVersion: v1
 kind: Service
 metadata:
