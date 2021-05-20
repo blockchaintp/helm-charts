@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* feat(taekion-middleware): add a service for the middleware so we can get to it via k8s api server [view commit](https://github.com/catenasys/helm-charts/commit/3f88f7edef6f6f58b6044cc1c67131c043061e3d)
 * refactor(besu): align filenames b/w besu and daml-on-besu [view commit](https://github.com/catenasys/helm-charts/commit/396024c0f1a23bd9aa90c1ec2fb6388101623c04)
 * feat(besu): add default readiness and liveness probes to besu impls [view commit](https://github.com/catenasys/helm-charts/commit/0683b30b2014f8496723ae908038f861e5d028e2)
 * feat(daml-on-postgres): add jsonapi [view commit](https://github.com/catenasys/helm-charts/commit/3a87a0b9e149e2f41036e9c12653e00e2ef0a679)
