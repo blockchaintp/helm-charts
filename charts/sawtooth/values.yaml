@@ -24,6 +24,14 @@ imagePullSecrets:
   enabled: false
   ## @md | `imagePullSecrets.value` | a list if named secret references of the form   ```- name: secretName```| list | [] |
   value: []
+## @md | `pagerduty` | group of pagerduty related parameters | map | N/A |
+pagerduty:
+  ## @md | `pagerduty.enabled` | if true send pagerduty alerts | boolean | false |
+  enabled: false
+  ## @md | `pagerduty.token` | pagerduty user token | string | nil |
+  token:
+  ## @md | `pagerduty.serviceid` | pagerduty serviceid | string | nil |
+  serviceid:
 ## @md | `sawtooth` | group of sawtooth related parameters | map | N/A |
 sawtooth:
   ## @md | `sawtooth.opentsdb` | group of opentsdb parameters for sawtooth | map | N/A |

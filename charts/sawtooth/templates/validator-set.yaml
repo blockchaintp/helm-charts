@@ -394,6 +394,12 @@ spec:
             periodSeconds: {{.Values.sawtooth.livenessProbe.periodSeconds}}
           {{end}}
           env:
+            {{if .Values.pagerduty.enabled}}
+            - name: ALERT_TOKEN
+              value: {{.Values.pagerduty.token | quote}}
+            - name: SERVICE_ID
+              value: {{.Values.pagerduty.serviceid | quote}}
+            {{end}}
             - name: RUST_BACKTRACE
               value: "1"
             - name: NODE_NAME
