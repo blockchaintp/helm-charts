@@ -51,6 +51,7 @@ spec:
             - |
               bootnode={{include "besu.fullname" .}}-0
               BOOT_NODE_ARGS=()
+            {{- if .Values.besu.seedNetwork }}
               if [ ! -r /data/database/CURRENT ] && [ "$POD_NAME" = "$bootnode" ]; then
                 BOOT_NODE_ARGS=()
               else
@@ -71,6 +72,7 @@ spec:
                   fi
                 done
               fi
+            {{- end }}
               {{- range .Values.besu.additionalBootnodeUrls }}
               bootnode_ip=$(getent hosts {{.host}} | awk '{print $1}' | head -1)
               while [ -z "$bootnode_ip" ]; do
