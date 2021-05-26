@@ -21,12 +21,12 @@ besu:
   seedGenesis:
   ## @md | `besu.additionalBootnodeUrls` | A list of enode defining objects defined as below | list | `[]` |
   additionalBootnodeUrls: []
-    ## @md | `besu.additionalBootnodeUrls[].pubkey` | the public key of the enode url | string | |
-    ## @md | `besu.additionalBootnodeUrls[].host` | the hostname of the enode url (it will be resolved if not an ip) | string | |
-    ## @md | `besu.additionalBootnodeUrls[].port` | the port for the enode url | number | |
-    # - pubkey:  abcdef1234567890
-    #   host: somehostname
-    #   port: 30303
+  ## @md | `besu.additionalBootnodeUrls[].pubkey` | the public key of the enode url | string | |
+  ## @md | `besu.additionalBootnodeUrls[].host` | the hostname of the enode url (it will be resolved if not an ip) | string | |
+  ## @md | `besu.additionalBootnodeUrls[].port` | the port for the enode url | number | |
+  # - pubkey:  abcdef1234567890
+  #   host: somehostname
+  #   port: 30303
   persistence:
     enabled: false
     annotations: {}
@@ -161,6 +161,8 @@ daml:
       tag: BTP2.1.0rc14
       ## @md | `daml.jsonapi.image.pullPolicy` | imagePullPolicy for container | string | IfNotPresent |
       pullPolicy: IfNotPresent
+    ports:
+      http: 8080
     ## @md | `daml.jsonapi.args` | extra args | string | nil |
     args:
     ## @md | `daml.jsonapi.env` | list of environment name/valie dicts | map | nil |

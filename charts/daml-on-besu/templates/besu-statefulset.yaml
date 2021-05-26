@@ -5,7 +5,7 @@ metadata:
   namespace: {{.Release.Namespace}}
 spec:
   replicas: {{.Values.besu.nodeCount}}
-  podManagementPolicy: OrderedReady
+  podManagementPolicy: Parallel
   serviceName: {{ include "besu.fullname" .}}
   selector:
     matchLabels:
@@ -49,45 +49,32 @@ spec:
             - bash
             - -xc
             - |
-              {{- if .Values.besu.seedNetwork }}
               bootnode={{include "besu.fullname" .}}-0
+              BOOT_NODE_ARGS=()
               if [ ! -r /data/database/CURRENT ] && [ "$POD_NAME" = "$bootnode" ]; then
                 BOOT_NODE_ARGS=()
               else
-                bootnode_ip=$(getent hosts {{include "besu.fullname" .}} | awk '{print $1}' | head -1)
-                bootnode_host=$(getent hosts $bootnode_ip |
-                  awk '{print $NF}' | awk -F. '{print $1}')
-                if [ "$bootnode_host" = "$POD_NAME" ]; then
-                  bootnode_ip=
-                  bootnode_host=
-                elif echo $bootnode_host | grep -q {{include "besu.fullname" .}}; then
-                  echo Bootnode to use $bootnode_host
-                else
-                  bootnode_ip=
-                  bootnode_host=
-                fi
-                while [ -z "$bootnode_ip" ]; do
-                  sleep 1;
-                  bootnode_ip=$(getent hosts {{include "besu.fullname" .}} | awk '{print $1}' | head -1)
-                  bootnode_host=$(getent hosts $bootnode_ip |
-                    awk '{print $NF}' | awk -F. '{print $1}')
-                  if [ "$bootnode_host" = "$POD_NAME" ]; then
-                    bootnode_ip=
-                    bootnode_host=
-                  elif echo $bootnode_host | grep -q {{include "besu.fullname" .}}; then
-                    echo Bootnode to use $bootnode_host
+                for n in $(seq 0 $(({{.Values.besu.nodeCount}} - 1))); do
+                  if [ "{{include "besu.fullname" .}}-$n" = "$POD_NAME" ]; then
+                    continue
                   else
                     bootnode_ip=
                     bootnode_host=
+                    while [ -z "$bootnode_ip" ]; do
+                      sleep 1
+                      bootnode_ip=$(getent hosts {{include "besu.fullname" .}}-$n.{{.Release.Namespace}}.svc | awk '{print $1}')
+                      bootnode_host={{include "besu.fullname" .}}-$n
+                      bootnode_enode=$(cat /keys/{{include "besu.fullname" .}}-$n.pub| sed -e 's/^0x//')
+                    done
+                    echo Bootnode to use $bootnode_host
+                    BOOT_NODE_ARGS+=("enode://$bootnode_enode@$bootnode_ip:{{ .Values.besu.p2p.port }}")
                   fi
                 done
-                bootnode_enode=$(cat /keys/{{include "besu.fullname" .}}-0.pub| sed -e 's/^0x//')
-                BOOT_NODE_ARGS=("enode://$bootnode_enode@$bootnode_ip:{{.Values.besu.p2p.port}}")
               fi
-              {{- end }}
               {{- range .Values.besu.additionalBootnodeUrls }}
               bootnode_ip=$(getent hosts {{.host}} | awk '{print $1}' | head -1)
               while [ -z "$bootnode_ip" ]; do
+                echo "Waiting to get the ip address of {{.host}}"
                 sleep 1
                 bootnode_ip=$(getent hosts {{.host}} | awk '{print $1}' | head -1)
               done
@@ -153,12 +140,12 @@ spec:
               port: {{ .Values.besu.rpc.port }}
             initialDelaySeconds: 60
             periodSeconds: 30
-          readinessProbe:
-            httpGet:
-              path: /readiness
-              port: {{ .Values.besu.rpc.port }}
-            initialDelaySeconds: 120
-            periodSeconds: 30
+          # readinessProbe:
+          #   httpGet:
+          #     path: /readiness
+          #     port: {{ .Values.besu.rpc.port }}
+          #   initialDelaySeconds: 120
+          #   periodSeconds: 30
           resources: {{ toYaml .Values.besu.resources | nindent 12 }}
           volumeMounts:
             - name: genesis
