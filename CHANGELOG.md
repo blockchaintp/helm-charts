@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* fix(daml-on-besu): local bootnodes onlywhen seed [view commit](https://github.com/catenasys/helm-charts/commit/48987eebfc47bc1a2e28ad3640f07f2d866ee169)
+* fix:(daml-on-besu) change besu bootnode strategy [view commit](https://github.com/catenasys/helm-charts/commit/7639ed7ab3658f4ef61cf0f40293dedc5c65e354)
 * feat(sawtooth): add pagerduty-alert [view commit](https://github.com/catenasys/helm-charts/commit/aaa1f8942910ff55a1acc2c0f2565ddfcd2079a5)
 * feat(taekion-middleware): add a service for the middleware so we can get to it via k8s api server [view commit](https://github.com/catenasys/helm-charts/commit/3f88f7edef6f6f58b6044cc1c67131c043061e3d)
 * refactor(besu): align filenames b/w besu and daml-on-besu [view commit](https://github.com/catenasys/helm-charts/commit/396024c0f1a23bd9aa90c1ec2fb6388101623c04)
