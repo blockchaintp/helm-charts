@@ -744,12 +744,18 @@ spec:
             periodSeconds: {{.Values.sawtooth.livenessProbe.periodSeconds}}
           {{end}}
           env:
-            {{if .Values.pagerduty.enabled}}
-            - name: ALERT_TOKEN
-              value: {{.Values.pagerduty.token | quote}}
+            {{ if .Values.pagerduty.enabled }}
             - name: SERVICE_ID
-              value: {{.Values.pagerduty.serviceid | quote}}
-            {{end}}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.sawtooth.networkName }}-pagerduty
+                  key: service_id
+            - name: ALERT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.sawtooth.networkName }}-pagerduty
+                  key: alert_token
+            {{ end }}
             - name: RUST_BACKTRACE
               value: "1"
             - name: NODE_NAME
