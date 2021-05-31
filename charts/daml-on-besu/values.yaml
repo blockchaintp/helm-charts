@@ -154,6 +154,8 @@ daml:
     ## @md | `daml.rpc.participantId` | DAML participant id for this participant | string | daml-participant |
     participantId: daml-participant
   jsonapi:
+    ## @md | `daml.jsonapi.enabled` | Enabled the DAML JSON API | boolean | false |
+    enabled: false
     image:
       ## @md | `daml.jsonapi.image.repository` | repository for the jsonapi image | string | blockchaintp/daml-json-api |
       repository: blockchaintp/daml-json-api
