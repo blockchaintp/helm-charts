@@ -7,6 +7,10 @@
 | `imagePullSecrets` | group of image pull secrets related parameters | map | N/A |
 | `imagePullSecrets.enabled` | if true use the list of named imagePullSecrests | boolean | false |
 | `imagePullSecrets.value` | a list if named secret references of the form   ```- name: secretName```| list | [] |
+| `pagerduty` | group of pagerduty related parameters | map | N/A |
+| `pagerduty.enabled` | if true send pagerduty alerts | boolean | false |
+| `pagerduty.token` | pagerduty user token | string | nil |
+| `pagerduty.serviceid` | pagerduty serviceid | string | nil |
 | `sawtooth` | group of sawtooth related parameters | map | N/A |
 | `sawtooth.opentsdb` | group of opentsdb parameters for sawtooth | map | N/A |
 | `sawtooth.opentsdb.db` | name of the opentsdb database to be used | string | metrics |
