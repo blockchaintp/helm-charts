@@ -24,6 +24,7 @@
 | `daml.rpc.extra_args.arg_str` | string of extra arguments to add | string | nil |
 | `daml.rpc.port` | DAML grpc listening port | int | 39000 |
 | `daml.rpc.participantId` | DAML participant id for this participant | string | daml-participant |
+| `daml.jsonapi.enabled` | Enabled the DAML JSON API | boolean | false |
 | `daml.jsonapi.image.repository` | repository for the jsonapi image | string | blockchaintp/daml-json-api |
 | `daml.jsonapi.image.tag` | tag for the jsonapi image | string | BTP2.1.0rc14 |
 | `daml.jsonapi.image.pullPolicy` | imagePullPolicy for container | string | IfNotPresent |
