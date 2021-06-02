@@ -1,7 +1,14 @@
 # CHANGELOG
 
-## Unreleased
+## v0.2.47
 
+* feat(daml-on-sawtooth): add pagerduty-alert [view commit](https://github.com/catenasys/helm-charts/commit/08d3034588caad05ef8c4228b8a32d0564ef4ed3)
+* feat(daml-on-sawtooth): add pagerduty-alert [view commit](https://github.com/catenasys/helm-charts/commit/88eaed6f85ed232aae4fd2b448e6974b35c2a9a2)
+* feat(daml-on-sawtooth): add pagerduty-alert [view commit](https://github.com/catenasys/helm-charts/commit/e7c30f5e9c1296722b278f03888d5fd6c8e028b5)
+
+## v0.2.46
+
+* feat(daml-on-besu): make jsonapi optional [view commit](https://github.com/catenasys/helm-charts/commit/0c769c9b04ce0cfab768d4a761f31ae3996a6f0e)
 * fix(daml-on-besu): local bootnodes onlywhen seed [view commit](https://github.com/catenasys/helm-charts/commit/48987eebfc47bc1a2e28ad3640f07f2d866ee169)
 * fix:(daml-on-besu) change besu bootnode strategy [view commit](https://github.com/catenasys/helm-charts/commit/7639ed7ab3658f4ef61cf0f40293dedc5c65e354)
 * feat(sawtooth): add pagerduty-alert [view commit](https://github.com/catenasys/helm-charts/commit/aaa1f8942910ff55a1acc2c0f2565ddfcd2079a5)
