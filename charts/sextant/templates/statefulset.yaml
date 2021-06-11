@@ -69,7 +69,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{.Values.postgres.existingPasswordSecret}}
-                  key: password
+                  key: {{.Values.postgres.existingPasswordSecretKey}}
               {{- else }}
               value: {{ .Values.postgres.password }}
               {{- end }}
