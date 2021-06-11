@@ -44,6 +44,7 @@ software.
 | `postgres.port` | port for the postgres database | int | 5432 |
 | `postgres.password` | password for the postgres database | string | "postgres" |
 | `postgres.existingPasswordSecret` | name of a secret containing the postgres password | string | nil |
+| `postgres.existingPasswordSecret` | name of the key in a secret containing the postgres password | string | password |
 | `postgres.tls` | postgres TLS configuration | string | nil |
 | `postgres.persistence` | postgres persistence settings | map | N/A |
 | `postgres.persistence.enabled` | if true allocate a PVC for the postgres instance | boolean | false |
