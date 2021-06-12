@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Unreleased
+
+* feat(sextant): set the key in an existing postgres password secret that contains the password from values.yaml [view commit](https://github.com/catenasys/helm-charts/commit/d2f61b17757759a78fe532819b355d760f468d62)
+
 ## v0.2.47
 
 * feat(daml-on-sawtooth): add pagerduty-alert [view commit](https://github.com/catenasys/helm-charts/commit/08d3034588caad05ef8c4228b8a32d0564ef4ed3)
