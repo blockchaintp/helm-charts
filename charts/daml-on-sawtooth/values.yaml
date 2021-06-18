@@ -33,6 +33,8 @@ pagerduty:
   token:
   ## @md | `pagerduty.serviceid` | pagerduty serviceid | string | nil |
   serviceid:
+  ## @md | `pagerduty.existingSecret` | the name of an existing secret containing a pagerduty token and serviceid. This overrides any values set here for token and serviceid | string | nil
+  existingSecret:
 ## @md | `sawtooth` | group of sawtooth related parameters | map | N/A |
 sawtooth:
   ## @md | `sawtooth.opentsdb` | group of opentsdb parameters for sawtooth | map | N/A |

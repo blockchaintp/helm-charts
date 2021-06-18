@@ -13,3 +13,12 @@
 {{- end -}}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Return true if a secret should be created for PagerDuty
+*/}}
+{{- define "pagerduty.createSecret" -}}
+{{- if (not .Values.pagerduty.existingSecret) }}
+    {{- true -}}
+{{- end -}}
+{{- end -}}
