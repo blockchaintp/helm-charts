@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* feat(daml-on-sawtooth): use a secret to store the pagerduty keys [view commit](https://github.com/catenasys/helm-charts/commit/e5b9515d086eeac60fc79a4a4c2e0ca68a635c0f)
 * feat(sextant): set the key in an existing postgres password secret that contains the password from values.yaml [view commit](https://github.com/catenasys/helm-charts/commit/d2f61b17757759a78fe532819b355d760f468d62)
 
 ## v0.2.47
