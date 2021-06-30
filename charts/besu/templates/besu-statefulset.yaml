@@ -5,7 +5,7 @@ metadata:
   namespace: {{.Release.Namespace}}
 spec:
   replicas: {{.Values.besu.nodeCount}}
-  podManagementPolicy: OrderedReady
+  podManagementPolicy: Parallel
   serviceName: {{ include "besu.fullname" .}}
   selector:
     matchLabels:
@@ -138,12 +138,12 @@ spec:
               port: {{ .Values.besu.rpc.port }}
             initialDelaySeconds: 60
             periodSeconds: 30
-          readinessProbe:
-            httpGet:
-              path: /readiness
-              port: {{ .Values.besu.rpc.port }}
-            initialDelaySeconds: 120
-            periodSeconds: 30
+          # readinessProbe:
+          #   httpGet:
+          #     path: /readiness
+          #     port: {{ .Values.besu.rpc.port }}
+          #   initialDelaySeconds: 120
+          #   periodSeconds: 30
           resources: {{ toYaml .Values.besu.resources | nindent 12 }}
           volumeMounts:
             - name: genesis

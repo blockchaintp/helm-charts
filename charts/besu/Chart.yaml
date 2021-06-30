@@ -1,23 +1,29 @@
+---
 apiVersion: v2
 name: besu
-description: Besu is an Apache 2.0 licensed, MainNet compatible, Ethereum client written in Java.
+description: |
+  Besu is an Apache 2.0 licensed, MainNet compatible, Ethereum client written
+  in Java.
 
 # A chart can be either an 'application' or a 'library' chart.
 #
-# Application charts are a collection of templates that can be packaged into versioned archives
-# to be deployed.
+# Application charts are a collection of templates that can be packaged into
+# versioned archives to be deployed.
 #
-# Library charts provide useful utilities or functions for the chart developer. They're included as
-# a dependency of application charts to inject those utilities and functions into the rendering
-# pipeline. Library charts do not define any templates and therefore cannot be deployed.
+# Library charts provide useful utilities or functions for the chart developer.
+# They're included as a dependency of application charts to inject those
+# utilities and functions into the rendering pipeline. Library charts do not
+# define any templates and therefore cannot be deployed.
 type: application
 
-# This is the chart version. This version number should be incremented each time you make changes
-# to the chart and its templates, including the app version.
-version: 0.0.10
+# This is the chart version. This version number should be incremented each
+# time you make changes to the chart and its templates, including the app
+# version.
+version: 0.0.11
 
-# This is the version number of the application being deployed. This version number should be
-# incremented each time you make changes to the application.
+# This is the version number of the application being deployed. This version
+# number should be incremented each time you make changes to the application.
 appVersion: 1.4.0
 
+# yamllint disable-line rule:line-length
 icon: https://raw.githubusercontent.com/hyperledger/besu-docs/5c8545bc08e45188d939ae15d35b49ed2bf7f6b8/custom_theme/logo.svg
