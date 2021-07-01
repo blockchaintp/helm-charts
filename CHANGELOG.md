@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* fix: disable readiness probe [view commit](https://github.com/catenasys/helm-charts/commit/f5f53988473be9fad630a23fd28f5c710199f920)
+* fix: besu with readiness probes needs to start parallel [view commit](https://github.com/catenasys/helm-charts/commit/1f8b86141cc2764502cdaccbd010ba220e27091a)
 * feat(daml-on-sawtooth): use a secret to store the pagerduty keys [view commit](https://github.com/catenasys/helm-charts/commit/e5b9515d086eeac60fc79a4a4c2e0ca68a635c0f)
 * feat(sextant): set the key in an existing postgres password secret that contains the password from values.yaml [view commit](https://github.com/catenasys/helm-charts/commit/d2f61b17757759a78fe532819b355d760f468d62)
 
