@@ -105,7 +105,6 @@ spec:
             {{ if .Values.daml.rpc.env }}
             {{- toYaml .Values.daml.rpc.env | nindent 12 }}
             {{ end }}
-          resources: {}
           volumeMounts:
             - mountPath: /keys
               name: networkkeys-config
