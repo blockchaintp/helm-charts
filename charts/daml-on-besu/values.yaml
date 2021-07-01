@@ -1,4 +1,5 @@
 ---
+# yamllint disable rule:line-length
 ## @md # DAML on Besu Chart
 ## @md
 ## @md ## Configuration
@@ -141,18 +142,21 @@ daml:
   rpcCount: 1
   ## @md | `daml.rpc` | settings for daml-rpc | map | N/A |
   rpc:
-    resources: {}
+    ## @md | `daml.rpc.env` | list of environment name/value dicts | map | nil |
+    env:
     ## @md | `daml.rpc.extra_args` | extra arguments settings for daml-rpc | map | N/A |
     extra_args:
       ## @md | `daml.rpc.extra_args.enabled` | if true add the extra arguments | boolean | false |
       enabled: false
       ## @md | `daml.rpc.extra_args.arg_str` | string of extra arguments to add | string | nil |
       arg_str:
-    ## @md | `daml.rpc.port` | DAML grpc listening port | int | 39000 |
-    port: 39000
-    postgresqlUrl:
     ## @md | `daml.rpc.participantId` | DAML participant id for this participant | string | daml-participant |
     participantId: daml-participant
+    ## @md | `daml.rpc.port` | DAML grpc listening port | int | 39000 |
+    port: 39000
+    ## @md | `daml.rpc.postgres_url` | The URL of the index database as described here https://jdbc.postgresql.org/documentation/80/connect.html | string | jdbc:postgresql://localhost/postgres?user=postgres |
+    postgres_url: jdbc:postgresql://localhost/postgres?user=postgres
+    resources: {}
   jsonapi:
     ## @md | `daml.jsonapi.enabled` | Enabled the DAML JSON API | boolean | false |
     enabled: false
@@ -167,7 +171,7 @@ daml:
       http: 8080
     ## @md | `daml.jsonapi.args` | extra args | string | nil |
     args:
-    ## @md | `daml.jsonapi.env` | list of environment name/valie dicts | map | nil |
+    ## @md | `daml.jsonapi.env` | list of environment name/value dicts | map | nil |
     env:
     ## @md | `daml.jsonapi.packageReloadInterval` | how often to periodically check the daml-rpc for new daml packages | string | 5s |
     packageReloadInterval: "5s"
@@ -176,6 +180,7 @@ daml:
     waitTimeSeconds: 0
 
 postgres:
+  enabled: true
   persistence:
     enabled: false
     annotations: {}

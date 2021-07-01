@@ -22,6 +22,7 @@ spec:
     spec:
       serviceAccountName: {{ include "besu.serviceAccountName" . }}
       containers:
+        {{- if .Values.postgres.enabled }}
         - name: postgres
           image: "{{.Values.postgres.image.repository}}:{{.Values.postgres.image.tag}}"
           imagePullPolicy: {{.Values.postgres.image.pullPolicy }}
@@ -36,6 +37,7 @@ spec:
             - mountPath: /data
               name: "pgdata"
           resources: {{ toYaml .Values.postgres.resources | nindent 12 }}
+        {{- end }}
         {{- if .Values.daml.jsonapi.enabled }}
         - name: daml-json-api
           image: "{{.Values.daml.jsonapi.image.repository}}:{{.Values.daml.jsonapi.image.tag}}"
@@ -87,7 +89,7 @@ spec:
               /opt/daml-on-besu/rpc/entrypoint.sh \
               {{- end }}
                 --json-rpc-url http://{{include "besu.fullname" .}}:{{.Values.besu.rpc.port}} \
-                --participant port={{.Values.daml.rpc.port}},address=0.0.0.0,participant-id={{.Values.daml.rpc.participantId}},server-jdbc-url=jdbc:postgresql://localhost/postgres?user=postgres \
+                --participant port={{.Values.daml.rpc.port}},address=0.0.0.0,participant-id={{.Values.daml.rpc.participantId}},server-jdbc-url=$POSTGRES_URL \
                 --private-key-file /keys/{{ include "besu.fullname" .}}-rpc-0 \
                 --ledger-id {{.Values.daml.ledgerId }} \
                 {{- if .Values.daml.auth.enabled }}
@@ -97,6 +99,12 @@ spec:
                 {{ .Values.daml.rpc.extra_args.arg_str }} \
                 {{- end }}
               ;
+          env:
+            - name: POSTGRES_URL
+              value: {{ .Values.daml.rpc.postgres_url }}
+            {{ if .Values.daml.rpc.env }}
+            {{- toYaml .Values.daml.rpc.env | nindent 12 }}
+            {{ end }}
           resources: {}
           volumeMounts:
             - mountPath: /keys
@@ -128,6 +136,7 @@ spec:
         {{- if .Values.daml.extraVolumes }}
         {{- toYaml .Values.daml.extraVolumes | nindent 8 }}
         {{- end }}
+{{- if .Values.postgres.enabled }}
 {{- if not .Values.postgres.persistence.enabled }}
         - name: "pgdata"
           emptyDir: {}
@@ -144,4 +153,5 @@ spec:
         resources:
           requests:
             storage: {{ .Values.postgres.persistence.size | quote }}
+{{- end }}
 {{- end }}
