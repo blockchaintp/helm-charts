@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Unreleased
+
+* feat(daml-on-besu): add extra volume mounts for the daml statefulset [view commit](https://github.com/catenasys/helm-charts/commit/eb05d0563de459ddcc94dd7d7788e1417cbca403)
+
 ## v0.2.48
 
 * docs: add daml-on-besu/external-db.md [view commit](https://github.com/catenasys/helm-charts/commit/808b981ec0cfb1c6b01246df61306e475e333757)
