@@ -178,6 +178,10 @@ daml:
     resources: {}
     ## @md | `daml.jsonapi.waitTimeSeconds` | how long to wait for the daml-rpc server to come available | int | 0 (forever) |
     waitTimeSeconds: 0
+  ## @md | `daml.extraVolumeMounts` | extra volume mounts for the daml-on-besu container | list | nil |
+  extraVolumeMounts: []
+  ## @md | `daml.extraVolumes` | extra volume definitions for the daml-on-besu container | list | nil |
+  extraVolumes: []
 
 postgres:
   enabled: true
