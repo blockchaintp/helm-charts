@@ -115,6 +115,9 @@ spec:
               name: dev-urandom
             - mountPath: /secrets/jwt
               name: jwt-secret
+            {{- if .Values.daml.extraVolumeMounts }}
+            {{- toYaml .Values.daml.extraVolumeMounts | nindent 12 }}
+            {{- end }}
           resources: {{ toYaml .Values.daml.rpc.resources | nindent 12 }}
       restartPolicy: Always
       volumes:
