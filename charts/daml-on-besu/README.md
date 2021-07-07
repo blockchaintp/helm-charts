@@ -34,3 +34,5 @@
 | `daml.jsonapi.env` | list of environment name/value dicts | map | nil |
 | `daml.jsonapi.packageReloadInterval` | how often to periodically check the daml-rpc for new daml packages | string | 5s |
 | `daml.jsonapi.waitTimeSeconds` | how long to wait for the daml-rpc server to come available | int | 0 (forever) |
+| `daml.extraVolumeMounts` | extra volume mounts for the daml-on-besu container | list | nil |
+| `daml.extraVolumes` | extra volume definitions for the daml-on-besu container | list | nil |
