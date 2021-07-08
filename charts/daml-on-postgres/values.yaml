@@ -20,7 +20,7 @@ daml:
     enabled: false
   image:
     repository: blockchaintp/daml-on-postgres
-    tag: BTP2.1.0rc14
+    tag: BTP2.1.0rc15
     pullPolicy: IfNotPresent
   ledgerId: someIdentifyingString
   extra_args:
@@ -37,7 +37,7 @@ daml:
   jsonapi:
     image:
       repository: blockchaintp/daml-json-api
-      tag: BTP2.1.0rc14
+      tag: BTP2.1.0rc15
       pullPolicy: IfNotPresent
     ports:
       http: 8080
