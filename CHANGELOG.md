@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v0.2.50
+
+* fix(daml-on-postgres): revert deploymentVersion to 1.3 [view commit](https://github.com/catenasys/helm-charts/commit/c9b4f931683023b0e792ef7ca8a99ea84d21b96c)
+* feat(daml-on-postgres): upgrade to rc15 [view commit](https://github.com/catenasys/helm-charts/commit/94678abd895b0b7bd9fe6d3ef52c13ef11eb7361)
+
 ## v0.2.49
 
 * feat(daml-on-besu): add extra volume mounts for the daml statefulset [view commit](https://github.com/catenasys/helm-charts/commit/eb05d0563de459ddcc94dd7d7788e1417cbca403)
