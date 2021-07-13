@@ -2,16 +2,22 @@
 
 # Convert value to an int type so that the compare works
 {{ $consensus := .Values.sawtooth.consensus | int }}
+{{ if not .Values.sawtooth.statefulset.enabled }}
 ---
 apiVersion: apps/v1
-kind: {{ if eq $consensus 100 }}StatefulSet{{else}}DaemonSet{{end}}
+
+{{ if eq $consensus 100 }}
+kind: StatefulSet
+{{ else }}
+kind: DaemonSet
+{{ end -}}
 metadata:
-  name: {{.Values.sawtooth.networkName}}-validator
-  namespace: {{.Release.namespace}}
+  name: {{ include "sawtooth.validator.name" .}}
+  namespace: {{.Release.Namespace}}
 spec:
   {{ if eq $consensus 100}}
   replicas: 1
-  serviceName: {{.Values.sawtooth.networkName}}-validator
+  serviceName: {{ include "sawtooth.validator.name" .}}
   {{ else }}
   updateStrategy:
     type: RollingUpdate
@@ -21,13 +27,13 @@ spec:
   {{ end }}
   selector:
     matchLabels:
-      app: {{.Values.sawtooth.networkName}}-validator
+      app: {{ include "sawtooth.validator.name" .}}
   template:
     metadata:
       labels:
-        app: {{.Values.sawtooth.networkName}}-validator
+        app: {{ include "sawtooth.validator.name" .}}
     spec:
-      serviceAccountName: {{.Values.sawtooth.networkName}}-sa
+      serviceAccountName: {{.Release.Name}}-sa
     {{if .Values.affinity.enabled}}
       affinity:
         nodeAffinity:
@@ -37,7 +43,7 @@ spec:
                 - key: app
                   operator: In
                   values:
-                  - {{.Values.sawtooth.networkName}}-validator
+                  - {{ include "sawtooth.validator.name" .}}
     {{ else }}
       affinity:
         {{ toYaml .Values.sawtooth.affinity | nindent 8 }}
@@ -321,24 +327,24 @@ spec:
           args:
             - |
               sleep 30
-              source /usr/local/bin/validator_env.sh {{.Values.sawtooth.namespace}} \
-                {{.Values.sawtooth.networkName}} ${POD_NAME} ${POD_IP} ${NODE_NAME} \
+              source /usr/local/bin/validator_env.sh {{.Release.Namespace}} \
+                {{.Release.Name}} ${POD_NAME} ${POD_IP} ${NODE_NAME} \
                 {{.Values.sawtooth.ports.sawnet}}
               start_delay=$(( $DELAY * 5 ))
               sleep $start_delay
               if [ ! -r /etc/sawtooth/initialized ]; then
                 if [ $RUN_GENESIS -eq 1 ]; then
             {{ if eq $consensus 400 }}
-                  bash -x /usr/local/bin/pbft_genesis_config.sh {{.Values.sawtooth.namespace}}
+                  bash -x /usr/local/bin/pbft_genesis_config.sh {{.Release.Namespace}}
             {{ else if eq $consensus 300 }}
-                  bash -x /usr/local/bin/raft_genesis_config.sh {{.Values.sawtooth.namespace}}
+                  bash -x /usr/local/bin/raft_genesis_config.sh {{.Release.Namespace}}
             {{ else if eq $consensus 200 }}
-                  bash -x /usr/local/bin/poet_genesis_config.sh {{.Values.sawtooth.namespace}}
+                  bash -x /usr/local/bin/poet_genesis_config.sh {{.Release.Namespace}}
             {{ else }}
-                  bash -x /usr/local/bin/devmode_genesis_config.sh {{.Values.sawtooth.namespace}}
+                  bash -x /usr/local/bin/devmode_genesis_config.sh {{.Release.Namespace}}
             {{ end }}
             {{ if .Values.sawtooth.permissioned }}
-                  /usr/local/bin/identity_genesis_config.sh {{.Values.sawtooth.namespace}}
+                  /usr/local/bin/identity_genesis_config.sh {{.Release.Namespace}}
             {{ end }}
                   sawset genesis -k /etc/sawtooth/keys/validator.priv \
                     -o /etc/sawtooth/genesis/000-genesis.batch
@@ -495,8 +501,9 @@ spec:
         - name: sawtooth-etc
           hostPath:
             type: DirectoryOrCreate
-            path: {{.Values.sawtooth.volumes.hostPathBaseDir}}/{{.Values.sawtooth.namespace}}/{{.Values.sawtooth.networkName}}/sawtooth-etc
+            path: {{.Values.sawtooth.volumes.hostPathBaseDir}}/{{.Release.Namespace}}/{{.Release.Name}}/sawtooth-etc
         - name: sawtooth-data
           hostPath:
             type: DirectoryOrCreate
-            path: {{.Values.sawtooth.volumes.hostPathBaseDir}}/{{.Values.sawtooth.namespace}}/{{.Values.sawtooth.networkName}}/sawtooth-data
+            path: {{.Values.sawtooth.volumes.hostPathBaseDir}}/{{.Release.Namespace}}/{{.Release.Name}}/sawtooth-data
+{{ end }}

@@ -3,10 +3,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{.Values.sawtooth.networkName}}-rest-api
-  namespace: {{.Release.namespace}}
+  name: {{.Release.Name}}-rest-api
+  namespace: {{.Release.Namespace}}
   labels:
-    app: {{.Release.networkName}}-validator
+    app: {{ include "sawtooth.validator.name" .}}
 spec:
   sessionAffinity: ClientIP
   ports:
@@ -21,16 +21,16 @@ spec:
     name: seth-rpc
 {{ end}}
   selector:
-    app: {{.Values.sawtooth.networkName}}-validator
+    app: {{ include "sawtooth.validator.name" .}}
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{.Values.sawtooth.networkName}}-validator
-  namespace: {{.Release.namespace}}
+  name: {{ include "sawtooth.validator.name" .}}
+  namespace: {{.Release.Namespace}}
   labels:
-    app: {{.Values.sawtooth.networkName}}-validator
+    app: {{ include "sawtooth.validator.name" .}}
 spec:
   type: ClusterIP
   clusterIP: None
@@ -48,16 +48,16 @@ spec:
     targetPort: {{.Values.sawtooth.ports.sawcomp}}
     name: sawcomp
   selector:
-    app: {{.Values.sawtooth.networkName}}-validator
+    app: {{ include "sawtooth.validator.name" .}}
 ---
 {{ if .Values.sawtooth.xo.enabled}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{.Values.sawtooth.networkName}}-xo-demo
-  namespace: {{.Release.namespace}}
+  name: {{.Release.Name}}-xo-demo
+  namespace: {{.Release.Namespace}}
   labels:
-    app: {{.Values.sawtooth.networkName}}-xo-demo
+    app: {{.Release.Name}}-xo-demo
 spec:
   sessionAffinity: ClientIP
   ports:
@@ -66,6 +66,6 @@ spec:
     targetPort: 80
     name: xo-demo
   selector:
-    app: {{.Values.sawtooth.networkName}}-validator
+    app: {{ include "sawtooth.validator.name" .}}
 ---
 {{ end}}
