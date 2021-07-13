@@ -7,7 +7,7 @@ apiVersion: apps/v1
 kind: {{ if eq $consensus 100 }}StatefulSet{{else}}DaemonSet{{end}}
 metadata:
   name: {{.Values.sawtooth.networkName}}-validator
-  namespace: {{.Values.sawtooth.namespace}}
+  namespace: {{.Release.namespace}}
 spec:
   {{ if eq $consensus 100}}
   replicas: 1

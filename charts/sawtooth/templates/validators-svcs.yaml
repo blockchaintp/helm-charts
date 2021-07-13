@@ -4,9 +4,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{.Values.sawtooth.networkName}}-rest-api
-  namespace: {{.Values.sawtooth.namespace}}
+  namespace: {{.Release.namespace}}
   labels:
-    app: {{.Values.sawtooth.networkName}}-validator
+    app: {{.Release.networkName}}-validator
 spec:
   sessionAffinity: ClientIP
   ports:
@@ -28,7 +28,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{.Values.sawtooth.networkName}}-validator
-  namespace: {{.Values.sawtooth.namespace}}
+  namespace: {{.Release.namespace}}
   labels:
     app: {{.Values.sawtooth.networkName}}-validator
 spec:
@@ -55,7 +55,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{.Values.sawtooth.networkName}}-xo-demo
-  namespace: {{.Values.sawtooth.namespace}}
+  namespace: {{.Release.namespace}}
   labels:
     app: {{.Values.sawtooth.networkName}}-xo-demo
 spec:

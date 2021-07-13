@@ -3,7 +3,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: {{.Values.sawtooth.networkName}}-role
-  namespace: {{.Values.sawtooth.namespace}}
+  namespace: {{.Release.namespace}}
 rules:
   - apiGroups: ["","apps/v1"] # "" refers to the core API group
     resources: ["services", "statefulsets.apps","endpoints", "nodes", "pods"]
@@ -15,7 +15,7 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{.Values.sawtooth.namespace}}-{{.Values.sawtooth.networkName}}-clusterrole
+  name: {{.Release.namespace}}-{{.Values.sawtooth.networkName}}-clusterrole
 rules:
   - apiGroups: ["","apps/v1"] # "" refers to the core API group
     resources: ["statefulsets.apps", "nodes", "pods"]
@@ -25,7 +25,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: {{.Values.sawtooth.namespace}}-{{.Values.sawtooth.networkName}}
-  namespace: {{.Values.sawtooth.namespace}}
+  namespace: {{.Release.namespace}}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -33,7 +33,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: {{.Values.sawtooth.networkName}}-sa
-  namespace: {{.Values.sawtooth.namespace}}
+  namespace: {{.Release.namespace}}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -46,5 +46,5 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: {{.Values.sawtooth.networkName}}-sa
-  namespace: {{.Values.sawtooth.namespace}}
+  namespace: {{.Release.namespace}}
 ---
