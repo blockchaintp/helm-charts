@@ -6,6 +6,12 @@
 ## @md | field | description | type | default |
 ## @md |- |- |- |- |
 
+## @md | `affinity` | group of affinity related parameters | map | N/A |
+affinity:
+  ## @md | `affinity.enabled` | false: no efffect
+  # Normally set this as disabled.
+  enabled: false
+
 imagePullSecrets:
   enabled: false
   value:

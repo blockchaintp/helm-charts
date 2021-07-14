@@ -28,6 +28,17 @@ spec:
         prometheus.io/path: "/metrics"
     spec:
       serviceAccountName: {{ include "besu.serviceAccountName" . }}
+    {{if .Values.affinity.enabled}}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - {{ include "besu.serviceAccountName" . }}
+    {{ else }}
       affinity:
         {{ toYaml .Values.besu.affinity | nindent 8 }}
       containers:
