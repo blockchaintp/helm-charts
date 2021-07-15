@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Unreleased
+
+* refactor: rename template files to match pattern [view commit](https://github.com/catenasys/helm-charts/commit/5532c08a44dad8c1a23de5ac6884a113f8a4af40)
+
 ## v0.2.50
 
 * fix(daml-on-postgres): revert deploymentVersion to 1.3 [view commit](https://github.com/catenasys/helm-charts/commit/c9b4f931683023b0e792ef7ca8a99ea84d21b96c)
