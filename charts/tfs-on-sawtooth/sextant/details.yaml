@@ -27,3 +27,4 @@ features:
   - taekion.keys
   - taekion.volumes
   - taekion.snapshots
+  - taekion.explorer
