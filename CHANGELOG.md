@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* fix(chart): bump chart one minor version [view commit](https://github.com/catenasys/helm-charts/commit/65b96faa7b6a6e016fc7e02f67ff43e757e831f5)
+* feat(taekion-ui): add a feature for the explorer so we can see the explorer tab [view commit](https://github.com/catenasys/helm-charts/commit/4b77a2579cd85c0acf2ac9f88db3ad212c545129)
 * refactor: rename template files to match pattern [view commit](https://github.com/catenasys/helm-charts/commit/5532c08a44dad8c1a23de5ac6884a113f8a4af40)
 
 ## v0.2.50
