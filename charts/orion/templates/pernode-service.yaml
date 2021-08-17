@@ -1,0 +1,26 @@
+{{- $nodeNameStub := printf "%s" (include "common.fullname" .) -}}
+{{- $shortname := include "common.name" . -}}
+{{- $context := . -}}
+{{- $values := .Values -}}
+{{- $release := .Release -}}
+{{- $labels := include "common.labels" . -}}
+
+
+{{range untilStep 0 (int .Values.orion.replicas) 1 }}
+{{ $name := printf "%s-%d" $nodeNameStub . }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels: {{ $labels | nindent 4 }}
+  name: {{ $name }}
+  namespace: {{ $release.Namespace }}
+spec:
+  type: ClusterIP
+  clusterIP: None
+  sessionAffinity: ClientIP
+  selector: {{ include "common.selectorLabels" $context | nindent 4 }}
+    statefulset.kubernetes.io/pod-name: {{ $name }}
+  ports: {{ include "orion.svc.ports" $context | nindent 4 }}
+{{- end -}}

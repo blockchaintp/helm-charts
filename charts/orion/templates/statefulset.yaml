@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "common.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels: {{ include "common.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.orion.replicas }}
+  podManagementPolicy: Parallel
+  serviceName: {{ include "common.fullname" . }}
+  selector:
+    matchLabels: {{ include "common.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels: {{ include "common.labels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/config-cm.yaml") . | sha256sum }}
+        {{- if .Values.orion.annotations -}}
+        {{ toYaml .Values.orion.annotations | nindent 8 }}
+        {{ end }}
+    spec:
+      serviceAccountName: {{ include "common.serviceAccountName" . }}
+      affinity: {{ toYaml .Values.orion.affinity | nindent 8 }}
+      containers:
+        - name: orion
+          {{- include "orion.image" . | nindent 10 }}
+          command: [ "bash", "-xc"]
+          args:
+            - |
+              orion /etc/orion/orion.conf
+          readinessProbe:
+            httpGet:
+              host:
+              scheme: HTTP
+              path: /upcheck
+              port: {{ .Values.orion.clientport }}
+          resources: {{ toYaml .Values.orion.resources | nindent 12 }}
+          volumeMounts:
+            - name: config
+              mountPath: /etc/orion
+            {{ include "orion.publickeys.mounts" . | nindent 12 }}
+            {{ include "orion.privatekeys.mounts" . | nindent 12 }}
+            {{ include "utils.rand.mounts" . | nindent 12 }}
+      volumes:
+        - name: config
+          configMap:
+            name: {{ include "common.name" . }}-config
+        {{ include "orion.publickeys.vols" . | nindent 8 }}
+        {{ include "orion.privatekeys.vols" . | nindent 8 }}
+        {{ include "utils.rand.vols" . | nindent 8 }}

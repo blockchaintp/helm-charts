@@ -1,0 +1,68 @@
+{{- $namespace := .Release.Namespace -}}
+{{- $nodeNameStub := printf "%s" (include "common.fullname" .) -}}
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "common.fullname" . }}-setup
+  namespace: {{.Release.Namespace}}
+  labels:
+{{ include "common.labels" . | indent 4 }}
+  annotations:
+    helm.sh/hook-delete-policy: "hook-succeeded"
+spec:
+  backoffLimit: 3
+  completions: 1
+  template:
+    metadata:
+      labels:
+{{ include "common.labels" . |indent 8 }}
+    spec:
+      serviceAccountName: {{ include "common.serviceAccountName" . }}
+      restartPolicy: Never
+      containers:
+        - name: keygen
+          {{- include "orion.image" . | nindent 10 }}
+          command:
+            - bash
+            - -exc
+          args:
+            - |
+              {{- range untilStep 0 (int .Values.orion.replicas) 1 }}
+              {{- $nodeName := printf "%s-%d" $nodeNameStub . -}}
+              {{- $secretName := printf "%s-nodekey" $nodeName -}}
+              {{- $secret := (lookup "v1" "Secret" $namespace $secretName ) }}
+              {{- if not $secret }}
+              # secret {{ $namespace }}/{{ $secretName }} does not exist
+              mkdir -p /scratch/{{$nodeName}}
+              cd /scratch/{{$nodeName}}
+              echo | /opt/orion/bin/orion -g orion
+              {{- end}}
+              {{- end}}
+          volumeMounts:
+            - name: scratch
+              mountPath: /scratch
+        - name: create-secret
+          {{- include "utils.k8s.image" . | nindent 10 }}
+          command:
+            - bash
+            - -exc
+          args:
+            - |
+              {{- range untilStep 0 (int .Values.orion.replicas) 1 }}
+              {{- $nodeName := printf "%s-%d" $nodeNameStub . -}}
+              {{- $secretName := printf "%s-nodekey" $nodeName -}}
+              {{- $secret := (lookup "v1" "Secret" $namespace $secretName ) }}
+              {{- if not $secret }}
+              # secret {{ $namespace }}/{{ $secretName }} does not exist
+              while [ ! -f /scratch/{{$nodeName}}/orion.key ]; do sleep 1; done
+              kubectl create secret generic {{ $secretName }} --namespace {{ $namespace }} --from-file=orion.key=/scratch/{{$nodeName}}/orion.key
+              kubectl create configmap {{ $secretName }}-pub --namespace {{ $namespace }} --from-file=orion.pub=/scratch/{{$nodeName}}/orion.pub
+              {{- end}}
+              {{- end}}
+          volumeMounts:
+            - name: scratch
+              mountPath: /scratch
+      volumes:
+        - name: scratch
+          emptyDir: {}

@@ -1,0 +1,74 @@
+---
+## @md # Orion Chart
+## @md
+## @md ## Configuration
+## @md
+## @md | field | description | type | default |
+## @md |- |- |- |- |
+
+imagePullSecrets:
+  enabled: false
+  value: []
+
+global:
+  image:
+    registry: index.docker.io
+
+orion:
+  affinity: {}
+  annotations:
+    foo: bar
+  clientport: 8888
+  clientnetworkinterface: 0.0.0.0
+  image:
+    pullPolicy: IfNotPresent
+    repository: consensys/quorum-orion
+    tag: "21.1.1"
+  # storage="sql:jdbc:postgresql://<HOST>:<PORT>/<DATABASE-NAME>"
+  # user=<USER-NAME>&password=<PASSWORD>
+  storage: "memory" # postgres, oracle, leveldb, memory
+  nodeport: 8080
+  nodenetworkinterface: 0.0.0.0
+  othernodes: []
+  postgres:
+    create: false
+    database:
+    existingSecret:
+    extraOpts:
+    host:
+    password:
+    port:
+    ssl: false
+    username:
+  persistence:
+    enabled: false
+    annotations: {}
+    accessModes:
+      - "ReadWriteOnce"
+    storageClass:
+    size: "40Gi"
+  replicas: 2
+  resources: {}
+  serviceAccount:
+    create: true
+    name:
+
+utility:
+  k8s:
+    image:
+      pullPolicy: IfNotPresent
+      repository: alpine/k8s
+      tag: "1.20.4"
+
+postgresql:
+  enabled: false
+  postgresqlUsername: postgres
+  postgresqlPassword:
+  database:
+  existingSecret:
+  extraOpts:
+  host:
+  password:
+  port:
+  ssl: false
+  username:
