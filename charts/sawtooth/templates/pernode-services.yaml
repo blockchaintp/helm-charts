@@ -1,0 +1,36 @@
+
+{{- $consensus := .Values.sawtooth.consensus | int -}}
+{{- if or .Values.sawtooth.statefulset.enabled (eq $consensus 100) -}}
+{{- $ctx := . -}}
+# {{ include "sawtooth.replicas" $ctx }} enodes
+{{ range untilStep 0 ((include "sawtooth.replicas" $ctx) | int) 1 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels: {{ include "sawtooth.labels" $ctx | nindent 4}}
+  name: {{ include "sawtooth.validator.fullname" $ctx }}-{{ . }}
+  namespace: {{ $ctx.Release.Namespace }}
+spec:
+  type: ClusterIP
+  sessionAffinity: ClientIP
+  ports:
+    - port: {{ $ctx.Values.sawtooth.ports.rest }}
+      protocol: TCP
+      targetPort: {{ $ctx.Values.sawtooth.ports.rest }}
+      name: rest-api
+    - port: {{ $ctx.Values.sawtooth.ports.sawnet }}
+      protocol: TCP
+      targetPort: {{ $ctx.Values.sawtooth.ports.sawnet }}
+      name: sawnet
+    - port: {{ $ctx.Values.sawtooth.ports.sawcomp }}
+      protocol: TCP
+      targetPort: {{ $ctx.Values.sawtooth.ports.sawcomp }}
+      name: sawcomp
+  selector: {{- include "sawtooth.selectorLabels" $ctx | nindent 4 }}
+    statefulset.kubernetes.io/pod-name: {{ include "sawtooth.validator.fullname" $ctx }}-{{ . }}
+{{- end -}}
+{{- else -}}
+---
+# no enodes
+{{- end -}}

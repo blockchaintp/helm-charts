@@ -1,71 +1,26 @@
-{{$peering:= .Values.sawtooth.dynamicPeering}}
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{.Release.Name}}-rest-api
-  namespace: {{.Release.Namespace}}
-  labels:
-    app: {{ include "sawtooth.validator.name" .}}
-spec:
-  sessionAffinity: ClientIP
-  ports:
-  - port: {{.Values.sawtooth.ports.rest}}
-    protocol: TCP
-    targetPort: {{.Values.sawtooth.ports.rest}}
-    name: rest-api
-{{ if .Values.sawtooth.seth.enabled}}
-  - port: 3030
-    protocol: TCP
-    targetPort: 3030
-    name: seth-rpc
-{{ end}}
-  selector:
-    app: {{ include "sawtooth.validator.name" .}}
+{{$peering:= .Values.sawtooth.dynamicPeering }}
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "sawtooth.validator.name" .}}
-  namespace: {{.Release.Namespace}}
-  labels:
-    app: {{ include "sawtooth.validator.name" .}}
+  name: {{ include "sawtooth.validator.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels: {{ include "sawtooth.labels" . | nindent 4}}
 spec:
   type: ClusterIP
   clusterIP: None
   ports:
-  - port: {{.Values.sawtooth.ports.rest}}
+  - port: {{ .Values.sawtooth.ports.rest }}
     protocol: TCP
-    targetPort: {{.Values.sawtooth.ports.rest}}
+    targetPort: {{ .Values.sawtooth.ports.rest }}
     name: rest-api
-  - port: {{.Values.sawtooth.ports.sawnet}}
+  - port: {{ .Values.sawtooth.ports.sawnet }}
     protocol: TCP
-    targetPort: {{.Values.sawtooth.ports.sawnet}}
+    targetPort: {{ .Values.sawtooth.ports.sawnet }}
     name: sawnet
-  - port: {{.Values.sawtooth.ports.sawcomp}}
+  - port: {{ .Values.sawtooth.ports.sawcomp }}
     protocol: TCP
-    targetPort: {{.Values.sawtooth.ports.sawcomp}}
+    targetPort: {{ .Values.sawtooth.ports.sawcomp }}
     name: sawcomp
-  selector:
-    app: {{ include "sawtooth.validator.name" .}}
----
-{{ if .Values.sawtooth.xo.enabled}}
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{.Release.Name}}-xo-demo
-  namespace: {{.Release.Namespace}}
-  labels:
-    app: {{.Release.Name}}-xo-demo
-spec:
-  sessionAffinity: ClientIP
-  ports:
-  - port: 80
-    protocol: TCP
-    targetPort: 80
-    name: xo-demo
-  selector:
-    app: {{ include "sawtooth.validator.name" .}}
----
-{{ end}}
+  selector: {{- include "sawtooth.selectorLabels" . | nindent 4 }}

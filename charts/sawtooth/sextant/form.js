@@ -113,7 +113,7 @@ const form = [
   {
     id: 'affinity.enabled',
     title: 'Affinity',
-    helperText: 'If enabled - pods will only deploy to nodes that have the label: app={{.Release.Name}}-validator',
+    helperText: 'If enabled - pods will only deploy to nodes that have the label: app={{ .Release.Name }}-validator',
     component: 'radio',
     default: false,
     dataType: 'boolean',

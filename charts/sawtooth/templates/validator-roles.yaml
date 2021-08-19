@@ -2,49 +2,29 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: {{.Release.Name}}-role
-  namespace: {{.Release.Namespace}}
+  name: {{include "common.fullname" .}}
+  namespace: {{ .Release.Namespace }}
+  labels: {{ include "sawtooth.labels" . | nindent 4 }}
 rules:
   - apiGroups: ["","apps/v1"] # "" refers to the core API group
-    resources: ["services", "statefulsets.apps","endpoints", "nodes", "pods"]
-    verbs: ["get", "list", "watch", "patch"]
+    resources: ["services", "pods"]
+    verbs: ["get", "list", "watch"]
   - apiGroups: ["","apps/v1"] # "" refers to the core API group
     resources: ["configmaps"]
     verbs: ["get", "create", "list", "watch", "patch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: {{.Release.Namespace}}-{{.Release.Name}}-clusterrole
-rules:
-  - apiGroups: ["","apps/v1"] # "" refers to the core API group
-    resources: ["statefulsets.apps", "nodes", "pods"]
-    verbs: ["get", "list", "watch"]
----
-apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: {{.Release.Namespace}}-{{.Release.Name}}
-  namespace: {{.Release.Namespace}}
+  name: {{include "common.fullname" .}}
+  namespace: {{ .Release.Namespace }}
+  labels: {{ include "sawtooth.labels" . | nindent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: {{.Release.Name}}-role
+  name: {{include "common.fullname" .}}
 subjects:
 - kind: ServiceAccount
-  name: {{.Release.Name}}-sa
-  namespace: {{.Release.Namespace}}
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: {{.Release.Namespace}}-{{.Release.Name}}
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: {{.Release.Namespace}}-{{.Release.Name}}-clusterrole
-subjects:
-- kind: ServiceAccount
-  name: {{.Release.Name}}-sa
-  namespace: {{.Release.Namespace}}
+  name: {{ include "common.serviceAccountName" . }}
+  namespace: {{ .Release.Namespace }}
 ---

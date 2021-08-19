@@ -2,7 +2,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "sawtooth.name" -}}
+{{- define "common.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
@@ -11,7 +11,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "sawtooth.fullname" -}}
+{{- define "common.fullname" -}}
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -25,52 +25,38 @@ If release name contains chart name it will be used as a full name.
 {{- end -}}
 
 {{/*
-Create a default fully qualified app name.
-We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
-If release name contains chart name it will be used as a full name.
-*/}}
-{{- define "sawtooth.validator.name" -}}
-{{- if .Values.fullnameOverride -}}
-{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
-{{- else -}}
-{{- printf "%s-%s" .Release.Name "validator" | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-{{- end -}}
-
-
-{{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "sawtooth.chart" -}}
+{{- define "common.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{/*
+Common Selector labels
+*/}}
+{{- define "common.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "common.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
 {{/*
 Common labels
 */}}
-{{- define "sawtooth.labels" -}}
-helm.sh/chart: {{ include "sawtooth.chart" . }}
-{{ include "sawtooth.selectorLabels" . }}
+{{- define "common.labels" -}}
+helm.sh/chart: {{ include "common.chart" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
-{{- end -}}
-
-{{/*
-Selector labels
-*/}}
-{{- define "sawtooth.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "sawtooth.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
+{{ include "common.selectorLabels" . }}
 {{- end -}}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "sawtooth.serviceAccountName" -}}
+{{- define "common.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create -}}
-    {{ default (include "sawtooth.fullname" .) .Values.serviceAccount.name }}
+    {{ default (include "common.fullname" .) .Values.serviceAccount.name }}
 {{- else -}}
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
