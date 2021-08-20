@@ -12,7 +12,7 @@ metadata:
   name: {{ include "sawtooth.validator.fullname" $ctx }}-{{ . }}
   namespace: {{ $ctx.Release.Namespace }}
 spec:
-  type: ClusterIP
+  type: {{ $ctx.Values.sawtooth.perNodeServiceType }}
   sessionAffinity: ClientIP
   ports:
     - port: {{ $ctx.Values.sawtooth.ports.rest }}

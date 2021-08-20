@@ -295,6 +295,7 @@ sawtooth:
           cpu: "250m"
         requests:
           cpu: "50m"
+  perNodeServiceType: ClusterIP
   persistence:
     enabled: false
     annotations:
