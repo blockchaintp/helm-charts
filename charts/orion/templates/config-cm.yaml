@@ -2,7 +2,6 @@
 {{- $values := .Values -}}
 {{- $ctx := . -}}
 {{- $labels := include "common.labels" . -}}
-{{- $nodeNameStub := printf "%s" (include "common.fullname" .) -}}
 
 ---
 apiVersion: v1
@@ -19,10 +18,7 @@ data:
     storage = {{ include "orion.storage" . | quote }}
     nodeport = {{ $values.orion.nodeport }}
     nodenetworkinterface = {{ $values.orion.nodenetworkinterface | quote }}
-    nodeurl = {{ default $values.orion.nodeurl (printf
-      "http://%s.%s.svc.cluster.local:%0.0f" (
-      include "common.fullname" $ctx) $ctx.Release.Namespace
-      $values.orion.nodeport) | quote}}
+    nodeurl = {{ include "orion.nodeurl" $ctx | quote}}
     publickeys = [ {{ include "orion.publickeys.list" $ctx | trimPrefix ","}} ]
     privatekeys = [ {{ include "orion.privatekeys.list" $ctx | trimPrefix ","}} ]
     othernodes = [ {{ include "orion.othernodes.list" $ctx | trimPrefix ","}} ]

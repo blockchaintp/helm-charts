@@ -28,6 +28,14 @@ spec:
           args:
             - |
               orion /etc/orion/orion.conf
+          env:
+          {{ if eq .Values.orion.storage "postgres" }}
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "utils.call-nested" (list . "postgresql" "postgresql.secretName") }}
+                  key: postgresql-password
+          {{- end }}
           readinessProbe:
             httpGet:
               host:

@@ -13,6 +13,8 @@ imagePullSecrets:
 global:
   image:
     registry: index.docker.io
+  postgresql:
+    servicePort: ""
 
 orion:
   affinity: {}
@@ -26,20 +28,10 @@ orion:
     tag: "21.1.1"
   # storage="sql:jdbc:postgresql://<HOST>:<PORT>/<DATABASE-NAME>"
   # user=<USER-NAME>&password=<PASSWORD>
-  storage: "memory" # postgres, oracle, leveldb, memory
+  storage: "postgres" # postgres, oracle, leveldb, memory
   nodeport: 8080
   nodenetworkinterface: 0.0.0.0
   othernodes: []
-  postgres:
-    create: false
-    database:
-    existingSecret:
-    extraOpts:
-    host:
-    password:
-    port:
-    ssl: false
-    username:
   persistence:
     enabled: false
     annotations: {}
@@ -49,11 +41,12 @@ orion:
     size: "40Gi"
   replicas: 2
   resources: {}
-  serviceAccount:
-    create: true
-    name:
 
-utility:
+serviceAccount:
+  create: true
+  name:
+
+utils:
   k8s:
     image:
       pullPolicy: IfNotPresent
@@ -61,14 +54,18 @@ utility:
       tag: "1.20.4"
 
 postgresql:
-  enabled: false
-  postgresqlUsername: postgres
-  postgresqlPassword:
-  database:
-  existingSecret:
-  extraOpts:
+  create: true
+  postgresqlDatabase: "orion"
+  postgresqlUsername: "orion"
   host:
-  password:
-  port:
-  ssl: false
-  username:
+  existingSecret: ""
+  postgresqlPassword: ""
+  servicePort: ""
+  replicationPassword: ""
+  initdbScripts:
+    init.sql: |
+      CREATE TABLE store (
+        key char(60),
+        value bytea,
+        primary key(key)
+      );

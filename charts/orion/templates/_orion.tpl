@@ -92,3 +92,14 @@ Orion image
 {{.Values.orion.storage}}
 {{- end -}}
 {{- end -}}
+
+{{- define "orion.nodeurl" -}}
+{{- if .Values.orion.nodeurl -}}
+{{.Values.orion.nodeurl}}
+{{- else -}}
+{{- $svcName := (include "common.fullname" . ) -}}
+{{- $ns := .Release.Namespace -}}
+{{- $port := .Values.orion.nodeport -}}
+{{ printf "http://%s.%s.svc.cluster.local:%0.0f" $svcName $ns $port }}
+{{- end -}}
+{{- end -}}
