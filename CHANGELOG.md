@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## besu-0.0.11
+## vault-0.0.2
 
 * fix(daml-on-besu-details): updates sextantVersion to bump chart versions and adds DAML SDK 1.4 [view commit](https://github.com/catenasys/helm-charts/commit/3cbd41fa56f6f2520b457cc6f1e6fe9db6c9c44c)
 * test(pre-commit-config): autoupdates hook repos and increases max line-length to 90 to accommodate helm chart descriptions [view commit](https://github.com/catenasys/helm-charts/commit/83fbf9661ad7ca279ebd3de97900ad95bd84757d)
