@@ -3,113 +3,176 @@
 ## @md
 ## @md ## Configuration
 ## @md
-## @md | field | description | type | default |
-## @md |- |- |- |- |
+## @md | field | description | default |
+## @md |- |- |- |
 
 imagePullSecrets:
+  ## @md | imagePullSecrets.enabled | true if imagePullSecrets will be provided | false |
   enabled: false
-  value:
-    - name: regcred
+  ## @md | imagePullSecrets.value | a list of names of imagePullSecrets | [] |
+  value: []
+
 deployment:
   name: default
   namespace: default
-## @md |`besu` | besu settings | map | N/A |
+
 besu:
-  ## @md | `besu.seedNetwork` | whether or not this is a seed or genesis network | boolean | true |
+  ## @md | `besu.seedNetwork` | whether or not this is a seed or genesis network | true |
   seedNetwork: true
-  ## @md | `besu.seedGenesis` | the genesis configuration used if this is not a seed network | string | nil |
+  ## @md | `besu.seedGenesis` | the genesis configuration used if this is not a seed network | nil |
   seedGenesis:
-  ## @md | `besu.additionalBootnodeUrls` | A list of enode defining objects defined as below | list | `[]` |
+  ## @md | `besu.additionalBootnodeUrls` | A list of enode defining objects defined as below | `[]` |
   additionalBootnodeUrls: []
-    ## @md | `besu.additionalBootnodeUrls[].pubkey` | the public key of the enode url | string | |
-    ## @md | `besu.additionalBootnodeUrls[].host` | the hostname of the enode url (it will be resolved if not an ip) | string | |
-    ## @md | `besu.additionalBootnodeUrls[].port` | the port for the enode url | number | |
+    ## @md | `besu.additionalBootnodeUrls[].pubkey` | the public key of the enode url | |
+    ## @md | `besu.additionalBootnodeUrls[].host` | the hostname of the enode url (it will be resolved if not an ip) | |
+    ## @md | `besu.additionalBootnodeUrls[].port` | the port for the enode url | |
     # - pubkey:  abcdef1234567890
     #   host: somehostname
     #   port: 30303
   persistence:
+    ## @md | besu.persistence.enabled | true if the besu persistence will be enabled | true |
     enabled: false
+    ## @md | besu.persistence.annotations | annotations to be added to the persistence volume | `{}` |
     annotations: {}
+    ## @md | besu.persistence.accessMode | the access mode for the persistence volume | `ReadWriteOnce` |
     accessModes:
       - "ReadWriteOnce"
+    ## @md | besu.persistence.storageClass | the storage class for the persistence volume | `gps` |
     storageClass: "gp2"
+    ## @md | besu.persistence.size | the size of the persistence volume | `40Gi` |
     size: "40Gi"
+  ## @md | besu.resources | the resources to be applied to the besu container | `{}` |
   resources: {}
   serviceAccount:
+    ## @md | besu.serviceAccount.create | true if the service account will be created | true |
     create: true
+    ## @md | besu.serviceAccount.name | override the name of the service account | nil |
     name:
-  ## @md | `besu.nodeCount` | the number of besu nodes to start an initial genesis requires 4 | number | 4 |
+  ## @md | `besu.nodeCount` | the number of besu nodes to start an initial genesis requires 4 | 4 |
   nodeCount: 4
+  ## @md | besu.chainId | the chain id for the besu nodes | "19750424" |
   chainId: "19750424"
+  ## @md | besu.dataPath | the path to the data directory. This should not normally be changed | `/data` |
   dataPath: /data
   rpc:
+    ## @md | besu.rpc.enabled | true if the besu json-rpc will be enabled | true |
     enabled: true
+    ## @md | besu.rpc.host | the address to bind the json-rpc to | `"0.0.0.0"` |
     host: "0.0.0.0"
+    ## @md | besu.rpc.api | the list of APIs to expose | `'["DEBUG","ETH", "ADMIN", "WEB3", "IBFT", "NET"]'` |
     api: '["DEBUG","ETH", "ADMIN", "WEB3", "IBFT", "NET"]'
+    ## @md | besu.rpc.port | the port to bind the json-rpc | `8545` |
     port: 8545
+    ## @md | besu.rpc.corsOrigins | the list of cors origins to allow | `'["all"]'` |
     corsOrigins: '["all"]'
+    ## @md | besu.rpc.authenticationEnabled | true if the json-rpc will be authenticated | false |
     authenticationEnabled: false
   ws:
+    ## @md | besu.ws.enabled | true if the besu ws listener will be enabled | false |
     enabled: false
+    ## @md | besu.ws.api | the list of APIs to expose on the websocket listener | `'["DEBUG", "ETH", "WEB3", "NET"]'` |
     api: '["DEBUG", "ETH", "WEB3", "NET"]'
+    ## @md | besu.ws.host | the address to bind the websocket listener to | `"0.0.0.0"` |
     host: "0.0.0.0"
+    ## @md | besu.ws.port | the port to bind the websocket listener to | `8546` |
     port: 8546
+    ## @md | besu.ws.corsOrigins | the list of cors origins to allow | `'["all"]'` |
     corsOrigins: '["all"]'
+    ## @md | besu.ws.authenticationEnabled | true if the websocket will be authenticated | false |
     authenticationEnabled: false
   graphql:
+    ## @md | besu.graphql.enabled | true if the graphql listener will be enabled | false |
     enabled: false
+    ## @md | besu.graphql.host | the address to bind the graphql listener to | `"0.0.0.0"` |
     host: "0.0.0.0"
+    ## @md | besu.graphql.corsOrigins | the list of cors origins to allow | `'["all"]'` |
     corsOrigins: '["all"]'
+    ## @md | besu.graphql.port | the port to bind the graphql listener to | `8547` |
     port: 8547
   discovery:
+    ## @md | besu.discover.port | the port to bind the discovery listener to | `8549` |
     port: 8549
   metrics:
+    ## @md | besu.metrics.enabled | true if the metrics listener will be enabled | false |
     enabled: false
+    ## @md | besu.metrics.host | the address to bind the metrics listener to | `"0.0.0.0"` |
     host: "0.0.0.0"
+    ## @md | besu.metrics.port | the port to bind the metrics listener to | `9545` |
     port: 9545
   metricsPush:
+    ## @md | besu.metricsPush.enabled | true if the metrics push will be enabled | false |
     enabled: false
+    ## @md | besu.metricsPush.host | the address to push metrics to | `"5.5.5.5"` |
     host: "5.5.5.5"
+    ## @md | besu.metricsPush.port | the port to push metrics to | `9091` |
     port: 9091
+    ## @md | besu.metricsPush.interval | the interval to push metrics to | `60` |
     interval: 60
+    ## @md | besu.metricsPush.prometheusJob | the name of the prometheus metrics push job | "besu"
     prometheusJob: "besu"
   permissions:
+    ## @md | besu.permissions.enabled | true if the permissions will be enabled | false |
     enabled: false
     nodes:
+      ## @md | besu.permissions.nodes.enabled | true if the node permissions will be enabled | false |
       enabled: false
+      ## @md | besu.permissions.nodes.whitelist | a list of whitelisted enodes | `[]` |
       whitelist: []
       # - "enode://PUBKEY@192.168.0.9:4567"
       # - "enode://PUBKEY@192.169.0.9:4568"
     nodesContract:
+      ## @md | besu.permissions.nodesContract.enabled | true if the node contract permissioning contract will be enabled | false |
       enabled: false
+      ## @md | besu.permissions.nodesContract.address | address of the nodes permissioning contract | `"0x0000000000000000000000000000000000001234"` |
       address: "0x0000000000000000000000000000000000001234"
     accounts:
+      ## @md | besu.permissions.accounts.enabled | true if the account permissions will be enabled | false |
       enabled: false
+      ## @md | besu.permissions.accounts.whitelist | a list of whitelisted accounts | `[]` |
       whitelist: ["0x0000000000000000000000000000000000000009"]
   privacy:
+    ## @md | besu.privacy.enabled | true if the private transactions are enabled on this node | false |
     enabled: false
+    ## @md | besu.privacy.url | the url to the private transaction manager | `"http://localhost:8080"` |
     url: "http://127.0.0.1:8888"
+    ## @md | besu.private.precompileAddress | the precompiled address of the privacy contract | `9` |
     precompileAddress: 9
   genesis:
+    ## @md | besu.genesis.ibftBlockPeriodSeconds | the ibft block period in seconds | `2` |
     ibftBlockPeriodSeconds: 2
+    ## @md | besu.genesis.ibftEpochLength | the ibft epoch length in blocks | `30000` |
     ibftEpochLength: 30000
+    ## @md | besu.genesis.ibftRequestTimeoutSeconds | ibft request timeout  | `10` |
     ibftRequestTimeoutSeconds: 10
+  ## @md | besu.genesisFilePath | the path to the genesis file | `"/etc/genesis/genesis.json"` |
   genesisFilePath: /etc/genesis/genesis.json
+  ## @md | besu.logging | the logging level | `"info"` |
   logging: "info"
-  ## @md | `besu.affinity` | custom affinity rules for the besu statefulset | map | nil |
+  ## @md | `besu.affinity` | custom affinity rules for the besu statefulset | nil |
   affinity: {}
   image:
+    ## @md | `besu.image.repository` | the repository of the besu image | `"quay.io/getbeyondblock/besu"` |
     repository: blockchaintp/besu
+    ## @md | besu.image.tag | the tag of the besu image | `"v0.5.0"` |
     tag: BTP2.1.0rc14
+    ## @md | besu.image.imagePullPolicy | the pull policy for the besu image | `"IfNotPresent"` |
     imagePullPolicy: IfNotPresent
   p2p:
+    ## @md | besu.p2p.enabled | true if the p2p listener will be enabled | true |
     enabled: true
+    ## @md | besu.p2p.discover | true if the p2p discovery will be enabled | true |
     discovery: true
+    ## @md | besu.p2p.host | the address to bind the p2p listener to | `"0.0.0.0"` |
     host: "0.0.0.0"
+    ## @md | besu.p2p.port | the port to bind the p2p listener to | `30303` |
     port: 30303
+    ## @md | besu.p2p.maxPeers | the max number of peers to connect to | `25` |
     maxPeers: 25
   http:
+    ## @md | besu.http.whitelist | the list of whitelisted http endpoints | `[*]` |
     whitelist: '["*"]'
   txPool:
+    ## @md | besu.txPool.retentionHours | the number of hours to keep transactions in the tx pool | `999` |
     retentionHours: 999
+    ## @md | besu.txPool.maxSize | the max number of transactions to keep in the tx pool | `1024` |
     maxSize: 1024
