@@ -1,0 +1,1 @@
+../../charts/postgresql-ha/README.md

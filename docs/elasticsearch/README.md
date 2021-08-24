@@ -1,0 +1,1 @@
+../../charts/elasticsearch/README.md
