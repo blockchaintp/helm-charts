@@ -3,65 +3,88 @@
 ## @md
 ## @md ## Configuration
 ## @md
-## @md | field | description | type | default |
-## @md |- |- |- |- |
+## @md | field | description | default |
+## @md |- |- |- |
 
 imagePullSecrets:
+  ## @md | imagePullSecrets.enabled | true if imagePullSecrets will be provided | false |
   enabled: false
+  ## @md | imagePullSecrets.value | a list of names of imagePullSecrets | [] |
   value: []
 
 global:
   image:
+    ## @md | global.image.registry | global override of the image registry | index.docker.io |
     registry: index.docker.io
   postgresql:
+    ## @md | global.postgresql.servicePort | global override of the postgresql service port | 5432 |
     servicePort: ""
 
 orion:
+  ## @md | orion.affinity | a yaml block defining the affinity rules for the statefulset | {} |
   affinity: {}
-  annotations:
-    foo: bar
+  ## @md | orion.annotations | a yaml block defining the annotations for the statefulset | {} |
+  annotations: {}
+  ## @md | orion.clientport | the port on which the orion servers will listen | 8888 |
   clientport: 8888
+  ## @md | orion.clientnetworkinterface | the network interface on which the orion servers will listen | "0.0.0.0" |
   clientnetworkinterface: 0.0.0.0
   image:
+    ## @md | orion.image.pullPolicy | the image pull policy | IfNotPresent |
     pullPolicy: IfNotPresent
+    ## @md | orion.image.repository | the image repository | consensys/quorum-orion |
     repository: consensys/quorum-orion
+    ## @md | orion.image.tag | the image tag | "21.1.1" |
     tag: "21.1.1"
   # storage="sql:jdbc:postgresql://<HOST>:<PORT>/<DATABASE-NAME>"
   # user=<USER-NAME>&password=<PASSWORD>
+  ## @md | orion.storage | the storage configuration (memory, leveldb or postgres) | "postgres"
   storage: "postgres" # postgres, oracle, leveldb, memory
+  ## @md | orion.nodeport | the port on which orion servers will communicate with each other | 8080 |
   nodeport: 8080
+  ## @md | orion.nodenetworkinterface | the network interface on which orion servers will communicate with each other | "0.0.0.0" |
   nodenetworkinterface: 0.0.0.0
+  ## @md | orion.other nodes | a list of node urls outside this deployment which these orion nodes will connect to | [] |
   othernodes: []
-  persistence:
-    enabled: false
-    annotations: {}
-    accessModes:
-      - "ReadWriteOnce"
-    storageClass:
-    size: "40Gi"
+  ## @md | orion.replicas | the number of replicas for the orion statefulset | 2 |
   replicas: 2
+  ## @md | orion.resources | a yaml block defining the resources for the statefulset | {} |
   resources: {}
 
 serviceAccount:
+  ## @md | serviceAccount.create | true if the service account will be created | false |
   create: true
+  ## @md | serviceAccount.name | overrides the name of the service account | nil |
   name:
 
 utils:
   k8s:
     image:
+      ## @md | utils.k8s.image.pullPolicy | the k8s image pull policy | IfNotPresent |
       pullPolicy: IfNotPresent
+      ## @md | utils.k8s.image.repository | the k8s image repository | alpine/k8s |
       repository: alpine/k8s
+      ## @md | utils.k8s.image.tag | the k8s image tag | 3.11 |
       tag: "1.20.4"
 
 postgresql:
+  ## @md | postgresql.create | true if an embedded postgresql will be created. if false external database credentials will need to be provided | true |
   create: true
+  ## @md | postgresql.postgresqlDatabase | name of the postgres database to use | "orion" |
   postgresqlDatabase: "orion"
+  ## @md | postgresql.postgresqlUsername | name of the postgres user to use | "orion" |
   postgresqlUsername: "orion"
+  ## @md | postgresql.host | the hostname of the postgresql server | nil |
   host:
+  ## @md | postgresql.existingSecret | the name of an existing secret containing the postgresql credentials | nil |
   existingSecret: ""
+  ## @md | postgresql.postgresqlPassword | the password of the postgresql user | nil |
   postgresqlPassword: ""
+  ## @md | postgresql.servicePort | the port of the postgresql server | 5432 |
   servicePort: ""
+  ## @md | postgresql.replicationPassword | the password of the postgresql replication user | nil |
   replicationPassword: ""
+  ## @md | postgresql.initdbScripts | a map of initdb scripts to run on the postgresql server |  |
   initdbScripts:
     init.sql: |
       CREATE TABLE store (
