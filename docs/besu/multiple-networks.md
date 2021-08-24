@@ -1,7 +1,9 @@
 
-# General Considerations
+# Attaching to a pre-existing network
 
-  In order to connect two separate deployments of __daml-on-besu__
+## General Considerations
+
+  In order to connect two separate deployments of __besu__
   the following prerequesites must be satisfied:
 
 * bi-directional connectivity for the TCP and UDP protocols on the
@@ -10,17 +12,15 @@
 
 * at least two bootnodes are recommended to be accessible for reliability
 
-* A distinct participant id is chosen for each child network
-
 * the appropriate kubernetes docker secrets are available on each cluster
 
-# On the "seed network"
+## On the "seed network"
 
 In other words the original network
 
 1. make sure that sextant has the most recent charts.  To be sure, you can
     administratively restart sextant which will refresh the charts
-        * The most recent charts for daml-on-besu define services specific to
+        * The most recent charts for besu define services specific to
           each besu node, providing more stable endpoints for use by elements
           outside of the network
 
@@ -44,11 +44,12 @@ In other words the original network
 
 1. Obtain the genesis configuration from the seed (original) network
 
-   If your deployment is named `testbesu` in the namespace
-   `test` this may be accomplished via the following command.
+   If the upstream network is Sextant deployed, then the easiest way to obtain
+   this information is as follows. If your deployment is named `testbesu` in the
+   namespace `test` this may be accomplished via the following command.
 
    ```bash
-   kubectl get cm testbesu-daml-daml-on-besu-genesis -n test \
+   kubectl get cm testbesu-besu-genesis -n test \
        -o jsonpath='{.data.genesis\.json}'
    ```
 
@@ -56,22 +57,23 @@ In other words the original network
    newline at the end. Save this output it will be used later in the
    configuration of any secondary networks.
 
-1. Get the basic enode url for each node you intend to use as a bootnode.
+1. Get the basic enode url for each node you intend to use as a bootnode. This
+   should be provided to you from the upstream network.
 
-   It is easiest to obtain this via the following command.  Be careful to
-   substitute the name of the deployment as well as the desired besu node
-   pod.
+   Again, if the upstream network is Sextant deployed, then it is easiest to
+   obtain this via the following command.  Be careful to substitute the name of
+   the deployment as well as the desired besu node pod.
 
    ```bash
-   kubectl get secret testbesu-daml-daml-on-besu-enode  \
+   kubectl get secret testbesu-besu-besu-enode  \
    -n test \
-   -o jsonpath='{.data.testbesu-daml-daml-on-besu-0\.enode}'|base64 -d
+   -o jsonpath='{.data.testbesu-besu-besu-0\.enode}'|base64 -d
    ```
 
    Again please note that the output here will most likely not be terminated
    in a newline.
 
-# Create a new deployment in sextant for the child network
+## Create a new deployment in sextant for the child network
 
 Go to the "Additional Yaml Section"
 
@@ -129,12 +131,8 @@ Go to the "Additional Yaml Section"
       # DNS names, and the below is just an example
       additionalBootnodeUrls:
         - pubkey: 0b05d45f088ffb61c74808773d243f707bfa6902e4a57916d44b4f45533d92070845307d19f072cad99d5bc10b0d17e6f2961995b667c9267516f6389f2e5204
-          host: testbesu-daml-daml-on-besu-1.testbesu-daml-daml-on-besu.testbesu.svc.cluster.local
+          host: testbesu-besu-1.testbesu-besu.testbesu.svc.cluster.local
           port: 30303
-    daml:
-      rpc:
-        participantId: a-participantid-unique-to-the-network
-
     ```
 
 1. Save that Additional Yaml and deploy the network.
