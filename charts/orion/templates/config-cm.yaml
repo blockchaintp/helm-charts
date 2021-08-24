@@ -1,0 +1,24 @@
+{{- $namespace := .Release.Namespace -}}
+{{- $values := .Values -}}
+{{- $ctx := . -}}
+{{- $labels := include "common.labels" . -}}
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{include "common.name" $ctx }}-config
+  namespace: {{ $namespace }}
+  labels: {{ $labels | nindent 4 }}
+data:
+  orion.conf: |-
+    clientport = {{ $values.orion.clientport }}
+    clientnetworkinterface = {{ $values.orion.clientnetworkinterface | quote}}
+    knownnodestorage = {{ include "orion.storage" . | quote }}
+    storage = {{ include "orion.storage" . | quote }}
+    nodeport = {{ $values.orion.nodeport }}
+    nodenetworkinterface = {{ $values.orion.nodenetworkinterface | quote }}
+    nodeurl = {{ include "orion.nodeurl" $ctx | quote}}
+    publickeys = [ {{ include "orion.publickeys.list" $ctx | trimPrefix ","}} ]
+    privatekeys = [ {{ include "orion.privatekeys.list" $ctx | trimPrefix ","}} ]
+    othernodes = [ {{ include "orion.othernodes.list" $ctx | trimPrefix ","}} ]

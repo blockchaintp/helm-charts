@@ -1,0 +1,40 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "common.fullname" . }}-role
+  namespace: {{.Release.Namespace}}
+  labels:
+{{ include "common.labels" . | indent 4 }}
+rules:
+  - apiGroups:
+      - "" # "" refers to the core API group
+    resources:
+      - secrets
+      - configmaps
+    verbs:
+      - create
+      - get
+      - list
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+    verbs:
+      - get
+      - list
+      - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "common.fullname" . }}-rb
+  namespace: {{.Release.Namespace}}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ include "common.fullname" . }}-role
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "common.serviceAccountName" . }}
+    namespace: {{.Release.Namespace}}

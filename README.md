@@ -13,6 +13,7 @@
 * [kibana](charts/kibana/README.md)
 * [nginx-ingress](charts/nginx-ingress/README.md)
 * [openebs](charts/openebs/README.md)
+* [orion](charts/orion/README.md)
 * [postgresql-ha](charts/postgresql-ha/README.md)
 * [sawtooth](charts/sawtooth/README.md)
 * [sextant](charts/sextant/README.md)
