@@ -1,73 +1,107 @@
 ---
-## @md # DAML on Postgres Chart
+## @md # Daml on Postgres Chart
 ## @md
 ## @md ## Configuration
 ## @md
-## @md | field | description | type | default |
-## @md |- |- |- |- |
+## @md | field | description | default |
+## @md |- |- |- |
 
 imagePullSecrets:
+  ## @md | imagePullSecrets.enabled | true if imagePullSecrets will be provided | false |
   enabled: false
+  ## @md | imagePullSecrets.value | a list of names of imagePullSecrets | [] |
   value: []
 
 deployment:
   name: default
   namespace: default
 
-
 daml:
   auth:
+    ## @md | daml.auth.enabled | true if authentication is to be enabled | false |
     enabled: false
   image:
+    ## @md | daml.image.repository | the docker image repository | blockchaintp/daml-on-postgres |
     repository: blockchaintp/daml-on-postgres
+    ## @md | daml.image.tag | the docker image tag | latest |
     tag: BTP2.1.0rc15
+    ## @md | daml.image.pullPolicy | the docker image pull policy | IfNotPresent |
     pullPolicy: IfNotPresent
+  ## @md | daml.ledgerId | the daml ledger id | someIdentifyingString |
   ledgerId: someIdentifyingString
   extra_args:
+    ## @md | daml.extra_args.enabled | true if extra_args will be provided | false |
     enabled: false
+    ## @md | daml.extra_args.arg_str | a string of extra arguments | "" |
     arg_str:
   rpc:
+    ## @md | daml.rpc.port | the daml grpc listener port | 39000 |
     port: 39000
+    ## @md | daml.rpc.resources | the daml rpc resources constraints | {} |
     resources: {}
+    ## @md | daml.rpc.env  | the daml rpc environment variable definitions | {} |
     env: {}
   serviceAccount:
+    ## @md | daml.serviceAccount.create | true if the service account will be created | true |
     create: true
+    ## @md | daml.serviceAccount.name | to override the name of the service account use this | nil |
     name:
 
   jsonapi:
     image:
+      ## @md | daml.jsonapi.image.repository | the docker image repository | blockchaintp/daml-on-postgres-jsonapi |
       repository: blockchaintp/daml-json-api
+      ## @md | daml.jsonapi.image.tag | the docker image tag | latest |
       tag: BTP2.1.0rc15
+      ## @md | daml.jsonapi.image.pullPolicy | the docker image pull policy | IfNotPresent |
       pullPolicy: IfNotPresent
     ports:
+      ## @md | daml.jsonapi.ports.http | the port the json api will listen on | 8080 |
       http: 8080
+    ## @md | daml.jsonapi.packageReloadInterval | the interval in seconds between package reloads | 5s |
     packageReloadInterval: "5s"
+    ## @md | daml.jsonapi.resources | the json api resources constraints | {} |
     resources: {}
+    ## @md | daml.jsonapi.waitTimeSeconds | how many seconds to way for the ledger api to start. 0 for forever | 0 |
     waitTimeSeconds: 0
+    ## @md | daml.jsonapi.env  | the json api environment variable definitions | {} |
     env:
     ingress:
+      ## @md | daml.jsonapi.ingress.enabled | true if ingress will be enabled | false |
       enabled: false
+      ## @md | daml.jsonapi.ingress.annotations | any custom annotations to be applied to the ingress | {} |
       annotations: {}
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
-      hosts:
-        - host: chart-example.local
-          paths:
-            - /
+      ## @md | daml.json.api.ingress.hosts | the hostnames to be used for the ingress | [] |
+      hosts: []
+        # - host: chart-example.local
+        #   paths:
+        #     - /
 
 postgres:
   # If true dynamically allocate a postgres database, otherwise expect
   # configuration details
+  ## @md | postgres.enabled | true if the embedded postgres will be enabled | true |
   enabled: true
   image:
+    ## @md | postgres.image.repository | the docker image repository | postgres |
     repository: postgres
+    ## @md | postgres.image.tag | the docker image tag | latest |
     tag: "11"
+    ## @md | postgres.image.pullPolicy | the docker image pull policy | IfNotPresent |
     pullPolicy: IfNotPresent
+  ## @md | postgres.host | the postgres host | localhost |
   host: localhost
+  ## @md | postgres.port | the postgres port | 5432 |
   port: 5432
+  ## @md | postgres.user | the postgres user | postgres |
   user: postgres
+  ## @md | postgres.database | the postgres database | postgres |
   database: postgres
+  ## @md | postgres.password | the postgres password | '' |
   password: ''
+  ## @md | postgres.existingPasswordSecret | the name of an existing password secret | '' |
   existingPasswordSecret: ''
   ## Name of existing secret object
   ## The secret should contain the following keys:
@@ -77,6 +111,7 @@ postgres:
   ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
   ##
   persistence:
+    ## @md | postgres.persistence.enabled | true if the postgres persistence will be enabled | true |
     enabled: true
     ## If defined, storageClassName: <storageClass>
     ## If set to "-", storageClassName: "", which disables dynamic provisioning
@@ -85,17 +120,24 @@ postgres:
     ##   GKE, AWS & OpenStack)
     ##
     # storageClass: "-"
+    ## @md | postgres.persistence.storageClass | the name of the storage class | nil (default) |
     storageClass:
     accessModes:
+    ## @md | postgres.persistence.accessModes | the access modes for the postgres persistence | ["ReadWriteOnce"] |
       - "ReadWriteOnce"
     accessMode: ReadWriteOnce
+    ## @md | postgres.persistence.size | the size of the postgres persistence | 10Gi |
     size: 10Gi
 
 openssl:
   image:
+    ## @md | openssl.image.repository | the docker image repository | openssl |
     repository: alpine/openssl
+    ## @md | openssl.image.tag | the docker image tag | latest |
     tag: latest
 k8s:
   image:
+    ## @md | k8s.image.repository | the docker image repository | kubernetes |
     repository: alpine/k8s
+    ## @md | k8s.image.tag | the docker image tag | latest |
     tag: 1.18.2

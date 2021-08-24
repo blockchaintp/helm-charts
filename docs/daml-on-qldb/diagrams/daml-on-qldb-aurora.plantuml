@@ -1,0 +1,60 @@
+@startuml daml-on-qldb-aurora
+
+' footer Kubernetes Plant-UML
+' scale max 1024 width
+
+' skinparam nodesep 10
+' skinparam ranksep 10
+
+' Kubernetes
+!define KubernetesPuml https://raw.githubusercontent.com/dcasati/kubernetes-PlantUML/master/dist
+!define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/main/dist
+
+!include AWSPuml/AWSCommon.puml
+!include AWSPuml/Database/all.puml
+!include AWSPuml/ApplicationIntegration/APIGateway.puml
+
+!include KubernetesPuml/kubernetes_Common.puml
+' !includeurl KubernetesPuml/kubernetes_C4.puml
+!include KubernetesPuml/kubernetes_Context.puml
+
+!include KubernetesPuml/OSS/KubernetesSts.puml
+!include KubernetesPuml/OSS/KubernetesSvc.puml
+!include KubernetesPuml/OSS/KubernetesPod.puml
+
+
+' left to right direction
+
+' Kubernetes Components
+Cluster_Boundary(cluster, "Kubernetes Cluster") {
+    Namespace_Boundary(ns_daml, "daml") {
+        KubernetesSvc(daml_svc_grpc, "grpc", "tcp:39000 grpc(http2)")
+        KubernetesSvc(daml_svc_jsonapi, "jsonapi", "http:8080")
+        KubernetesSts(daml_sts_doq, "daml-on-qldb", "implements ledger api and logic")
+    }
+  daml_svc_jsonapi --> daml_sts_doq
+  daml_svc_grpc --> daml_sts_doq
+}
+
+note left of cluster
+At least two zones
+end note
+
+QuantumLedgerDatabase2(damlqldb, "DAML Ledger", "authoritative k->h store")
+Aurora(damlindex, "Index DB","fast read store for daml api")
+Aurora(damlblobstore, "BLOB store DB","h-v large value store")
+daml_sts_doq --> damlqldb: <<iam>>
+daml_sts_doq --> damlindex
+daml_sts_doq --> damlblobstore
+
+APIGateway(jwksProvider, "JWKS Provider", "")
+actor actor
+
+jwksProvider <-- daml_sts_doq
+actor --> jwksProvider : <<jwt>>
+actor --> daml_svc_jsonapi: <<jwt>>
+actor --> daml_svc_grpc: <<jwt>>
+
+
+
+@enduml

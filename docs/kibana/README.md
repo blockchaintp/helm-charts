@@ -1,0 +1,1 @@
+../../charts/kibana/README.md
