@@ -1,5 +1,5 @@
 
-# Daml on Besu - Attaching to a pre-existing network
+# Attaching to a pre-existing network
 
 ## General Considerations
 
