@@ -1,4 +1,4 @@
-@startuml daml-on-postgres
+@startuml daml-on-pg
 
 ' footer Kubernetes Plant-UML
 ' scale max 1024 width
