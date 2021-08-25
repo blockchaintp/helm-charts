@@ -2,8 +2,8 @@
 
 ## Configuration
 
-| field | description | type | default |
-|- |- |- |- |
+| field | description | default |
+|- |- |- |
 | imagePullSecrets.enabled | true if imagePullSecrets will be provided | false |
 | imagePullSecrets.value | a list of names of imagePullSecrets | [] |
 | `besu.seedNetwork` | whether or not this is a seed or genesis network | boolean | true |
@@ -82,27 +82,26 @@
 | daml.image.repository | the repository of the daml rpc image | `"dev.catenasys.com:8084/blockchaintp/rpc"` |
 | daml.image.tag | the tag of the daml rpc image | `"BTP2.1.0rc14"` |
 | daml.image.imagePullPolicy | the pull policy for the daml rpc image | `"IfNotPresent"` |
-| `daml.ledgerId` | ledger id for this participant | string | default-ledger-id |
-| `daml.annotations` | annotations for the daml rpc statefulset | map | null |
-| `daml.rpcCount` | number identical rpc participants to allocate | number | 1 |
-| `daml.rpc` | settings for daml-rpc | map | N/A |
-| `daml.rpc.env` | list of environment name/value dicts | map | nil |
-| `daml.rpc.extra_args` | extra arguments settings for daml-rpc | map | N/A |
-| `daml.rpc.extra_args.enabled` | if true add the extra arguments | boolean | false |
-| `daml.rpc.extra_args.arg_str` | string of extra arguments to add | string | nil |
-| `daml.rpc.participantId` | DAML participant id for this participant | string | daml-participant |
-| `daml.rpc.port` | DAML grpc listening port | int | 39000 |
-| `daml.rpc.postgres_url` | The URL of the index database as described here https://jdbc.postgresql.org/documentation/80/connect.html | string | jdbc:postgresql://localhost/postgres?user=postgres |
-| `daml.jsonapi.enabled` | Enabled the DAML JSON API | boolean | false |
-| `daml.jsonapi.image.repository` | repository for the jsonapi image | string | blockchaintp/daml-json-api |
-| `daml.jsonapi.image.tag` | tag for the jsonapi image | string | BTP2.1.0rc14 |
-| `daml.jsonapi.image.pullPolicy` | imagePullPolicy for container | string | IfNotPresent |
-| `daml.jsonapi.args` | extra args | string | nil |
-| `daml.jsonapi.env` | list of environment name/value dicts | map | nil |
-| `daml.jsonapi.packageReloadInterval` | how often to periodically check the daml-rpc for new daml packages | string | 5s |
-| `daml.jsonapi.waitTimeSeconds` | how long to wait for the daml-rpc server to come available | int | 0 (forever) |
-| `daml.extraVolumeMounts` | extra volume mounts for the daml-on-besu container | list | nil |
-| `daml.extraVolumes` | extra volume definitions for the daml-on-besu container | list | nil |
+| `daml.ledgerId` | ledger id for this participant | default-ledger-id |
+| `daml.annotations` | annotations for the daml rpc statefulset | {} |
+| `daml.rpcCount` | number identical rpc participants to allocate | 1 |
+| `daml.rpc.env` | list of environment name/value dicts | nil |
+| `daml.rpc.extra_args` | extra arguments settings for daml-rpc | N/A |
+| `daml.rpc.extra_args.enabled` | if true add the extra arguments | false |
+| `daml.rpc.extra_args.arg_str` | string of extra arguments to add | nil |
+| `daml.rpc.participantId` | DAML participant id for this participant | daml-participant |
+| `daml.rpc.port` | DAML grpc listening port | 39000 |
+| `daml.rpc.postgres_url` | The URL of the index database as described here https://jdbc.postgresql.org/documentation/80/connect.html | jdbc:postgresql://localhost/postgres?user=postgres |
+| `daml.jsonapi.enabled` | Enabled the DAML JSON API | false |
+| `daml.jsonapi.image.repository` | repository for the jsonapi image | blockchaintp/daml-json-api |
+| `daml.jsonapi.image.tag` | tag for the jsonapi image | BTP2.1.0rc14 |
+| `daml.jsonapi.image.pullPolicy` | imagePullPolicy for container | IfNotPresent |
+| `daml.jsonapi.args` | extra args | nil |
+| `daml.jsonapi.env` | list of environment name/value dicts | nil |
+| `daml.jsonapi.packageReloadInterval` | how often to periodically check the daml-rpc for new daml packages | 5s |
+| `daml.jsonapi.waitTimeSeconds` | how long to wait for the daml-rpc server to come available | 0 (forever) |
+| `daml.extraVolumeMounts` | extra volume mounts for the daml-on-besu container | nil |
+| `daml.extraVolumes` | extra volume definitions for the daml-on-besu container | nil |
 | postgres.enabled | true if the embedded postgres will be enabled | true |
 | postgres.image.repository | the docker image repository | postgres |
 | postgres.image.tag | the docker image tag | latest |
