@@ -1,0 +1,54 @@
+@startuml daml-on-postgres
+
+' footer Kubernetes Plant-UML
+' scale max 1024 width
+
+' skinparam nodesep 10
+' skinparam ranksep 10
+
+' Kubernetes
+!define KubernetesPuml https://raw.githubusercontent.com/dcasati/kubernetes-PlantUML/master/dist
+!define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/main/dist
+
+!include AWSPuml/AWSCommon.puml
+!include AWSPuml/Database/all.puml
+!include AWSPuml/ApplicationIntegration/APIGateway.puml
+
+!include KubernetesPuml/kubernetes_Common.puml
+' !includeurl KubernetesPuml/kubernetes_C4.puml
+!include KubernetesPuml/kubernetes_Context.puml
+
+!include KubernetesPuml/OSS/KubernetesSts.puml
+!include KubernetesPuml/OSS/KubernetesSvc.puml
+!include KubernetesPuml/OSS/KubernetesPod.puml
+
+
+' left to right direction
+
+' Kubernetes Components
+Cluster_Boundary(cluster, "Kubernetes Cluster") {
+    Namespace_Boundary(ns_daml, "daml") {
+        KubernetesSvc(daml_svc_grpc, "grpc", "tcp:39000 grpc(http2), tcp:8080 - jsonapi")
+        KubernetesSts(daml_sts_dop, "daml-on-postgres", "implements ledger api and logic")
+    }
+  daml_svc_jsonapi --> daml_sts_dop
+  daml_svc_grpc --> daml_sts_dop
+}
+
+note left of cluster
+At least two zones
+end note
+
+database damlindex as "Daml Index DB"
+daml_sts_dop --> damlindex
+
+APIGateway(jwksProvider, "JWKS Provider", "")
+actor actor
+
+jwksProvider <-- daml_sts_dop
+actor --> jwksProvider : <<jwt>>
+actor --> daml_svc_grpc: <<jwt>>
+
+
+
+@enduml
