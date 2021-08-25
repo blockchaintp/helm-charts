@@ -1,5 +1,5 @@
 # Deployment Diagram
 
-![Orion](diagrams/orion.png)
+![Orion](diagrams/daml-on-pg.png)
 
-[PlantUML Source](diagrams/orion.plantuml)
+[PlantUML Source](diagrams/daml-on-pg.plantuml)
