@@ -1,4 +1,4 @@
-# daml-on-sawtooth
+# Daml on Sawtooth Chart
 
 | field | description | type | default |
 |-|-|-|-|
