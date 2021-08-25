@@ -151,9 +151,9 @@ besu:
   ## @md | `besu.affinity` | custom affinity rules for the besu statefulset | nil |
   affinity: {}
   image:
-    ## @md | `besu.image.repository` | the repository of the besu image | `"quay.io/getbeyondblock/besu"` |
+    ## @md | `besu.image.repository` | the repository of the besu image | `"blockchaintp/besu"` |
     repository: blockchaintp/besu
-    ## @md | besu.image.tag | the tag of the besu image | `"v0.5.0"` |
+    ## @md | besu.image.tag | the tag of the besu image | `"BTP2.1.0rc14"` |
     tag: BTP2.1.0rc14
     ## @md | besu.image.imagePullPolicy | the pull policy for the besu image | `"IfNotPresent"` |
     imagePullPolicy: IfNotPresent

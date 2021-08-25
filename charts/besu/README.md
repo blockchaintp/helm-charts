@@ -64,8 +64,8 @@
 | besu.genesisFilePath | the path to the genesis file | `"/etc/genesis/genesis.json"` |
 | besu.logging | the logging level | `"info"` |
 | `besu.affinity` | custom affinity rules for the besu statefulset | nil |
-| `besu.image.repository` | the repository of the besu image | `"quay.io/getbeyondblock/besu"` |
-| besu.image.tag | the tag of the besu image | `"v0.5.0"` |
+| `besu.image.repository` | the repository of the besu image | `"blockchaintp/besu"` |
+| besu.image.tag | the tag of the besu image | `"BTP2.1.0rc14"` |
 | besu.image.imagePullPolicy | the pull policy for the besu image | `"IfNotPresent"` |
 | besu.p2p.enabled | true if the p2p listener will be enabled | true |
 | besu.p2p.discover | true if the p2p discovery will be enabled | true |
