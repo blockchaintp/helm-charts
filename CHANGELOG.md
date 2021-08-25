@@ -1,5 +1,22 @@
 # CHANGELOG
 
+## Unreleased
+
+* docs(orion): add docs for orion [view commit](https://github.com/catenasys/helm-charts/commit/662e37cd8628915b3a367f6dc225bbe58654be4d)
+* feat(orion): enable an embedded postgres chart [view commit](https://github.com/catenasys/helm-charts/commit/af12f518018f80291fb06f107e2d07597e8c62bb)
+* feat: add orion chart [view commit](https://github.com/catenasys/helm-charts/commit/92f128138ace87ecd367748cc3a85ff37e6b9ca4)
+* docs(besu): document the values.yaml parameters [view commit](https://github.com/catenasys/helm-charts/commit/d0f96f5210cd11c379293695309c566d5a8bc622)
+* docs: add daml-on-postgres values docs [view commit](https://github.com/catenasys/helm-charts/commit/1af5a3d8f95115ced2d3d7ceedea94c65f3763fc)
+* docs: add links to the various README.md files [view commit](https://github.com/catenasys/helm-charts/commit/2d22972c9af4cbdfb439dc5a5283128ee5597fa5)
+* docs: add deployment diagrams [view commit](https://github.com/catenasys/helm-charts/commit/c977ded5b8a39341034acdc0040b940145fa4189)
+* docs: reolve code block issues [view commit](https://github.com/catenasys/helm-charts/commit/da49545870df82356fd600b6cfb8b87c904c0972)
+* docs: reorganize docs and update besu upstream connectivity docs [view commit](https://github.com/catenasys/helm-charts/commit/cc26df85127a9fc0cd62cb60f57e3e22e8e67e62)
+* docs: add readthedocs configuration [view commit](https://github.com/catenasys/helm-charts/commit/f35791f46baff74cef934dc2b791fbac3d90bd1e)
+* build(deps): Bump glob-parent from 5.1.1 to 5.1.2 [view commit](https://github.com/catenasys/helm-charts/commit/4bac4f679b1c3ba77ebb57e73b4c7ffdbfdf2601)
+* build(deps): Bump hosted-git-info from 2.8.8 to 2.8.9 [view commit](https://github.com/catenasys/helm-charts/commit/6787f8d49fbac76f9da72f3a6dc408647839646d)
+* build(deps): Bump lodash from 4.17.19 to 4.17.21 [view commit](https://github.com/catenasys/helm-charts/commit/fa09f57dfe6488302db7884db269fdb4e708a208)
+* build(deps): Bump path-parse from 1.0.6 to 1.0.7 [view commit](https://github.com/catenasys/helm-charts/commit/efdc805a1e8a52d6247e926e74578f4a0e82d7d6)
+
 ## v0.2.51
 
 * fix(daml-on-postgres): correct the postgres hostname validator [view commit](https://github.com/catenasys/helm-charts/commit/ea61d9181e21501e6bbe39c9c7d546894d08fc88)
