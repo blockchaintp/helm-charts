@@ -1,0 +1,63 @@
+@startuml besu
+
+' Kubernetes
+!define KubernetesPuml https://raw.githubusercontent.com/dcasati/kubernetes-PlantUML/master/dist
+
+!include KubernetesPuml/kubernetes_Common.puml
+!include KubernetesPuml/kubernetes_Context.puml
+
+!include KubernetesPuml/OSS/KubernetesDeploy.puml
+!include KubernetesPuml/OSS/KubernetesSts.puml
+!include KubernetesPuml/OSS/KubernetesSvc.puml
+!include KubernetesPuml/OSS/KubernetesPvc.puml
+!include KubernetesPuml/OSS/KubernetesPod.puml
+!include KubernetesPuml/OSS/KubernetesCm.puml
+!include KubernetesPuml/OSS/KubernetesJob.puml
+
+
+Namespace_Boundary(besuns,"besu") {
+
+  KubernetesSts(besu, "besu", "4 nodes") {
+    KubernetesPod(besu0,"besu-0","")
+    KubernetesPod(besu1,"besu-1","")
+    KubernetesPod(besu2,"besu-2","")
+    KubernetesPod(besu3,"besu-3","")
+  }
+
+  KubernetesSvc(besusvc, "besu", "json-rpc - tcp:8545, ws - tcp:8546, graphql - tcp:8547, rlpx - tcp:30303")
+  KubernetesSvc(besusvc0, "besu-0", "json-rpc - tcp:8545, ws - tcp:8546, graphql - tcp:8547, rlpx - tcp:30303")
+  KubernetesSvc(besusvc1, "besu-1", "json-rpc - tcp:8545, ws - tcp:8546, graphql - tcp:8547, rlpx - tcp:30303")
+  KubernetesSvc(besusvc2, "besu-2", "json-rpc - tcp:8545, ws - tcp:8546, graphql - tcp:8547, rlpx - tcp:30303")
+  KubernetesSvc(besusvc3, "besu-3", "json-rpc - tcp:8545, ws - tcp:8546, graphql - tcp:8547, rlpx - tcp:30303")
+  KubernetesPvc(besu0pvc, "volume besu-0", "besu-0")
+  KubernetesPvc(besu1pvc, "volume besu-1", "besu-1")
+  KubernetesPvc(besu2pvc, "volume besu-2", "besu-2")
+  KubernetesPvc(besu3pvc, "volume besu-3", "besu-3")
+
+  besusvc --> besu
+  besusvc0 --> besu0
+  besusvc1 --> besu1
+  besusvc2 --> besu2
+  besusvc3 --> besu3
+
+  besu0 --> besu0pvc
+  besu1 --> besu1pvc
+  besu2 --> besu2pvc
+  besu3 --> besu3pvc
+
+  KubernetesCm(genesiscm, "genesis ConfigMap", "")
+  besu -l-> genesiscm: uses
+
+  KubernetesJob(initjob,"Initialization job","")
+  initjob --> genesiscm: produces
+
+}
+
+actor actor
+actor --> besusvc
+actor --> besusvc0
+actor --> besusvc1
+actor --> besusvc2
+actor --> besusvc3
+
+@enduml
