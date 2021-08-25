@@ -27,11 +27,10 @@
 
 ' Kubernetes Components
 Cluster_Boundary(cluster, "Kubernetes Cluster") {
-    Namespace_Boundary(ns_daml, "daml") {
-        KubernetesSvc(daml_svc_grpc, "grpc", "tcp:39000 grpc(http2), tcp:8080 - jsonapi")
-        KubernetesSts(daml_sts_dop, "daml-on-postgres", "implements ledger api and logic")
-    }
-  daml_svc_jsonapi --> daml_sts_dop
+  Namespace_Boundary(ns_daml, "daml") {
+      KubernetesSvc(daml_svc_grpc, "daml-on-postgres", "tcp:39000 grpc(http2), tcp:8080 - jsonapi")
+      KubernetesSts(daml_sts_dop, "daml-on-postgres", "implements ledger api and logic")
+  }
   daml_svc_grpc --> daml_sts_dop
 }
 
