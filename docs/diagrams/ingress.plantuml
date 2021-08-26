@@ -1,0 +1,38 @@
+@startuml ingress
+
+' Kubernetes
+!define k8s https://raw.githubusercontent.com/dcasati/kubernetes-PlantUML/master/dist
+
+!include k8s/kubernetes_Common.puml
+!include k8s/kubernetes_Context.puml
+
+!include k8s/OSS/all.puml
+
+left to right direction
+
+actor client
+
+Namespace_Boundary(ingress_ns,"ingress") {
+  KubernetesSvc(ingress_lb, "ingress-lb", "ingress managed LoadBalancer")
+  KubernetesPod(ingress_pod, "ingress-pod", "ingress managed Pod")
+
+  KubernetesIng(app1_ing, "app1 Ingress","")
+  KubernetesIng(app2_ing, "app2 Ingress","")
+
+  KubernetesSvc(app1_pod, "app1-svc", "app1 Service")
+  KubernetesSvc(app2_pod, "app2-svc", "app2 Service")
+
+}
+
+client --> ingress_lb: <<http>>
+ingress_lb ---> ingress_pod: <<http>>
+
+ingress_pod --> app1_pod: <<http>>
+ingress_pod --> app2_pod: <<http>>
+
+ingress_pod .l.> app1_ing: uses
+ingress_pod .l.> app2_ing: uses
+
+app1_ing ..> app1_pod: selects
+app2_ing ..> app2_pod: selects
+@enduml
