@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+* docs(daml-on-sawtooth): correct daml-on-sawtooth titles [view commit](https://github.com/catenasys/helm-charts/commit/21911357280b10e6bfe075e276e13bc3cca397fb)
+* docs(daml-on-postgres): correct diagrams [view commit](https://github.com/catenasys/helm-charts/commit/2e1811a69ed6c0e3de7eff510869c6659d8ad5da)
+* docs(daml-on-postgres): correct diagrams.md [view commit](https://github.com/catenasys/helm-charts/commit/b15c6d8ed11b4f3ab553623899603e320eb0bcc2)
+* docs(daml-on-postgres): diagrams update [view commit](https://github.com/catenasys/helm-charts/commit/5948a56ef834ad3f1c5985c595626686bea1ba84)
+* docs(daml-on-postgres): add diagrams [view commit](https://github.com/catenasys/helm-charts/commit/6b39080a9de4a30a2979a4f1fd71922e7ef9aaac)
+* docs(daml-on-besu): correct the values table [view commit](https://github.com/catenasys/helm-charts/commit/894eca0d09b7a0bc77001951e290a3df95852036)
+* docs(daml-on-besu): update values.yaml documentation [view commit](https://github.com/catenasys/helm-charts/commit/e1116d3771987d97a91152f3ad6022f441787a26)
+* docs(besu): corrections to values.yaml docs [view commit](https://github.com/catenasys/helm-charts/commit/b7fb20af6805728a49566201b0b064e1b8d83a0c)
+* docs: add CHANGELOG.md [view commit](https://github.com/catenasys/helm-charts/commit/d1387a564c01b88f125c32f2dad1afd654ff551b)
+* docs(besu): add deployment diagrams [view commit](https://github.com/catenasys/helm-charts/commit/77bfcd0183fd3cbf2547c7760395acba7d218abd)
 * docs(orion): add docs for orion [view commit](https://github.com/catenasys/helm-charts/commit/662e37cd8628915b3a367f6dc225bbe58654be4d)
 * feat(orion): enable an embedded postgres chart [view commit](https://github.com/catenasys/helm-charts/commit/af12f518018f80291fb06f107e2d07597e8c62bb)
 * feat: add orion chart [view commit](https://github.com/catenasys/helm-charts/commit/92f128138ace87ecd367748cc3a85ff37e6b9ca4)
@@ -21,7 +31,7 @@
 
 * fix(daml-on-postgres): correct the postgres hostname validator [view commit](https://github.com/catenasys/helm-charts/commit/ea61d9181e21501e6bbe39c9c7d546894d08fc88)
 
-## vault-0.0.2
+## tfs-on-sawtooth-0.6.0
 
 * fix(daml-on-besu-details): updates sextantVersion to bump chart versions and adds DAML SDK 1.4 [view commit](https://github.com/catenasys/helm-charts/commit/3cbd41fa56f6f2520b457cc6f1e6fe9db6c9c44c)
 * test(pre-commit-config): autoupdates hook repos and increases max line-length to 90 to accommodate helm chart descriptions [view commit](https://github.com/catenasys/helm-charts/commit/83fbf9661ad7ca279ebd3de97900ad95bd84757d)
