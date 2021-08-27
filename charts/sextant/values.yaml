@@ -126,6 +126,7 @@ ingress:
   # - host: chart-example.local
   #   paths: []
 
+  pathType: ImplementationSpecific
   ## @md | `ingress.tls` | Sextant ingress TLS cofiguration | list | [] |
   tls: []
   #  - secretName: chart-example-tls
