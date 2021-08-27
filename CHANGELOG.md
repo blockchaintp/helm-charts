@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* docs: add services overview [view commit](https://github.com/catenasys/helm-charts/commit/057ef69a78d9759e46dd5b679f3f40291c7b1372)
 * docs(daml-on-sawtooth): correct daml-on-sawtooth titles [view commit](https://github.com/catenasys/helm-charts/commit/21911357280b10e6bfe075e276e13bc3cca397fb)
 * docs(daml-on-postgres): correct diagrams [view commit](https://github.com/catenasys/helm-charts/commit/2e1811a69ed6c0e3de7eff510869c6659d8ad5da)
 * docs(daml-on-postgres): correct diagrams.md [view commit](https://github.com/catenasys/helm-charts/commit/b15c6d8ed11b4f3ab553623899603e320eb0bcc2)
