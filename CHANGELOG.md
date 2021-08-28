@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* fix(sextant): corrections to detect ingress caps [view commit](https://github.com/catenasys/helm-charts/commit/898fa734c70690b012f572a4b67fdc0fd0ec56a2)
+* fix(sextant): key the type of Ingress apiVersion on capability [view commit](https://github.com/catenasys/helm-charts/commit/9774bf03e25519ffe5c0b39c872fbe878b2003d0)
 * docs: add services overview [view commit](https://github.com/catenasys/helm-charts/commit/057ef69a78d9759e46dd5b679f3f40291c7b1372)
 * docs(daml-on-sawtooth): correct daml-on-sawtooth titles [view commit](https://github.com/catenasys/helm-charts/commit/21911357280b10e6bfe075e276e13bc3cca397fb)
 * docs(daml-on-postgres): correct diagrams [view commit](https://github.com/catenasys/helm-charts/commit/2e1811a69ed6c0e3de7eff510869c6659d8ad5da)
