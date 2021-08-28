@@ -1,6 +1,10 @@
 # CHANGELOG
 
-## Unreleased
+## v0.2.53
+
+* fix(sextant): correct ingress path [view commit](https://github.com/catenasys/helm-charts/commit/b050b9b9cab3fadda90a6a2a562e7ff3e8c8a69b)
+
+## v0.2.52
 
 * fix(sextant): corrections to detect ingress caps [view commit](https://github.com/catenasys/helm-charts/commit/898fa734c70690b012f572a4b67fdc0fd0ec56a2)
 * fix(sextant): key the type of Ingress apiVersion on capability [view commit](https://github.com/catenasys/helm-charts/commit/9774bf03e25519ffe5c0b39c872fbe878b2003d0)
