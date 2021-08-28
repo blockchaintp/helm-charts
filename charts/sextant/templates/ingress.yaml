@@ -1,6 +1,7 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "sextant.fullname" . -}}
 {{- $svcPort := .Values.service.port -}}
+{{- $ingressPathType := .Values.ingress.pathType -}}
 {{- $apiV1 := false -}}
 {{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" -}}
 apiVersion: networking.k8s.io/v1
@@ -45,7 +46,7 @@ spec:
                 port:
                   number: {{ $svcPort }}
           {{- else }}
-          - path: {{ $ingressPath }}
+          - path: {{ . }}
             backend:
               serviceName: {{ $fullName }}
               servicePort: {{ $svcPort }}
