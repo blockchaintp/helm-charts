@@ -1,7 +1,14 @@
 # CHANGELOG
 
-## Unreleased
+## v0.2.54
 
+* feat(daml-on-besu): enable private transaction features [view commit](https://github.com/catenasys/helm-charts/commit/c2266349252182b31d2ff304832f4afb05f6cb91)
+* fix(besu): synch up with daml-on-besu developments [view commit](https://github.com/catenasys/helm-charts/commit/b5a8db78473593939bc7aaefcb1ebd3c515741ff)
+* feat(besu): add the ability to link besu to orion [view commit](https://github.com/catenasys/helm-charts/commit/78ee7e5559b0a839a3d7053f64eb0bb85f7bafaf)
+* test(daml-on-besu): add stable names test [view commit](https://github.com/catenasys/helm-charts/commit/c7146a1fabb9444434f8608b381984150c2c17ad)
+* test(sawtooth): add stable names tests [view commit](https://github.com/catenasys/helm-charts/commit/f17ba794bf3d7cff76bbc5cab5f20b071b818903)
+* test(daml-on-sawtooth): add stable names tests [view commit](https://github.com/catenasys/helm-charts/commit/e2dadac12a924e22a130a81f73724400614d0395)
+* test(orion): add stable name testing [view commit](https://github.com/catenasys/helm-charts/commit/6e3c9a1e9c013e0bd9464ca22f7a0bd60c31080b)
 * feat: add a library chart defining common templates [view commit](https://github.com/catenasys/helm-charts/commit/0408ece04924625a50884ef539278952675125a4)
 * docs: add docs/daml overview [view commit](https://github.com/catenasys/helm-charts/commit/eb3ecad6ceba7176536a0045a030ca2f4ccbc6be)
 
