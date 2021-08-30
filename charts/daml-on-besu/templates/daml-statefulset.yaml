@@ -68,8 +68,37 @@ spec:
             {{- toYaml $.Values.daml.extraVolumeMounts | nindent 12 }}
           resources: {{ toYaml .Values.daml.jsonapi.resources | nindent 12 }}
         {{- end }}
+        {{ if .Values.besu.privacy.enabled }}
+          {{ if .Values.daml.repeater.enabled }}
+        - name: repeater
+          image: "{{.Values.daml.repeater.repository}}:{{.Values.daml.repeater.tag}}"
+          imagePullPolicy: {{.Values.daml.repeater.pullPolicy }}
+          command:
+            - bash
+            - -xc
+          args:
+            - |
+              sleep 90
+              /opt/daml-on-besu/repeater/entrypoint.sh \
+              --json-config-file /config/config.json \
+              --upstream-json-rpc-url http://{{include "besu.fullname" .}}:{{.Values.besu.rpc.port}} \
+              --downstream-json-rpc-url http://{{include "besu.fullname" .}}-0:{{.Values.besu.rpc.port}} \
+              --private-key-file /keys/{{ include "daml.fullname" .}}-repeater \
+              --participant-id {{ include "daml.repeater.participantId" . }}  \
+              --logging=debug
+          volumeMounts:
+            - mountPath: /config
+              name: "config"
+            - mountPath: /keys
+              name: networkkeys-config
+              readOnly: true
+            - mountPath: /besu-keys
+              name: besu-keys
+              readOnly: true
+          {{ end }}
+        {{ end }}
         - name: daml-on-besu
-          {{- if .Values.daml.privacy.enabled }}
+          {{- if .Values.besu.privacy.enabled }}
           image: "{{.Values.daml.privateImage.repository}}:{{.Values.daml.image.tag}}"
           {{- else }}
           image: "{{.Values.daml.image.repository}}:{{.Values.daml.image.tag}}"
@@ -83,14 +112,17 @@ spec:
           args:
             - |
               sleep 120
-              {{- if .Values.daml.privacy.enabled }}
+              {{- if .Values.besu.privacy.enabled }}
               /opt/daml-on-besu/private-rpc/entrypoint.sh \
+                --use-private-reader-writer true \
+                --committer-participant-id {{ include "daml.repeater.participantId" . }} \
+                --json-config-file /config/config.json \
               {{- else }}
               /opt/daml-on-besu/rpc/entrypoint.sh \
               {{- end }}
-                --json-rpc-url http://{{include "besu.fullname" .}}:{{.Values.besu.rpc.port}} \
+                --json-rpc-url http://{{include "besu.fullname" .}}-0:{{.Values.besu.rpc.port}} \
                 --participant port={{.Values.daml.rpc.port}},address=0.0.0.0,participant-id={{.Values.daml.rpc.participantId}},server-jdbc-url=$POSTGRES_URL \
-                --private-key-file /keys/{{ include "besu.fullname" .}}-rpc-0 \
+                --private-key-file /keys/{{ include "daml.fullname" .}}-rpc-0 \
                 --ledger-id {{.Values.daml.ledgerId }} \
                 {{- if .Values.daml.auth.enabled }}
                 --auth-jwt-rs256-crt /secrets/jwt/jwt.crt \
@@ -106,8 +138,16 @@ spec:
             {{- toYaml .Values.daml.rpc.env | nindent 12 }}
             {{ end }}
           volumeMounts:
+            {{- if .Values.besu.privacy.enabled }}
+            - mountPath: /config
+              name: config
+              readOnly: true
+            {{- end }}
             - mountPath: /keys
               name: networkkeys-config
+              readOnly: true
+            - mountPath: /besu-keys
+              name: besu-keys
               readOnly: true
             - mountPath: /dev/random
               name: dev-random
@@ -119,11 +159,47 @@ spec:
             {{- toYaml .Values.daml.extraVolumeMounts | nindent 12 }}
             {{- end }}
           resources: {{ toYaml .Values.daml.rpc.resources | nindent 12 }}
+      initContainers:
+      {{- if .Values.besu.privacy.enabled }}
+        - name: rpc-init
+          image: "{{.Values.k8s.image.repository }}:{{ .Values.k8s.image.tag }}"
+          imagePullPolicy: {{ .Values.besu.image.imagePullPolicy }}
+          command:
+            - bash
+            - -xc
+          args:
+            - |
+              echo "{ \"participants\": [ { \
+                \"name\": \"{{.Values.daml.rpc.participantId}}\"", \
+                \"participant\": \"{{.Values.daml.rpc.participantId }}\"", \
+                \"besuPublicKey\": \"$(cat /keys/{{ include "daml.fullname" .}}-rpc-0.pub)\", \
+                \"orionPublicKey\": \"$(cat /enclave/orion.pub)\" }, {\
+                \"name\": \"{{ include "daml.repeater.participantId" . }}\", \
+                \"participant\": \"{{ include "daml.repeater.participantId" . }}\", \
+                \"besuPublicKey\": \"$(cat /keys/{{ include "daml.fullname" .}}-repeater.pub)\", \
+                \"orionPublicKey\": \"$(cat /enclave/orion.pub)\" } ] }" > /config/config.json
+          volumeMounts:
+            - mountPath: /keys
+              name: networkkeys-config
+              readOnly: true
+            - mountPath: /besu-keys
+              name: besu-keys
+              readOnly: true
+            - mountPath: /enclave
+              name: enclave
+            - mountPath: /repeater
+              name: repeater-enclave
+            - mountPath: /config
+              name: config
+      {{- end }}
       restartPolicy: Always
       volumes:
         - name: networkkeys-config
           secret:
             secretName: {{include "daml.fullname" .}}-rpc-keys
+        - name: besu-keys
+          secret:
+            secretName: {{include "besu.fullname" .}}-keys
         - name: dev-random
           hostPath:
             path: /dev/random
@@ -135,6 +211,16 @@ spec:
         - name: jwt-secret
           secret:
             secretName: {{ .Values.deployment.name }}-cert
+        {{- if .Values.besu.privacy.enabled }}
+        - name: enclave
+          configMap:
+            name: {{ include "besu.enclave.key.configmap" . }}
+        - name: repeater-enclave
+          configMap:
+            name: {{ include "besu.repeater.key.configmap" . }}
+        - name: config
+          emptyDir: {}
+        {{ end }}
         {{- if .Values.daml.extraVolumes }}
         {{- toYaml .Values.daml.extraVolumes | nindent 8 }}
         {{- end }}

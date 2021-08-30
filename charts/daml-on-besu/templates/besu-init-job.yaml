@@ -7,7 +7,9 @@ metadata:
   labels:
 {{ include "besu.labels" . | indent 4 }}
   annotations:
-    helm.sh/hook-delete-policy: "hook-succeeded"
+    helm.sh/hook: post-install
+    helm.sh/hook-weight: "-5"
+    helm.sh/hook-delete-policy: hook-succeeded
 spec:
   backoffLimit: 3
   completions: 1
@@ -34,9 +36,11 @@ spec:
               if [ $? -ne 0 ]; then
                 mkdir -p /tmp/keys
                 for replica in $(seq 0 {{.Values.daml.rpcCount}}); do
-                  /opt/besu/bin/besu public-key export
+                  /opt/besu/bin/besu public-key export | tail -1 >> /tmp/keys/{{ include "daml.fullname" . }}-rpc-$replica.pub
                   mv /opt/besu/key /tmp/keys/{{ include "daml.fullname" . }}-rpc-$replica
                 done
+                /opt/besu/bin/besu public-key export | tail -1 >> /tmp/keys/{{ include "daml.fullname" . }}-repeater.pub
+                mv /opt/besu/key /tmp/keys/{{ include "daml.fullname" . }}-repeater
                 ./kubectl create secret generic {{include "daml.fullname" .}}-rpc-keys \
                   --namespace {{.Release.Namespace}} \
                   --from-file=/tmp/keys

@@ -16,16 +16,17 @@ imagePullSecrets:
 deployment:
   name: default
   namespace: default
+
 besu:
-  ## @md | `besu.seedNetwork` | whether or not this is a seed or genesis network | boolean | true |
+  ## @md | `besu.seedNetwork` | whether or not this is a seed or genesis network | true |
   seedNetwork: true
-  ## @md | `besu.seedGenesis` | the genesis configuration used if this is not a seed network | string | nil |
+  ## @md | `besu.seedGenesis` | the genesis configuration used if this is not a seed network | nil |
   seedGenesis:
-  ## @md | `besu.additionalBootnodeUrls` | A list of enode defining objects defined as below | list | `[]` |
+  ## @md | `besu.additionalBootnodeUrls` | A list of enode defining objects defined as below | `[]` |
   additionalBootnodeUrls: []
-  ## @md | `besu.additionalBootnodeUrls[].pubkey` | the public key of the enode url | string | |
-  ## @md | `besu.additionalBootnodeUrls[].host` | the hostname of the enode url (it will be resolved if not an ip) | string | |
-  ## @md | `besu.additionalBootnodeUrls[].port` | the port for the enode url | number | |
+  ## @md | `besu.additionalBootnodeUrls[].pubkey` | the public key of the enode url | |
+  ## @md | `besu.additionalBootnodeUrls[].host` | the hostname of the enode url (it will be resolved if not an ip) | |
+  ## @md | `besu.additionalBootnodeUrls[].port` | the port for the enode url | |
   # - pubkey:  abcdef1234567890
   #   host: somehostname
   #   port: 30303
@@ -60,7 +61,7 @@ besu:
     ## @md | besu.rpc.host | the address to bind the json-rpc to | `"0.0.0.0"` |
     host: "0.0.0.0"
     ## @md | besu.rpc.api | the list of APIs to expose | `'["DEBUG","ETH", "ADMIN", "WEB3", "IBFT", "NET"]'` |
-    api: '["DEBUG","ETH", "ADMIN", "WEB3", "IBFT", "NET"]'
+    api: '["DEBUG", "ETH", "ADMIN", "WEB3", "IBFT", "NET", "EEA", "PRIV"]'
     ## @md | besu.rpc.port | the port to bind the json-rpc | `8545` |
     port: 8545
     ## @md | besu.rpc.corsOrigins | the list of cors origins to allow | `'["all"]'` |
@@ -71,7 +72,7 @@ besu:
     ## @md | besu.ws.enabled | true if the besu ws listener will be enabled | false |
     enabled: false
     ## @md | besu.ws.api | the list of APIs to expose on the websocket listener | `'["DEBUG", "ETH", "WEB3", "NET"]'` |
-    api: '["DEBUG", "ETH", "WEB3", "NET"]'
+    api: '["DEBUG", "ETH", "ADMIN", "WEB3", "IBFT", "NET", "EEA", "PRIV"]'
     ## @md | besu.ws.host | the address to bind the websocket listener to | `"0.0.0.0"` |
     host: "0.0.0.0"
     ## @md | besu.ws.port | the port to bind the websocket listener to | `8546` |
@@ -133,10 +134,12 @@ besu:
   privacy:
     ## @md | besu.privacy.enabled | true if the private transactions are enabled on this node | false |
     enabled: false
-    ## @md | besu.privacy.url | the url to the private transaction manager | `"http://localhost:8080"` |
-    url: "http://127.0.0.1:8888"
-    ## @md | besu.private.precompileAddress | the precompiled address of the privacy contract | `9` |
+    ## @md | besu.privacy.url | the url to the private transaction manager | nil |
+    url:
+    ## @md | besu.privacy.precompileAddress | the precompiled address of the privacy contract | `9` |
     precompileAddress: 9
+    ## @md | besu.privacy.enclaveKeyConfigMap | the name of a configmap containing the enclave public Key | nil |
+    enclaveKeyConfigMap:
   genesis:
     ## @md | besu.genesis.ibftBlockPeriodSeconds | the ibft block period in seconds | `2` |
     ibftBlockPeriodSeconds: 2
@@ -207,6 +210,17 @@ daml:
   annotations: {}
   ## @md | `daml.rpcCount` | number identical rpc participants to allocate | 1 |
   rpcCount: 1
+  repeater:
+    ## @md | `daml.repeater.repository` | url of the repeater repository | dev.catenasys.com:8084/blockchaintp/repeater |
+    repository: dev.catenasys.com:8084/blockchaintp/repeater
+    ## @md | `daml.repeater.tag` | tag of the repeater image | BTP2.1.0rc14 |
+    tag: BTP2.1.0rc14
+    ## @md | `daml.repeater.pullPolicy` | pullPolicy of the repeater image | BTP2.1.0rc14 |
+    pullPolicy: IfNotPresent
+    ## @md | `daml.repeater.enabled` | the repeater repeats items from the central committer to the various participants | BTP2.1.0rc14 |
+    enabled: false
+    ## @md | `daml.repeater.participantId` | the pariticipantId of the central committer | nil |
+    participantId:
   rpc:
     ## @md | `daml.rpc.env` | list of environment name/value dicts | nil |
     env:
@@ -248,6 +262,11 @@ daml:
   extraVolumeMounts: []
   ## @md | `daml.extraVolumes` | extra volume definitions for the daml-on-besu container | nil |
   extraVolumes: []
+
+
+orion:
+  ## @md | orion.create | if true, an orion instance will be created, and used if `besu.privacy.enabled==true` | false |
+  create: false
 
 postgres:
   # If true dynamically allocate a postgres database, otherwise expect

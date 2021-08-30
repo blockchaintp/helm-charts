@@ -6,12 +6,12 @@
 |- |- |- |
 | imagePullSecrets.enabled | true if imagePullSecrets will be provided | false |
 | imagePullSecrets.value | a list of names of imagePullSecrets | [] |
-| `besu.seedNetwork` | whether or not this is a seed or genesis network | boolean | true |
-| `besu.seedGenesis` | the genesis configuration used if this is not a seed network | string | nil |
-| `besu.additionalBootnodeUrls` | A list of enode defining objects defined as below | list | `[]` |
-| `besu.additionalBootnodeUrls[].pubkey` | the public key of the enode url | string | |
-| `besu.additionalBootnodeUrls[].host` | the hostname of the enode url (it will be resolved if not an ip) | string | |
-| `besu.additionalBootnodeUrls[].port` | the port for the enode url | number | |
+| `besu.seedNetwork` | whether or not this is a seed or genesis network | true |
+| `besu.seedGenesis` | the genesis configuration used if this is not a seed network | nil |
+| `besu.additionalBootnodeUrls` | A list of enode defining objects defined as below | `[]` |
+| `besu.additionalBootnodeUrls[].pubkey` | the public key of the enode url | |
+| `besu.additionalBootnodeUrls[].host` | the hostname of the enode url (it will be resolved if not an ip) | |
+| `besu.additionalBootnodeUrls[].port` | the port for the enode url | |
 | besu.persistence.enabled | true if the besu persistence will be enabled | true |
 | besu.persistence.annotations | annotations to be added to the persistence volume | `{}` |
 | besu.persistence.accessMode | the access mode for the persistence volume | `ReadWriteOnce` |
@@ -56,8 +56,9 @@
 | besu.permissions.accounts.enabled | true if the account permissions will be enabled | false |
 | besu.permissions.accounts.whitelist | a list of whitelisted accounts | `[]` |
 | besu.privacy.enabled | true if the private transactions are enabled on this node | false |
-| besu.privacy.url | the url to the private transaction manager | `"http://localhost:8080"` |
-| besu.private.precompileAddress | the precompiled address of the privacy contract | `9` |
+| besu.privacy.url | the url to the private transaction manager | nil |
+| besu.privacy.precompileAddress | the precompiled address of the privacy contract | `9` |
+| besu.privacy.enclaveKeyConfigMap | the name of a configmap containing the enclave public Key | nil |
 | besu.genesis.ibftBlockPeriodSeconds | the ibft block period in seconds | `2` |
 | besu.genesis.ibftEpochLength | the ibft epoch length in blocks | `30000` |
 | besu.genesis.ibftRequestTimeoutSeconds | ibft request timeout  | `10` |
@@ -85,6 +86,11 @@
 | `daml.ledgerId` | ledger id for this participant | default-ledger-id |
 | `daml.annotations` | annotations for the daml rpc statefulset | {} |
 | `daml.rpcCount` | number identical rpc participants to allocate | 1 |
+| `daml.repeater.repository` | url of the repeater repository | dev.catenasys.com:8084/blockchaintp/repeater |
+| `daml.repeater.tag` | tag of the repeater image | BTP2.1.0rc14 |
+| `daml.repeater.pullPolicy` | pullPolicy of the repeater image | BTP2.1.0rc14 |
+| `daml.repeater.enabled` | the repeater repeats items from the central committer to the various participants | BTP2.1.0rc14 |
+| `daml.repeater.participantId` | the pariticipantId of the central committer | nil |
 | `daml.rpc.env` | list of environment name/value dicts | nil |
 | `daml.rpc.extra_args` | extra arguments settings for daml-rpc | N/A |
 | `daml.rpc.extra_args.enabled` | if true add the extra arguments | false |
@@ -102,6 +108,7 @@
 | `daml.jsonapi.waitTimeSeconds` | how long to wait for the daml-rpc server to come available | 0 (forever) |
 | `daml.extraVolumeMounts` | extra volume mounts for the daml-on-besu container | nil |
 | `daml.extraVolumes` | extra volume definitions for the daml-on-besu container | nil |
+| orion.create | if true, an orion instance will be created, and used if `besu.privacy.enabled==true` | false |
 | postgres.enabled | true if the embedded postgres will be enabled | true |
 | postgres.image.repository | the docker image repository | postgres |
 | postgres.image.tag | the docker image tag | latest |

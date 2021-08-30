@@ -18,8 +18,17 @@ type: application
 # This is the chart version. This version number should be incremented each
 # time you make changes to the chart and its templates, including the app
 # version.
-version: 0.0.39
+version: 0.0.40
 
 # This is the version number of the application being deployed. This version
 # number should be incremented each time you make changes to the application.
 appVersion: 1.4.0
+
+dependencies:
+  - condition: orion.create
+    name: orion
+    version: ~0.1.0
+    repository: https://btp-charts-unstable.s3.amazonaws.com/charts/
+  - name: standard-defs
+    version: ~0.1.0
+    repository: https://btp-charts-unstable.s3.amazonaws.com/charts/
