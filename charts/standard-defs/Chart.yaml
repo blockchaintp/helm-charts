@@ -1,0 +1,13 @@
+apiVersion: v2
+name: standard-defs
+description: BTP Standard Template definitions and dependencies
+type: library
+version: 0.1.0
+appVersion: 0.1.0
+
+dependencies:
+  # Bitnami's very useful library of common templates
+  - name: common
+
+    repository: https://charts.bitnami.com/bitnami
+    version: ~1.8.0
