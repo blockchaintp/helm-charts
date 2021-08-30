@@ -22,5 +22,6 @@
 * [sextant-sfd](charts/sextant-sfd/README.md)
 * [sextant-sfs](charts/sextant-sfs/README.md)
 * [sextant-test](charts/sextant-test/README.md)
+* [standard-defs](charts/standard-defs/README.md)
 * [tfs-on-sawtooth](charts/tfs-on-sawtooth/README.md)
 * [vault](charts/vault/README.md)
