@@ -133,7 +133,7 @@ besu:
   privacy:
     ## @md | besu.privacy.enabled | true if the private transactions are enabled on this node | false |
     enabled: false
-    ## @md | besu.privacy.url | the url to the private transaction manager | `"http://localhost:8080"` |
+    ## @md | besu.privacy.url | the url to the private transaction manager | nil |
     url:
     ## @md | besu.privacy.precompileAddress | the precompiled address of the privacy contract | `9` |
     precompileAddress: 9

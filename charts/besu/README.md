@@ -56,7 +56,7 @@
 | besu.permissions.accounts.enabled | true if the account permissions will be enabled | false |
 | besu.permissions.accounts.whitelist | a list of whitelisted accounts | `[]` |
 | besu.privacy.enabled | true if the private transactions are enabled on this node | false |
-| besu.privacy.url | the url to the private transaction manager | `"http://localhost:8080"` |
+| besu.privacy.url | the url to the private transaction manager | nil |
 | besu.privacy.precompileAddress | the precompiled address of the privacy contract | `9` |
 | besu.privacy.enclaveKeyConfigMap | the name of a configmap containing the enclave public Key | nil |
 | besu.genesis.ibftBlockPeriodSeconds | the ibft block period in seconds | `2` |
