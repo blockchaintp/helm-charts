@@ -58,22 +58,26 @@ setup_dist:
 define helm_tmpl =
 .PHONY: helmlint-$(1) helmdep-$(1) helmpkg-$(1) helmdoc-$(1) $(1)
 tmpl-dep: helmdep-$(1)
+tmpl-lint: helmlint-$(1)
+tmpl-unit: helmunit-$(1)
+tmpl-docs: helmdoc-$(1)
+tmpl-test: helmtest-$(1)
+tmpl-pkg: helmpkg-$(1) helmdoc-$(1)
 helmdep-$(1): repos.helm
 	$(TMPL_TOOL_RUN) -c "cd /project/$(CHART_BASE)/$(1); \
 		helm dependency update --skip-refresh ./"
-tmpl-lint: helmlint-$(1)
 helmlint-$(1): helmdep-$(1) tool.docker
 	$(TMPL_TOOL_RUN) -c "cd /project/$(CHART_BASE)/$(1); \
 		helm lint ./"
-tmpl-docs: helmdoc-$(1)
+helmunit-$(1): helmlint-$(1) tool.docker
+	docker run --rm -v $(PWD)/$(CHART_BASE):/apps quintush/helm-unittest \
+		--helm3 $(1)
 helmdoc-$(1):
 	cd charts/$(1); mddoc values.yaml > README.md
-tmpl-test: helmtest-$(1)
-helmtest-$(1): helmlint-$(1)
+helmtest-$(1): helmunit-$(1)
 	$(TMPL_TOOL_RUN) -c "cd /project/$(CHART_BASE)/$(1); \
 		helm test ./"
-tmpl-pkg: helmpkg-$(1) helmdoc-$(1)
-helmpkg-$(1): setup_dist helmlint-$(1)
+helmpkg-$(1): setup_dist helmunit-$(1)
 	$(TMPL_TOOL_RUN) -c "cd /project/$(CHART_BASE)/$(1); \
 		helm package ./ --destination=/project/dist"
 $(1): helmlint-$(1) helmdep-$(1) helmpkg-$(1)
@@ -113,7 +117,7 @@ docs: tmpl-docs
 	for f in $$(find charts -name README.md| awk -F/ '{print $$2}' | sort); do  chart_name=$$f; echo \* \[$$chart_name\]\(charts/$$chart_name/README.md\); done >> README.md
 
 .PHONY: test
-test:
+test: tmpl-unit
 
 .PHONY: pkg
 pkg: tmpl-pkg
