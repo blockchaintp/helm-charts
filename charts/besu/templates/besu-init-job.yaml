@@ -6,7 +6,9 @@ metadata:
   labels:
 {{ include "besu.labels" . | indent 4 }}
   annotations:
-    helm.sh/hook-delete-policy: "hook-succeeded"
+    helm.sh/hook: post-install
+    helm.sh/hook-weight: "-5"
+    helm.sh/hook-delete-policy: hook-succeeded
 spec:
   backoffLimit: 3
   completions: 1
@@ -18,6 +20,7 @@ spec:
       serviceAccountName: {{ include "besu.serviceAccountName" . }}
       restartPolicy: Never
       containers:
+{{- if .Values.besu.seedNetwork }}
         - name: genesis
           image: "{{.Values.besu.image.repository }}:{{ .Values.besu.image.tag }}"
           securityContext:
@@ -35,34 +38,34 @@ spec:
                 -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
               chmod +x ./kubectl
               ./kubectl get cm {{ include "besu.fullname" .}}-genesis
-              if [ $? -eq 0 ]; then
-                exit
-              fi
-              mkdir -p /tmp/genesis
-              /opt/besu/bin/besu operator generate-blockchain-config \
-                --config-file=/genesis-config/config.json --to=/tmp/genesis
-              ./kubectl create configmap --namespace {{ .Release.Namespace }} {{ include "besu.fullname" . }}-genesis --from-file=genesis.json=/tmp/genesis/genesis.json
+              if [ $? -ne 0 ]; then
+                mkdir -p /tmp/genesis
+                /opt/besu/bin/besu operator generate-blockchain-config \
+                  --config-file=/genesis-config/config.json --to=/tmp/genesis
+                ./kubectl create configmap --namespace {{ .Release.Namespace }} {{ include "besu.fullname" . }}-genesis --from-file=genesis.json=/tmp/genesis/genesis.json
 
-              count=0
-              secret_args=()
-              pubkey_args=()
-              enode_args=()
-              for f in /tmp/genesis/keys/*; do
-                if [ -d ${f} ]; then
-                  sed 's/^0x//' ${f}/key.pub > ${f}/enode.key
-                  secret_args[$count]="--from-file={{include "besu.fullname" .}}-$count=${f}/key.priv"
-                  pubkey_args[$count]="--from-file={{include "besu.fullname" .}}-$count.pub=${f}/key.pub"
-                  enode_args[$count]="--from-file={{include "besu.fullname" .}}-$count.enode=${f}/enode.key"
-                  count=$((count + 1))
-                fi
-              done
-              ./kubectl create secret generic {{include "besu.fullname" .}}-keys --namespace {{.Release.Namespace}} \
-                "${secret_args[@]}" "${pubkey_args[@]}"
-              ./kubectl create secret generic {{include "besu.fullname" .}}-pubkeys --namespace {{.Release.Namespace}} \
-                "${pubkey_args[@]}"
-              ./kubectl create secret generic {{include "besu.fullname" .}}-enode --namespace {{.Release.Namespace}} \
-                "${enode_args[@]}"
+                count=0
+                secret_args=()
+                pubkey_args=()
+                enode_args=()
+                for f in /tmp/genesis/keys/*; do
+                  if [ -d ${f} ]; then
+                    sed 's/^0x//' ${f}/key.pub > ${f}/enode.key
+                    secret_args[$count]="--from-file={{include "besu.fullname" .}}-$count=${f}/key.priv"
+                    pubkey_args[$count]="--from-file={{include "besu.fullname" .}}-$count.pub=${f}/key.pub"
+                    enode_args[$count]="--from-file={{include "besu.fullname" .}}-$count.enode=${f}/enode.key"
+                    count=$((count + 1))
+                  fi
+                done
+                ./kubectl create secret generic {{include "besu.fullname" .}}-keys --namespace {{.Release.Namespace}} \
+                  "${secret_args[@]}" "${pubkey_args[@]}"
+                ./kubectl create secret generic {{include "besu.fullname" .}}-pubkeys --namespace {{.Release.Namespace}} \
+                  "${pubkey_args[@]}"
+                ./kubectl create secret generic {{include "besu.fullname" .}}-enode --namespace {{.Release.Namespace}} \
+                  "${enode_args[@]}"
+              fi
       volumes:
         - name: genesis-config
           configMap:
             name: {{ include "besu.fullname" . }}-genesis-cm
+{{- end }}

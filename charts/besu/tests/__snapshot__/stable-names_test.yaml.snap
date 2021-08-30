@@ -1,0 +1,18 @@
+check for stable PVC names:
+  1: |
+    data
+check for stable entity names (services, statefulsets, serviceaccounts):
+  1: |
+    test-besu
+  2: |
+    test-besu
+  3: |
+    test-besu
+  4: |
+    test-besu-0
+  5: |
+    test-besu-1
+  6: |
+    test-besu-2
+  7: |
+    test-besu-3

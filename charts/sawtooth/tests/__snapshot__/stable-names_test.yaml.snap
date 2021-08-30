@@ -1,0 +1,9 @@
+check for stable entity names (services, statefulsets, serviceaccounts):
+  1: |
+    mynetwork-sa
+  2: |
+    mynetwork-validator
+  3: |
+    mynetwork-rest-api
+  4: |
+    mynetwork-validator

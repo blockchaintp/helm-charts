@@ -92,6 +92,7 @@ charts: pkg post_correct_ownership
 .PHONY: correct_ownership
 correct_ownership: tool.docker
 	$(TOOL_RUN) -c "find /project -name dist -exec chown -R $(UID):$(GID) {} \;"
+	$(TOOL_RUN) -c "find /project -name __snapshot__ -exec chown -R $(UID):$(GID) {} \;"
 	$(TOOL_RUN) -c "find /project/$(CHART_BASE) -mindepth 2 -name charts -type d \
 		-exec chown -R $(UID):$(GID) {} \;"
 	$(TOOL_RUN) -c "find /project/$(CHART_BASE) -name requirements.lock \

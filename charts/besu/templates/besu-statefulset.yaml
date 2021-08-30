@@ -26,6 +26,9 @@ spec:
         prometheus.io/scrape: "true"
         prometheus.io/port: "9545"
         prometheus.io/path: "/metrics"
+        {{- if .Values.besu.annotations }}
+        {{- toYaml .Values.besu.annotations | nindent 8 }}
+        {{- end }}
     spec:
       serviceAccountName: {{ include "besu.serviceAccountName" . }}
       affinity:
@@ -46,45 +49,34 @@ spec:
             - bash
             - -xc
             - |
-              {{- if .Values.besu.seedNetwork }}
               bootnode={{include "besu.fullname" .}}-0
+              BOOT_NODE_ARGS=()
+            {{- if .Values.besu.seedNetwork }}
               if [ ! -r /data/database/CURRENT ] && [ "$POD_NAME" = "$bootnode" ]; then
                 BOOT_NODE_ARGS=()
               else
-                bootnode_ip=$(getent hosts {{include "besu.fullname" .}} | awk '{print $1}' | head -1)
-                bootnode_host=$(getent hosts $bootnode_ip |
-                  awk '{print $NF}' | awk -F. '{print $1}')
-                if [ "$bootnode_host" = "$POD_NAME" ]; then
-                  bootnode_ip=
-                  bootnode_host=
-                elif echo $bootnode_host | grep -q {{include "besu.fullname" .}}; then
-                  echo Bootnode to use $bootnode_host
-                else
-                  bootnode_ip=
-                  bootnode_host=
-                fi
-                while [ -z "$bootnode_ip" ]; do
-                  sleep 1;
-                  bootnode_ip=$(getent hosts {{include "besu.fullname" .}} | awk '{print $1}' | head -1)
-                  bootnode_host=$(getent hosts $bootnode_ip |
-                    awk '{print $NF}' | awk -F. '{print $1}')
-                  if [ "$bootnode_host" = "$POD_NAME" ]; then
-                    bootnode_ip=
-                    bootnode_host=
-                  elif echo $bootnode_host | grep -q {{include "besu.fullname" .}}; then
-                    echo Bootnode to use $bootnode_host
+                for n in $(seq 0 $(({{.Values.besu.nodeCount}} - 1))); do
+                  if [ "{{include "besu.fullname" .}}-$n" = "$POD_NAME" ]; then
+                    continue
                   else
                     bootnode_ip=
                     bootnode_host=
+                    while [ -z "$bootnode_ip" ]; do
+                      sleep 1
+                      bootnode_ip=$(getent hosts {{include "besu.fullname" .}}-$n.{{.Release.Namespace}}.svc | awk '{print $1}')
+                      bootnode_host={{include "besu.fullname" .}}-$n
+                      bootnode_enode=$(cat /keys/{{include "besu.fullname" .}}-$n.pub| sed -e 's/^0x//')
+                    done
+                    echo Bootnode to use $bootnode_host
+                    BOOT_NODE_ARGS+=("enode://$bootnode_enode@$bootnode_ip:{{ .Values.besu.p2p.port }}")
                   fi
                 done
-                bootnode_enode=$(cat /keys/{{include "besu.fullname" .}}-0.pub| sed -e 's/^0x//')
-                BOOT_NODE_ARGS=("enode://$bootnode_enode@$bootnode_ip:{{.Values.besu.p2p.port}}")
               fi
-              {{- end }}
+            {{- end }}
               {{- range .Values.besu.additionalBootnodeUrls }}
               bootnode_ip=$(getent hosts {{.host}} | awk '{print $1}' | head -1)
               while [ -z "$bootnode_ip" ]; do
+                echo "Waiting to get the ip address of {{.host}}"
                 sleep 1
                 bootnode_ip=$(getent hosts {{.host}} | awk '{print $1}' | head -1)
               done
@@ -159,6 +151,8 @@ spec:
             {{- end }}
             - mountPath: {{ .Values.besu.dataPath | quote }}
               name: data
+            - mountPath: /enclave
+              name: enclave
             - mountPath: /dev/random
               name: dev-random
             - mountPath: /dev/urandom
@@ -186,6 +180,13 @@ spec:
         - name: networkkeys-config
           secret:
             secretName: {{ include "besu.fullname" .}}-keys
+        {{- end }}
+        - name: enclave
+        {{- if .Values.besu.privacy.enabled }}
+          configMap:
+            name: {{ include "besu.enclave.key.configmap" . }}
+        {{ else }}
+          emptyDir: {}
         {{- end }}
 {{- if not .Values.besu.persistence.enabled }}
         - name: "data"

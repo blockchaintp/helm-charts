@@ -60,7 +60,7 @@ besu:
     ## @md | besu.rpc.host | the address to bind the json-rpc to | `"0.0.0.0"` |
     host: "0.0.0.0"
     ## @md | besu.rpc.api | the list of APIs to expose | `'["DEBUG","ETH", "ADMIN", "WEB3", "IBFT", "NET"]'` |
-    api: '["DEBUG","ETH", "ADMIN", "WEB3", "IBFT", "NET"]'
+    api: '["DEBUG", "ETH", "ADMIN", "WEB3", "IBFT", "NET", "EEA", "PRIV"]'
     ## @md | besu.rpc.port | the port to bind the json-rpc | `8545` |
     port: 8545
     ## @md | besu.rpc.corsOrigins | the list of cors origins to allow | `'["all"]'` |
@@ -71,7 +71,7 @@ besu:
     ## @md | besu.ws.enabled | true if the besu ws listener will be enabled | false |
     enabled: false
     ## @md | besu.ws.api | the list of APIs to expose on the websocket listener | `'["DEBUG", "ETH", "WEB3", "NET"]'` |
-    api: '["DEBUG", "ETH", "WEB3", "NET"]'
+    api: '["DEBUG", "ETH", "ADMIN", "WEB3", "IBFT", "NET", "EEA", "PRIV"]'
     ## @md | besu.ws.host | the address to bind the websocket listener to | `"0.0.0.0"` |
     host: "0.0.0.0"
     ## @md | besu.ws.port | the port to bind the websocket listener to | `8546` |
@@ -133,10 +133,12 @@ besu:
   privacy:
     ## @md | besu.privacy.enabled | true if the private transactions are enabled on this node | false |
     enabled: false
-    ## @md | besu.privacy.url | the url to the private transaction manager | `"http://localhost:8080"` |
-    url: "http://127.0.0.1:8888"
-    ## @md | besu.private.precompileAddress | the precompiled address of the privacy contract | `9` |
+    ## @md | besu.privacy.url | the url to the private transaction manager | nil |
+    url:
+    ## @md | besu.privacy.precompileAddress | the precompiled address of the privacy contract | `9` |
     precompileAddress: 9
+    ## @md | besu.privacy.enclaveKeyConfigMap | the name of a configmap containing the enclave public Key | nil |
+    enclaveKeyConfigMap:
   genesis:
     ## @md | besu.genesis.ibftBlockPeriodSeconds | the ibft block period in seconds | `2` |
     ibftBlockPeriodSeconds: 2
@@ -176,3 +178,8 @@ besu:
     retentionHours: 999
     ## @md | besu.txPool.maxSize | the max number of transactions to keep in the tx pool | `1024` |
     maxSize: 1024
+
+
+orion:
+  ## @md | orion.create | if true, an orion instance will be created, and used if `besu.privacy.enabled==true` | false |
+  create: false

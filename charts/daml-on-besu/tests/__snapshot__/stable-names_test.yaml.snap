@@ -1,0 +1,24 @@
+check for stable PVC names:
+  1: |
+    data
+  2: |
+    pgdata
+check for stable entity names (services, statefulsets, serviceaccounts):
+  1: |
+    test-daml-on-besu
+  2: |
+    test-daml-on-besu
+  3: |
+    test-daml-on-besu
+  4: |
+    test-daml-on-besu-rpc
+  5: |
+    test-daml-on-besu-rpc
+  6: |
+    test-daml-on-besu-0
+  7: |
+    test-daml-on-besu-1
+  8: |
+    test-daml-on-besu-2
+  9: |
+    test-daml-on-besu-3
