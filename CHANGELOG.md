@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Unreleased
+
+* feat: add a library chart defining common templates [view commit](https://github.com/catenasys/helm-charts/commit/0408ece04924625a50884ef539278952675125a4)
+* docs: add docs/daml overview [view commit](https://github.com/catenasys/helm-charts/commit/eb3ecad6ceba7176536a0045a030ca2f4ccbc6be)
+
 ## v0.2.53
 
 * fix(sextant): correct ingress path [view commit](https://github.com/catenasys/helm-charts/commit/b050b9b9cab3fadda90a6a2a562e7ff3e8c8a69b)
