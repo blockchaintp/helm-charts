@@ -1,0 +1,39 @@
+suite: test orion linkage
+templates:
+  - besu-statefulset.yaml
+  - besu-config-toml-cm.yaml
+release:
+  name: test
+  namespace: testns
+tests:
+  - it: check the correct privacy url
+    template: besu-config-toml-cm.yaml
+    set:
+      orion:
+        create: true
+      besu:
+        privacy:
+          enabled: true
+    asserts:
+      - matchRegex:
+          path: data.config\.toml
+          pattern: privacy-url="http://test-orion.testns.svc.cluster.local:8888"
+      - matchRegex:
+          path: data.config\.toml
+          pattern: privacy-public-key-file="/enclave/orion.pub"
+
+  - it: check the enclave key volume
+    template: besu-statefulset.yaml
+    set:
+      orion:
+        create: true
+      besu:
+        privacy:
+          enabled: true
+    asserts:
+      - equal:
+          path: spec.template.spec.volumes[5].name
+          value: enclave
+      - equal:
+          path: spec.template.spec.volumes[5].configMap.name
+          value: test-orion-0-nodekey-pub

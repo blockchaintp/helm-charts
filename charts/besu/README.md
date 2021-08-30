@@ -57,7 +57,8 @@
 | besu.permissions.accounts.whitelist | a list of whitelisted accounts | `[]` |
 | besu.privacy.enabled | true if the private transactions are enabled on this node | false |
 | besu.privacy.url | the url to the private transaction manager | `"http://localhost:8080"` |
-| besu.private.precompileAddress | the precompiled address of the privacy contract | `9` |
+| besu.privacy.precompileAddress | the precompiled address of the privacy contract | `9` |
+| besu.privacy.enclaveKeyConfigMap | the name of a configmap containing the enclave public Key | nil |
 | besu.genesis.ibftBlockPeriodSeconds | the ibft block period in seconds | `2` |
 | besu.genesis.ibftEpochLength | the ibft epoch length in blocks | `30000` |
 | besu.genesis.ibftRequestTimeoutSeconds | ibft request timeout  | `10` |
@@ -75,3 +76,4 @@
 | besu.http.whitelist | the list of whitelisted http endpoints | `[*]` |
 | besu.txPool.retentionHours | the number of hours to keep transactions in the tx pool | `999` |
 | besu.txPool.maxSize | the max number of transactions to keep in the tx pool | `1024` |
+| orion.create | if true, an orion instance will be created, and used if `besu.privacy.enabled==true` | false |

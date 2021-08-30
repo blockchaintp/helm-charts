@@ -1,0 +1,52 @@
+suite: test besu-statefulset
+templates:
+  - besu-statefulset.yaml
+release:
+  name: test
+  namespace: testns
+tests:
+  - it: full name is correct
+    template: besu-statefulset.yaml
+    asserts:
+      - equal:
+          path: metadata.name
+          value: test-besu
+  - it: "persistence not enabled"
+    template: besu-statefulset.yaml
+    set:
+      besu:
+        seedNetwork: true
+    asserts:
+      - equal:
+          path: spec.template.spec.volumes[4].name
+          value: "networkkeys-config"
+      - equal:
+          path: spec.template.spec.volumes[4].secret.secretName
+          value: "test-besu-keys"
+  - it: "persistence not enabled"
+    template: besu-statefulset.yaml
+    set:
+      besu.seedNetwork: true
+      besu.persistence.enabled: false
+    asserts:
+      - equal:
+          path: spec.template.spec.volumes[6].name
+          value: "data"
+      - equal:
+          path: spec.template.spec.volumes[6].emptyDir
+          value: {}
+  - it: "persistence enabled"
+    template: besu-statefulset.yaml
+    set:
+      besu:
+        seedNetwork: true
+        persistence:
+          enabled: true
+          storageClass: "standard"
+    asserts:
+      - equal:
+          path: spec.volumeClaimTemplates[0].metadata.name
+          value: "data"
+      - equal:
+          path: spec.volumeClaimTemplates[0].spec.storageClassName
+          value: "standard"
