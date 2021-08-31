@@ -1,9 +1,15 @@
+check for stable PVC names:
+  1: |
+    sawtooth-data
 check for stable entity names (services, statefulsets, serviceaccounts):
   1: |
-    mynetwork-sa
+    test-sawtooth
   2: |
-    mynetwork-validator
+    test-sawtooth
   3: |
-    mynetwork-rest-api
-  4: |
-    mynetwork-validator
+    test-sawtooth
+check for stable hostPath names:
+  1: |
+    /var/lib/btp/testns/test/sawtooth-data
+  2: |
+    /var/lib/btp/testns/test/sawtooth-data

@@ -11,3 +11,29 @@ tests:
     asserts:
       - matchSnapshot:
           path: metadata.name
+  - it: check for stable PVC names
+    template: validator-set.yaml
+    set:
+      sawtooth:
+        persistence:
+          enabled: true
+        statefulset:
+          enabled: true
+    asserts:
+      - matchSnapshot:
+          path: spec.volumeClaimTemplates[0].metadata.name
+  - it: check for stable hostPath names
+    template: validator-set.yaml
+    set:
+      sawtooth:
+        volumes:
+          hostPathBaseDir: /var/lib/btp
+        persistence:
+          enabled: false
+        statefulset:
+          enabled: false
+    asserts:
+      - matchSnapshot:
+          path: spec.template.spec.volumes[2].hostPath.path
+      - matchSnapshot:
+          path: spec.template.spec.volumes[3].hostPath.path
