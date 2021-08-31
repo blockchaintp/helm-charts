@@ -1,0 +1,23 @@
+suite: test for stable names
+templates:
+  - charts/sextant/templates/serviceaccount.yaml
+  - charts/sextant/templates/statefulset.yaml
+  - charts/sextant/templates/service.yaml
+release:
+  name: test
+  namespace: testns
+tests:
+  - it: check for stable entity names (services, statefulsets, serviceaccounts)
+    asserts:
+      - matchSnapshot:
+          path: metadata.name
+  - it: check for stable PVC names
+    template: charts/sextant/templates/statefulset.yaml
+    set:
+      sextant:
+        postgres:
+          persistence:
+            enabled: true
+    asserts:
+      - matchSnapshot:
+          path: spec.volumeClaimTemplates[0].metadata.name
