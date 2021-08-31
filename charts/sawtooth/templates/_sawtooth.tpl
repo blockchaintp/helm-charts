@@ -2,14 +2,14 @@
 Create a default fully qualified sawtooth app name.
 */}}
 {{- define "sawtooth.validator.fullname" -}}
-{{- printf "%s" (include "common.fullname" .) | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s" (include "common.names.fullname" .) | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
 Sawtooth Selector labels
 */}}
 {{- define "sawtooth.labels" -}}
-{{ include "common.labels" . }}
+{{ include "lib.labels" . }}
 app: {{ include "sawtooth.validator.fullname" . }}
 {{- end -}}
 
@@ -17,7 +17,7 @@ app: {{ include "sawtooth.validator.fullname" . }}
 Sawtooth Selector labels
 */}}
 {{- define "sawtooth.selectorLabels" -}}
-{{ include "common.selectorLabels" . }}
+{{ include "common.labels.matchLabels" . }}
 app: {{ include "sawtooth.validator.fullname" . }}
 {{- end -}}
 
@@ -170,7 +170,7 @@ sawtooth-etc
 {{- define "sawtooth.scripts.volume" -}}
 - name: {{ include "sawtooth.scripts.volume.name" . }}
   configMap:
-    name: {{ include "common.fullname" . }}-scripts
+    name: {{ include "common.names.fullname" . }}-scripts
 {{- end -}}
 
 {{- define "sawtooth.scripts.volume.name" -}}

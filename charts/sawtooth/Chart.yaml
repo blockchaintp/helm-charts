@@ -5,3 +5,8 @@ description: BTP's Sawtooth distribution based on Hyperledger Sawtooth 1.2
 type: application
 version: 0.2.0
 appVersion: 1.2.5p4
+
+dependencies:
+  - name: standard-defs
+    version: ~0.1.0
+    repository: https://btp-charts-unstable.s3.amazonaws.com/charts/

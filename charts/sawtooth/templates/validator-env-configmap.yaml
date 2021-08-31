@@ -4,7 +4,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "common.fullname" . }}-scripts
+  name: {{ include "common.names.fullname" . }}-scripts
   namespace: {{ .Release.Namespace }}
   labels: {{ include "sawtooth.labels" . | nindent 4}}
 data:
@@ -25,7 +25,7 @@ data:
     }
 
     function get_genesis_node() {
-      kubectl get configmap {{ include "common.fullname" . }}-genesis -o jsonpath='{.data.node}'
+      kubectl get configmap {{ include "common.names.fullname" . }}-genesis -o jsonpath='{.data.node}'
     }
 
     function get_node_for_pod() {
@@ -74,7 +74,7 @@ data:
       sleep "$(echo $RANDOM | cut -c1-2)"
       GENESIS_NODE=$(get_genesis_node)
       if [ -z "$GENESIS_NODE" ]; then
-        "${BIN_DIR}/upsert_cm.sh" {{ include "common.fullname" . }}-genesis node "$SET_GENESIS_NODE"
+        "${BIN_DIR}/upsert_cm.sh" {{ include "common.names.fullname" . }}-genesis node "$SET_GENESIS_NODE"
       fi
     done
     GENESIS_NODE=$(get_genesis_node)

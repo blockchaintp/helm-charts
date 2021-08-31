@@ -33,7 +33,7 @@ spec:
       labels: {{- include "sawtooth.selectorLabels" . | nindent 8 }}
       annotations: {{- toYaml .Values.sawtooth.statefulset.podAnnotations | nindent 8 }}
     spec:
-      serviceAccountName: {{ include "common.serviceAccountName" . }}
+      serviceAccountName: {{ include "lib.serviceAccountName" . }}
       affinity: {{- include "sawtooth.affinity" . | nindent 8 }}
       hostAliases: {{- include "sawtooth.hostaliases" . | nindent 8 }}
       containers: {{- include "sawtooth.containers" . | nindent 8 }}
