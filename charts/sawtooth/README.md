@@ -1,51 +1,62 @@
 # These are the reasonable defaults file sawtooth 1.2
 
-| field | description | type | default |
-|-|-|-|-|
-| `affinity.enabled` | false: no effect   true: then validators will be deployed only to k8s nodes with the label `app={{ .sawtooth.networkName }}-validator` | boolean | false  |
-| `imagePullSecrets.enabled` | if true use the list of named imagePullSecrets | boolean | false |
-| `imagePullSecrets.value` | a list if named secret references of the form   ```- name: secretName```| list | [] |
-| `pagerduty.enabled` | if true send pagerduty alerts | boolean | false |
-| `pagerduty.token` | pagerduty user token | string | nil |
-| `pagerduty.serviceid` | pagerduty serviceid | string | nil |
-| `sawtooth.opentsdb.db` | name of the opentsdb database to be used | string | metrics |
-| `sawtooth.opentsdb.url` | url of the opentsdb database to be used | string | nil |
-| `sawtooth.opentsdb.enabled` | whether to enable the opentsdb metrics | boolean | false |
-| `sawtooth.minReadySeconds` | the minimum time a pod must be Running before proceeding on a rolling update | int | 120 |
-| `sawtooth.maxUnavailable` | maximum number of pods allowed down on a rollout or update  | int | 1 |
-| `sawtooth.containers.block_info.args` | extra args for block-info-tp | string | nil |
-| `sawtooth.containers.identity_tp.args` | extra args for identity-tp | string | nil |
-| `sawtooth.containers.rest_api.args` | extra args for rest-api | string | nil |
-| `sawtooth.containers.settings_tp.args` | extra args for settings-tp | string | nil |
-| `sawtooth.containers.validator.args` | extra args for validator | string | nil |
-| `sawtooth.containers.validator.env` | list of environment name/value dicts | map | nil |
-| `sawtooth.ports.sawnet` | port for the sawtooth validator network | int | 8800 |
-| `sawtooth.ports.consensus` | port for the sawtooth consensus network | int | 5050 |
-| `sawtooth.ports.sawcomp` | port for the sawtooth component network | int | 4004 |
-| `sawtooth.ports.rest` | port for the sawtooth rest-api | int | 8008 |
-| `sawtooth.livenessProbe.enabled` | whether to run the livenessProbe on the validator | boolean | false |
-| `sawtooth.livenessProbe.initialDelaySeconds` | seconds to wait before running the liveness probe the first time | int | 300 |
-| `sawtooth.livenessProbe.periodSeconds` | interval in seconds to re-run the liveness probe | int | 120 |
+| field | description | default |
+|-|-|-|
+| `affinity.enabled` | false: no effect   true: then validators will be deployed only to k8s nodes with the label `app={{ .sawtooth.networkName }}-validator` | false  |
+| `commonLabels` |
+| `imagePullSecrets.enabled` | if true use the list of named imagePullSecrets | false |
+| `imagePullSecrets.value` | a list if named secret references of the form   ```- name: secretName```| [] |
+| `ingress.apiVersion` | if necessary the apiVersion of the ingress may be overridden | "" |
+| `ingress.enabled` | true to enable the ingress to the main service rest-api | false |
+| `ingress.certManager` | true to enable the acme certmanager for this ingress | false |
+| `ingress.hostname` | primary hostname for the ingress | false |
+| `ingress.path` | path for the ingress's primary hostname | / |
+| `ingress.annotations` | annotations for the ingress | {} |
+| `ingress.tls` | true to enable tls on the ingress with a secrete at hostname-tls | false |
+| `ingress.extraHosts` | list of extra hosts to add to the ingress | [] |
+| `ingress.extraPaths` | list of extra paths to add to the primary host of the ingress | [] |
+| `ingress.extraTls` | list of extra tls entries | [] |
+| `pagerduty.enabled` | if true send pagerduty alerts | false |
+| `pagerduty.token` | pagerduty user token | nil |
+| `pagerduty.serviceid` | pagerduty serviceid | nil |
+| `sawtooth.opentsdb.db` | name of the opentsdb database to be used | metrics |
+| `sawtooth.opentsdb.url` | url of the opentsdb database to be used | nil |
+| `sawtooth.opentsdb.enabled` | whether to enable the opentsdb metrics | false |
+| `sawtooth.minReadySeconds` | the minimum time a pod must be Running before proceeding on a rolling update | 120 |
+| `sawtooth.maxUnavailable` | maximum number of pods allowed down on a rollout or update  | 1 |
+| `sawtooth.containers.block_info.args` | extra args for block-info-tp | nil |
+| `sawtooth.containers.identity_tp.args` | extra args for identity-tp | nil |
+| `sawtooth.containers.rest_api.args` | extra args for rest-api | nil |
+| `sawtooth.containers.settings_tp.args` | extra args for settings-tp | nil |
+| `sawtooth.containers.validator.args` | extra args for validator | nil |
+| `sawtooth.containers.validator.env` | list of environment name/value dicts | nil |
+| `sawtooth.ports.sawnet` | port for the sawtooth validator network | 8800 |
+| `sawtooth.ports.consensus` | port for the sawtooth consensus network | 5050 |
+| `sawtooth.ports.sawcomp` | port for the sawtooth component network | 4004 |
+| `sawtooth.ports.rest` | port for the sawtooth rest-api | 8008 |
+| `sawtooth.livenessProbe.enabled` | whether to run the livenessProbe on the validator | false |
+| `sawtooth.livenessProbe.initialDelaySeconds` | seconds to wait before running the liveness probe the first time | 300 |
+| `sawtooth.livenessProbe.periodSeconds` | interval in seconds to re-run the liveness probe | 120 |
 | `sawtooth.livenessProbe.active` | if false, the liveness probe will run and evaluate the the situation, but always return successfully | string | "false"
-| `sawtooth.livenessProbe.exitSignals` | when restarting due to a livenessProbe failure, the validator pod has a "signal" system which will cause it to restart the named containers in this var | string | "block-info-tp" |
-| `sawtooth.heartbeat.interval` | interval in seconds to issue a heartbeat | int | 300 |
-| `sawtooth.permissioned` | Whether to run this chain as a permissioned chain or not | boolean | false |
-| `sawtooth.namespace` | namespace to render these templates into (deprecated) | string | "prod" |
-| `sawtooth.networkName` | name of this sawtooth network (deprecated) | string | "mynetwork" |
+| `sawtooth.livenessProbe.exitSignals` | when restarting due to a livenessProbe failure, the validator pod has a "signal" system which will cause it to restart the named containers in this var | "block-info-tp" |
+| `sawtooth.heartbeat.interval` | interval in seconds to issue a heartbeat | 300 |
+| `sawtooth.permissioned` | Whether to run this chain as a permissioned chain or not | false |
+| `sawtooth.namespace` | namespace to render these templates into (deprecated) | "prod" |
+| `sawtooth.networkName` | name of this sawtooth network (deprecated) | "mynetwork" |
 | `sawtooth.scheduler` | name of the sawtooth transaction scheduler to use | string | "serial"
 | `sawtooth.consensus` | id of the the consensus algorithm to use< valid values: 100:DevMode, 200, PoET, 300 - Raft, 400, PBFT | int | 200
-| `sawtooth.genesis.enabled` | If true, and the cluster is starting for the first time, then   a node will be selected to create and submit the genesis block | boolean | true |
-| `sawtooth.genesis.seed` | The seed is an arbitrary string which identifies a given genesis  If the data of a given set of nodes is to be wiped out, change this value. | string | "9a2de774-90b5-11e9-9df0-87e889b0f1c9" |
-| `sawtooth.dynamicPeering` | Dynamic Peering should default to false, since it is a bit unreliable  | boolean | false |
-| `sawtooth.externalSeeds` | a list of maps defining validator endpoints external to this deployment | list | [] |
-| `sawtooth.seth.enabled` | enabled sawtooth-seth | boolean | false |
-| `sawtooth.xo.enabled` | enabled sawtooth-xo-tp | boolean | false |
-| `sawtooth.smallbank.enabled` | enabled sawtooth-smallbank-tp | boolean | false |
+| `sawtooth.genesis.enabled` | If true, and the cluster is starting for the first time, then   a node will be selected to create and submit the genesis block | true |
+| `sawtooth.genesis.seed` | The seed is an arbitrary string which identifies a given genesis  If the data of a given set of nodes is to be wiped out, change this value. | "9a2de774-90b5-11e9-9df0-87e889b0f1c9" |
+| `sawtooth.dynamicPeering` | Dynamic Peering should default to false, since it is a bit unreliable  | false |
+| `sawtooth.externalSeeds` | a list of maps defining validator endpoints external to this deployment | [] |
+| `sawtooth.seth.enabled` | enabled sawtooth-seth | false |
+| `sawtooth.xo.enabled` | enabled sawtooth-xo-tp | false |
+| `sawtooth.smallbank.enabled` | enabled sawtooth-smallbank-tp | false |
 | `sawtooth.hostPathBaseDir` | all sawtooth hostPath directories will be based here | string | /var/lib/btp
-| `sawtooth.client_wait` | arbitrary delay to validator client startup, such as the rest-api | int | 90 |
-| `sawtooth.customTPs` | a list of [custom tp definitions](#custom-tp-definitions) | list | nil |
-| `sawtooth.affinity` | custom affinity rules for the sawtooth validator deamonset | map | nil |
-| `images` | a map containing all of the image urls used by this template| map | N/A |
+| `sawtooth.client_wait` | arbitrary delay to validator client startup, such as the rest-api | 90 |
+| `sawtooth.customTPs` | a list of [custom tp definitions](#custom-tp-definitions) | nil |
+| `sawtooth.affinity` | custom affinity rules for the sawtooth validator deamonset | nil |
+| `images` | a map containing all of the image urls used by this template| N/A |
 
 ## Images
 
@@ -74,9 +85,9 @@
 
 Custom TP definitions are describe using maps with the following fields
 
-| field | description | type | default |
-|-|-|-|-|
-| `name` | name of the custom tp container(must be unique within the pod) | string | nil |
-| `image` | url of the image for this tp | string | nil |
+| field | description | default |
+|-|-|-|
+| `name` | name of the custom tp container(must be unique within the pod) | nil |
+| `image` | url of the image for this tp | nil |
 | `command` | list of command tokens for this tp | list | nil
-| `arg` | list of arguments to the command | list | nil] |
+| `arg` | list of arguments to the command | nil] |
