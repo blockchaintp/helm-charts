@@ -2,4 +2,4 @@
 
 ![Besu](diagrams/besu.png)
 
-[PlantUML Source](diagrams/besu.plantuml)
+![Besu - Private](diagrams/besu-private.png)

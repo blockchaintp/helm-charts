@@ -2,4 +2,4 @@
 
 ![DAML on Besu](diagrams/daml-on-besu.png)
 
-[PlantUML Source](diagrams/daml-on-besu.plantuml)
+![DAML on Besu - Private](diagrams/daml-on-besu-private.png)

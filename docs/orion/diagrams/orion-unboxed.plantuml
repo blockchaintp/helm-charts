@@ -1,0 +1,38 @@
+@startuml orion-unboxed
+
+' Kubernetes
+!define KubernetesPuml https://raw.githubusercontent.com/dcasati/kubernetes-PlantUML/master/dist
+
+!include KubernetesPuml/kubernetes_Common.puml
+!include KubernetesPuml/kubernetes_Context.puml
+!include KubernetesPuml/OSS/KubernetesDeploy.puml
+!include KubernetesPuml/OSS/KubernetesSts.puml
+!include KubernetesPuml/OSS/KubernetesSvc.puml
+!include KubernetesPuml/OSS/KubernetesPvc.puml
+!include KubernetesPuml/OSS/KubernetesPod.puml
+!include KubernetesPuml/OSS/KubernetesCm.puml
+!include KubernetesPuml/OSS/KubernetesJob.puml
+
+
+KubernetesSts(orion, "orion", "2 nodes") {
+  KubernetesPod(orion0,"orion-0","")
+  KubernetesPod(orion1,"orion-1","")
+}
+
+together {
+  KubernetesSvc(orionsvc, "orion", "nodeport - http:8080, client prt - http:8888")
+  together {
+    KubernetesSvc(orionsvc0, "node orion-0", "nodeport - http:8080, client prt - http:8888")
+    KubernetesSvc(orionsvc1, "node orion-1", "nodeport - http:8080, client prt - http:8888")
+  }
+}
+
+orionsvc --> orion
+orionsvc0 --> orion0
+orionsvc1 --> orion1
+
+database postgresql
+orion0 --> postgresql
+orion1 --> postgresql
+
+@enduml
