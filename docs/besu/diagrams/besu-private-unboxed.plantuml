@@ -1,4 +1,4 @@
-@startuml daml-on-besu
+@startuml besu-private-unboxed
 
 ' Kubernetes
 !define KubernetesPuml https://raw.githubusercontent.com/dcasati/kubernetes-PlantUML/master/dist
@@ -14,18 +14,12 @@
 !include KubernetesPuml/OSS/KubernetesCm.puml
 !include KubernetesPuml/OSS/KubernetesJob.puml
 
+!include ../../orion/diagrams/orion-unboxed.plantuml
+!include besu-unboxed.plantuml
 
-Namespace_Boundary(daml,"daml") {
-  KubernetesSts(damlrpc, "daml-rpc", "provides the particiant ledger api")
-  !include daml-on-besu-unboxed.plantuml
-}
-
-KubernetesSvc(jwksProvider, "JWKS Provider","")
-damlrpc -u-> jwksProvider
-
-actor actor
-actor --> damlgrpc: <<jwt>>
-actor --> damljsonapi: <<jwt>>
-actor --> jwksProvider: <<jwt>>
+besu0 --> orionsvc
+besu1 --> orionsvc
+besu2 --> orionsvc
+besu3 --> orionsvc
 
 @enduml

@@ -1,4 +1,4 @@
-@startuml daml-on-besu
+@startuml daml-unboxed
 
 ' Kubernetes
 !define KubernetesPuml https://raw.githubusercontent.com/dcasati/kubernetes-PlantUML/master/dist
@@ -14,18 +14,14 @@
 !include KubernetesPuml/OSS/KubernetesCm.puml
 !include KubernetesPuml/OSS/KubernetesJob.puml
 
+KubernetesSts(damlrpc, "daml-rpc", "provides the particiant ledger api")
 
-Namespace_Boundary(daml,"daml") {
-  KubernetesSts(damlrpc, "daml-rpc", "provides the particiant ledger api")
-  !include daml-on-besu-unboxed.plantuml
+together {
+  KubernetesSvc(damlgrpc,"grpc","tcp:39000")
+  KubernetesSvc(damljsonapi,"jsonapi","http:8080")
 }
 
-KubernetesSvc(jwksProvider, "JWKS Provider","")
-damlrpc -u-> jwksProvider
-
-actor actor
-actor --> damlgrpc: <<jwt>>
-actor --> damljsonapi: <<jwt>>
-actor --> jwksProvider: <<jwt>>
+damlgrpc --> damlrpc
+damljsonapi --> damlrpc
 
 @enduml

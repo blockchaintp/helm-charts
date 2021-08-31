@@ -15,26 +15,8 @@
 
 
 Namespace_Boundary(daml,"orion") {
-
-  KubernetesSts(orion, "orion", "2 nodes") {
-    KubernetesPod(orion0,"orion-0","")
-    KubernetesPod(orion1,"orion-1","")
-  }
-
-  KubernetesSvc(orionsvc, "orion", "nodeport - http:8080, client prt - http:8888")
-  KubernetesSvc(orionsvc0, "node orion-0", "nodeport - http:8080, client prt - http:8888")
-  KubernetesSvc(orionsvc1, "node orion-1", "nodeport - http:8080, client prt - http:8888")
-
-  orionsvc --> orion
-  orionsvc0 --> orion0
-  orionsvc1 --> orion1
-
+  !include orion-unboxed.plantuml
 }
-
-database postgresql
-
-orion0 --> postgresql
-orion1 --> postgresql
 
 actor actor
 actor --> orionsvc

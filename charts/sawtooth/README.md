@@ -1,4 +1,4 @@
-# These are the reasonable defaults file sawtooth 1.2
+# Sawtoooth
 
 | field | description | default |
 |-|-|-|
