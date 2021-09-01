@@ -9,6 +9,9 @@ tests:
     set:
       ingress:
         enabled: true
+        hostname: test-host
+        path: /path
+      tls: true
     asserts:
       - equal:
           path: spec.rules[0].http.paths[0].backend.service.name
@@ -16,3 +19,5 @@ tests:
       - equal:
           path: spec.rules[0].http.paths[0].backend.service.port.number
           value: 8008
+      - matchSnapshot:
+          path: spec
