@@ -1,5 +1,7 @@
 ## @md # TFS on Sawtooth
 ## @md
+## @md | field | description | default |
+## @md |-|-|-|
 
 global:
   image:
@@ -83,6 +85,7 @@ serviceAccount:
   ## @md | `serviceAccount.name` | name of the service account | nil (defaults to based on release name) |
   name:
 
+## @md | `sawtooth` | sawtooth options may be configured | see [Sawtooth](../sawtooth/README.md) |
 sawtooth:
   sawtooth:
     statefulset:

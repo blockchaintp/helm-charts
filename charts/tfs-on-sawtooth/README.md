@@ -1,5 +1,7 @@
 # TFS on Sawtooth
 
+| field | description | default |
+|-|-|-|
 | `imagePullSecrets.enabled` | if true use the list of named imagePullSecrets | false |
 | `imagePullSecrets.value` | a list if named secret references of the form   ```- name: secretName```| [] |
 | `ingress.apiVersion` | if necessary the apiVersion of the ingress may be overridden | "" |
@@ -31,3 +33,4 @@
 | `podAnnotations` | pod annotations for the tfs set | {} |
 | `serviceAccount.create` | true to create a service account | false |
 | `serviceAccount.name` | name of the service account | nil (defaults to based on release name) |
+| `sawtooth` | sawtooth options may be configured | see [Sawtooth](../sawtooth/README.md) |
