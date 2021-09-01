@@ -7,6 +7,15 @@ Sawtooth Selector labels
 app: {{ include "common.names.fullname" . }}
 {{- end -}}
 
+{{- define "sawtooth.kind" -}}
+{{ $consensus := .Values.sawtooth.consensus | int }}
+{{- if or .Values.sawtooth.statefulset.enabled (eq $consensus 100) -}}
+StatefulSet
+{{- else -}}
+DaemonSet
+{{- end -}}
+{{- end -}}
+
 {{/*
 Sawtooth Selector labels
 */}}

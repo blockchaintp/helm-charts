@@ -1,12 +1,7 @@
 {{ $consensus := .Values.sawtooth.consensus | int }}
 ---
 apiVersion: apps/v1
-
-{{ if or .Values.sawtooth.statefulset.enabled (eq $consensus 100) }}
-kind: StatefulSet
-{{ else }}
-kind: DaemonSet
-{{ end }}
+kind: {{ include "sawtooth.kind" . }}
 metadata:
   name: {{ include "common.names.fullname" . }}
   namespace: {{ .Release.Namespace }}
