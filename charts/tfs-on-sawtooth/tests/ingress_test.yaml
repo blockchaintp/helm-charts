@@ -1,0 +1,22 @@
+suite: test the ingresses
+templates:
+  - ingress.yaml
+release:
+  name: test
+  namespace: testns
+tests:
+  - it: ingress links to service properly
+    set:
+      ingress:
+        enabled: true
+        hostname: test-host
+        path: /path
+    asserts:
+      - equal:
+          path: spec.rules[0].http.paths[0].backend.service.name
+          value: test-tfs-on-sawtooth
+      - equal:
+          path: spec.rules[0].http.paths[0].backend.service.port.number
+          value: 8000
+      - matchSnapshot:
+          path: spec

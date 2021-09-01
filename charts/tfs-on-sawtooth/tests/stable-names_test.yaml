@@ -1,0 +1,13 @@
+suite: test for stable names
+templates:
+  - serviceaccount.yaml
+  - tfs-set.yaml
+  - service.yaml
+release:
+  name: test
+  namespace: testns
+tests:
+  - it: check for stable entity names (services, statefulsets, serviceaccounts)
+    asserts:
+      - matchSnapshot:
+          path: metadata.name
