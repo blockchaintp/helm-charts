@@ -359,10 +359,28 @@ sawtooth:
 ## @md | `jsonapi` | settings for the jsonapi | map | N/A |
 jsonapi:
   ingress:
-    ## @md | `jsonapi.ingress.enabled` | enable the ingress for the jsonapi | boolean | false |
+    ## @md | `jsonapi.ingress.apiVersion` | if necessary the apiVersion of the ingress may be overridden | "" |
+    apiVersion: ""
+    ## @md | `jsonapi.ingress.enabled` | true to enable the ingress to the main service rest-api | false |
     enabled: false
-    ## @md | `jsonapi.ingress.annotations` | custom annotations for the jsonapi | map | {} |
+    ## @md | `jsonapi.ingress.certManager` | true to enable the acme certmanager for this ingress | false |
+    certManager: false
+    ## @md | `jsonapi.ingress.hostname` | primary hostname for the ingress | false |
+    hostname:
+    ## @md | `jsonapi.ingress.path` | path for the ingress's primary hostname | / |
+    path: /
+    ## @md | `jsonapi.ingress.pathType` | pathType for the ingress's primary hostname | nil |
+    pathType:
+    ## @md | `jsonapi.ingress.annotations` | annotations for the ingress | {} |
     annotations: {}
+    ## @md | `jsonapi.ingress.tls` | true to enable tls on the ingress with a secrete at hostname-tls | false |
+    tls: false
+    ## @md | `jsonapi.ingress.extraHosts` | list of extra hosts to add to the ingress | [] |
+    extraHosts: []
+    ## @md | `jsonapi.ingress.extraPaths` | list of extra paths to add to the primary host of the ingress | [] |
+    extraPaths: []
+    ## @md | `jsonapi.ingress.extraTls` | list of extra tls entries | [] |
+    extraTls: []
     ## @md | `jsonapi.ingress.hosts` | list of ingress host and path declarations for the jsonapi ingress | list | [] |
     hosts: []
     # - host: chart-example.local

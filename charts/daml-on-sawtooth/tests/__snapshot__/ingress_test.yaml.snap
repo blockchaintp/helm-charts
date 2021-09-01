@@ -5,6 +5,7 @@ ingress links to service properly:
       http:
         paths:
         - backend:
-            serviceName: mynetwork-daml-rpc
+            serviceName: mynetwork
             servicePort: 8080
           path: /path
+          pathType: ImplementationSpecific
