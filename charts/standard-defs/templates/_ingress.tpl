@@ -65,6 +65,27 @@ spec:
             {{- end }}
             backend: {{- include "common.ingress.backend" (dict "serviceName" $serviceName "servicePort" $servicePort "context" $ctx) | nindent 14 }}
     {{- end }}
+    {{/* .ingress.hosts is deprecated */}}
+    {{- range .ingress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+          {{- if .path }}
+          - path: {{ default "/" .path }}
+            {{- if eq "true" (include "common.ingress.supportsPathType" $ctx) }}
+            pathType: {{ default "ImplementationSpecific" .pathType }}
+            {{- end }}
+            backend: {{- include "common.ingress.backend" (dict "serviceName" $serviceName "servicePort" $servicePort "context" $ctx) | nindent 14 }}
+          {{- end }}
+          {{- range .paths }}
+          - path: {{ . | quote }}
+            {{- if eq "true" (include "common.ingress.supportsPathType" $ctx) }}
+            pathType: ImplementationSpecific
+            {{- end }}
+            backend: {{- include "common.ingress.backend" (dict "serviceName" $serviceName "servicePort" $servicePort "context" $ctx) | nindent 14 }}
+          {{- end }}
+    {{- end }}
+    {{/* .ingress.hosts is deprecated */}}
   {{- if or .ingress.tls .ingress.extraTls }}
   tls:
     {{- if .ingress.tls }}
