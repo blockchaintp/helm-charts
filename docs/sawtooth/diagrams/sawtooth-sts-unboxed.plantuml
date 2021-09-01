@@ -1,0 +1,53 @@
+@startuml sawtooth-sts-unboxed
+
+' Kubernetes
+!define KubernetesPuml https://raw.githubusercontent.com/dcasati/kubernetes-PlantUML/master/dist
+
+!include KubernetesPuml/kubernetes_Common.puml
+!include KubernetesPuml/kubernetes_Context.puml
+
+!include KubernetesPuml/OSS/KubernetesDeploy.puml
+!include KubernetesPuml/OSS/KubernetesSts.puml
+!include KubernetesPuml/OSS/KubernetesDs.puml
+!include KubernetesPuml/OSS/KubernetesSvc.puml
+!include KubernetesPuml/OSS/KubernetesPvc.puml
+!include KubernetesPuml/OSS/KubernetesPod.puml
+!include KubernetesPuml/OSS/KubernetesCm.puml
+!include KubernetesPuml/OSS/KubernetesJob.puml
+
+
+
+KubernetesSts(sawtooth_sts, "sawtooth", "4 nodes") {
+  KubernetesPod(sawtooth_pod_0,"sawtooth-0","")
+  KubernetesPod(sawtooth_pod_1,"sawtooth-1","")
+  KubernetesPod(sawtooth_pod_2,"sawtooth-2","")
+  KubernetesPod(sawtooth_pod_3,"sawtooth-3","")
+}
+
+KubernetesSvc(sawtooth_svc, "sawtooth", "all nodes")
+KubernetesSvc(sawtooth_svc_0, "sawtooth-0", "sawtooth-0")
+KubernetesSvc(sawtooth_svc_1, "sawtooth-1", "sawtooth-1")
+KubernetesSvc(sawtooth_svc_2, "sawtooth-2", "sawtooth-2")
+KubernetesSvc(sawtooth_svc_3, "sawtooth-3", "sawtooth-3")
+
+together {
+  sawtooth_svc --> sawtooth_sts
+  together {
+    sawtooth_svc_0 --> sawtooth_pod_0
+    sawtooth_svc_1 --> sawtooth_pod_1
+    sawtooth_svc_2 --> sawtooth_pod_2
+    sawtooth_svc_3 --> sawtooth_pod_3
+  }
+}
+
+' KubernetesCm(genesiscm, "genesis ConfigMap", "")
+' sawtooth0 -l-> genesiscm: uses
+' sawtooth1 -l-> genesiscm: uses
+' sawtooth2 -l-> genesiscm: uses
+' sawtooth3 -l-> genesiscm: uses
+
+' KubernetesJob(initjob,"Initialization job","")
+' initjob --> genesiscm: produces
+
+
+@enduml
