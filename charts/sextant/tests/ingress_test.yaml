@@ -9,14 +9,16 @@ tests:
     set:
       ingress:
         enabled: true
-        hostname: test-host
-        path: /path
+        hosts:
+          - host: test-host
+            paths:
+              - /path
     asserts:
       - equal:
-          path: spec.rules[0].http.paths[0].backend.service.name
-          value: test-sawtooth
+          path: spec.rules[0].http.paths[0].backend.serviceName
+          value: test-sextant
       - equal:
-          path: spec.rules[0].http.paths[0].backend.service.port.number
-          value: 8008
+          path: spec.rules[0].http.paths[0].backend.servicePort
+          value: 8000
       - matchSnapshot:
           path: spec
