@@ -1,0 +1,18 @@
+check for stable PVC names:
+  1: |
+    - metadata:
+        name: pgdata
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi
+        storageClassName: null
+check for stable entity names (services, statefulsets, serviceaccounts):
+  1: |
+    test-daml-on-postgres
+  2: |
+    test-daml-on-postgres
+  3: |
+    test-daml-on-postgres
