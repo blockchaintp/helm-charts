@@ -1,37 +1,4 @@
-{{- if .Values.daml.jsonapi.ingress.enabled -}}
-{{- $fullName := include "daml.fullname" . -}}
-{{- $svcPort := .Values.daml.jsonapi.ports.http -}}
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
-metadata:
-  name: {{ $fullName }}
-  labels:
-{{ include "daml.labels" . | indent 4 }}
-  {{- with .Values.daml.jsonapi.ingress.annotations }}
-  annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
-spec:
-{{- if .Values.daml.jsonapi.ingress.tls }}
-  tls:
-  {{- range .Values.daml.jsonapi.ingress.tls }}
-    - hosts:
-      {{- range .hosts }}
-        - {{ . | quote }}
-      {{- end }}
-      secretName: {{ .secretName }}
-  {{- end }}
-{{- end }}
-  rules:
-  {{- range .Values.daml.jsonapi.ingress.hosts }}
-    - host: {{ .host | quote }}
-      http:
-        paths:
-        {{- range .paths }}
-          - path: {{ . }}
-            backend:
-              serviceName: {{ $fullName }}
-              servicePort: {{ $svcPort }}
-        {{- end }}
-  {{- end }}
-{{- end }}
+{{- $serviceName := include "daml.fullname" . -}}
+{{- $ingressName := printf "%s" $serviceName -}}
+{{- $servicePort := .Values.daml.jsonapi.ports.http -}}
+{{ include "lib.ingress" (dict "ingressName" $ingressName "ingress" .Values.daml.jsonapi.ingress "serviceName" $serviceName "servicePort" $servicePort "context" $) }}

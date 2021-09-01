@@ -8,3 +8,4 @@ ingress links to service properly:
             serviceName: test-daml-on-postgres
             servicePort: 8080
           path: /path
+          pathType: ImplementationSpecific
