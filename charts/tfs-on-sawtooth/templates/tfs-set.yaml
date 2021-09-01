@@ -41,13 +41,16 @@ spec:
               {{ if ne $kind "DaemonSet" -}}
               HOST={{ $stlServiceName }}-${HOST##*-}.{{ .Release.Namespace }}.svc.cluster.local
               {{- end }}
-              taekion-fs-tp -vv -C tcp://$HOST:{{ include "tfs.sawtooth.sawcomp" . }}
+              taekion-fs-tp {{ .Values.tp.args }} -C tcp://$HOST:{{ include "tfs.sawtooth.sawcomp" . }}
           resources: {{- toYaml .Values.tp.resources | nindent 12 }}
           env:
             - name: HOST
               valueFrom:
                 fieldRef:
                   fieldPath: {{ include "tfs.field.node" . }}
+            {{ if .Values.tp.env -}}
+            {{ toYaml .Values.tp.env | nindent 12 }}
+            {{- end }}
         - name: taekion-rest-api
           {{- include "lib.image" (dict "imageRoot" .Values.middleware.image "global" .Values.global ) | nindent 10 }}
           ports:
@@ -62,10 +65,13 @@ spec:
               {{ if ne $kind "DaemonSet" -}}
               HOST={{ $stlServiceName }}-${HOST##*-}
               {{- end }}
-              /usr/local/bin/tfs-mid --debug --url http://$HOST:{{ include "tfs.sawtooth.restport" . }}
+              /usr/local/bin/tfs-mid {{ .Values.middleware.args }} --url http://$HOST:{{ include "tfs.sawtooth.restport" . }}
           env:
             - name: HOST
               valueFrom:
                 fieldRef:
                   fieldPath: {{ include "tfs.field.node" . }}
+            {{ if .Values.middleware.env -}}
+            {{ toYaml .Values.middleware.env | nindent 12 }}
+            {{- end }}
           resources: {{- toYaml .Values.middleware.resources | nindent 12 }}

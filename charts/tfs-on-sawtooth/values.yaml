@@ -1,11 +1,14 @@
 ## @md # TFS on Sawtooth
+## @md
 
 global:
   image:
     tag:
 
 imagePullSecrets:
+  ## @md | `imagePullSecrets.enabled` | if true use the list of named imagePullSecrets | false |
   enabled: false
+  ## @md | `imagePullSecrets.value` | a list if named secret references of the form   ```- name: secretName```| [] |
   value: []
 
 ingress:
@@ -33,32 +36,51 @@ ingress:
   extraTls: []
 
 tp:
-  args:
+  ## @md | `tp.args` | arguments to pass to the tp container | "-vv" |
+  args: "-vv"
+  ## @md | `tp.env` | environment variables to pass to the tp container | nil |
   env:
   image:
+    ## @md | `tp.image.pullPolicy` | imagePullPolicy for the tp | IfNotPresent |
     pullPolicy: IfNotPresent
+    ## @md | `tp.image.repository` | repository for the tp | taekion/taekion/taekion-fs-tp |
     repository: taekion/taekion-fs-tp
+    ## @md | `tp.image.tag` | tag of the tp container | "v0.6.0" |
     tag: "v0.6.0"
   resources:
 
+## @md | `maxUnavailable` | maxUnavailable for the deployment if kind=DaemonSet | 1 |
 maxUnavailable: 1
+## @md | `minReadySeconds` | minReadySeconds for the deployment (if deployment kind and k8s version supports it) | 120 |
 minReadySeconds: 120
 
 middleware:
-  args:
+  ## @md | `middleware.args` | arguments to pass to the middleware container | "--debug" |
+  args: "--debug"
+  ## @md | `middleware.env` | environment variables for the middleware | nil |
   env:
   image:
+    ## @md | `middleware.image.pullPolicy` | imagePullPolicy for the middleware | IfNotPresent |
     pullPolicy: IfNotPresent
+    ## @md | `middleware.image.repository` | repository for the middleware | taekion/taekion-fs-middleware |
     repository: taekion/taekion-fs-middleware
+    ## @md | `middleware.image.tag` | tag for the middleware | v0.6.0 |
     tag: "v0.6.0"
+  ## @md | `middleware.port` | port for the middleware service| 8000 |
   port: 8000
+  ## @md | `middleware.resources` | resources for the middleware | {} |
   resources:
 
+## @md | `perNodeServiceType` | the type of service to create for per node access (only applies if kind=StatefulSet)| ClusterIP |
 perNodeServiceType: ClusterIP
+
+## @md | `podAnnotations` | pod annotations for the tfs set | {} |
 podAnnotations: {}
 
 serviceAccount:
+  ## @md | `serviceAccount.create` | true to create a service account | false |
   create: true
+  ## @md | `serviceAccount.name` | name of the service account | nil (defaults to based on release name) |
   name:
 
 sawtooth:
