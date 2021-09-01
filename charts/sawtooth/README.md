@@ -11,6 +11,7 @@
 | `ingress.certManager` | true to enable the acme certmanager for this ingress | false |
 | `ingress.hostname` | primary hostname for the ingress | false |
 | `ingress.path` | path for the ingress's primary hostname | / |
+| `ingress.pathType` | pathType for the ingress's primary hostname | nil |
 | `ingress.annotations` | annotations for the ingress | {} |
 | `ingress.tls` | true to enable tls on the ingress with a secrete at hostname-tls | false |
 | `ingress.extraHosts` | list of extra hosts to add to the ingress | [] |
