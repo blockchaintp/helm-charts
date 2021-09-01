@@ -1,0 +1,16 @@
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "common.names.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels: {{- include "lib.labels" . | nindent 4 }}
+spec:
+  sessionAffinity: ClientIP
+  ports:
+    - port: {{.Values.middleware.port}}
+      protocol: TCP
+      targetPort: {{ include "tfs.middleware.containerPort" . }}
+      name: taekionrest
+  selector: {{- include "common.labels.matchLabels" . | nindent 4 }}

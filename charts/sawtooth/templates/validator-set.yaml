@@ -14,7 +14,7 @@ spec:
   {{- end }}
   updateStrategy:
     type: RollingUpdate
-  {{ if not (or .Values.sawtooth.statefulset.enabled (eq $consensus 100)) -}}
+  {{ if not (or .Values.sawtooth.statefulset.enabled (eq $consensus 100)) }}
     rollingUpdate:
       maxUnavailable: {{ .Values.sawtooth.maxUnavailable | int }}
   {{- end }}

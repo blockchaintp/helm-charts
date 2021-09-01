@@ -1,0 +1,7 @@
+check for stable entity names (services, statefulsets, serviceaccounts):
+  1: |
+    test-tfs-on-sawtooth
+  2: |
+    test-tfs-on-sawtooth
+  3: |
+    test-tfs-on-sawtooth

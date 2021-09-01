@@ -1,0 +1,30 @@
+@startuml tfs-sts
+
+' Kubernetes
+!define KubernetesPuml https://raw.githubusercontent.com/dcasati/kubernetes-PlantUML/master/dist
+
+!include KubernetesPuml/kubernetes_Common.puml
+!include KubernetesPuml/kubernetes_Context.puml
+
+!include KubernetesPuml/OSS/KubernetesDeploy.puml
+!include KubernetesPuml/OSS/KubernetesSts.puml
+!include KubernetesPuml/OSS/KubernetesDs.puml
+!include KubernetesPuml/OSS/KubernetesSvc.puml
+!include KubernetesPuml/OSS/KubernetesPvc.puml
+!include KubernetesPuml/OSS/KubernetesPod.puml
+!include KubernetesPuml/OSS/KubernetesCm.puml
+!include KubernetesPuml/OSS/KubernetesJob.puml
+
+
+Namespace_Boundary(besuns,"tfs") {
+  !include tfs-sts-unboxed.plantuml
+}
+
+actor actor
+actor --> tfs_svc
+actor --> tfs_svc_0
+actor --> tfs_svc_1
+actor --> tfs_svc_2
+actor --> tfs_svc_3
+
+@enduml

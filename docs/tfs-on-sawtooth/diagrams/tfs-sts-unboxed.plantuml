@@ -1,0 +1,51 @@
+@startuml tfs-sts-unboxed
+
+' Kubernetes
+!define KubernetesPuml https://raw.githubusercontent.com/dcasati/kubernetes-PlantUML/master/dist
+
+!include KubernetesPuml/kubernetes_Common.puml
+!include KubernetesPuml/kubernetes_Context.puml
+
+!include KubernetesPuml/OSS/KubernetesDeploy.puml
+!include KubernetesPuml/OSS/KubernetesSts.puml
+!include KubernetesPuml/OSS/KubernetesDs.puml
+!include KubernetesPuml/OSS/KubernetesSvc.puml
+!include KubernetesPuml/OSS/KubernetesPvc.puml
+!include KubernetesPuml/OSS/KubernetesPod.puml
+!include KubernetesPuml/OSS/KubernetesCm.puml
+!include KubernetesPuml/OSS/KubernetesJob.puml
+
+
+
+KubernetesSts(tfs_sts, "tfs", "4 nodes") {
+  KubernetesPod(tfs_pod_0,"tfs-0","")
+  KubernetesPod(tfs_pod_1,"tfs-1","")
+  KubernetesPod(tfs_pod_2,"tfs-2","")
+  KubernetesPod(tfs_pod_3,"tfs-3","")
+}
+
+KubernetesSvc(tfs_svc, "tfs", "all nodes")
+KubernetesSvc(tfs_svc_0, "tfs-0", "tfs-0")
+KubernetesSvc(tfs_svc_1, "tfs-1", "tfs-1")
+KubernetesSvc(tfs_svc_2, "tfs-2", "tfs-2")
+KubernetesSvc(tfs_svc_3, "tfs-3", "tfs-3")
+
+together {
+  tfs_svc --> tfs_sts
+  together {
+    tfs_svc_0 --> tfs_pod_0
+    tfs_svc_1 --> tfs_pod_1
+    tfs_svc_2 --> tfs_pod_2
+    tfs_svc_3 --> tfs_pod_3
+  }
+}
+
+!include ../../sawtooth/diagrams/sawtooth-sts-unboxed.plantuml
+
+tfs_pod_0 --> sawtooth_svc_0
+tfs_pod_1 --> sawtooth_svc_1
+tfs_pod_2 --> sawtooth_svc_2
+tfs_pod_3 --> sawtooth_svc_3
+hide sawtooth_svc
+
+@enduml

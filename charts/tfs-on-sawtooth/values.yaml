@@ -1,146 +1,93 @@
-#This file is a reasonable defaults file for sawtooth 1.1
+## @md # TFS on Sawtooth
+## @md
+## @md | field | description | default |
+## @md |-|-|-|
 
-affinity:
-  #Normally set this as disabled.
-  # If false - no effect, validators are run on every ( or in the case of devmode any one)
-  # node in the cluster.
-  # If True, then validators will be deployed only to k8s nodes with the label
-  #       app={{.sawtooth.networkName}}-validator
-  enabled: false
+global:
+  image:
+    tag:
 
-# This is optional,
-# if false the values are ignored,
-# if true then there should exist a secret within the namespace
-#   of the given names, multiple values are acceptable
 imagePullSecrets:
+  ## @md | `imagePullSecrets.enabled` | if true use the list of named imagePullSecrets | false |
   enabled: false
-  value:
-    - name: regcred
+  ## @md | `imagePullSecrets.value` | a list if named secret references of the form   ```- name: secretName```| [] |
+  value: []
+
+ingress:
+  ## @md | `ingress.apiVersion` | if necessary the apiVersion of the ingress may be overridden | "" |
+  apiVersion: ""
+  ## @md | `ingress.enabled` | true to enable the ingress to the main service rest-api | false |
+  enabled: false
+  ## @md | `ingress.certManager` | true to enable the acme certmanager for this ingress | false |
+  certManager: false
+  ## @md | `ingress.hostname` | primary hostname for the ingress | false |
+  hostname: "tfs.local"
+  ## @md | `ingress.path` | path for the ingress's primary hostname | / |
+  path: /
+  ## @md | `ingress.pathType` | pathType for the ingress's primary hostname | nil |
+  pathType:
+  ## @md | `ingress.annotations` | annotations for the ingress | {} |
+  annotations: {}
+  ## @md | `ingress.tls` | true to enable tls on the ingress with a secrete at hostname-tls | false |
+  tls: false
+  ## @md | `ingress.extraHosts` | list of extra hosts to add to the ingress | [] |
+  extraHosts: []
+  ## @md | `ingress.extraPaths` | list of extra paths to add to the primary host of the ingress | [] |
+  extraPaths: []
+  ## @md | `ingress.extraTls` | list of extra tls entries | [] |
+  extraTls: []
+
+tp:
+  ## @md | `tp.args` | arguments to pass to the tp container | "-vv" |
+  args: "-vv"
+  ## @md | `tp.env` | environment variables to pass to the tp container | nil |
+  env:
+  image:
+    ## @md | `tp.image.pullPolicy` | imagePullPolicy for the tp | IfNotPresent |
+    pullPolicy: IfNotPresent
+    ## @md | `tp.image.repository` | repository for the tp | taekion/taekion/taekion-fs-tp |
+    repository: taekion/taekion-fs-tp
+    ## @md | `tp.image.tag` | tag of the tp container | "v0.6.0" |
+    tag: "v0.6.0"
+  resources:
+
+## @md | `maxUnavailable` | maxUnavailable for the deployment if kind=DaemonSet | 1 |
+maxUnavailable: 1
+## @md | `minReadySeconds` | minReadySeconds for the deployment (if deployment kind and k8s version supports it) | 120 |
+minReadySeconds: 120
+
+middleware:
+  ## @md | `middleware.args` | arguments to pass to the middleware container | "--debug" |
+  args: "--debug"
+  ## @md | `middleware.env` | environment variables for the middleware | nil |
+  env:
+  image:
+    ## @md | `middleware.image.pullPolicy` | imagePullPolicy for the middleware | IfNotPresent |
+    pullPolicy: IfNotPresent
+    ## @md | `middleware.image.repository` | repository for the middleware | taekion/taekion-fs-middleware |
+    repository: taekion/taekion-fs-middleware
+    ## @md | `middleware.image.tag` | tag for the middleware | v0.6.0 |
+    tag: "v0.6.0"
+  ## @md | `middleware.port` | port for the middleware service| 8000 |
+  port: 8000
+  ## @md | `middleware.resources` | resources for the middleware | {} |
+  resources:
+
+## @md | `perNodeServiceType` | the type of service to create for per node access (only applies if kind=StatefulSet)| ClusterIP |
+perNodeServiceType: ClusterIP
+
+## @md | `podAnnotations` | pod annotations for the tfs set | {} |
+podAnnotations: {}
+
+serviceAccount:
+  ## @md | `serviceAccount.create` | true to create a service account | false |
+  create: true
+  ## @md | `serviceAccount.name` | name of the service account | nil (defaults to based on release name) |
+  name:
+
+## @md | `sawtooth` | sawtooth options may be configured | see [Sawtooth](../sawtooth/README.md) |
 sawtooth:
-  opentsdb:
-    db: metrics
-    url:
-    enabled: false
-  minReadySeconds: 120
-  maxUnavailable: 1
-  containers:
-    grafana:
-      env:
-    influxdb:
-      env:
-    block_info:
-      args:
-    identity_tp:
-      args:
-    rest_api:
-      args:
-    settings_tp:
-      args:
-    validator:
-      args:
-      env:
-      imagePullPolicy: Always
-    monitor:
-      imagePullPolicy: Always
-    taekion_tp:
-      args:
-      env:
-      imagePullPolicy: IfNotPresent
-    taekion_rest_api:
-      args:
-      env:
-      imagePullPolicy: IfNotPresent
-  ports:
-    sawnet: 8800
-    consensus: 5050
-    sawcomp: 4004
-    rest: 8008
-    damlrpc: 39000
-    taekion_rest: 8000
-  livenessProbe:
-    enabled: false
-    initialDelaySeconds: 300
-    periodSeconds: 120
-    active: "false"
-    exitSignals: "block-info-tp pbft-engine"
-  heartbeat:
-    interval: 300
-  permissioned: false
-  #This MUST be chosen by the user
-  # Follows DNS naming rules
-  namespace: prod
-  # This MUST be chosen by the user.
-  # Follows DNS naming rules
-  networkName: mynetwork8
-  # serial or parallel
-  scheduler: serial
-  # 100 - DevMode, 200 - PoET,300 - Raft, 400 - pbft
-  # Engines can be enabled, but they aren't active unless they are selected
-  # as the consensus algorithm.
-  consensus: 400
-  genesis:
-    # If true, and the cluster is starting for the first time, then
-    # a node will be selected to create and submit the genesis block
-    # the node chosen will be the "alpha" node, the one node which has no
-    # other SEEDS or PEERS configured dynamically
-    enabled: true
-    # The seed is an arbitrary string which identifies a given genesis
-    # If the data of a given set of nodes is to be wiped out, change
-    # this value.
-    seed: 9a2de774-90b5-11e9-9df0-87e889b0f1c9
-  # Dynamic Peering should default to false, since it is a bit unreliable
-  # PBFT and RAFT should have dynamic peering
-  dynamicPeering: false
-  externalSeeds: []
-  seth:
-    # This should default to false, there appear to be problems with the required
-    # block_info block injector that this depends upon
-    enabled: false
-  xo:
-    # default this to false since you probably don't want it in real life
-    enabled: false
-  smallbank:
-    # default this to false since you probably don't want it in real life
-    enabled: false
-  daml:
-    # default daml to false at the moment
-    enabled: false
-    extra_args:
-      enabled: false
-      arg_str: some args
-  volumes:
-    # This MUST be set, and SHOULD be presented to the user as an option, as it is a likely area
-    # of customization
-    hostPathBaseDir: /var/lib/btp/
-  # This is an arbitrary cool down period to wait for validators to initialize
-  # before starting any client operations
-  client_wait: 90
-  customTPs:
-          # A list of basic container definitions
-          #    - name: intkey-tp
-          #      image: "blockchaintp/sawtooth-intkey-tp-go:1.0.5"
-          #      command: [ "bash", "-c" ]
-          #      args: [ "intkey-tp-go -v --connect tcp://localhost:4004" ]
-
-
-# The below are mostly controlled by BTP, although an "advanced" option to customize them may be
-# presented
-images:
-  postgres: postgres:11
-  devmode_engine: blockchaintp/sawtooth-devmode-engine-rust:BTP2.1.0rc14
-  pbft_engine: blockchaintp/sawtooth-pbft-engine:BTP2.1.0rc14
-  poet_cli: blockchaintp/sawtooth-poet-cli:BTP2.1.0rc14
-  poet_engine: blockchaintp/sawtooth-poet-engine:BTP2.1.0rc14
-  poet_validator_registry_tp: blockchaintp/sawtooth-poet-validator-registry-tp:BTP2.1.0rc14
-  raft_engine: blockchaintp/sawtooth-raft-engine:BTP2.1.0rc14
-  block_info_tp: blockchaintp/sawtooth-block-info-tp:BTP2.1.0rc14
-  identity_tp: blockchaintp/sawtooth-identity-tp:BTP2.1.0rc14
-  intkey_tp: blockchaintp/sawtooth-intkey-tp-go:BTP2.1.0rc14
-  settings_tp: blockchaintp/sawtooth-settings-tp:BTP2.1.0rc14
-  shell: blockchaintp/sawtooth-shell:BTP2.1.0rc14
-  grafana: blockchaintp/metrics-grafana:BTP2.1.0rc14
-  influxdb: blockchaintp/metrics-influxdb:BTP2.1.0rc14
-  validator: blockchaintp/sawtooth-validator:BTP2.1.0rc14
-  rest_api: blockchaintp/sawtooth-rest-api:BTP2.1.0rc14
-  taekion_tp: taekion/taekion-fs-tp:latest
-  taekion_rest_api: taekion/taekion-fs-middleware:latest
+  sawtooth:
+    statefulset:
+      enabled: true
+    consensus: 400
