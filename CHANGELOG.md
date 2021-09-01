@@ -1,5 +1,22 @@
 # CHANGELOG
 
+## Unreleased
+
+* docs: add cors ingress doc [view commit](https://github.com/catenasys/helm-charts/commit/3efed7b4e6fb6794d210f20509dc47ea1d94bbda)
+* docs(sawtooth): correct README.md title [view commit](https://github.com/catenasys/helm-charts/commit/83b5c790076b1287ddfb10882fccae279c2fd772)
+* docs: update diagrams [view commit](https://github.com/catenasys/helm-charts/commit/42a33652528323c931037b8d1f6263ed72e37a1a)
+* docs(sawtooth): update values docs [view commit](https://github.com/catenasys/helm-charts/commit/a8b21e4eefb885635e1da2fba948f108440b6e7d)
+* feat(sawtooth): add ingress capability [view commit](https://github.com/catenasys/helm-charts/commit/1fe012aa5be8b34bd1fb7188cc6c65ac64ebfad2)
+* feat(standard-defs): add ingress tpl definition [view commit](https://github.com/catenasys/helm-charts/commit/67f621248b70d0e953cf479114f10606f810ae11)
+* feat(standard-defs): add more standard tpls to lib [view commit](https://github.com/catenasys/helm-charts/commit/1ba13182f45dfbbe2ba536e43b60941bcd0cce48)
+* refactor(sawtooth): extract out more common tpls [view commit](https://github.com/catenasys/helm-charts/commit/2b6e0b1295bc88c2ecebe85d68e90c9535b66db6)
+* test(sawtooth): update snapshot for new names [view commit](https://github.com/catenasys/helm-charts/commit/d9b40afb7f188775eb37aa9ec99747337e229040)
+* test(sawtooth): stable names for pvcs and hostpath [view commit](https://github.com/catenasys/helm-charts/commit/56bd968731acf8431890629e531d71343934570d)
+* feat(sawtooth): allow the pernode service to change type [view commit](https://github.com/catenasys/helm-charts/commit/3f3aadf68ba94210294e9e1b50687ee356cfa71d)
+* feat(sawtooth): complete redesign of sawtooth chart [view commit](https://github.com/catenasys/helm-charts/commit/641abde2d8621eb783e492594a338ba79ed668b9)
+* refactor: replace sawtooth.name references with template [view commit](https://github.com/catenasys/helm-charts/commit/11d9ee720f4dc08301ec14462444e6f6b2b3df73)
+* refactor: replace sawtooth.namespace references with Release.namespace [view commit](https://github.com/catenasys/helm-charts/commit/028b29e515c5e364e857d54864e3585fa36f19b2)
+
 ## v0.2.54
 
 * feat(daml-on-besu): enable private transaction features [view commit](https://github.com/catenasys/helm-charts/commit/c2266349252182b31d2ff304832f4afb05f6cb91)
