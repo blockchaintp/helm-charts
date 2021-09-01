@@ -1,0 +1,71 @@
+{{ $stlServiceName := include "lib.call-nested" (list . "sawtooth" "common.names.fullname")}}
+{{ $kind := include "tfs.kind" . }}
+---
+apiVersion: apps/v1
+kind: {{ include "tfs.kind" . }}
+metadata:
+  name: {{ include "common.names.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels: {{ include "lib.labels" . | nindent 4}}
+spec:
+  {{ if eq $kind "StatefulSet" -}}
+  replicas: {{ include "tfs.replicas" . }}
+  serviceName: {{ include "common.names.fullname" . | quote }}
+  podManagementPolicy: Parallel
+  {{- end }}
+  updateStrategy:
+    type: RollingUpdate
+    {{ if eq $kind "DaemonSet" -}}
+    rollingUpdate:
+      maxUnavailable: {{ .Values.maxUnavailable | int }}
+    {{- end }}
+  {{ if (semverCompare "^1.22" .Capabilities.KubeVersion.Version) -}}
+  minReadySeconds: {{ .Values.minReadySeconds | int }}
+  {{- end }}
+  selector:
+    matchLabels: {{ include "common.labels.matchLabels" . | nindent 6}}
+  template:
+    metadata:
+      labels: {{- include "common.labels.matchLabels" . | nindent 8 }}
+      annotations: {{- toYaml .Values.podAnnotations | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "lib.serviceAccountName" . }}
+      affinity: {{- include "tfs.affinity" . | nindent 8 }}
+      hostAliases:
+      containers:
+        - name: taekion-tp
+          {{- include "lib.image" (dict "imageRoot" .Values.tp.image "global" .Values.global ) | nindent 10 }}
+          command: [ "bash", "-c"]
+          args:
+            - |
+              {{ if ne $kind "DaemonSet" -}}
+              HOST={{ $stlServiceName }}-${HOST##*-}.{{ .Release.Namespace }}.svc.cluster.local
+              {{- end }}
+              taekion-fs-tp -vv -C tcp://$HOST:{{ include "tfs.sawtooth.sawcomp" . }}
+          resources: {{- toYaml .Values.tp.resources | nindent 12 }}
+          env:
+            - name: HOST
+              valueFrom:
+                fieldRef:
+                  fieldPath: {{ include "tfs.field.node" . }}
+        - name: taekion-rest-api
+          {{- include "lib.image" (dict "imageRoot" .Values.middleware.image "global" .Values.global ) | nindent 10 }}
+          ports:
+            - containerPort: {{ include "tfs.middleware.containerPort" . }}
+              name: taekionrest
+              {{ if eq $kind "DaemonSet" -}}
+              hostPort: {{ include "tfs.middleware.containerPort" . }}
+              {{- end }}
+          command: [ "bash", "-c" ]
+          args:
+            - |
+              {{ if ne $kind "DaemonSet" -}}
+              HOST={{ $stlServiceName }}-${HOST##*-}
+              {{- end }}
+              /usr/local/bin/tfs-mid --debug --url http://$HOST:{{ include "tfs.sawtooth.restport" . }}
+          env:
+            - name: HOST
+              valueFrom:
+                fieldRef:
+                  fieldPath: {{ include "tfs.field.node" . }}
+          resources: {{- toYaml .Values.middleware.resources | nindent 12 }}
