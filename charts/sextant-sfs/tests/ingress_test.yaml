@@ -1,0 +1,25 @@
+suite: test the ingresses
+templates:
+  - charts/sextant/templates/ingress.yaml
+release:
+  name: test
+  namespace: testns
+tests:
+  - it: ingress links to service properly
+    set:
+      sextant:
+        ingress:
+          enabled: true
+          hosts:
+            - host: test-host
+              paths:
+                - /path
+    asserts:
+      - equal:
+          path: spec.rules[0].http.paths[0].backend.serviceName
+          value: test-sextant-sfs
+      - equal:
+          path: spec.rules[0].http.paths[0].backend.servicePort
+          value: 8000
+      - matchSnapshot:
+          path: spec
