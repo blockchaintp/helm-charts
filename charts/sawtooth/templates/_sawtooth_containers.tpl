@@ -48,7 +48,7 @@ resources: {{- toYaml .container.resources | nindent 2 }}
 {{ include "sawtooth.container" (dict "container" .Values.sawtooth.containers.validator "values" .Values "global" .Values.global)}}
 */}}
 {{- define "sawtooth.container" -}}
-{{- include "utils.image" (dict "imageRoot" .container.image "values" .values "global" .global ) |nindent 0 }}
+{{- include "lib.image" (dict "imageRoot" .container.image "values" .values "global" .global ) |nindent 0 }}
 {{- include "sawtooth.container.command" . | nindent 0 }}
 {{- include "sawtooth.container.env" . | nindent 0 }}
 {{- include "sawtooth.container.resources" . | nindent 0 }}

@@ -1,5 +1,5 @@
 {{- if .Values.ingress.enabled -}}
-{{- $serviceName := include "sawtooth.validator.fullname" . -}}
+{{- $serviceName := include "common.names.fullname" . -}}
 {{- $ingressName := printf "%s-rest" $serviceName -}}
 {{- $servicePort := .Values.sawtooth.ports.rest -}}
 {{ include "lib.ingress" (dict "ingressName" $ingressName "ingress" .Values.ingress "serviceName" $serviceName "servicePort" $servicePort "context" $) }}
