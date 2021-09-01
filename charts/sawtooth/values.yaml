@@ -44,6 +44,8 @@ ingress:
   hostname: "sawtooth.local"
   ## @md | `ingress.path` | path for the ingress's primary hostname | / |
   path: /
+  ## @md | `ingress.pathType` | pathType for the ingress's primary hostname | nil |
+  pathType:
   ## @md | `ingress.annotations` | annotations for the ingress | {} |
   annotations: {}
   ## @md | `ingress.tls` | true to enable tls on the ingress with a secrete at hostname-tls | false |
