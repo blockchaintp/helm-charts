@@ -9,7 +9,7 @@ apiVersion: v1
 kind: Service
 metadata:
   labels: {{ include "sawtooth.labels" $ctx | nindent 4}}
-  name: {{ include "sawtooth.validator.fullname" $ctx }}-{{ . }}
+  name: {{ include "common.names.fullname" $ctx }}-{{ . }}
   namespace: {{ $ctx.Release.Namespace }}
 spec:
   type: {{ $ctx.Values.sawtooth.perNodeServiceType }}
@@ -27,8 +27,8 @@ spec:
       protocol: TCP
       targetPort: {{ $ctx.Values.sawtooth.ports.sawcomp }}
       name: sawcomp
-  selector: {{- include "sawtooth.selectorLabels" $ctx | nindent 4 }}
-    statefulset.kubernetes.io/pod-name: {{ include "sawtooth.validator.fullname" $ctx }}-{{ . }}
+  selector: {{- include "sawtooth.labels.matchLabels" $ctx | nindent 4 }}
+    statefulset.kubernetes.io/pod-name: {{ include "common.names.fullname" $ctx }}-{{ . }}
 {{- end -}}
 {{- else -}}
 ---

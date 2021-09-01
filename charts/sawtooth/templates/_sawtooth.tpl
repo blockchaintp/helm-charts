@@ -1,24 +1,27 @@
-{{/*
-Create a default fully qualified sawtooth app name.
-*/}}
-{{- define "sawtooth.validator.fullname" -}}
-{{- printf "%s" (include "common.names.fullname" .) | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
 
 {{/*
 Sawtooth Selector labels
 */}}
 {{- define "sawtooth.labels" -}}
 {{ include "lib.labels" . }}
-app: {{ include "sawtooth.validator.fullname" . }}
+app: {{ include "common.names.fullname" . }}
+{{- end -}}
+
+{{- define "sawtooth.kind" -}}
+{{ $consensus := .Values.sawtooth.consensus | int }}
+{{- if or .Values.sawtooth.statefulset.enabled (eq $consensus 100) -}}
+StatefulSet
+{{- else -}}
+DaemonSet
+{{- end -}}
 {{- end -}}
 
 {{/*
 Sawtooth Selector labels
 */}}
-{{- define "sawtooth.selectorLabels" -}}
+{{- define "sawtooth.labels.matchLabels" -}}
 {{ include "common.labels.matchLabels" . }}
-app: {{ include "sawtooth.validator.fullname" . }}
+app: {{ include "common.names.fullname" . }}
 {{- end -}}
 
 {{/* if the consensus type is devmode replicas is always 1 */}}
@@ -284,7 +287,7 @@ nodeAffinity:
         - key: app
           operator: In
           values:
-          - {{- include "sawtooth.validator.fullname" . -}}
+          - {{- include "common.names.fullname" . -}}
 {{- else -}}
 {{- if .Values.sawtooth.affinity -}}
 {{- toYaml .Values.sawtooth.affinity }}

@@ -14,7 +14,7 @@ data:
     BIN_DIR=/usr/local/bin
 
     function get_local_pods() {
-      kubectl get pod -l "app={{ include "sawtooth.validator.fullname" . }}" \
+      kubectl get pod -l "app={{ include "common.names.fullname" . }}" \
         --no-headers=true -o name | sed -e 's/pod\///g'
     }
 

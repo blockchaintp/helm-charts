@@ -1,20 +1,15 @@
 {{ $consensus := .Values.sawtooth.consensus | int }}
 ---
 apiVersion: apps/v1
-
-{{ if or .Values.sawtooth.statefulset.enabled (eq $consensus 100) }}
-kind: StatefulSet
-{{ else }}
-kind: DaemonSet
-{{ end }}
+kind: {{ include "sawtooth.kind" . }}
 metadata:
-  name: {{ include "sawtooth.validator.fullname" . }}
+  name: {{ include "common.names.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels: {{ include "sawtooth.labels" . | nindent 4}}
 spec:
   {{ if or .Values.sawtooth.statefulset.enabled (eq $consensus 100) -}}
   replicas: {{ include "sawtooth.replicas" . | int }}
-  serviceName: {{ include "sawtooth.validator.fullname" . | quote }}
+  serviceName: {{ include "common.names.fullname" . | quote }}
   podManagementPolicy: Parallel
   {{- end }}
   updateStrategy:
@@ -27,10 +22,10 @@ spec:
   minReadySeconds: {{ .Values.sawtooth.minReadySeconds | int }}
   {{- end }}
   selector:
-    matchLabels: {{- include "sawtooth.selectorLabels" . | nindent 6 }}
+    matchLabels: {{- include "sawtooth.labels.matchLabels" . | nindent 6 }}
   template:
     metadata:
-      labels: {{- include "sawtooth.selectorLabels" . | nindent 8 }}
+      labels: {{- include "sawtooth.labels.matchLabels" . | nindent 8 }}
       annotations: {{- toYaml .Values.sawtooth.statefulset.podAnnotations | nindent 8 }}
     spec:
       serviceAccountName: {{ include "lib.serviceAccountName" . }}
@@ -39,7 +34,7 @@ spec:
       containers: {{- include "sawtooth.containers" . | nindent 8 }}
       initContainers:
         - name: setup
-          {{- include "utils.image" (dict "imageRoot" .Values.sawtooth.containers.validator.image "global" .Values.global ) |nindent 10 }}
+          {{- include "lib.image" (dict "imageRoot" .Values.sawtooth.containers.validator.image "global" .Values.global ) |nindent 10 }}
           volumeMounts:
             {{- include "sawtooth.etc.mount" . | nindent 12 }}
             {{- include "sawtooth.data.mount" . | nindent 12 }}
