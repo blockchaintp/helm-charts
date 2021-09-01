@@ -41,6 +41,6 @@ somecomponent:
 {{ include "utils.image" (dict "imageRoot" .Values.sawtooth.containers.validator.image "global" .Values.global)}}
 */}}
 {{- define "lib.image" -}}
-image: {{ include "utils.image.url" . }}
+image: {{ include "lib.image.url" . }}
 imagePullPolicy: {{ default "IfNotPresent" .imageRoot.pullPolicy }}
 {{- end -}}
