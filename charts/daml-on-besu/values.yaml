@@ -247,6 +247,29 @@ daml:
       tag: BTP2.1.0rc14
       ## @md | `daml.jsonapi.image.pullPolicy` | imagePullPolicy for container | IfNotPresent |
       pullPolicy: IfNotPresent
+    ingress:
+      ## @md | `daml.jsonapi.ingress.apiVersion` | if necessary the apiVersion of the ingress may be overridden | "" |
+      apiVersion: ""
+      ## @md | `daml.jsonapi.ingress.enabled` | true to enable the ingress to the main service rest-api | false |
+      enabled: false
+      ## @md | `daml.jsonapi.ingress.certManager` | true to enable the acme certmanager for this ingress | false |
+      certManager: false
+      ## @md | `daml.jsonapi.ingress.hostname` | primary hostname for the ingress | false |
+      hostname:
+      ## @md | `daml.jsonapi.ingress.path` | path for the ingress's primary hostname | / |
+      path: /
+      ## @md | `daml.jsonapi.ingress.pathType` | pathType for the ingress's primary hostname | nil |
+      pathType:
+      ## @md | `daml.jsonapi.ingress.annotations` | annotations for the ingress | {} |
+      annotations: {}
+      ## @md | `daml.jsonapi.ingress.tls` | true to enable tls on the ingress with a secrete at hostname-tls | false |
+      tls: false
+      ## @md | `daml.jsonapi.ingress.extraHosts` | list of extra hosts to add to the ingress | [] |
+      extraHosts: []
+      ## @md | `daml.jsonapi.ingress.extraPaths` | list of extra paths to add to the primary host of the ingress | [] |
+      extraPaths: []
+      ## @md | `daml.jsonapi.ingress.extraTls` | list of extra tls entries | [] |
+      extraTls: []
     ports:
       http: 8080
     ## @md | `daml.jsonapi.args` | extra args | nil |

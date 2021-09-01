@@ -1,0 +1,28 @@
+suite: test the ingresses
+templates:
+  - jsonapi-ingress.yaml
+release:
+  name: test
+  namespace: testns
+tests:
+  - it: ingress links to service properly
+    set:
+      daml:
+        jsonapi:
+          ingress:
+            enabled: true
+            hosts:
+              - host: test-host
+                paths:
+                  - /path
+      ingress:
+        apiVersion: extensions/v1beta1
+    asserts:
+      - equal:
+          path: spec.rules[0].http.paths[0].backend.serviceName
+          value: test-daml-on-besu
+      - equal:
+          path: spec.rules[0].http.paths[0].backend.servicePort
+          value: 8080
+      - matchSnapshot:
+          path: spec
