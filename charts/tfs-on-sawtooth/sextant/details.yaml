@@ -14,8 +14,8 @@ form: tfs-on-sawtooth/sextant/form.js
 summary: tfs-on-sawtooth/sextant/summary.js
 
 # paths to be used in the getField function
-namePath: sawtooth.networkName
-namespacePath: sawtooth.namespace
+namePath: sawtooth.sawtooth.networkName
+namespacePath: sawtooth.sawtooth.namespace
 
 # additional fields for the button
 # form: <same as deploymentVersion>
