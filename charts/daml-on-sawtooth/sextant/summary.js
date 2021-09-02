@@ -30,10 +30,10 @@ const summary = (values) => {
     value: getConsensusTitle(sawtooth.consensus),
   }, {
     title: 'External Seeds',
-    value: sawtooth.externalSeeds.map((seed) => seed.address),
+    value: (sawtooth.externalSeeds || []).map((seed) => seed.address),
   }, {
     title: 'Custom Transaction Processors',
-    value: sawtooth.customTPs.map((tp) => `${tp.name} (${tp.image})`),
+    value: (sawtooth.customTPs || []).map((tp) => `${tp.name} (${tp.image})`),
   }, {
     title: 'Sawtooth Validator Port',
     value: '8800',

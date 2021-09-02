@@ -27,13 +27,13 @@ const summary = (values) => {
     value: getConsensusTitle(sawtooth.sawtooth.consensus),
   }, {
     title: 'External Seeds',
-    value: sawtooth.sawtooth.externalSeeds.map((seed) => seed.ip),
+    value: (sawtooth.sawtooth.externalSeeds || []).map((seed) => seed.ip),
   }, {
     title: 'Sawtooth Validator Port',
     value: '8800',
   }, {
     title: 'Custom Transaction Processors',
-    value: sawtooth.sawtooth.customTPs.map((tp) => `${tp.name} (${tp.image})`),
+    value: (sawtooth.sawtooth.customTPs || []).map((tp) => `${tp.name} (${tp.image})`),
   }]
 }
 
