@@ -102,6 +102,17 @@
 | `daml.jsonapi.image.repository` | repository for the jsonapi image | blockchaintp/daml-json-api |
 | `daml.jsonapi.image.tag` | tag for the jsonapi image | BTP2.1.0rc14 |
 | `daml.jsonapi.image.pullPolicy` | imagePullPolicy for container | IfNotPresent |
+| `daml.jsonapi.ingress.apiVersion` | if necessary the apiVersion of the ingress may be overridden | "" |
+| `daml.jsonapi.ingress.enabled` | true to enable the ingress to the main service rest-api | false |
+| `daml.jsonapi.ingress.certManager` | true to enable the acme certmanager for this ingress | false |
+| `daml.jsonapi.ingress.hostname` | primary hostname for the ingress | false |
+| `daml.jsonapi.ingress.path` | path for the ingress's primary hostname | / |
+| `daml.jsonapi.ingress.pathType` | pathType for the ingress's primary hostname | nil |
+| `daml.jsonapi.ingress.annotations` | annotations for the ingress | {} |
+| `daml.jsonapi.ingress.tls` | true to enable tls on the ingress with a secrete at hostname-tls | false |
+| `daml.jsonapi.ingress.extraHosts` | list of extra hosts to add to the ingress | [] |
+| `daml.jsonapi.ingress.extraPaths` | list of extra paths to add to the primary host of the ingress | [] |
+| `daml.jsonapi.ingress.extraTls` | list of extra tls entries | [] |
 | `daml.jsonapi.args` | extra args | nil |
 | `daml.jsonapi.env` | list of environment name/value dicts | nil |
 | `daml.jsonapi.packageReloadInterval` | how often to periodically check the daml-rpc for new daml packages | 5s |
