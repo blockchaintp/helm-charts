@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "sextant.fullname" . }}
+  name: {{ template "common.names.fullname" . }}
   labels:
-{{ include "sextant.labels" . | indent 4 }}
+{{ include "lib.labels" . | indent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -11,4 +11,4 @@ spec:
       targetPort: 80
       protocol: TCP
   selector:
-{{ include "sextant.labels" . | indent 4 }}
+{{ include "lib.labels" . | indent 4 }}

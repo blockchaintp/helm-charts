@@ -124,8 +124,17 @@
 | `sawtooth.customTPs` | a list of [custom tp definitions](#custom-tp-definitions) | list | nil |
 | `sawtooth.affinity` | custom affinity rules for the sawtooth validator deamonset | map | nil |
 | `jsonapi` | settings for the jsonapi | map | N/A |
-| `jsonapi.ingress.enabled` | enable the ingress for the jsonapi | boolean | false |
-| `jsonapi.ingress.annotations` | custom annotations for the jsonapi | map | {} |
+| `jsonapi.ingress.apiVersion` | if necessary the apiVersion of the ingress may be overridden | "" |
+| `jsonapi.ingress.enabled` | true to enable the ingress to the main service rest-api | false |
+| `jsonapi.ingress.certManager` | true to enable the acme certmanager for this ingress | false |
+| `jsonapi.ingress.hostname` | primary hostname for the ingress | false |
+| `jsonapi.ingress.path` | path for the ingress's primary hostname | / |
+| `jsonapi.ingress.pathType` | pathType for the ingress's primary hostname | nil |
+| `jsonapi.ingress.annotations` | annotations for the ingress | {} |
+| `jsonapi.ingress.tls` | true to enable tls on the ingress with a secrete at hostname-tls | false |
+| `jsonapi.ingress.extraHosts` | list of extra hosts to add to the ingress | [] |
+| `jsonapi.ingress.extraPaths` | list of extra paths to add to the primary host of the ingress | [] |
+| `jsonapi.ingress.extraTls` | list of extra tls entries | [] |
 | `jsonapi.ingress.hosts` | list of ingress host and path declarations for the jsonapi ingress | list | [] |
 | `jsonapi` | settings for the trigger service | map | N/A |
 | `trigger.ingress.enabled` | enable the ingress for the trigger-service | boolean | false |

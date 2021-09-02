@@ -29,3 +29,6 @@ dependencies:
     name: postgresql
     repository: https://charts.bitnami.com/bitnami
     version: ~10.9.2
+  - name: standard-defs
+    version: ~0.1.0
+    repository: https://btp-charts-unstable.s3.amazonaws.com/charts/

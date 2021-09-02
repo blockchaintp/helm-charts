@@ -55,8 +55,15 @@ software.
 | `service` | service settings | map | N/A |
 | `service.type` | Sextant service type | string | ClusterIP |
 | `service.port` | Sextant service port | int | 8000 |
-| `ingress` | ingress settings | map | N/A |
-| `ingress.enabled` | true to enable an ingress for sextant | boolean | false |
-| `ingress.annotations` | any custom annotations to the Sextant ingress | map | {} |
-| `ingress.hosts` | a list of host and path lists to publish in the ingress | map | {} |
-| `ingress.tls` | Sextant ingress TLS cofiguration | list | [] |
+| `ingress.apiVersion` | if necessary the apiVersion of the ingress may be overridden | "" |
+| `ingress.enabled` | true to enable the ingress to the main service rest-api | false |
+| `ingress.certManager` | true to enable the acme certmanager for this ingress | false |
+| `ingress.hostname` | primary hostname for the ingress | false |
+| `ingress.path` | path for the ingress's primary hostname | / |
+| `ingress.pathType` | pathType for the ingress's primary hostname | nil |
+| `ingress.annotations` | annotations for the ingress | {} |
+| `ingress.tls` | true to enable tls on the ingress with a secrete at hostname-tls | false(truthy) |
+| `ingress.extraHosts` | list of extra hosts to add to the ingress | [] |
+| `ingress.extraPaths` | list of extra paths to add to the primary host of the ingress | [] |
+| `ingress.extraTls` | list of extra tls entries | [] |
+| `ingress.hosts` | a list of host and path lists to publish in the ingress (deprecated)| map | {} |

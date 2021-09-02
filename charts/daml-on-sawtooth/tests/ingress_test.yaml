@@ -7,6 +7,8 @@ release:
 tests:
   - it: ingress links to service properly
     set:
+      sawtooth:
+        networkName: mynetwork
       jsonapi:
         ingress:
           enabled: true
@@ -14,11 +16,12 @@ tests:
             - host: test-host
               paths:
                 - /path
-      tls: true
+      ingress:
+        apiVersion: networking.k8s.io/v1beta1
     asserts:
       - equal:
           path: spec.rules[0].http.paths[0].backend.serviceName
-          value: mynetwork-daml-rpc
+          value: mynetwork
       - equal:
           path: spec.rules[0].http.paths[0].backend.servicePort
           value: 8080

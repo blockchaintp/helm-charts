@@ -8,6 +8,17 @@
 | imagePullSecrets.value | a list of names of imagePullSecrets | [] |
 | global.image.registry | global override of the image registry | index.docker.io |
 | global.postgresql.servicePort | global override of the postgresql service port | 5432 |
+| `ingress.apiVersion` | if necessary the apiVersion of the ingress may be overridden | "" |
+| `ingress.enabled` | true to enable the ingress to the main service rest-api | false |
+| `ingress.certManager` | true to enable the acme certmanager for this ingress | false |
+| `ingress.hostname` | primary hostname for the ingress | false |
+| `ingress.path` | path for the ingress's primary hostname | / |
+| `ingress.pathType` | pathType for the ingress's primary hostname | nil |
+| `ingress.annotations` | annotations for the ingress | {} |
+| `ingress.tls` | true to enable tls on the ingress with a secrete at hostname-tls | false |
+| `ingress.extraHosts` | list of extra hosts to add to the ingress | [] |
+| `ingress.extraPaths` | list of extra paths to add to the primary host of the ingress | [] |
+| `ingress.extraTls` | list of extra tls entries | [] |
 | orion.affinity | a yaml block defining the affinity rules for the statefulset | {} |
 | orion.annotations | a yaml block defining the annotations for the statefulset | {} |
 | orion.clientport | the port on which the orion servers will listen | 8888 |
