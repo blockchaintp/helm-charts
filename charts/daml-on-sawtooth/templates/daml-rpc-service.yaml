@@ -5,6 +5,7 @@ metadata:
   name: {{.Values.sawtooth.networkName}}-daml-rpc
   labels:
     app: {{.Values.sawtooth.networkName}}-daml-rpc
+    component: daml
 spec:
   type: ClusterIP
   clusterIP: None
