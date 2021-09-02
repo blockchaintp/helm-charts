@@ -36,6 +36,8 @@ spec:
           volumeMounts:
             - mountPath: /data
               name: "pgdata"
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.daml.extraVolumeMounts | nindent 12 }}
           resources: {{ toYaml .Values.postgres.resources | nindent 12 }}
         {{- end }}
         {{- if .Values.daml.jsonapi.enabled }}
@@ -64,8 +66,9 @@ spec:
             {{ if .Values.daml.jsonapi.env }}
             {{- toYaml .Values.daml.jsonapi.env | nindent 12 }}
             {{ end }}
-          volumeMounts:
-            {{- toYaml $.Values.daml.extraVolumeMounts | nindent 12 }}
+          volumeMounts: {{- toYaml $.Values.daml.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.daml.extraVolumeMounts | nindent 12 }}
           resources: {{ toYaml .Values.daml.jsonapi.resources | nindent 12 }}
         {{- end }}
         {{ if .Values.besu.privacy.enabled }}
@@ -95,6 +98,8 @@ spec:
             - mountPath: /besu-keys
               name: besu-keys
               readOnly: true
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.daml.extraVolumeMounts | nindent 12 }}
           {{ end }}
         {{ end }}
         - name: daml-on-besu
@@ -155,9 +160,8 @@ spec:
               name: dev-urandom
             - mountPath: /secrets/jwt
               name: jwt-secret
-            {{- if .Values.daml.extraVolumeMounts }}
-            {{- toYaml .Values.daml.extraVolumeMounts | nindent 12 }}
-            {{- end }}
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.daml.extraVolumeMounts | nindent 12 }}
           resources: {{ toYaml .Values.daml.rpc.resources | nindent 12 }}
       initContainers:
       {{- if .Values.besu.privacy.enabled }}
@@ -221,9 +225,8 @@ spec:
         - name: config
           emptyDir: {}
         {{ end }}
-        {{- if .Values.daml.extraVolumes }}
-        {{- toYaml .Values.daml.extraVolumes | nindent 8 }}
-        {{- end }}
+        {{- include "lib.volumes" .Values.extraVolumes | nindent 8 }}
+        {{- include "lib.volumes" .Values.daml.extraVolumes | nindent 8 }}
 {{- if .Values.postgres.enabled }}
 {{- if not .Values.postgres.persistence.enabled }}
         - name: "pgdata"

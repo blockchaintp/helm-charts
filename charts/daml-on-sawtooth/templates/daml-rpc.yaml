@@ -37,12 +37,10 @@ spec:
                 chown -R 1000:1000 {{.mountPath}}
               {{- end}}
           volumeMounts:
-            {{- if .Values.sawtooth.daml.trigger.extraVolumeMounts }}
-            {{- toYaml .Values.sawtooth.daml.trigger.extraVolumeMounts | nindent 12 }}
-            {{- end}}
-            {{- if .Values.sawtooth.daml.extraVolumeMounts }}
-            {{- toYaml $.Values.sawtooth.daml.extraVolumeMounts | nindent 12 }}
-            {{- end}}
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.daml.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.sawtooth.daml.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.sawtooth.daml.trigger.extraVolumeMounts | nindent 12 }}
       containers:
         - name: postgres
           image: "{{.Values.postgres.image.repository}}:{{.Values.postgres.image.tag}}"
@@ -57,6 +55,9 @@ spec:
           volumeMounts:
             - mountPath: /data
               name: "pgdata"
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.daml.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.sawtooth.daml.extraVolumeMounts | nindent 12 }}
         - name: daml-json-api
           image: {{.Values.images.daml_json_api}}
           imagePullPolicy: {{.Values.sawtooth.containers.jsonapi.imagePullPolicy}}
@@ -84,7 +85,9 @@ spec:
               value: {{ .value | quote }}
             {{- end }}
           volumeMounts:
-            {{- toYaml $.Values.sawtooth.daml.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.daml.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.sawtooth.daml.extraVolumeMounts | nindent 12 }}
         {{ if .Values.daml.trigger_service.enabled }}
         - name: daml-trigger-service
           image: {{.Values.images.daml_trigger_service}}
@@ -142,12 +145,10 @@ spec:
             {{- end }}
           resources: {}
           volumeMounts:
-            {{- if .Values.sawtooth.daml.trigger.extraVolumeMounts }}
-            {{- toYaml .Values.sawtooth.daml.trigger.extraVolumeMounts | nindent 12 }}
-            {{- end}}
-            {{- if .Values.sawtooth.daml.extraVolumeMounts }}
-            {{- toYaml $.Values.sawtooth.daml.extraVolumeMounts | nindent 12 }}
-            {{- end}}
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.daml.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.sawtooth.daml.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.sawtooth.daml.trigger.extraVolumeMounts | nindent 12 }}
         {{- end }}
         {{- range .Values.daml.triggers }}
         - name: {{.name}}
@@ -181,12 +182,10 @@ spec:
               value: {{ .value | quote }}
             {{- end }}
           volumeMounts:
-            {{- if $.Values.sawtooth.daml.trigger.extraVolumeMounts }}
-            {{- toYaml $.Values.sawtooth.daml.trigger.extraVolumeMounts | nindent 12 }}
-            {{- end}}
-            {{- if $.Values.sawtooth.daml.extraVolumeMounts }}
-            {{- toYaml $.Values.sawtooth.daml.extraVolumeMounts | nindent 12 }}
-            {{- end}}
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.daml.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.sawtooth.daml.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.sawtooth.daml.trigger.extraVolumeMounts | nindent 12 }}
         {{- end }}
         - name: daml-rpc
           image: {{.Values.images.daml_rpc}}
@@ -228,9 +227,9 @@ spec:
               name: sawtooth-etc
             - mountPath: /secrets/jwt
               name: jwt-secret
-            {{- if .Values.sawtooth.daml.extraVolumeMounts }}
-            {{- toYaml $.Values.sawtooth.daml.extraVolumeMounts | nindent 12 }}
-            {{- end}}
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.daml.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.sawtooth.daml.extraVolumeMounts | nindent 12 }}
       volumes:
         - name: sawtooth-etc
           hostPath:
@@ -239,12 +238,10 @@ spec:
         - name: jwt-secret
           secret:
             secretName: {{.Values.sawtooth.networkName}}-cert
-        {{- if .Values.sawtooth.daml.trigger.extraVolumes }}
-        {{- toYaml .Values.sawtooth.daml.trigger.extraVolumes | nindent 8 }}
-        {{- end }}
-        {{- if .Values.sawtooth.daml.extraVolumes }}
-        {{- toYaml .Values.sawtooth.daml.extraVolumes | nindent 8 }}
-        {{- end }}
+        {{- include "lib.volumes" .Values.extraVolumes | nindent 8 }}
+        {{- include "lib.volumes" .Values.daml.extraVolumes | nindent 8 }}
+        {{- include "lib.volumes" .Values.sawtooth.daml.extraVolumes | nindent 8 }}
+        {{- include "lib.volumes" .Values.sawtooth.daml.trigger.extraVolumes | nindent 8 }}
 {{- if not .Values.postgres.persistence.enabled }}
         - name: "pgdata"
           emptyDir: {}

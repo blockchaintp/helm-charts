@@ -96,6 +96,8 @@ spec:
               name: sawtooth-signals
             - mountPath: "/var/lib/sawtooth"
               name: sawtooth-data
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.sawtooth.extraVolumeMounts | nindent 12 }}
         {{ else if eq $consensus 300 }}
         - name: raft-engine
           image: {{.Values.images.raft_engine}}
@@ -141,6 +143,8 @@ spec:
               name: sawtooth-data
             - mountPath: /var/run/sawtooth
               name: sawtooth-signals
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.sawtooth.extraVolumeMounts | nindent 12 }}
         {{ else if eq $consensus 200 }}
         - name: poet-engine
           image: {{.Values.images.poet_engine}}
@@ -186,6 +190,8 @@ spec:
               name: sawtooth-data
             - mountPath: /var/run/sawtooth
               name: sawtooth-signals
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.sawtooth.extraVolumeMounts | nindent 12 }}
           resources: {{ toYaml .Values.sawtooth.containers.poet_engine.resources | nindent 12 }}
         - name: poet-validator-registry-tp
           image: {{.Values.images.poet_validator_registry_tp}}
@@ -230,6 +236,8 @@ spec:
               name: sawtooth-data
             - mountPath: /var/run/sawtooth
               name: sawtooth-signals
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.sawtooth.extraVolumeMounts | nindent 12 }}
           resources: {{ toYaml .Values.sawtooth.containers.poet_validator_registry_tp.resources | nindent 12 }}
         {{ else }}
         - name: devmode-engine
@@ -271,6 +279,8 @@ spec:
           volumeMounts:
             - mountPath: /var/run/sawtooth
               name: sawtooth-signals
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.sawtooth.extraVolumeMounts | nindent 12 }}
           resources: {{ toYaml .Values.sawtooth.containers.devmode_engine.resources | nindent 12 }}
         {{ end }}
         - name: settings-tp
@@ -313,6 +323,8 @@ spec:
           volumeMounts:
             - mountPath: /var/run/sawtooth
               name: sawtooth-signals
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.sawtooth.extraVolumeMounts | nindent 12 }}
         - name: block-info-tp
           image: {{.Values.images.block_info_tp}}
           imagePullPolicy: {{.Values.sawtooth.containers.block_info.imagePullPolicy}}
@@ -353,6 +365,8 @@ spec:
           volumeMounts:
             - mountPath: /var/run/sawtooth
               name: sawtooth-signals
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.sawtooth.extraVolumeMounts | nindent 12 }}
         - name: intkey-tp
           image: {{.Values.images.intkey_tp}}
           imagePullPolicy: {{.Values.sawtooth.containers.intkey_tp.imagePullPolicy}}
@@ -393,6 +407,8 @@ spec:
           volumeMounts:
             - mountPath: /var/run/sawtooth
               name: sawtooth-signals
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.sawtooth.extraVolumeMounts | nindent 12 }}
         {{ if .Values.sawtooth.permissioned }}
         - name: identity-tp
           image: {{.Values.images.identity_tp}}
@@ -434,6 +450,8 @@ spec:
           volumeMounts:
             - mountPath: /var/run/sawtooth
               name: sawtooth-signals
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.sawtooth.extraVolumeMounts | nindent 12 }}
         {{ end }}
         {{ if .Values.sawtooth.daml.enabled }}
         - name: daml-tp
@@ -460,6 +478,8 @@ spec:
           volumeMounts:
             - mountPath: /var/run/sawtooth
               name: sawtooth-signals
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.sawtooth.extraVolumeMounts | nindent 12 }}
           lifecycle:
             postStart:
               exec:
@@ -524,6 +544,8 @@ spec:
           volumeMounts:
             - mountPath: /var/run/sawtooth
               name: sawtooth-signals
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.sawtooth.extraVolumeMounts | nindent 12 }}
         {{ end }}
         {{range .Values.sawtooth.customTPs}}
         - name: {{.name}}
@@ -556,6 +578,8 @@ spec:
           volumeMounts:
             - mountPath: /var/run/sawtooth
               name: sawtooth-signals
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.sawtooth.extraVolumeMounts | nindent 12 }}
         {{end}}
         - name: rest-api
           image: {{.Values.images.rest_api}}
@@ -609,6 +633,8 @@ spec:
           volumeMounts:
             - mountPath: /var/run/sawtooth
               name: sawtooth-signals
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.sawtooth.extraVolumeMounts | nindent 12 }}
           resources: {{ toYaml .Values.sawtooth.containers.rest_api.resources | nindent 12 }}
         - name: monitor
           image: {{.Values.images.shell}}
@@ -626,6 +652,8 @@ spec:
               name: sawtooth-etc
             - mountPath: /var/run/sawtooth
               name: sawtooth-signals
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.sawtooth.extraVolumeMounts | nindent 12 }}
           env:
           - name: POD_NAME
             valueFrom:
@@ -729,6 +757,8 @@ spec:
               name: sawtooth-etc
             - mountPath: "/var/lib/sawtooth"
               name: sawtooth-data
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.sawtooth.extraVolumeMounts | nindent 12 }}
           {{if .Values.sawtooth.livenessProbe.enabled }}
           livenessProbe:
             exec:
@@ -792,6 +822,8 @@ spec:
               name: sawtooth-etc
             - mountPath: "/var/lib/sawtooth"
               name: sawtooth-data
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.sawtooth.extraVolumeMounts | nindent 12 }}
           command: [ "bash", "-c" ]
           env:
             - name: NODE_NAME
@@ -845,6 +877,8 @@ spec:
               name: sawtooth-etc
             - mountPath: "/var/lib/sawtooth"
               name: sawtooth-data
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.sawtooth.extraVolumeMounts | nindent 12 }}
           {{ end }}
         {{ end }}
       volumes:
@@ -858,3 +892,5 @@ spec:
           hostPath:
             type: DirectoryOrCreate
             path: {{.Values.sawtooth.volumes.hostPathBaseDir}}/{{.Values.sawtooth.namespace}}/{{.Values.sawtooth.networkName}}/sawtooth-data
+        {{- include "lib.volumes" .Values.extraVolumes | nindent 8 }}
+        {{- include "lib.volumes" .Values.sawtooth.extraVolumes | nindent 8 }}

@@ -37,6 +37,11 @@ pagerduty:
   existingSecret:
 ## @md | `sawtooth` | group of sawtooth related parameters | map | N/A |
 sawtooth:
+  ## @md | `sawtooth.extraVolumes` | a list of additional volumes to add to all daml StatefulSets, Deployments, and DaemonSets | `[]` |
+  extraVolumes: []
+  ## @md | `sawtooth.extraVolumeMounts` | a list of additional volume mounts to add to all daml StatefulSet, Deployment, and DaemonSet containers | `[]` |
+  extraVolumeMounts: []
+
   ## @md | `sawtooth.opentsdb` | group of opentsdb parameters for sawtooth | map | N/A |
   opentsdb:
     ## @md | `sawtooth.opentsdb.db` | name of the opentsdb database to be used | string | metrics |
@@ -420,6 +425,11 @@ k8s:
 
 ## @md | `daml` | Grouping for general daml settings | map | N/A |
 daml:
+  ## @md | `daml.extraVolumes` | a list of additional volumes to add to all daml StatefulSets, Deployments, and DaemonSets | `[]` |
+  extraVolumes: []
+  ## @md | `daml.extraVolumeMounts` | a list of additional volume mounts to add to all daml StatefulSet, Deployment, and DaemonSet containers | `[]` |
+  extraVolumeMounts: []
+
   ## @md | `daml.auth` | DAML authentication settings | map | N/A |
   auth:
     ## @md | `daml.auth.enabled` | set to true to enable DAML authentication | boolean | false |
@@ -531,3 +541,9 @@ images:
 ## @md | `image` | url of the image for this tp | string | nil |
 ## @md | `command` | list of command tokens for this tp | list | nil
 ## @md | `arg` | list of arguments to the command | list | nil] |
+
+
+## @md | `extraVolumes` | a list of additional volumes to add to all StatefulSets, Deployments, and DaemonSets | `[]` |
+extraVolumes: []
+## @md | `extraVolumeMounts` | a list of additional volume mounts to add to all StatefulSet, Deployment, and DaemonSet containers | `[]` |
+extraVolumeMounts: []

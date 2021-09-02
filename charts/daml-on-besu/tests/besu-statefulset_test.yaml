@@ -10,7 +10,7 @@ tests:
     asserts:
       - equal:
           path: metadata.name
-          value: test-besu
+          value: test-daml-on-besu
   - it: "persistence not enabled"
     template: besu-statefulset.yaml
     set:
@@ -22,7 +22,7 @@ tests:
           value: "networkkeys-config"
       - equal:
           path: spec.template.spec.volumes[4].secret.secretName
-          value: "test-besu-keys"
+          value: "test-daml-on-besu-keys"
   - it: "persistence not enabled"
     template: besu-statefulset.yaml
     set:

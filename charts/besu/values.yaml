@@ -17,6 +17,10 @@ deployment:
   namespace: default
 
 besu:
+  ## @md | `besu.extraVolumes` | a list of additional volumes to add to the besu StatefulSets | `[]` |
+  extraVolumes: []
+  ## @md | `besu.extraVolumeMounts` | a list of additional volume mounts to the besu StatefulSet containers | `[]` |
+  extraVolumeMounts: []
   ## @md | `besu.seedNetwork` | whether or not this is a seed or genesis network | true |
   seedNetwork: true
   ## @md | `besu.seedGenesis` | the genesis configuration used if this is not a seed network | nil |
@@ -183,3 +187,8 @@ besu:
 orion:
   ## @md | orion.create | if true, an orion instance will be created, and used if `besu.privacy.enabled==true` | false |
   create: false
+
+## @md | `extraVolumes` | a list of additional volumes to add to all StatefulSets, Deployments, and DaemonSets | `[]` |
+extraVolumes: []
+## @md | `extraVolumeMounts` | a list of additional volume mounts to add to all StatefulSet, Deployment, and DaemonSet containers | `[]` |
+extraVolumeMounts: []

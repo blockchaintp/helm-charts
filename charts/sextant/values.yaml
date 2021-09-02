@@ -141,3 +141,8 @@ ingress:
   extraTls: []
   ## @md | `ingress.hosts` | a list of host and path lists to publish in the ingress (deprecated)| map | {} |
   hosts: []
+
+## @md | `extraVolumes` | a list of additional volumes to add to all StatefulSets, Deployments, and DaemonSets | `[]` |
+extraVolumes: []
+## @md | `extraVolumeMounts` | a list of additional volume mounts to add to all StatefulSet, Deployment, and DaemonSet containers | `[]` |
+extraVolumeMounts: []

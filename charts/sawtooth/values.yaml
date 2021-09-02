@@ -473,3 +473,8 @@ images:
 ## @md | `image` | url of the image for this tp | nil |
 ## @md | `command` | list of command tokens for this tp | list | nil
 ## @md | `arg` | list of arguments to the command | nil] |
+
+## @md | `extraVolumes` | a list of additional volumes to add to all StatefulSets, Deployments, and DaemonSets | `[]` |
+extraVolumes: []
+## @md | `extraVolumeMounts` | a list of additional volume mounts to add to all StatefulSet, Deployment, and DaemonSet containers | `[]` |
+extraVolumeMounts: []
