@@ -39,6 +39,7 @@ spec:
           volumeMounts:
             - mountPath: /data
               name: "pgdata"
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
         {{- end }}
         - name: daml-json-api
           image: "{{.Values.daml.jsonapi.image.repository}}:{{.Values.daml.jsonapi.image.tag}}"
@@ -65,8 +66,7 @@ spec:
             {{ if .Values.daml.jsonapi.env }}
             {{- toYaml .Values.daml.jsonapi.env | nindent 12 }}
             {{ end }}
-          volumeMounts:
-            {{- toYaml $.Values.daml.extraVolumeMounts | nindent 12 }}
+          volumeMounts: {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
           resources: {{ toYaml .Values.daml.jsonapi.resources | nindent 12 }}
         - name: daml-on-postgres
           image: "{{.Values.daml.image.repository}}:{{.Values.daml.image.tag}}"
@@ -119,6 +119,7 @@ spec:
           volumeMounts:
             - mountPath: /secrets/jwt
               name: jwt-secret
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
           resources: {{ toYaml .Values.daml.rpc.resources | nindent 12 }}
       restartPolicy: Always
       volumes:
@@ -133,9 +134,7 @@ spec:
         - name: jwt-secret
           secret:
             secretName: {{ .Values.deployment.name }}-cert
-        {{- if .Values.daml.extraVolumes }}
-        {{- toYaml .Values.daml.extraVolumes | nindent 8 }}
-        {{- end }}
+        {{- include "lib.volumes" .Values.extraVolumes | nindent 8 }}
 {{- if not .Values.postgres.persistence.enabled }}
         - name: "pgdata"
           emptyDir: {}

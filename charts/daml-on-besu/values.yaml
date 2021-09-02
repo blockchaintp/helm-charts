@@ -18,6 +18,10 @@ deployment:
   namespace: default
 
 besu:
+  ## @md | `besu.extraVolumeMounts` | extra volume mounts for the besu containers | [] |
+  extraVolumeMounts: []
+  ## @md | `besu.extraVolumes` | extra volume definitions for the besu set | [] |
+  extraVolumes: []
   ## @md | `besu.seedNetwork` | whether or not this is a seed or genesis network | true |
   seedNetwork: true
   ## @md | `besu.seedGenesis` | the genesis configuration used if this is not a seed network | nil |
@@ -281,10 +285,16 @@ daml:
     resources: {}
     ## @md | `daml.jsonapi.waitTimeSeconds` | how long to wait for the daml-rpc server to come available | 0 (forever) |
     waitTimeSeconds: 0
-  ## @md | `daml.extraVolumeMounts` | extra volume mounts for the daml-on-besu container | nil |
+  ## @md | `daml.extraVolumeMounts` | extra volume mounts for the daml-on-besu container | [] |
   extraVolumeMounts: []
-  ## @md | `daml.extraVolumes` | extra volume definitions for the daml-on-besu container | nil |
+  ## @md | `daml.extraVolumes` | extra volume definitions for the daml-on-besu container | [] |
   extraVolumes: []
+
+## @md | `extraVolumeMounts` | extra volume mounts for all sets | [] |
+extraVolumeMounts: []
+## @md | `extraVolumes` | extra volume definitions for all sets | [] |
+extraVolumes: []
+
 
 
 orion:

@@ -38,6 +38,7 @@ spec:
           volumeMounts:
             {{- include "sawtooth.etc.mount" . | nindent 12 }}
             {{- include "sawtooth.data.mount" . | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
           {{- include "sawtooth.container.command" . | nindent 10 }}
           {{- include "sawtooth.container.env" (dict "container" .Values.sawtooth.containers.validator "values" .Values "global" .Values.global) | nindent 10 }}
           args:
@@ -54,6 +55,7 @@ spec:
       volumes:
         {{- include "sawtooth.signals.volume" . | nindent 8 }}
         {{- include "sawtooth.scripts.volume" . | nindent 8 }}
+        {{- include "lib.volumes" .Values.extraVolumes | nindent 8 }}
 {{ if or .Values.sawtooth.statefulset.enabled (eq $consensus 100) }}
   volumeClaimTemplates:
     {{- include "sawtooth.data.volume.vct" . | nindent 4 }}

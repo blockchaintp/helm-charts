@@ -117,3 +117,9 @@ postgresql:
         value bytea,
         primary key(key)
       );
+
+
+## @md | `extraVolumes` | a list of additional volumes to add to all StatefulSets, Deployments, and DaemonSets | `[]` |
+extraVolumes: []
+## @md | `extraVolumeMounts` | a list of additional volume mounts to add to all StatefulSet, Deployment, and DaemonSet containers | `[]` |
+extraVolumeMounts: []

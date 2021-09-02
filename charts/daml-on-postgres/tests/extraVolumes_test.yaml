@@ -1,0 +1,28 @@
+suite: test extraVolumes
+templates:
+  - daml-statefulset.yaml
+release:
+  name: test
+  namespace: testns
+tests:
+  - it: "persistence not enabled"
+    set:
+      extraVolumes:
+        - name: &globaltestvol "global-data"
+          emptyDir: {}
+      extraVolumeMounts:
+        - name: *globaltestvol
+          mountPath: "/global"
+    asserts:
+      - equal:
+          path: spec.template.spec.volumes[3].name
+          value: *globaltestvol
+      - equal:
+          path: spec.template.spec.containers[0].volumeMounts[1].name
+          value: *globaltestvol
+      - equal:
+          path: spec.template.spec.containers[1].volumeMounts[0].name
+          value: *globaltestvol
+      - equal:
+          path: spec.template.spec.containers[2].volumeMounts[1].name
+          value: *globaltestvol

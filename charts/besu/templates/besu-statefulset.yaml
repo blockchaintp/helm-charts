@@ -157,6 +157,8 @@ spec:
               name: dev-random
             - mountPath: /dev/urandom
               name: dev-urandom
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.besu.extraVolumeMounts | nindent 12 }}
       restartPolicy: Always
       volumes:
         - name: config-toml
@@ -192,6 +194,8 @@ spec:
         - name: "data"
           emptyDir: {}
 {{- else }}
+        {{- include "lib.volumes" .Values.extraVolumes | nindent 8 }}
+        {{- include "lib.volumes" .Values.besu.extraVolumes | nindent 8 }}
   volumeClaimTemplates:
     - metadata:
         name: "data"

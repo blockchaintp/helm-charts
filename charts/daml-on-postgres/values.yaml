@@ -157,3 +157,8 @@ k8s:
     repository: alpine/k8s
     ## @md | k8s.image.tag | the docker image tag | latest |
     tag: 1.18.2
+
+## @md | `extraVolumes` | a list of additional volumes to add to all StatefulSets, Deployments, and DaemonSets | `[]` |
+extraVolumes: []
+## @md | `extraVolumeMounts` | a list of additional volume mounts to add to all StatefulSet, Deployment, and DaemonSet containers | `[]` |
+extraVolumeMounts: []

@@ -75,6 +75,7 @@ command: [ "bash", "-xc"]
   volumeMounts:
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
     {{- include "sawtooth.data.mount" . | nindent 4 }}
+    {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 4 }}
 {{- end -}}
 
 {{- define "sawtooth.container.raft-engine" -}}
@@ -89,6 +90,7 @@ command: [ "bash", "-xc"]
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
     {{- include "sawtooth.etc.mount" . | nindent 4 }}
     {{- include "sawtooth.data.mount" . | nindent 4 }}
+    {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 4 }}
 {{- end -}}
 
 {{- define "sawtooth.container.poet-engine" -}}
@@ -104,6 +106,7 @@ command: [ "bash", "-xc"]
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
     {{- include "sawtooth.etc.mount" . | nindent 4 }}
     {{- include "sawtooth.data.mount" . | nindent 4 }}
+    {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 4 }}
 - name: poet-validator-registry-tp
   {{- include "sawtooth.container" $ctx | nindent 2 }}
   args:
@@ -114,6 +117,7 @@ command: [ "bash", "-xc"]
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
     {{- include "sawtooth.etc.mount" . | nindent 4 }}
     {{- include "sawtooth.data.mount" .| nindent 4 }}
+    {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 4 }}
 {{- end -}}
 
 {{- define "sawtooth.container.devmode-engine" -}}
@@ -126,6 +130,7 @@ command: [ "bash", "-xc"]
         -C tcp://127.0.0.1:{{ .Values.sawtooth.ports.consensus }}
   volumeMounts:
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
+    {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 4 }}
 {{- end -}}
 
 {{- define "sawtooth.container.settings-tp" -}}
@@ -139,6 +144,7 @@ command: [ "bash", "-xc"]
         --connect tcp://127.0.0.1:{{ .Values.sawtooth.ports.sawcomp }}
   volumeMounts:
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
+    {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 4 }}
 {{- end -}}
 
 {{- define "sawtooth.container.intkey-tp" -}}
@@ -151,6 +157,7 @@ command: [ "bash", "-xc"]
         --connect tcp://127.0.0.1:{{ .Values.sawtooth.ports.sawcomp }}
   volumeMounts:
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
+    {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 4 }}
 {{- end -}}
 
 {{- define "sawtooth.container.identity-tp" -}}
@@ -165,6 +172,7 @@ command: [ "bash", "-xc"]
       -C tcp://127.0.0.1:{{ .Values.sawtooth.ports.sawcomp }}
   volumeMounts:
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
+    {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 4 }}
 {{- else -}}
 # no identity-tp
 {{- end -}}
@@ -184,6 +192,7 @@ command: [ "bash", "-xc"]
   {{- include "sawtooth.signal.livenessProbe" "block-info-tp" | nindent 2 }}
   volumeMounts:
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
+    {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 4 }}
 {{- end -}}
 
 {{- define "sawtooth.container.monitor" -}}
@@ -200,6 +209,7 @@ command: [ "bash", "-xc"]
   volumeMounts:
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
     {{- include "sawtooth.etc.mount" . | nindent 4 }}
+    {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 4 }}
 {{- end -}}
 
 {{- define "sawtooth.container.xo-tp" -}}
@@ -213,6 +223,7 @@ command: [ "bash", "-xc"]
         --connect tcp://127.0.0.1:{{ .Values.sawtooth.ports.sawcomp }}
   volumeMounts:
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
+    {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 4 }}
 {{- else -}}
 # no xo-tp
 {{- end -}}
@@ -229,6 +240,7 @@ command: [ "bash", "-xc"]
         --connect tcp://127.0.0.1:{{ .Values.sawtooth.ports.sawcomp }}
   volumeMounts:
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
+    {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 4 }}
 {{- else -}}
 # no smallbank-tp
 {{- end -}}
@@ -251,6 +263,7 @@ command: [ "bash", "-xc"]
       name: sawrest
   volumeMounts:
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
+    {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 4 }}
 {{- end -}}
 
 {{- define "sawtooth.container.customtp" -}}
@@ -262,7 +275,9 @@ command: [ "bash", "-xc"]
     {{- include "sawtooth.container.env.nodename" (dict "values" .Values) | nindent 4 }}
   lifecycle: {{- include "sawtooth.signal.postStart" .name | nindent 4 }}
   {{- include "sawtooth.signal.livenessProbe" .name | nindent 2 }}
-  volumeMounts: {{- include "sawtooth.signals.mount" . | nindent 4 }}
+  volumeMounts:
+    {{- include "sawtooth.signals.mount" . | nindent 4 }}
+    {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 4 }}
   resources: {{- default (dict) .resources | toYaml  | nindent 4 }}
 {{- end -}}
 
@@ -290,6 +305,7 @@ command: [ "bash", "-xc"]
   volumeMounts:
     {{- include "sawtooth.etc.mount" . | nindent 4 }}
     {{- include "sawtooth.data.mount" . | nindent 4 }}
+    {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 4 }}
 {{- end -}}
 {{- end -}}
 
@@ -304,6 +320,7 @@ command: [ "bash", "-xc"]
         --connect tcp://127.0.0.1:{{ .Values.sawtooth.ports.sawcomp }}
   volumeMounts:
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
+    {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 4 }}
 {{- else -}}
 # no seth-tp
 {{- end -}}
@@ -322,6 +339,7 @@ command: [ "bash", "-xc"]
           --connect tcp://127.0.0.1:{{ .Values.sawtooth.ports.sawcomp }}
   volumeMounts:
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
+    {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 4 }}
   ports:
     - containerPort: 3030
       name: seth-rpc
@@ -391,6 +409,7 @@ postStart:
     {{- include "sawtooth.etc.mount" . | nindent 4 }}
     {{- include "sawtooth.data.mount" . | nindent 4 }}
     {{- include "sawtooth.scripts.mount" . | nindent 4 }}
+    {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 4 }}
   livenessProbe:
     {{- include "sawtooth.container.validator.livenessProbe" . | nindent 4 }}
   ports:
