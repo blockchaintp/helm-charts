@@ -56,17 +56,21 @@ setup_dist:
 	$(TOOL_RUN) -c "mkdir -p /project/dist"
 
 define helm_tmpl =
-.PHONY: helmlint-$(1) helmdep-$(1) helmpkg-$(1) helmdoc-$(1) $(1)
-tmpl-dep: helmdep-$(1)
+.PHONY: helmlint-$(1) helmdep-build-$(1) helmdep-update-$(1) helmpkg-$(1) helmdoc-$(1) $(1)
+tmpl-dep-update: helmdep-update-$(1)
+tmpl-dep-build: helmdep-build-$(1)
 tmpl-lint: helmlint-$(1)
 tmpl-unit: helmunit-$(1)
 tmpl-docs: helmdoc-$(1)
 tmpl-test: helmtest-$(1)
 tmpl-pkg: helmpkg-$(1) helmdoc-$(1)
-helmdep-$(1): repos.helm
+helmdep-build-$(1): repos.helm
+	$(TMPL_TOOL_RUN) -c "cd /project/$(CHART_BASE)/$(1); \
+		helm dependency build --skip-refresh ./"
+helmdep-update-$(1): repos.helm
 	$(TMPL_TOOL_RUN) -c "cd /project/$(CHART_BASE)/$(1); \
 		helm dependency update --skip-refresh ./"
-helmlint-$(1): helmdep-$(1) tool.docker
+helmlint-$(1): helmdep-build-$(1) tool.docker
 	$(TMPL_TOOL_RUN) -c "cd /project/$(CHART_BASE)/$(1); \
 		helm lint ./"
 helmunit-$(1): helmlint-$(1) tool.docker
@@ -80,7 +84,7 @@ helmtest-$(1): helmunit-$(1)
 helmpkg-$(1): setup_dist helmunit-$(1)
 	$(TMPL_TOOL_RUN) -c "cd /project/$(CHART_BASE)/$(1); \
 		helm package ./ --destination=/project/dist"
-$(1): helmlint-$(1) helmdep-$(1) helmpkg-$(1)
+$(1): helmlint-$(1) helmdep-build-$(1) helmpkg-$(1)
 endef
 
 $(foreach chart,$(CHARTS),$(eval $(call helm_tmpl,$(chart))))
@@ -123,8 +127,11 @@ test: tmpl-unit
 .PHONY: pkg
 pkg: tmpl-pkg
 
-.PHONY: dep
-dep: tmpl-dep
+.PHONY: dependencies-update
+dependencies-update: tmpl-dep-update
+
+.PHONY: dependencies-build
+dependencies-build: tmpl-dep-build
 
 .PHONY: lint
 lint: tmpl-lint

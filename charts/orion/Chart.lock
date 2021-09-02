@@ -1,0 +1,9 @@
+dependencies:
+- name: postgresql
+  repository: https://charts.bitnami.com/bitnami
+  version: 10.9.4
+- name: standard-defs
+  repository: https://btp-charts-unstable.s3.amazonaws.com/charts/
+  version: 0.1.0
+digest: sha256:8f40cc7b38e4a2b2a47da7a818586b80cb490fde2fd0414cfc9670e12938b92a
+generated: "2021-09-02T01:04:37.568713934Z"

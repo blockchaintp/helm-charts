@@ -14,6 +14,7 @@ tests:
             - host: test-host
               paths:
                 - /path
+          apiVersion: extensions/v1beta1
     asserts:
       - equal:
           path: spec.rules[0].http.paths[0].backend.serviceName

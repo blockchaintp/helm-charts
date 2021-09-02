@@ -39,8 +39,6 @@ dist/
 **/charts/*.tgz
 # You shouldn't normally ignore Chart.lock files but
 # In this repo we must
-**/Chart.lock
-**/requirements.lock
 
 node_modules
 site
