@@ -6,6 +6,7 @@ metadata:
   name: {{ include "common.names.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels: {{- include "lib.labels" . | nindent 4 }}
+    component: tfs
 spec:
   sessionAffinity: ClientIP
   ports:

@@ -10,6 +10,8 @@ metadata:
   name: {{ include "common.names.fullname" $ctx }}-{{ . }}
   namespace: {{ $ctx.Release.Namespace }}
   labels: {{- include "lib.labels" $ctx | nindent 4 }}
+    per-node: {{ include "common.names.fullname" $ctx }}-{{ . }}
+    component: tfs
 spec:
   sessionAffinity: ClientIP
   type: {{ $ctx.Values.perNodeServiceType }}

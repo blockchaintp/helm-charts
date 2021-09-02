@@ -2,8 +2,8 @@
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-{{include "besu.labels" . | indent 4 }}
+  labels: {{include "besu.labels" . | nindent 4 }}
+    component: besu
   name: {{ include "besu.fullname" . }}
   namespace: {{.Release.Namespace}}
 spec:
