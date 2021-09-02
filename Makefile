@@ -22,8 +22,6 @@ all: distclean charts
 .PHONY: clean
 clean: correct_ownership distclean
 	find $(CHART_BASE) -mindepth 2 -name charts -type d -exec rm -rf {} \; || true
-	find $(CHART_BASE) -type f -name requirements.lock -exec rm -rf {} \;
-	find $(CHART_BASE) -type f -name Chart.lock -exec rm -rf {} \;
 	docker rm $$(docker ps --all -q -f status=exited) 2>/dev/null|| true
 	docker volume rm root_${ISOLATION_ID} > /dev/null
 
