@@ -13,6 +13,8 @@
 | `pagerduty.serviceid` | pagerduty serviceid | string | nil |
 | `pagerduty.existingSecret` | the name of an existing secret containing a pagerduty token and serviceid. This overrides any values set here for token and serviceid | string | nil
 | `sawtooth` | group of sawtooth related parameters | map | N/A |
+| `sawtooth.extraVolumes` | a list of additional volumes to add to all daml StatefulSets, Deployments, and DaemonSets | `[]` |
+| `sawtooth.extraVolumeMounts` | a list of additional volume mounts to add to all daml StatefulSet, Deployment, and DaemonSet containers | `[]` |
 | `sawtooth.opentsdb` | group of opentsdb parameters for sawtooth | map | N/A |
 | `sawtooth.opentsdb.db` | name of the opentsdb database to be used | string | metrics |
 | `sawtooth.opentsdb.url` | url of the opentsdb database to be used | string | nil |
@@ -147,6 +149,8 @@
 | `k8s.image.repository` | the image name | string | alpine/k8s |
 | `k8s.image.tagrepository` | the image tag to use | string | 1.18.2 |
 | `daml` | Grouping for general daml settings | map | N/A |
+| `daml.extraVolumes` | a list of additional volumes to add to all daml StatefulSets, Deployments, and DaemonSets | `[]` |
+| `daml.extraVolumeMounts` | a list of additional volume mounts to add to all daml StatefulSet, Deployment, and DaemonSet containers | `[]` |
 | `daml.auth` | DAML authentication settings | map | N/A |
 | `daml.auth.enabled` | set to true to enable DAML authentication | boolean | false |
 | `daml.trigger_service` | (deprecated) daml trigger service settings | map | N/A |
@@ -212,3 +216,5 @@ Custom TP definitions are describe using maps with the following fields
 | `image` | url of the image for this tp | string | nil |
 | `command` | list of command tokens for this tp | list | nil
 | `arg` | list of arguments to the command | list | nil] |
+| `extraVolumes` | a list of additional volumes to add to all StatefulSets, Deployments, and DaemonSets | `[]` |
+| `extraVolumeMounts` | a list of additional volume mounts to add to all StatefulSet, Deployment, and DaemonSet containers | `[]` |

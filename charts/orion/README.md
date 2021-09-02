@@ -46,3 +46,5 @@
 | postgresql.servicePort | the port of the postgresql server | 5432 |
 | postgresql.replicationPassword | the password of the postgresql replication user | nil |
 | postgresql.initdbScripts | a map of initdb scripts to run on the postgresql server |  |
+| `extraVolumes` | a list of additional volumes to add to all StatefulSets, Deployments, and DaemonSets | `[]` |
+| `extraVolumeMounts` | a list of additional volume mounts to add to all StatefulSet, Deployment, and DaemonSet containers | `[]` |

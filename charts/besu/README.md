@@ -6,6 +6,8 @@
 |- |- |- |
 | imagePullSecrets.enabled | true if imagePullSecrets will be provided | false |
 | imagePullSecrets.value | a list of names of imagePullSecrets | [] |
+| `besu.extraVolumes` | a list of additional volumes to add to the besu StatefulSets | `[]` |
+| `besu.extraVolumeMounts` | a list of additional volume mounts to the besu StatefulSet containers | `[]` |
 | `besu.seedNetwork` | whether or not this is a seed or genesis network | true |
 | `besu.seedGenesis` | the genesis configuration used if this is not a seed network | nil |
 | `besu.additionalBootnodeUrls` | A list of enode defining objects defined as below | `[]` |
@@ -77,3 +79,5 @@
 | besu.txPool.retentionHours | the number of hours to keep transactions in the tx pool | `999` |
 | besu.txPool.maxSize | the max number of transactions to keep in the tx pool | `1024` |
 | orion.create | if true, an orion instance will be created, and used if `besu.privacy.enabled==true` | false |
+| `extraVolumes` | a list of additional volumes to add to all StatefulSets, Deployments, and DaemonSets | `[]` |
+| `extraVolumeMounts` | a list of additional volume mounts to add to all StatefulSet, Deployment, and DaemonSet containers | `[]` |

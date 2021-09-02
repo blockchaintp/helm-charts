@@ -56,3 +56,5 @@
 | openssl.image.tag | the docker image tag | latest |
 | k8s.image.repository | the docker image repository | kubernetes |
 | k8s.image.tag | the docker image tag | latest |
+| `extraVolumes` | a list of additional volumes to add to all StatefulSets, Deployments, and DaemonSets | `[]` |
+| `extraVolumeMounts` | a list of additional volume mounts to add to all StatefulSet, Deployment, and DaemonSet containers | `[]` |

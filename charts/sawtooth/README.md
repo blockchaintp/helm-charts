@@ -92,3 +92,5 @@ Custom TP definitions are describe using maps with the following fields
 | `image` | url of the image for this tp | nil |
 | `command` | list of command tokens for this tp | list | nil
 | `arg` | list of arguments to the command | nil] |
+| `extraVolumes` | a list of additional volumes to add to all StatefulSets, Deployments, and DaemonSets | `[]` |
+| `extraVolumeMounts` | a list of additional volume mounts to add to all StatefulSet, Deployment, and DaemonSet containers | `[]` |

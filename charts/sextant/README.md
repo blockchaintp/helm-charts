@@ -67,3 +67,5 @@ software.
 | `ingress.extraPaths` | list of extra paths to add to the primary host of the ingress | [] |
 | `ingress.extraTls` | list of extra tls entries | [] |
 | `ingress.hosts` | a list of host and path lists to publish in the ingress (deprecated)| map | {} |
+| `extraVolumes` | a list of additional volumes to add to all StatefulSets, Deployments, and DaemonSets | `[]` |
+| `extraVolumeMounts` | a list of additional volume mounts to add to all StatefulSet, Deployment, and DaemonSet containers | `[]` |

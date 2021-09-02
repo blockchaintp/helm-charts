@@ -6,6 +6,8 @@
 |- |- |- |
 | imagePullSecrets.enabled | true if imagePullSecrets will be provided | false |
 | imagePullSecrets.value | a list of names of imagePullSecrets | [] |
+| `besu.extraVolumeMounts` | extra volume mounts for the besu containers | [] |
+| `besu.extraVolumes` | extra volume definitions for the besu set | [] |
 | `besu.seedNetwork` | whether or not this is a seed or genesis network | true |
 | `besu.seedGenesis` | the genesis configuration used if this is not a seed network | nil |
 | `besu.additionalBootnodeUrls` | A list of enode defining objects defined as below | `[]` |
@@ -117,8 +119,10 @@
 | `daml.jsonapi.env` | list of environment name/value dicts | nil |
 | `daml.jsonapi.packageReloadInterval` | how often to periodically check the daml-rpc for new daml packages | 5s |
 | `daml.jsonapi.waitTimeSeconds` | how long to wait for the daml-rpc server to come available | 0 (forever) |
-| `daml.extraVolumeMounts` | extra volume mounts for the daml-on-besu container | nil |
-| `daml.extraVolumes` | extra volume definitions for the daml-on-besu container | nil |
+| `daml.extraVolumeMounts` | extra volume mounts for the daml-on-besu container | [] |
+| `daml.extraVolumes` | extra volume definitions for the daml-on-besu container | [] |
+| `extraVolumeMounts` | extra volume mounts for all sets | [] |
+| `extraVolumes` | extra volume definitions for all sets | [] |
 | orion.create | if true, an orion instance will be created, and used if `besu.privacy.enabled==true` | false |
 | postgres.enabled | true if the embedded postgres will be enabled | true |
 | postgres.image.repository | the docker image repository | postgres |
