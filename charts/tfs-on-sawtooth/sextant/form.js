@@ -94,23 +94,6 @@ const form = [
     },
   ],
 
-  {
-    id: 'affinity.enabled',
-    title: 'Affinity',
-    helperText: 'If enabled - pods will only deploy to nodes that have the label: app={{.sawtooth.sawtooth.networkName}}-validator',
-    component: 'radio',
-    default: false,
-    dataType: 'boolean',
-    row: true,
-    options: options.activated,
-    validate: {
-      type: 'string',
-      methods: [
-        ['required', 'Required'],
-      ],
-    },
-  },
-
   // hostname, IP, port
   {
     id: 'sawtooth.sawtooth.externalSeeds',
