@@ -6,7 +6,9 @@ metadata:
   labels:
 {{ include "daml.labels" . | indent 4 }}
   annotations:
-    helm.sh/hook-delete-policy: "hook-succeeded"
+    helm.sh/hook: post-install
+    helm.sh/hook-weight: "-5"
+    helm.sh/hook-delete-policy: hook-succeeded
 spec:
   backoffLimit: 3
   completions: 1
