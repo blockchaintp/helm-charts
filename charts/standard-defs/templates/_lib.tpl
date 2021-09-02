@@ -37,3 +37,15 @@ Create the name of the service account to use
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
 {{- end -}}
+
+
+{{/*
+Given a variable, if it is not false, output as Yaml
+
+include "lib.safeToYaml" .Values.something
+*/}}
+{{- define "lib.safeToYaml" -}}
+{{- if . -}}
+{{ toYaml . }}
+{{- end -}}
+{{- end -}}
