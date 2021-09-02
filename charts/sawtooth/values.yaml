@@ -16,8 +16,8 @@ affinity:
 global:
   logLevel: warn
   image:
-    registry: index.docker.io
-    tag: BTP2.1.0rc14
+    registry:
+    tag:
 
 
 ## @md | `commonLabels` |
@@ -88,7 +88,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-block-info-tp
-        tag:
+        tag: BTP2.1.0rc14
       logLevel:
       resources:
         limits:
@@ -102,7 +102,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-devmode-engine-rust
-        tag:
+        tag: BTP2.1.0rc14
       logLevel:
       resources:
         limits:
@@ -117,7 +117,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-identity-tp
-        tag:
+        tag: BTP2.1.0rc14
       logLevel:
       resources:
         limits:
@@ -131,7 +131,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-intkey-tp-go
-        tag:
+        tag: BTP2.1.0rc14
       logLevel:
       resources:
         limits:
@@ -145,7 +145,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-shell
-        tag:
+        tag: BTP2.1.0rc14
       logLevel:
       resources:
         limits:
@@ -159,7 +159,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-pbft-engine
-        tag:
+        tag: BTP2.1.0rc14
       logLevel:
       resources:
         limits:
@@ -173,7 +173,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-poet-engine
-        tag:
+        tag: BTP2.1.0rc14
       logLevel:
       resources:
         limits:
@@ -187,7 +187,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-poet-validator-registry-tp
-        tag:
+        tag: BTP2.1.0rc14
       logLevel:
       resources:
         limits:
@@ -201,7 +201,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-poet-cli
-        tag:
+        tag: BTP2.1.0rc14
       logLevel:
       resources:
         limits:
@@ -215,7 +215,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-raft-engine
-        tag:
+        tag: BTP2.1.0rc14
       logLevel:
       resources:
         limits:
@@ -230,7 +230,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-rest-api
-        tag:
+        tag: BTP2.1.0rc14
       logLevel:
       resources:
         limits:
@@ -244,7 +244,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-seth-rpc
-        tag:
+        tag: BTP2.1.0rc14
       logLevel:
       resources:
         limits:
@@ -258,7 +258,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-seth-tp
-        tag:
+        tag: BTP2.1.0rc14
       logLevel:
       resources:
         limits:
@@ -273,7 +273,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-settings-tp
-        tag:
+        tag: BTP2.1.0rc14
       logLevel:
       resources:
         limits:
@@ -287,7 +287,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-smallbank-tp-go
-        tag:
+        tag: BTP2.1.0rc14
       logLevel:
       resources:
         limits:
@@ -305,7 +305,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-validator
-        tag:
+        tag: BTP2.1.0rc14
       logLevel:
       resources: {}
     xo_tp:
@@ -315,7 +315,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-xo-tp-go
-        tag:
+        tag: BTP2.1.0rc14
       logLevel:
       resources:
         limits:
