@@ -4,6 +4,6 @@ dependencies:
   version: 10.9.4
 - name: standard-defs
   repository: https://btp-charts-unstable.s3.amazonaws.com/charts/
-  version: 0.1.0
-digest: sha256:8f40cc7b38e4a2b2a47da7a818586b80cb490fde2fd0414cfc9670e12938b92a
-generated: "2021-09-02T01:04:37.568713934Z"
+  version: 0.1.1
+digest: sha256:64149341f131f93cff6cba4927abe21950d218c7efed384d856f615a03ef0cf8
+generated: "2021-09-02T19:20:53.236426419Z"
