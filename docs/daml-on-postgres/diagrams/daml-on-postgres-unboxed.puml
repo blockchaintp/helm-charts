@@ -1,4 +1,4 @@
-@startuml daml-on-pg
+@startuml daml-on-postgres-unboxed
 
 ' footer Kubernetes Plant-UML
 ' scale max 1024 width
@@ -25,28 +25,14 @@
 
 ' left to right direction
 
-' Kubernetes Components
-Cluster_Boundary(cluster, "Kubernetes Cluster") {
-  Namespace_Boundary(ns_daml, "daml") {
-      KubernetesSvc(daml_svc_grpc, "daml-on-postgres", "tcp:39000 grpc(http2), tcp:8080 - jsonapi")
-      KubernetesSts(daml_sts_dop, "daml-on-postgres", "implements ledger api and logic")
-  }
-  daml_svc_grpc --> daml_sts_dop
-}
+KubernetesSvc(daml_svc_grpc, "daml-on-postgres", "tcp:39000 grpc(http2), tcp:8080 - jsonapi")
+KubernetesSts(daml_sts_dop, "daml-on-postgres", "implements ledger api and logic")
+daml_svc_grpc --> daml_sts_dop
 
-note left of cluster
-At least two zones
-end note
 
 database damlindex as "Daml Index DB"
 daml_sts_dop --> damlindex
 
-APIGateway(jwksProvider, "JWKS Provider", "")
-actor actor
-
-jwksProvider <-- daml_sts_dop
-actor --> jwksProvider : <<jwt>>
-actor --> daml_svc_grpc: <<jwt>>
 
 
 

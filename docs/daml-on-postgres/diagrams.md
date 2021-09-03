@@ -1,5 +1,5 @@
 # Deployment Diagram
 
-![Orion](diagrams/daml-on-pg.png)
+![Orion](diagrams/daml-on-postgres.png)
 
-[PlantUML Source](diagrams/daml-on-pg.plantuml)
+[PlantUML Source](diagrams/daml-on-postgres.plantuml)
