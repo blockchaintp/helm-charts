@@ -16,11 +16,13 @@ GID := $(shell id -g)
 CHARTS := $(shell find . -mindepth 3 -maxdepth 3 -name Chart.yaml \
 	-exec dirname {} \; | awk -F/ '{print $$NF}')
 
+DIAGRAMS := $(shell find docs -name *.plantuml -or -name *.puml | awk -F. '{print $$1}')
+
 .PHONY: all
 all: distclean charts
 
 .PHONY: clean
-clean: correct_ownership distclean
+clean: correct_ownership distclean clean_diags
 	find $(CHART_BASE) -mindepth 2 -name charts -type d -exec rm -rf {} \; || true
 	docker rm $$(docker ps --all -q -f status=exited) 2>/dev/null|| true
 	docker volume rm root_${ISOLATION_ID} > /dev/null
@@ -75,7 +77,11 @@ helmunit-$(1): helmlint-$(1) tool.docker
 	docker run --rm -v $(PWD)/$(CHART_BASE):/apps quintush/helm-unittest \
 		--helm3 $(1)
 helmdoc-$(1):
-	cd charts/$(1); mddoc values.yaml > README.md
+	@cd charts/$(1); \
+	if [ ! -r README.md ] || [ values.yaml -nt README.md ]; then \
+		echo "Generating README.md for $(1)"; \
+		mddoc values.yaml > README.md ; \
+	fi
 helmtest-$(1): helmunit-$(1)
 	$(TMPL_TOOL_RUN) -c "cd /project/$(CHART_BASE)/$(1); \
 		helm test ./"
@@ -87,6 +93,30 @@ endef
 
 $(foreach chart,$(CHARTS),$(eval $(call helm_tmpl,$(chart))))
 $(foreach chart,$(THIRD_PARTY_CHARTS),$(eval $(call helm_tmpl,$(chart))))
+
+PLANTUML := $(shell locate plantuml.jar)
+.PHONY: diagrams
+diagrams:
+	@echo Diagrams updated
+.PHONY: clean_diags
+clean_diags:
+	@echo Removing diagram PNGs
+
+define diagram_tmpl =
+.PHONY: $(1).png
+$(1).png:
+	@if [ ! -r $(1).png ] || \
+		[ $(shell echo $(1).p*uml) -nt $(1).png ]; then \
+		echo "Generating PlantUML PNG for $(1): $(1).png" ; \
+		java -jar $(PLANTUML) -tpng $(shell echo $(1).p*uml) ; \
+	fi
+diagrams: $(1).png
+.PHONY: clean_$(1)
+clean_$(1):
+	rm -f $(1).png
+clean_diags: clean_$(1)
+endef
+$(foreach diag,$(DIAGRAMS),$(eval $(call diagram_tmpl,$(diag))))
 
 .PHONY: charts
 charts: pkg post_correct_ownership
@@ -114,10 +144,11 @@ post_correct_ownership: tool.docker
 
 .PHONY: docs
 docs: tmpl-docs
-	echo > README.md
-	echo \# BTP charts >> README.md
-	echo >> README.md
-	for f in $$(find charts -name README.md| awk -F/ '{print $$2}' | sort); do  chart_name=$$f; echo \* \[$$chart_name\]\(charts/$$chart_name/README.md\); done >> README.md
+	@echo Generating top level README.md
+	@echo > README.md
+	@echo \# BTP charts >> README.md
+	@echo >> README.md
+	@for f in $$(find charts -name README.md| awk -F/ '{print $$2}' | sort); do  chart_name=$$f; echo \* \[$$chart_name\]\(charts/$$chart_name/README.md\); done >> README.md
 
 .PHONY: test
 test: tmpl-unit
