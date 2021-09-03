@@ -4,17 +4,14 @@ kind: StatefulSet
 metadata:
   name: {{ template "common.names.fullname" . }}
   namespace: {{.Release.Namespace}}
-  labels:
-{{ include "lib.labels" . | indent 4 }}
+  labels: {{- include "lib.labels" . | nindent 4 }}
 spec:
   selector:
-    matchLabels:
-{{ include "lib.labels" .| indent 6}}
+    matchLabels: {{- include "common.labels.matchLabels" . | nindent 6}}
   serviceName: {{ include "common.names.fullname" . }}
   template:
     metadata:
-      labels:
-{{ include "lib.labels" .| indent 8}}
+      labels: {{- include "lib.labels" .| nindent 8}}
     spec:
       serviceAccountName: {{ include "lib.serviceAccountName" . }}
       containers:
@@ -96,8 +93,7 @@ spec:
           env:
             - name: PORT
               value: "8081"
-          volumeMounts:
-            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+          volumeMounts: {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
         - name: router
           image: "{{ .Values.noxy.image.repository }}:{{ .Values.noxy.image.tag }}"
           imagePullPolicy: {{ .Values.noxy.image.pullPolicy }}
@@ -121,11 +117,9 @@ spec:
               value: localhost
             - name: NOXY_PROXY_PORT
               value: "8080"
-          volumeMounts:
-            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+          volumeMounts: {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
       restartPolicy: "Always"
-      volumes:
-        {{- include "lib.volumes" .Values.extraVolumes | nindent 8 }}
+      volumes: {{- include "lib.volumes" .Values.extraVolumes | nindent 8 }}
 {{- if not .Values.postgres.persistence.enabled }}
         - name: "pgdata"
           emptyDir: {}
@@ -133,11 +127,9 @@ spec:
   volumeClaimTemplates:
     - metadata:
         name: "pgdata"
-        {{- if .Values.postgres.persistence.annotations }}
-        annotations: {{- toYaml .Values.postgres.persistence.annotations | nindent 10 }}
-        {{- end }}
+        annotations: {{- include "lib.safeToYaml" .Values.postgres.persistence.annotations | nindent 10 }}
       spec:
-        accessModes: {{- toYaml .Values.postgres.persistence.accessModes | nindent 10 }}
+        accessModes: {{- include "lib.safeToYaml" .Values.postgres.persistence.accessModes | nindent 10 }}
         storageClassName: {{ default "gp2" .Values.postgres.persistence.storageClass | quote }}
         resources:
           requests:
