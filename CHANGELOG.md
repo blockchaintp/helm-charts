@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+* feat(tfs-on-sawtooth): add extraVolumes cap [view commit](https://github.com/catenasys/helm-charts/commit/622e152f6cb6f3332e8350a188c9a9fa6f309f83)
+* build(sextant-test): update dependencies [view commit](https://github.com/catenasys/helm-charts/commit/10582aef60d80a2a3197b90665a0f4493a1cd9c9)
+* build(daml-on-besu): update dependencies [view commit](https://github.com/catenasys/helm-charts/commit/00aa43f95dbd5892c6d9bc7c059c30bfb2178578)
+* build(besu): update dependencies [view commit](https://github.com/catenasys/helm-charts/commit/559f3a44d414d77a0fd63f5e314f6d06355f403c)
+* feat: add extraVolumes capability to charts [view commit](https://github.com/catenasys/helm-charts/commit/c6e496f6ef14f82d0b1aefde208cd44463d93f2e)
+* build(dep): update dependencies [view commit](https://github.com/catenasys/helm-charts/commit/05af4ebb69e532227c8980519ed2cca9b8cad3e6)
+* feat(standard-defs): add safeToYaml,volume, and volumeMounts [view commit](https://github.com/catenasys/helm-charts/commit/2ce7faf83afcedb57999228ff41d49a335ccf760)
+* build: update dependencies [view commit](https://github.com/catenasys/helm-charts/commit/4a275814295e65a5ab38ba71391b9540d6de56aa)
+* fix: add per-node and component labels to svcs [view commit](https://github.com/catenasys/helm-charts/commit/a281edbf110504172dfe5494c920c618e826fa63)
+* fix: on jobs correct hook delete-policy [view commit](https://github.com/catenasys/helm-charts/commit/6f946e20eeb750b31fc4c6a7b9dceb2d1e3bb9de)
+* fix: map over a nil array [view commit](https://github.com/catenasys/helm-charts/commit/d9fbdb776571cd1ee4bcd3c827732c274125aad6)
+* fix(tfs-on-sawtooth): remove cutomtps entry [view commit](https://github.com/catenasys/helm-charts/commit/6c7a8604a1cf4a5c092b72b188b5dcacfe5effb1)
+* fix(sawtooth): set individual container tags [view commit](https://github.com/catenasys/helm-charts/commit/33f65471834a7f9fa1d896eb97ffea15525f11fa)
 * fix(tfs-on-sawtooth): remove affinity setting [view commit](https://github.com/catenasys/helm-charts/commit/21a87404547b4cf6dc5e23e3692e76347d94a462)
 * fix(tfs-on-sawtooth): paths in sextant forms [view commit](https://github.com/catenasys/helm-charts/commit/4a829bd5cead3c19efa6bf2a02a4b009314b81d2)
 * build(update-to-use-Chart.lock-properly): from here forward Chart.lock will need to be checked in [view commit](https://github.com/catenasys/helm-charts/commit/0357a057153f6c1ea1589ba6624fc8fd3d886dbb)
