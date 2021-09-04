@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+* docs: update diagrams [view commit](https://github.com/catenasys/helm-charts/commit/c5e98ff8bd0b69b19482578d967e8d37e55c991a)
+* build(sextant-test): update dependencies [view commit](https://github.com/catenasys/helm-charts/commit/b9e009f574678f1c0d9d9a674bc80fcb5f8b99a8)
+* fix(sextant): correct label declarations [view commit](https://github.com/catenasys/helm-charts/commit/bf3bde9bd7a3a2481e6b30724bfc7bd4cddc1586)
 * feat(tfs-on-sawtooth): add extraVolumes cap [view commit](https://github.com/catenasys/helm-charts/commit/622e152f6cb6f3332e8350a188c9a9fa6f309f83)
 * build(sextant-test): update dependencies [view commit](https://github.com/catenasys/helm-charts/commit/10582aef60d80a2a3197b90665a0f4493a1cd9c9)
 * build(daml-on-besu): update dependencies [view commit](https://github.com/catenasys/helm-charts/commit/00aa43f95dbd5892c6d9bc7c059c30bfb2178578)
