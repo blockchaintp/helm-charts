@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "common.names.fullname" . }}-timekeeper
+  labels: {{- include "lib.labels" . | nindent 4 }}
+    component: timekeeper
+spec:
+  replicas: {{ .Values.timekeeper.replicas }}
+  selector:
+    matchLabels: {{- include "common.labels.matchLabels" . | nindent 4 }}
+  serviceName: {{ include "common.names.fullname" . }}-timekeeper
+  template:
+    metadata:
+      labels: {{- include "common.labels.matchLabels" . | nindent 8 }}
+        component: timekeeper
+    spec:
+      serviceAccountName: {{ include "lib.serviceAccountName" . }}
+      affinity: {{- include "lib.safeToYaml" .Values.timekeeper.affinity | nindent 8 }}
+      containers:
+        - name: submitter
+          {{- include "lib.image" (dict "imageRoot" .Values.timekeeper.image "global" $) | nindent 10 }}
+          command: [ "bash", "-c"]
+          args:
+            - |
+              /opt/timekeeper/entrypoint.sh {{.Values.timekeeper.args}} \
+                -C tcp://{{.Values.sawtooth.networkName}}-rest-api:{{.Values.sawtooth.ports.sawcomp}} \
+                -p {{ .Values.timekeeper.periodSeconds }} \
+                --submitter
+          env: {{- include "lib.safeToYaml" .Values.timekeeper.env | nindent 8 }}
+          resources: {{- include "lib.safeToYaml" .Values.timekeeper.resources | nindent 12 }}
+          volumeMounts:
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.timekeeper.extraVolumeMounts | nindent 12 }}
+      volumes:
+        {{- include "lib.volumes" .Values.extraVolumes | nindent 8 }}
+        {{- include "lib.volumes" .Values.timekeeper.extraVolumes | nindent 8 }}

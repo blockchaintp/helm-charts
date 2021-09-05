@@ -7,6 +7,7 @@ apiVersion: apps/v1
 kind: {{ if eq $consensus 100 }}StatefulSet{{else}}DaemonSet{{end}}
 metadata:
   name: {{.Values.sawtooth.networkName}}-validator
+  labels: {{- include "lib.labels" . }}
 spec:
   {{ if eq $consensus 100}}
   replicas: 1
@@ -39,8 +40,7 @@ spec:
                   values:
                   - {{.Values.sawtooth.networkName}}-validator
       {{ else }}
-      affinity:
-        {{ toYaml .Values.sawtooth.affinity | nindent 8 }}
+      affinity: {{- include "lib.safeToYaml" .Values.sawtooth.affinity | nindent 8 }}
       {{ end }}
       tolerations:
         - key: node-role.kubernetes.io/master
@@ -91,7 +91,7 @@ spec:
                   fi
             failureThreshold: 1
             periodSeconds: 3
-          resources: {{ toYaml .Values.sawtooth.containers.pbft_engine.resources | nindent 12 }}
+          resources: {{- include "lib.safeToYaml" .Values.sawtooth.containers.pbft_engine.resources | nindent 12 }}
           volumeMounts:
             - mountPath: /var/run/sawtooth
               name: sawtooth-signals
@@ -136,7 +136,7 @@ spec:
                   fi
             failureThreshold: 1
             periodSeconds: 3
-          resources: {{ toYaml .Values.sawtooth.containers.raft_engine.resources | nindent 12 }}
+          resources: {{- include "lib.safeToYaml" .Values.sawtooth.containers.raft_engine.resources | nindent 12 }}
           volumeMounts:
             - mountPath: "/etc/sawtooth"
               name: sawtooth-etc
@@ -193,7 +193,7 @@ spec:
               name: sawtooth-signals
             {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
             {{- include "lib.volumeMounts" .Values.sawtooth.extraVolumeMounts | nindent 12 }}
-          resources: {{ toYaml .Values.sawtooth.containers.poet_engine.resources | nindent 12 }}
+          resources: {{- include "lib.safeToYaml" .Values.sawtooth.containers.poet_engine.resources | nindent 12 }}
         - name: poet-validator-registry-tp
           image: {{.Values.images.poet_validator_registry_tp}}
           imagePullPolicy: {{.Values.sawtooth.containers.poet_validator_registry_tp.imagePullPolicy}}
@@ -239,7 +239,7 @@ spec:
               name: sawtooth-signals
             {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
             {{- include "lib.volumeMounts" .Values.sawtooth.extraVolumeMounts | nindent 12 }}
-          resources: {{ toYaml .Values.sawtooth.containers.poet_validator_registry_tp.resources | nindent 12 }}
+          resources: {{- include "lib.safeToYaml" .Values.sawtooth.containers.poet_validator_registry_tp.resources | nindent 12 }}
         {{ else }}
         - name: devmode-engine
           image: {{.Values.images.devmode_engine}}
@@ -282,7 +282,7 @@ spec:
               name: sawtooth-signals
             {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
             {{- include "lib.volumeMounts" .Values.sawtooth.extraVolumeMounts | nindent 12 }}
-          resources: {{ toYaml .Values.sawtooth.containers.devmode_engine.resources | nindent 12 }}
+          resources: {{- include "lib.safeToYaml" .Values.sawtooth.containers.devmode_engine.resources | nindent 12 }}
         {{ end }}
         - name: settings-tp
           image: {{.Values.images.settings_tp}}
@@ -320,7 +320,7 @@ spec:
                   fi
             failureThreshold: 1
             periodSeconds: 3
-          resources: {{ toYaml .Values.sawtooth.containers.settings_tp.resources | nindent 12 }}
+          resources: {{- include "lib.safeToYaml" .Values.sawtooth.containers.settings_tp.resources | nindent 12 }}
           volumeMounts:
             - mountPath: /var/run/sawtooth
               name: sawtooth-signals
@@ -362,7 +362,7 @@ spec:
                   fi
             failureThreshold: 1
             periodSeconds: 3
-          resources: {{ toYaml .Values.sawtooth.containers.block_info.resources | nindent 12 }}
+          resources: {{- include "lib.safeToYaml" .Values.sawtooth.containers.block_info.resources | nindent 12 }}
           volumeMounts:
             - mountPath: /var/run/sawtooth
               name: sawtooth-signals
@@ -404,7 +404,7 @@ spec:
                   fi
             failureThreshold: 1
             periodSeconds: 3
-          resources: {{ toYaml .Values.sawtooth.containers.intkey_tp.resources | nindent 12 }}
+          resources: {{- include "lib.safeToYaml" .Values.sawtooth.containers.intkey_tp.resources | nindent 12 }}
           volumeMounts:
             - mountPath: /var/run/sawtooth
               name: sawtooth-signals
@@ -447,7 +447,7 @@ spec:
                   fi
             failureThreshold: 1
             periodSeconds: 3
-          resources: {{ toYaml .Values.sawtooth.containers.identity_tp.resources | nindent 12 }}
+          resources: {{- include "lib.safeToYaml" .Values.sawtooth.containers.identity_tp.resources | nindent 12 }}
           volumeMounts:
             - mountPath: /var/run/sawtooth
               name: sawtooth-signals
@@ -504,20 +504,16 @@ spec:
                   fi
             failureThreshold: 1
             periodSeconds: 3
-          resources: {{ toYaml .Values.sawtooth.containers.daml_tp.resources | nindent 12 }}
+          resources: {{- include "lib.safeToYaml" .Values.sawtooth.containers.daml_tp.resources | nindent 12 }}
         - name: timekeeper
-          image: {{.Values.images.timekeeper}}
-          imagePullPolicy: {{.Values.sawtooth.containers.timekeeper.imagePullPolicy}}
+          {{- include "lib.image" (dict "imageRoot" .Values.timekeeper.image "global" $) | nindent 10}}
           command: [ "bash", "-c"]
           args:
             - |
-              /opt/timekeeper/entrypoint.sh {{.Values.sawtooth.containers.timekeeper.args}} \
-                tcp://localhost:{{.Values.sawtooth.ports.sawcomp}}
-          env:
-            {{ range .Values.sawtooth.containers.timekeeper.env }}
-            - name: {{.name }}
-              value: {{.value | quote }}
-            {{end}}
+              /opt/timekeeper/entrypoint.sh {{ .Values.timekeeper.args }} \
+                -C tcp://localhost:{{ .Values.sawtooth.ports.sawcomp }} \
+                --tp
+          env: {{- include "lib.safeToYaml" .Values.timekeeper.env | nindent 8 }}
           lifecycle:
             postStart:
               exec:
@@ -541,7 +537,7 @@ spec:
                   fi
             failureThreshold: 1
             periodSeconds: 3
-          resources: {{ toYaml .Values.sawtooth.containers.timekeeper.resources | nindent 12 }}
+          resources: {{- include "lib.safeToYaml" .Values.timekeeper.resources | nindent 12 }}
           volumeMounts:
             - mountPath: /var/run/sawtooth
               name: sawtooth-signals
@@ -636,7 +632,7 @@ spec:
               name: sawtooth-signals
             {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
             {{- include "lib.volumeMounts" .Values.sawtooth.extraVolumeMounts | nindent 12 }}
-          resources: {{ toYaml .Values.sawtooth.containers.rest_api.resources | nindent 12 }}
+          resources: {{- include "lib.safeToYaml" .Values.sawtooth.containers.rest_api.resources | nindent 12 }}
         - name: monitor
           image: {{.Values.images.shell}}
           imagePullPolicy: {{.Values.sawtooth.containers.monitor.imagePullPolicy}}
@@ -660,7 +656,7 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: metadata.name
-          resources: {{ toYaml .Values.sawtooth.containers.monitor.resources | nindent 12 }}
+          resources: {{- include "lib.safeToYaml" .Values.sawtooth.containers.monitor.resources | nindent 12 }}
         - name: validator
           image: {{.Values.images.validator}}
           imagePullPolicy: {{.Values.sawtooth.containers.validator.imagePullPolicy}}
@@ -813,7 +809,7 @@ spec:
               name: sawnet
             - containerPort: {{.Values.sawtooth.ports.consensus}}
               name: consensus
-          resources: {{ toYaml .Values.sawtooth.containers.validator.resources | nindent 12 }}
+          resources: {{- include "lib.safeToYaml" .Values.sawtooth.containers.validator.resources | nindent 12 }}
       initContainers:
         - name: setup
           image: {{.Values.images.validator}}

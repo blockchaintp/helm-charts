@@ -19,7 +19,7 @@ spec:
         app: {{.Values.sawtooth.networkName}}-daml-rpc
         daml: {{.Values.sawtooth.networkName}}-daml-rpc
     spec:
-      serviceAccountName: {{.Values.sawtooth.networkName}}-sa
+      serviceAccountName: {{ include "lib.serviceAccountName" . }}
       affinity:
         {{ toYaml .Values.daml.affinity | nindent 8 }}
       initContainers:

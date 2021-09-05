@@ -7,7 +7,7 @@ check for stable entity names (services, statefulsets, serviceaccounts):
   2: |
     mynetwork-daml-rpc
   3: |
-    mynetwork-sa
+    test-daml-on-sawtooth
   4: |
     mynetwork-validator
   5: |

@@ -229,14 +229,6 @@ sawtooth:
           cpu: "250m"
         requests:
           cpu: "50m"
-    timekeeper:
-      ## @md | `sawtooth.containers.timekeeper.args` | extra args | string | nil |
-      args:
-      ## @md | `sawtooth.containers.timekeeper.env` | list of environment name/valie dicts | map | nil |
-      env:
-      ## @md | `sawtooth.containers.timeeeper.imagePullPolicy` | imagePullPolicy for container | string | IfNotPresent |
-      imagePullPolicy: IfNotPresent
-      resources: {}
     validator:
       ## @md | `sawtooth.containers.validator.args` | extra args for validator | string | nil |
       args:
@@ -547,3 +539,27 @@ images:
 extraVolumes: []
 ## @md | `extraVolumeMounts` | a list of additional volume mounts to add to all StatefulSet, Deployment, and DaemonSet containers | `[]` |
 extraVolumeMounts: []
+
+serviceAccount:
+  create: true
+  name:
+
+timekeeper:
+  replicas: 1
+  periodSeconds: 60
+  image:
+    registry:
+    ## @md | `timekeeper.image.repository` | postgres image repository | string | "postgres" |
+    repository: blockchaintp/timekeeper
+    ## @md | `timekeeper.image.tag` | postgres image tag | string | "11" |
+    tag: BTP2.1.0rc14
+    ## @md | `timeeeper.image.pullPolicy` | imagePullPolicy for container | string | IfNotPresent |
+    pullPolicy:
+  ## @md | `timekeeper.args` | extra args | string | nil |
+  args:
+  ## @md | `timekeeper.env` | list of environment name/valie dicts | map | nil |
+  env:
+  resources: {}
+  extraVolumes: []
+  extraVolumeMounts: []
+  affinity: {}

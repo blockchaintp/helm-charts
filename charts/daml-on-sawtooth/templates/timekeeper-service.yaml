@@ -1,0 +1,13 @@
+{{$peering:= .Values.sawtooth.dynamicPeering}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "common.names.fullname" . }}-timekeeper
+  labels: {{- include "lib.labels" . | nindent 4}}
+    component: timekeeper
+spec:
+  sessionAffinity: ClientIP
+  ports:
+  selector: {{- include "common.labels.matchLabels" . | nindent 4 }}
+    component: timekeeper
