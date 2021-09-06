@@ -45,14 +45,6 @@ pipeline {
       }
     }
 
-    stage("Build Tools") {
-      steps {
-        sh """
-          make clean
-        """
-      }
-    }
-
     stage("Make documentation and checkin") {
       steps {
         sh '''
@@ -64,12 +56,38 @@ pipeline {
       }
     }
 
-    stage("Update dependencies and package") {
+    stage("Update dependencies") {
       steps {
         sh '''
           PATH=$PATH:$(pwd)/shell-scripts/bash
           export PATH
-          make all
+          make clean
+          make build
+        '''
+      }
+    }
+
+    stage("Test") {
+      steps {
+        sh '''
+          make test
+        '''
+        junit testResults: 'build/*.junit.xml', allowEmptyResults: true
+      }
+    }
+
+    stage("Package") {
+      steps {
+        sh '''
+          make package
+        '''
+      }
+    }
+
+    stage("Analyze") {
+      steps {
+        sh '''
+          make analyze
         '''
       }
     }
