@@ -19,7 +19,7 @@ metadata:
   name: {{.Values.sawtooth.namespace}}-{{.Values.sawtooth.networkName}}-clusterrole
 rules:
   - apiGroups: ["","apps/v1"] # "" refers to the core API group
-    resources: ["statefulsets.apps", "nodes", "pods"]
+    resources: ["nodes"]
     verbs: ["get", "list", "watch"]
 
 ---
