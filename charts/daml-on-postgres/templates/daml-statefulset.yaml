@@ -123,14 +123,6 @@ spec:
           resources: {{ toYaml .Values.daml.rpc.resources | nindent 12 }}
       restartPolicy: Always
       volumes:
-        - name: dev-random
-          hostPath:
-            path: /dev/random
-            type: CharDevice
-        - name: dev-urandom
-          hostPath:
-            path: /dev/urandom
-            type: CharDevice
         - name: jwt-secret
           secret:
             secretName: {{ .Values.deployment.name }}-cert
