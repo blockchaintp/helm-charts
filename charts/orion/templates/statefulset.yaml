@@ -48,7 +48,6 @@ spec:
               mountPath: /etc/orion
             {{- include "orion.publickeys.mounts" . | nindent 12 }}
             {{- include "orion.privatekeys.mounts" . | nindent 12 }}
-            {{- include "utils.rand.mounts" . | nindent 12 }}
             {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
       volumes:
         - name: config
@@ -56,5 +55,4 @@ spec:
             name: {{ include "common.name" . }}-config
         {{- include "orion.publickeys.vols" . | nindent 8 }}
         {{- include "orion.privatekeys.vols" . | nindent 8 }}
-        {{- include "utils.rand.vols" . | nindent 8 }}
         {{- include "lib.volumes" .Values.extraVolumes | nindent 8 }}
