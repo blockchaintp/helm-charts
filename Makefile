@@ -1,59 +1,46 @@
-
-ISOLATION_ID ?= local
-PWD = $(shell pwd)
-DOCKER_RUN ?= docker run --rm -v root_${ISOLATION_ID}:/root -v $(PWD):/project
-TMPL_DOCKER_RUN ?= docker run --rm -v root_${ISOLATION_ID}:/root -v $(PWD):/project
-TOOL_RUN ?= $(DOCKER_RUN) tool:$(ISOLATION_ID)
-TMPL_TOOL_RUN ?= $(TMPL_DOCKER_RUN) tool:$(ISOLATION_ID)
+MAKEFILE_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
+include $(MAKEFILE_DIR)/standard_defs.mk
 
 CHART_BASE=charts
-
-BRANCH_NAME ?= $(shell git symbolic-ref -q HEAD )
-
-UID := $(shell id -u)
-GID := $(shell id -g)
 
 CHARTS := $(shell find . -mindepth 3 -maxdepth 3 -name Chart.yaml \
 	-exec dirname {} \; | awk -F/ '{print $$NF}')
 
 DIAGRAMS := $(shell find docs -name *.plantuml -or -name *.puml | awk -F. '{print $$1}')
 
-.PHONY: all
-all: distclean charts
+.PHONY: build
+build: tmpl-lint
+
+.PHONY: package
+package: tmpl-pkg correct_ownership
+
+.PHONY: test
+test: tmpl-unit
 
 .PHONY: clean
-clean: correct_ownership distclean clean_diags
+clean: correct_ownership clean_toolchain_docker
 	find $(CHART_BASE) -mindepth 2 -name charts -type d -exec rm -rf {} \; || true
 	docker rm $$(docker ps --all -q -f status=exited) 2>/dev/null|| true
-	docker volume rm root_${ISOLATION_ID} > /dev/null
-
-.PHONY: distclean
-distclean: correct_ownership
+	docker volume rm root_${ISOLATION_ID} > /dev/null || true
 	rm -rf dist
 
+.PHONY: distclean
+distclean: clean
+
 .PHONY: repos.helm
-repos.helm: tool.docker
+repos.helm:
 #		name=$$(echo $$repo | cksum | awk '{print $$1}') ;
 	for repo in $$(find $(CHART_BASE) -name Chart.yaml -exec grep -i repository {} \; |\
 		sort -u | awk '{print $$NF}' | sed -e 's/\"//g'); do \
 		url=$$repo ; \
 		name=$$repo ; \
-		$(TOOL_RUN) -c "helm repo add $$name $$url" ; \
+		$(TOOLCHAIN) -c "helm repo add $$name $$url" ; \
 	done
-	$(TOOL_RUN) -c "helm repo update"
-
-.PHONY: tool.docker
-tool.docker:
-	docker build -q -t tool:${ISOLATION_ID} -f docker/tool.docker .
-
-.PHONY: clean.docker
-clean.docker:
-	docker volume rm -f root_${ISOLATION_ID}
-	docker rmi -f tool:${ISOLATION_ID}
+	$(TOOLCHAIN) -c "helm repo update"
 
 .PHONY: setup_dist
 setup_dist:
-	$(TOOL_RUN) -c "mkdir -p /project/dist"
+	$(BUSYBOX) mkdir -p /project/dist
 
 define helm_tmpl =
 .PHONY: helmlint-$(1) helmdep-build-$(1) helmdep-update-$(1) helmpkg-$(1) helmdoc-$(1) $(1)
@@ -63,32 +50,55 @@ tmpl-lint: helmlint-$(1)
 tmpl-unit: helmunit-$(1)
 tmpl-docs: helmdoc-$(1)
 tmpl-test: helmtest-$(1)
-tmpl-pkg: helmpkg-$(1) helmdoc-$(1)
+tmpl-pkg: helmpkg-$(1)
+tmpl-kubescape: kubescape-$(1)
+
 helmdep-build-$(1): repos.helm
-	$(TMPL_TOOL_RUN) -c "cd /project/$(CHART_BASE)/$(1); \
-		helm dependency build --skip-refresh ./"
+	@echo "$(1) --> Building dependencies"
+	@$(TOOL_NOWORKDIR) -w /project $(TOOLCHAIN_IMAGE) \
+	  "helm dependency build --skip-refresh ./$(CHART_BASE)/$(1)"
+
 helmdep-update-$(1): repos.helm
-	$(TMPL_TOOL_RUN) -c "cd /project/$(CHART_BASE)/$(1); \
-		helm dependency update --skip-refresh ./"
-helmlint-$(1): helmdep-build-$(1) tool.docker
-	$(TMPL_TOOL_RUN) -c "cd /project/$(CHART_BASE)/$(1); \
-		helm lint ./"
-helmunit-$(1): helmlint-$(1) tool.docker
-	docker run --rm -v $(PWD)/$(CHART_BASE):/apps quintush/helm-unittest \
-		--helm3 $(1)
+	@echo "$(1) --> Updating dependencies"
+	@$(TOOL_NOWORKDIR) -w /project $(TOOLCHAIN_IMAGE) \
+		"helm dependency update --skip-refresh ./$(CHART_BASE)/$(1)"
+
+helmlint-$(1): helmdep-build-$(1)
+	@echo "$(1) --> linting"
+	@$(TOOL_NOWORKDIR) -w /project $(TOOLCHAIN_IMAGE) \
+	  "helm lint ./$(CHART_BASE)/$(1)"
+
+helmunit-$(1): helmlint-$(1)
+	@echo "$(1) --> Unit Testing"
+	@docker run --rm -v $(PWD)/$(CHART_BASE):/apps quintush/helm-unittest \
+	  --helm3 $(1)
+
 helmdoc-$(1):
 	@cd charts/$(1); \
 	if [ ! -r README.md ] || [ values.yaml -nt README.md ]; then \
-		echo "Generating README.md for $(1)"; \
-		mddoc values.yaml > README.md ; \
+	  echo "Generating README.md for $(1)"; \
+	  mddoc values.yaml > README.md ; \
 	fi
+
 helmtest-$(1): helmunit-$(1)
-	$(TMPL_TOOL_RUN) -c "cd /project/$(CHART_BASE)/$(1); \
-		helm test ./"
+	@echo "$(1) --> Testing"
+	@$(TOOL_NOWORKDIR) -w /project $(TOOLCHAIN_IMAGE) \
+	  "helm test ./$(CHART_BASE)/$(1)"
+
 helmpkg-$(1): setup_dist helmunit-$(1)
-	$(TMPL_TOOL_RUN) -c "cd /project/$(CHART_BASE)/$(1); \
-		helm package ./ --destination=/project/dist"
+	@echo "$(1) --> Packaging"
+	@$(TOOL_NOWORKDIR) -w /project $(TOOLCHAIN_IMAGE) \
+	  "helm package ./$(CHART_BASE)/$(1) --destination=/project/dist"
+
 $(1): helmlint-$(1) helmdep-build-$(1) helmpkg-$(1)
+
+.PHONY: kubescape-$(1)
+kubescape-$(1):
+	@echo "$(1) --> kubescape"
+	@mkdir -p build
+	@$(TOOL_NOWORKDIR) -w /project $(TOOLCHAIN_IMAGE) \
+	  "helm template --generate-name --dry-run ./$(CHART_BASE)/$(1) | kubescape scan framework nsa -f junit -o ../../build/$(1).junit -"
+
 endef
 
 $(foreach chart,$(CHARTS),$(eval $(call helm_tmpl,$(chart))))
@@ -106,9 +116,9 @@ define diagram_tmpl =
 .PHONY: $(1).png
 $(1).png:
 	@if [ ! -r $(1).png ] || \
-		[ $(shell echo $(1).p*uml) -nt $(1).png ]; then \
-		echo "Generating PlantUML PNG for $(1): $(1).png" ; \
-		java -jar $(PLANTUML) -tpng $(shell echo $(1).p*uml) ; \
+	  [ $(shell echo $(1).p*uml) -nt $(1).png ]; then \
+	  echo "Generating PlantUML PNG for $(1): $(1).png" ; \
+	  java -jar $(PLANTUML) -tpng $(shell echo $(1).p*uml) ; \
 	fi
 diagrams: $(1).png
 .PHONY: clean_$(1)
@@ -118,29 +128,16 @@ clean_diags: clean_$(1)
 endef
 $(foreach diag,$(DIAGRAMS),$(eval $(call diagram_tmpl,$(diag))))
 
-.PHONY: charts
-charts: pkg post_correct_ownership
-
 .PHONY: correct_ownership
-correct_ownership: tool.docker
-	$(TOOL_RUN) -c "find /project -name dist -exec chown -R $(UID):$(GID) {} \;"
-	$(TOOL_RUN) -c "find /project -name __snapshot__ -exec chown -R $(UID):$(GID) {} \;"
-	$(TOOL_RUN) -c "find /project/$(CHART_BASE) -mindepth 2 -name charts -type d \
-		-exec chown -R $(UID):$(GID) {} \;"
-	$(TOOL_RUN) -c "find /project/$(CHART_BASE) -name requirements.lock \
-		-exec chown -R $(UID):$(GID) {} \;"
-	$(TOOL_RUN) -c "find /project/$(CHART_BASE) -name Chart.lock \
-		-exec chown -R $(UID):$(GID) {} \;"
-
-.PHONY: post_correct_ownership
-post_correct_ownership: tool.docker
-	$(TOOL_RUN) -c "find /project -name dist -exec chown -R $(UID):$(GID) {} \;"
-	$(TOOL_RUN) -c "find /project/$(CHART_BASE) -mindepth 2 -name charts -type d \
-		-exec chown -R $(UID):$(GID) {} \;"
-	$(TOOL_RUN) -c "find /project/$(CHART_BASE) -name requirements.lock \
-		-exec chown -R $(UID):$(GID) {} \;"
-	$(TOOL_RUN) -c "find /project/$(CHART_BASE) -name Chart.lock \
-		-exec chown -R $(UID):$(GID) {} \;"
+correct_ownership:
+	$(BUSYBOX_ROOT) find /project -name dist -exec chown -R $(UID):$(GID) {} \;
+	$(BUSYBOX_ROOT) find /project -name __snapshot__ -exec chown -R $(UID):$(GID) {} \;
+	$(BUSYBOX_ROOT) find /project/$(CHART_BASE) -mindepth 2 -name charts -type d \
+	  -exec chown -R $(UID):$(GID) {} \;
+	$(BUSYBOX_ROOT) find /project/$(CHART_BASE) -name requirements.lock \
+	  -exec chown -R $(UID):$(GID) {} \;
+	$(BUSYBOX_ROOT) find /project/$(CHART_BASE) -name Chart.lock \
+	  -exec chown -R $(UID):$(GID) {} \;
 
 .PHONY: docs
 docs: tmpl-docs
@@ -150,12 +147,6 @@ docs: tmpl-docs
 	@echo >> README.md
 	@for f in $$(find charts -name README.md| awk -F/ '{print $$2}' | sort); do  chart_name=$$f; echo \* \[$$chart_name\]\(charts/$$chart_name/README.md\); done >> README.md
 
-.PHONY: test
-test: tmpl-unit
-
-.PHONY: pkg
-pkg: tmpl-pkg
-
 .PHONY: dependencies-update
 dependencies-update: tmpl-dep-update
 
@@ -164,3 +155,6 @@ dependencies-build: tmpl-dep-build
 
 .PHONY: lint
 lint: tmpl-lint
+
+.PHONY: kubescape
+kubescape: tmpl-kubescape

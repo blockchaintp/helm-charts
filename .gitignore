@@ -42,3 +42,5 @@ dist/
 
 node_modules
 site
+charts/*/tmp-kubescape*.yaml
+build

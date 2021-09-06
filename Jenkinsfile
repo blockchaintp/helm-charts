@@ -49,7 +49,6 @@ pipeline {
       steps {
         sh """
           make clean
-          make tool.docker
         """
       }
     }
@@ -101,20 +100,20 @@ pipeline {
                 cp dist/*.tgz dist/local
                 ${AWS_DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID \
                   -e AWS_SECRET_ACCESS_KEY -w /project/dist/local \
-                  tool:${ISOLATION_ID} -c "aws s3 sync . s3://${S3_TARGET}/charts"
+                  toolchain:latest "aws s3 sync . s3://${S3_TARGET}/charts"
                 ${AWS_DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID \
                   -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
-                  tool:${ISOLATION_ID} -c "aws s3 sync s3://${S3_TARGET}/charts ."
+                  toolchain:latest "aws s3 sync s3://${S3_TARGET}/charts ."
                 ${AWS_DOCKER_RUN} -v `pwd`:/project -w /project/dist/remote \
-                  tool:${ISOLATION_ID} \
-                  -c "helm repo index ./ --url https://${S3_TARGET}.s3.amazonaws.com/charts"
+                  toolchain:latest \
+                  "helm repo index ./ --url https://${S3_TARGET}.s3.amazonaws.com/charts"
                 ${AWS_DOCKER_RUN} -v `pwd`:/project \
-                  -w /project/charts tool:${ISOLATION_ID} \
-                  -c "chown -R ${JENKINS_UID}:${JENKINS_GID} /project/dist"
+                  -w /project/charts toolchain:latest \
+                  "chown -R ${JENKINS_UID}:${JENKINS_GID} /project/dist"
                 ${AWS_DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID \
                   -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
-                  tool:${ISOLATION_ID} \
-                  -c "aws s3 cp index.yaml s3://${S3_TARGET}/charts/index.yaml"
+                  toolchain:latest \
+                  "aws s3 cp index.yaml s3://${S3_TARGET}/charts/index.yaml"
               """
             }
             if ( long_version != scm_version) {
@@ -128,22 +127,22 @@ pipeline {
                 cp dist/*.tgz dist/local
                 ${AWS_DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID \
                   -e AWS_SECRET_ACCESS_KEY -w /project/dist/local \
-                  tool:${ISOLATION_ID} -c \
+                  toolchain:latest \
                     "aws s3 sync . s3://${S3_TARGET}/charts"
                 ${AWS_DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID \
                   -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
-                  tool:${ISOLATION_ID} \
-                  -c "aws s3 sync s3://${S3_TARGET}/charts ."
+                  toolchain:latest \
+                  "aws s3 sync s3://${S3_TARGET}/charts ."
                 ${AWS_DOCKER_RUN} -v `pwd`:/project -w \
-                  /project/dist/remote tool:${ISOLATION_ID} \
-                  -c "helm repo index ./ --url https://${S3_TARGET}.s3.amazonaws.com/charts"
+                  /project/dist/remote toolchain:latest \
+                  "helm repo index ./ --url https://${S3_TARGET}.s3.amazonaws.com/charts"
                 ${AWS_DOCKER_RUN} -v `pwd`:/project -w /project/charts \
-                  tool:${ISOLATION_ID} \
-                  -c "chown -R ${JENKINS_UID}:${JENKINS_GID} /project/dist"
+                  toolchain:latest \
+                  "chown -R ${JENKINS_UID}:${JENKINS_GID} /project/dist"
                 ${AWS_DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID \
                   -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
-                  tool:${ISOLATION_ID} \
-                  -c "aws s3 cp index.yaml s3://${S3_TARGET}/charts/index.yaml"
+                  toolchain:latest \
+                  "aws s3 cp index.yaml s3://${S3_TARGET}/charts/index.yaml"
               """
             }
           }
@@ -157,7 +156,7 @@ pipeline {
   post {
       cleanup {
           sh """
-            docker volume rm root_${ISOLATION_ID}
+            docker volume rm root_${ISOLATION_ID} || true
           """
       }
       aborted {
