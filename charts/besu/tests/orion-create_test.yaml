@@ -32,8 +32,8 @@ tests:
           enabled: true
     asserts:
       - equal:
-          path: spec.template.spec.volumes[5].name
+          path: spec.template.spec.volumes[3].name
           value: enclave
       - equal:
-          path: spec.template.spec.volumes[5].configMap.name
+          path: spec.template.spec.volumes[3].configMap.name
           value: test-orion-0-nodekey-pub

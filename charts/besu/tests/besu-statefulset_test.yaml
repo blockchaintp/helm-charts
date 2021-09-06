@@ -16,24 +16,20 @@ tests:
     set:
       besu:
         seedNetwork: true
+        persistence:
+          enabled: false
     asserts:
       - equal:
-          path: spec.template.spec.volumes[4].name
+          path: spec.template.spec.volumes[2].name
           value: "networkkeys-config"
       - equal:
-          path: spec.template.spec.volumes[4].secret.secretName
+          path: spec.template.spec.volumes[2].secret.secretName
           value: "test-besu-keys"
-  - it: "persistence not enabled"
-    template: besu-statefulset.yaml
-    set:
-      besu.seedNetwork: true
-      besu.persistence.enabled: false
-    asserts:
       - equal:
-          path: spec.template.spec.volumes[6].name
+          path: spec.template.spec.volumes[4].name
           value: "data"
       - equal:
-          path: spec.template.spec.volumes[6].emptyDir
+          path: spec.template.spec.volumes[4].emptyDir
           value: {}
   - it: "persistence enabled"
     template: besu-statefulset.yaml
@@ -55,7 +51,6 @@ tests:
       extraVolumeMounts:
         - name: *globaltestvol
           mountPath: "/global"
-
     asserts:
       - equal:
           path: spec.volumeClaimTemplates[0].metadata.name
@@ -64,14 +59,14 @@ tests:
           path: spec.volumeClaimTemplates[0].spec.storageClassName
           value: "standard"
       - equal:
-          path: spec.template.spec.volumes[6].name
+          path: spec.template.spec.volumes[4].name
           value: *globaltestvol
       - equal:
-          path: spec.template.spec.volumes[7].name
+          path: spec.template.spec.volumes[5].name
           value: *localtestvol
       - equal:
-          path: spec.template.spec.containers[0].volumeMounts[7].name
+          path: spec.template.spec.containers[0].volumeMounts[5].name
           value: *globaltestvol
       - equal:
-          path: spec.template.spec.containers[0].volumeMounts[8].name
+          path: spec.template.spec.containers[0].volumeMounts[6].name
           value: *localtestvol
