@@ -21,6 +21,7 @@ spec:
 {{ include "common.labels" . |indent 8 }}
     spec:
       serviceAccountName: {{ include "common.serviceAccountName" . }}
+      automountServiceAccountToken: true
       restartPolicy: Never
       containers:
         - name: keygen
