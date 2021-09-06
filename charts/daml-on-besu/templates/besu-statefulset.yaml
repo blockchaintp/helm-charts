@@ -165,10 +165,6 @@ spec:
               name: data
             - mountPath: /enclave
               name: enclave
-            - mountPath: /dev/random
-              name: dev-random
-            - mountPath: /dev/urandom
-              name: dev-urandom
             {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
             {{- include "lib.volumeMounts" .Values.besu.extraVolumeMounts | nindent 12 }}
       restartPolicy: Always
@@ -176,14 +172,6 @@ spec:
         - name: config-toml
           configMap:
             name: {{ include "besu.fullname" . }}-config-toml
-        - name: dev-random
-          hostPath:
-            path: /dev/random
-            type: CharDevice
-        - name: dev-urandom
-          hostPath:
-            path: /dev/urandom
-            type: CharDevice
         - name: genesis
           configMap:
             name: {{ include "besu.fullname" .}}-genesis
