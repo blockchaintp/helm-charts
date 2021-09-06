@@ -18,6 +18,7 @@ spec:
 {{ include "daml.selectorLabels" . |indent 8 }}
     spec:
       serviceAccountName: {{ include "daml.serviceAccountName" . }}
+      automountServiceAccountToken: true
       restartPolicy: Never
       containers:
         - name: openssl
