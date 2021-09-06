@@ -29,6 +29,7 @@ spec:
       annotations: {{- toYaml .Values.sawtooth.statefulset.podAnnotations | nindent 8 }}
     spec:
       serviceAccountName: {{ include "lib.serviceAccountName" . }}
+      automountServiceAccountToken: true
       affinity: {{- include "sawtooth.affinity" . | nindent 8 }}
       hostAliases: {{- include "sawtooth.hostaliases" . | nindent 8 }}
       containers: {{- include "sawtooth.containers" . | nindent 8 }}
