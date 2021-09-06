@@ -154,10 +154,6 @@ spec:
             - mountPath: /besu-keys
               name: besu-keys
               readOnly: true
-            - mountPath: /dev/random
-              name: dev-random
-            - mountPath: /dev/urandom
-              name: dev-urandom
             - mountPath: /secrets/jwt
               name: jwt-secret
             {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
@@ -204,14 +200,6 @@ spec:
         - name: besu-keys
           secret:
             secretName: {{include "besu.fullname" .}}-keys
-        - name: dev-random
-          hostPath:
-            path: /dev/random
-            type: CharDevice
-        - name: dev-urandom
-          hostPath:
-            path: /dev/urandom
-            type: CharDevice
         - name: jwt-secret
           secret:
             secretName: {{ .Values.deployment.name }}-cert

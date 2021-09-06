@@ -19,6 +19,7 @@ spec:
 {{ include "besu.selectorLabels" . |indent 8 }}
     spec:
       serviceAccountName: {{ include "besu.serviceAccountName" . }}
+      automountServiceAccountToken: true
       restartPolicy: Never
       containers:
         - name: rpc-keys
