@@ -33,7 +33,7 @@ SONAR_AUTH_TOKEN ?=
 ##
 # Kubernetes Settings
 ##
-KUBE_CONFIG ?= $(HOME)/.kube/config
+KUBE_CONFIG ?= $(PWD)/dummy-kubeconfig.yaml
 
 ##
 # Maven related settings
@@ -87,6 +87,8 @@ MAVEN_SETTINGS_VOL = $(shell if [ -n "$(MAVEN_SETTINGS)" ]; then echo -v \
 
 KUBE_CONFIG_VOL = $(shell if [ -n "$(KUBE_CONFIG)" ]; then echo -v \
 	$(KUBE_CONFIG):$(TOOLCHAIN_HOME)/.kube/config; fi)
+KUBE_CONFIG_ENV = $(shell if [ -n "$(KUBE_CONFIG)" ]; then echo -e \
+	KUBECONFIG=$(TOOLCHAIN_HOME)/.kube/config; fi)
 
 TOOL_VOLS = -v toolchain-home-$(ISOLATION_ID):/home/toolchain \
 	$(MAVEN_SETTINGS_VOL) $(KUBE_CONFIG_VOL) \
@@ -94,7 +96,7 @@ TOOL_VOLS = -v toolchain-home-$(ISOLATION_ID):/home/toolchain \
 
 TOOL_ENVIRONMENT = -e GITHUB_TOKEN -e MAVEN_HOME=/home/toolchain/.m2 \
 	-e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e FOSSA_API_KEY \
-	-e KUBECONFIG=$(TOOLCHAIN_HOME)/.kube/config
+	$(KUBE_CONFIG_ENV)
 
 TOOL_NOWORKDIR = $(DOCKER_RUN_USER) $(TOOL_ENVIRONMENT) $(TOOL_VOLS)
 TOOL_DEFAULT_NOWORKDIR = $(DOCKER_RUN_DEFAULT) $(TOOL_ENVIRONMENT) $(TOOL_VOLS)
@@ -317,7 +319,7 @@ build/$(REPO)-$(VERSION).tgz:
 $(MARKERS)/toolchain_vols:
 	docker volume create toolchain-home-$(ISOLATION_ID)
 	$(BUSYBOX_ROOT) chown -R $(UID):$(GID) $(TOOLCHAIN_HOME)
-	touch $@
+	@touch $@
 
 $(MARKERS)/build_toolchain_docker: $(MARKERS) $(MARKERS)/toolchain_vols
 	if ! docker image ls -qq $(TOOLCHAIN_IMAGE) > /dev/null; then \
@@ -326,7 +328,7 @@ $(MARKERS)/build_toolchain_docker: $(MARKERS) $(MARKERS)/toolchain_vols
 	else \
 	  echo "Toolchain $(TOOLCHAIN_IMAGE) already available"; \
 	fi
-	touch $@
+	@touch $@
 
 .PHONY: clean_toolchain_docker
 clean_toolchain_docker:
@@ -347,7 +349,7 @@ clean_markers:
 
 $(MARKERS)/build_go: $(MARKERS)/build_toolchain_docker
 	$(TOOLCHAIN) bash -c "if [ -r scripts/build ]; then scripts/build; else go build ./...; fi"
-	touch $@
+	@touch $@
 
 .PHONY: clean_build_go
 clean_build_go: $(MARKERS)/build_toolchain_docker
@@ -356,22 +358,22 @@ clean_build_go: $(MARKERS)/build_toolchain_docker
 
 $(MARKERS)/build_mvn: $(MARKERS)/build_toolchain_docker
 	$(DOCKER_MVN) compile
-	touch $@
+	@touch $@
 
 $(MARKERS)/package_mvn: $(MARKERS)/build_toolchain_docker
 	$(DOCKER_MVN) package
-	touch $@
+	@touch $@
 
 clean_mvn: $(MARKERS)/build_toolchain_docker
 	$(DOCKER_MVN) clean
 
 $(MARKERS)/test_mvn: $(MARKERS)/build_toolchain_docker
 	$(DOCKER_MVN) test
-	touch $@
+	@touch $@
 
 $(MARKERS)/test_go: $(MARKERS)/build_toolchain_docker
 	$(TOOLCHAIN) go test ./...
-	touch $@
+	@touch $@
 
 $(MARKERS)/publish_mvn: $(MARKERS)/build_toolchain_docker
 	echo $(DOCKER_MVN) clean deploy -DupdateReleaseInfo=$(MAVEN_UPDATE_RELEASE_INFO) \
@@ -399,7 +401,7 @@ clean_dirs: clean_dirs_standard
 $(MARKERS)/check_ignores:
 	git check-ignore build
 	git check-ignore $(MARKERS)
-	touch $@
+	@touch $@
 
 .PHONY: what_version
 what_version:

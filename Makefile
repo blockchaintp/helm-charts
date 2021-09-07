@@ -9,16 +9,16 @@ CHARTS := $(shell find . -mindepth 3 -maxdepth 3 -name Chart.yaml \
 DIAGRAMS := $(shell find docs -name *.plantuml -or -name *.puml | awk -F. '{print $$1}')
 
 .PHONY: build
-build: tmpl-lint
+build: tmpl-dep-build
 
 .PHONY: package
 package: tmpl-pkg correct_ownership
 
 .PHONY: test
-test: tmpl-unit
+test: tmpl-lint tmpl-unit tmpl-kubescape
 
 .PHONY: clean
-clean: correct_ownership clean_toolchain_docker
+clean: correct_ownership clean_toolchain_docker clean_kubescape clean_markers
 	find $(CHART_BASE) -mindepth 2 -name charts -type d -exec rm -rf {} \; || true
 	docker rm $$(docker ps --all -q -f status=exited) 2>/dev/null|| true
 	docker volume rm root_${ISOLATION_ID} > /dev/null || true
@@ -27,8 +27,7 @@ clean: correct_ownership clean_toolchain_docker
 .PHONY: distclean
 distclean: clean
 
-.PHONY: repos.helm
-repos.helm:
+$(MARKERS)/repos.helm:
 #		name=$$(echo $$repo | cksum | awk '{print $$1}') ;
 	for repo in $$(find $(CHART_BASE) -name Chart.yaml -exec grep -i repository {} \; |\
 		sort -u | awk '{print $$NF}' | sed -e 's/\"//g'); do \
@@ -37,67 +36,85 @@ repos.helm:
 		$(TOOLCHAIN) -c "helm repo add $$name $$url" ; \
 	done
 	$(TOOLCHAIN) -c "helm repo update"
+	@touch $@
 
 .PHONY: setup_dist
 setup_dist:
 	$(BUSYBOX) mkdir -p /project/dist
 
-define helm_tmpl =
-.PHONY: helmlint-$(1) helmdep-build-$(1) helmdep-update-$(1) helmpkg-$(1) helmdoc-$(1) $(1)
-tmpl-dep-update: helmdep-update-$(1)
-tmpl-dep-build: helmdep-build-$(1)
-tmpl-lint: helmlint-$(1)
-tmpl-unit: helmunit-$(1)
-tmpl-docs: helmdoc-$(1)
-tmpl-test: helmtest-$(1)
-tmpl-pkg: helmpkg-$(1)
-tmpl-kubescape: kubescape-$(1)
 
-helmdep-build-$(1): repos.helm
+define helm_tmpl =
+tmpl-dep-update: $(MARKERS)/helmdep-update-$(1)
+tmpl-dep-build: $(MARKERS)/helmdep-build-$(1)
+tmpl-lint: $(MARKERS)/helmlint-$(1)
+tmpl-unit: $(MARKERS)/helmunit-$(1)
+tmpl-docs: $(MARKERS)/helmdoc-$(1)
+tmpl-test: $(MARKERS)/helmtest-$(1)
+tmpl-pkg: $(MARKERS)/helmpkg-$(1)
+tmpl-kubescape: $(MARKERS)/kubescape-$(1)
+
+$(MARKERS)/helmdep-build-$(1): $(MARKERS)/repos.helm
+	@mkdir -p $(MARKERS)
 	@echo "$(1) --> Building dependencies"
 	@$(TOOL_NOWORKDIR) -w /project $(TOOLCHAIN_IMAGE) \
 	  "helm dependency build --skip-refresh ./$(CHART_BASE)/$(1)"
+	@touch $(MARKERS)/helmdep-build-$(1)
 
-helmdep-update-$(1): repos.helm
+$(MARKERS)/helmdep-update-$(1): $(MARKERS)/repos.helm
+	@mkdir -p $(MARKERS)
 	@echo "$(1) --> Updating dependencies"
 	@$(TOOL_NOWORKDIR) -w /project $(TOOLCHAIN_IMAGE) \
 		"helm dependency update --skip-refresh ./$(CHART_BASE)/$(1)"
+	@touch $(MARKERS)/helmdep-update-$(1)
 
-helmlint-$(1): helmdep-build-$(1)
+$(MARKERS)/helmlint-$(1): $(MARKERS)/helmdep-build-$(1)
+	@mkdir -p $(MARKERS)
 	@echo "$(1) --> linting"
 	@$(TOOL_NOWORKDIR) -w /project $(TOOLCHAIN_IMAGE) \
 	  "helm lint ./$(CHART_BASE)/$(1)"
+	@touch $(MARKERS)/helmlint-$(1)
 
-helmunit-$(1): helmlint-$(1)
+$(MARKERS)/helmunit-$(1): $(MARKERS)/helmdep-build-$(1)
+	@mkdir -p $(MARKERS)
 	@echo "$(1) --> Unit Testing"
 	@docker run --rm -v $(PWD)/$(CHART_BASE):/apps quintush/helm-unittest \
 	  --helm3 $(1)
+	@touch $(MARKERS)/helmunit-$(1)
 
-helmdoc-$(1):
+$(MARKERS)/helmdoc-$(1):
+	@mkdir -p $(MARKERS)
 	@cd charts/$(1); \
 	if [ ! -r README.md ] || [ values.yaml -nt README.md ]; then \
 	  echo "Generating README.md for $(1)"; \
 	  mddoc values.yaml > README.md ; \
 	fi
+	@touch $(MARKERS)/helmdoc-$(1)
 
-helmtest-$(1): helmunit-$(1)
+$(MARKERS)/helmtest-$(1): $(MARKERS)/helmdep-build-$(1)
+	@mkdir -p $(MARKERS)
 	@echo "$(1) --> Testing"
 	@$(TOOL_NOWORKDIR) -w /project $(TOOLCHAIN_IMAGE) \
 	  "helm test ./$(CHART_BASE)/$(1)"
+	@touch $(MARKERS)/helmtest-$(1)
 
-helmpkg-$(1): setup_dist helmunit-$(1)
+$(MARKERS)/helmpkg-$(1): setup_dist $(MARKERS)/helmdep-build-$(1)
+	@mkdir -p $(MARKERS)
 	@echo "$(1) --> Packaging"
 	@$(TOOL_NOWORKDIR) -w /project $(TOOLCHAIN_IMAGE) \
 	  "helm package ./$(CHART_BASE)/$(1) --destination=/project/dist"
+	@touch $(MARKERS)/helmpkg-$(1)
 
-$(1): helmlint-$(1) helmdep-build-$(1) helmpkg-$(1)
-
-.PHONY: kubescape-$(1)
-kubescape-$(1):
+$(MARKERS)/kubescape-$(1):
+	@mkdir -p $(MARKERS)
 	@echo "$(1) --> kubescape"
 	@mkdir -p build
-	@$(TOOL_NOWORKDIR) -w /project $(TOOLCHAIN_IMAGE) \
-	  "helm template --generate-name --dry-run ./$(CHART_BASE)/$(1) | kubescape scan framework nsa -f junit -o ../../build/$(1).junit -"
+	$(TOOL_NOWORKDIR) -w /project $(TOOLCHAIN_IMAGE) \
+	  "helm template --generate-name --dry-run ./$(CHART_BASE)/$(1) | kubescape \
+	    scan framework nsa -f junit -o ./build/$(1).junit --use-from /project/kubescape.json -"
+	rm -f tmp-kubescape*.yaml
+	@touch $(MARKERS)/kubescape-$(1)
+
+$(1): helmdep-build-$(1) helmlint-$(1) helmunit-$(1) $(MARKERS)/kubescape-$(1) helmpkg-$(1)
 
 endef
 
@@ -145,7 +162,9 @@ docs: tmpl-docs
 	@echo > README.md
 	@echo \# BTP charts >> README.md
 	@echo >> README.md
-	@for f in $$(find charts -name README.md| awk -F/ '{print $$2}' | sort); do  chart_name=$$f; echo \* \[$$chart_name\]\(charts/$$chart_name/README.md\); done >> README.md
+	@for f in $$(find charts -name README.md| awk -F/ '{print $$2}' | sort); do \
+		chart_name=$$f; echo \* \[$$chart_name\]\(charts/$$chart_name/README.md\); \
+		done >> README.md
 
 .PHONY: dependencies-update
 dependencies-update: tmpl-dep-update
@@ -158,3 +177,7 @@ lint: tmpl-lint
 
 .PHONY: kubescape
 kubescape: tmpl-kubescape
+
+.PHONY: clean_kubescape
+clean_kubescape:
+	rm -f tmp-kubescape*.yaml

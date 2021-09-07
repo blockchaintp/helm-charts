@@ -45,14 +45,6 @@ pipeline {
       }
     }
 
-    stage("Build Tools") {
-      steps {
-        sh """
-          make clean
-        """
-      }
-    }
-
     stage("Make documentation and checkin") {
       steps {
         sh '''
@@ -64,12 +56,38 @@ pipeline {
       }
     }
 
-    stage("Update dependencies and package") {
+    stage("Update dependencies") {
       steps {
         sh '''
           PATH=$PATH:$(pwd)/shell-scripts/bash
           export PATH
-          make all
+          make clean
+          make build
+        '''
+      }
+    }
+
+    stage("Test") {
+      steps {
+        sh '''
+          make test
+        '''
+        junit testResults: 'build/*.junit.xml', allowEmptyResults: true, skipMarkingBuildUnstable: true
+      }
+    }
+
+    stage("Package") {
+      steps {
+        sh '''
+          make package
+        '''
+      }
+    }
+
+    stage("Analyze") {
+      steps {
+        sh '''
+          make analyze
         '''
       }
     }
@@ -100,19 +118,19 @@ pipeline {
                 cp dist/*.tgz dist/local
                 ${AWS_DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID \
                   -e AWS_SECRET_ACCESS_KEY -w /project/dist/local \
-                  toolchain:latest "aws s3 sync . s3://${S3_TARGET}/charts"
+                  blockchaintp/toolchain:latest "aws s3 sync . s3://${S3_TARGET}/charts"
                 ${AWS_DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID \
                   -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
-                  toolchain:latest "aws s3 sync s3://${S3_TARGET}/charts ."
+                  blockchaintp/toolchain:latest "aws s3 sync s3://${S3_TARGET}/charts ."
                 ${AWS_DOCKER_RUN} -v `pwd`:/project -w /project/dist/remote \
-                  toolchain:latest \
+                  blockchaintp/toolchain:latest \
                   "helm repo index ./ --url https://${S3_TARGET}.s3.amazonaws.com/charts"
                 ${AWS_DOCKER_RUN} -v `pwd`:/project \
-                  -w /project/charts toolchain:latest \
+                  -w /project/charts blockchaintp/toolchain:latest \
                   "chown -R ${JENKINS_UID}:${JENKINS_GID} /project/dist"
                 ${AWS_DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID \
                   -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
-                  toolchain:latest \
+                  blockchaintp/toolchain:latest \
                   "aws s3 cp index.yaml s3://${S3_TARGET}/charts/index.yaml"
               """
             }
@@ -127,21 +145,21 @@ pipeline {
                 cp dist/*.tgz dist/local
                 ${AWS_DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID \
                   -e AWS_SECRET_ACCESS_KEY -w /project/dist/local \
-                  toolchain:latest \
+                  blockchaintp/toolchain:latest \
                     "aws s3 sync . s3://${S3_TARGET}/charts"
                 ${AWS_DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID \
                   -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
-                  toolchain:latest \
+                  blockchaintp/toolchain:latest \
                   "aws s3 sync s3://${S3_TARGET}/charts ."
                 ${AWS_DOCKER_RUN} -v `pwd`:/project -w \
-                  /project/dist/remote toolchain:latest \
+                  /project/dist/remote blockchaintp/toolchain:latest \
                   "helm repo index ./ --url https://${S3_TARGET}.s3.amazonaws.com/charts"
                 ${AWS_DOCKER_RUN} -v `pwd`:/project -w /project/charts \
-                  toolchain:latest \
+                  blockchaintp/toolchain:latest \
                   "chown -R ${JENKINS_UID}:${JENKINS_GID} /project/dist"
                 ${AWS_DOCKER_RUN} -v `pwd`:/project -e AWS_ACCESS_KEY_ID \
                   -e AWS_SECRET_ACCESS_KEY -w /project/dist/remote \
-                  toolchain:latest \
+                  blockchaintp/toolchain:latest \
                   "aws s3 cp index.yaml s3://${S3_TARGET}/charts/index.yaml"
               """
             }
