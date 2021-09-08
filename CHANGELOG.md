@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+* refactor(daml-on-sawtooth): reduce cluster-role [view commit](https://github.com/catenasys/helm-charts/commit/77025212f52f69ed9b371b1db3d0f476393e2ddc)
+* test(daml-on-postgres): correct volume positions [view commit](https://github.com/catenasys/helm-charts/commit/39384ffd0cdea980e9cc5ee9c0777c65b15a965b)
+* test(daml-on-besu): correct mount and volume positions [view commit](https://github.com/catenasys/helm-charts/commit/228d9d068ef4a0ae3da70a9e271cee92620f3b0a)
+* test(besu): correct mount and volume positions [view commit](https://github.com/catenasys/helm-charts/commit/f3b98483a64b87e991361f277667e0fc8b074298)
+* fix(daml-on-sawtooth): disable automountServiceAccountToken [view commit](https://github.com/catenasys/helm-charts/commit/8933ea59bac53704da7ed00fb2723114f3f6a016)
+* fix(daml-on-postgres): disable automountServiceAccountToken [view commit](https://github.com/catenasys/helm-charts/commit/41109d6b853e725e28d3ae9e19cd2899e036958f)
+* fix(daml-on-besu): disable automount of serviceAccountToken [view commit](https://github.com/catenasys/helm-charts/commit/963e4989f5c74847702fb8a35253d4f7b4af1241)
+* fix(sawtooth): stop unnecessary mount of serviceAccountToken [view commit](https://github.com/catenasys/helm-charts/commit/d2ed0ce4a19a19025c3694487e0c4dcbb07ada28)
+* fix(besu): remove random mounts [view commit](https://github.com/catenasys/helm-charts/commit/d0b91632ca3bc19877c29f76cbdb43297fb19896)
+* fix(besu): stop automatically mounting serviceAccountToken [view commit](https://github.com/catenasys/helm-charts/commit/0188f1108a27ada66b370b8e7b49983e18034e09)
+* fix(orion): stp allocating service tokens automatically [view commit](https://github.com/catenasys/helm-charts/commit/c3714f8ccff9454c5ceab3599cfac86758194fc3)
 * docs: update diagrams [view commit](https://github.com/catenasys/helm-charts/commit/c5e98ff8bd0b69b19482578d967e8d37e55c991a)
 * build(sextant-test): update dependencies [view commit](https://github.com/catenasys/helm-charts/commit/b9e009f574678f1c0d9d9a674bc80fcb5f8b99a8)
 * fix(sextant): correct label declarations [view commit](https://github.com/catenasys/helm-charts/commit/bf3bde9bd7a3a2481e6b30724bfc7bd4cddc1586)
