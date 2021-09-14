@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* style(daml-on-postgres): correct readme values list formatting [view commit](https://github.com/catenasys/helm-charts/commit/eaaab7dd58933515772e92ffc4ab95180ad511e8)
+* docs(daml-on-postgres): add instructions for enabling the daml json api ingress [view commit](https://github.com/catenasys/helm-charts/commit/c8b39e60f579d9962c20732bf4c1750b4d0f9fe3)
 * refactor(daml-on-sawtooth): reduce cluster-role [view commit](https://github.com/catenasys/helm-charts/commit/77025212f52f69ed9b371b1db3d0f476393e2ddc)
 * test(daml-on-postgres): correct volume positions [view commit](https://github.com/catenasys/helm-charts/commit/39384ffd0cdea980e9cc5ee9c0777c65b15a965b)
 * test(daml-on-besu): correct mount and volume positions [view commit](https://github.com/catenasys/helm-charts/commit/228d9d068ef4a0ae3da70a9e271cee92620f3b0a)
