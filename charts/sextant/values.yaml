@@ -10,12 +10,10 @@
 ## @md
 ## @md | field | description | type | default |
 ## @md |-|-|-|-|
-## @md | `deployment` | Sextant support variable, don't change manually | map | N/A |
 deployment:
   name: sextant
   namespace: default
 
-## @md | `imagePullSecrets` | imagePullSecrets configuration | map | N/A |
 imagePullSecrets:
   ## @md | `imagePullSecrets.enabled` | true if imagePullSecrets are required | boolean | false |
   enabled: false
@@ -28,7 +26,6 @@ replicaCount: 1
 ## @md | `logging` | default logging level | string | "1" |
 logging: "1"
 
-## @md | `ui` | UI configuration settings | map | N/A |
 ui:
   ## @md | `ui.image` | UI image settings | map | N/A |
   image:
@@ -38,7 +35,6 @@ ui:
     tag: latest
     ## @md | `ui.image.pullPolicy` | UI image pull policy | string | "IfNotPresent" |
     pullPolicy: IfNotPresent
-## @md | `api` | UI configuration settings | map | N/A |
 api:
   ## @md | `api.image` | API image settings | map | N/A |
   image:
@@ -48,7 +44,6 @@ api:
     tag: latest
     ## @md | `api.image.pullPolicy` | API image pull policy | string | "IfNotPresent" |
     pullPolicy: IfNotPresent
-## @md | `noxy` | UI configuration settings | map | N/A |
 noxy:
   ## @md | `noxy.image` | noxy image settings | map | N/A |
   image:
@@ -60,19 +55,16 @@ noxy:
     pullPolicy: IfNotPresent
 
 
-## @md | `serviceAccount` | service account settings | map | N/A |
 serviceAccount:
   ## @md | `serviceAccount.create` | if true create the service account | boolean | true |
   create: true
   ## @md | `serviceAccount.name` | name of the service account for sextant | string | nil |
   name:
 
-## @md | `postgres` | postgres settings | map | N/A |
 postgres:
   # if enabled we allocate a postgres database here
   ## @md | `postgres.enabled` | if true create an internal postgres instance | boolean | true |
   enabled: true
-  ## @md | `postgres.image` | postgres image settings | map | N/A |
   image:
     ## @md | `postgres.image.repository` | postgres image repository | string | "postgres" |
     repository: postgres
@@ -108,7 +100,6 @@ postgres:
     ## @md | `postgres.persistence.size` | postgres PVC volume size | string | "40Gi" |
     size: "40Gi"
 
-## @md | `service` | service settings | map | N/A |
 service:
   ## @md | `service.type` | Sextant service type | string | ClusterIP |
   type: ClusterIP
