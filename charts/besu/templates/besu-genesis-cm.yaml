@@ -3,7 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   namespace: {{.Release.Namespace }}
-{{ if and .Values.besu.seedNetwork (not .Values.besu.seedGenesis) }}
+{{- if and .Values.besu.seedNetwork (not .Values.besu.seedGenesis) }}
   name: {{ include "besu.fullname" .}}-genesis-cm
 data:
   config.json: |
@@ -24,8 +24,11 @@ data:
         "mixHash": "0x63746963616c2062797a616e74696e65206661756c7420746f6c6572616e6365",
         "contractSizeLimit": 2147483647,
         "difficulty": "0x1",
-        "alloc": {
+        "alloc": {{- if .Values.besu.genesis.alloc }}{{.Values.besu.genesis.alloc | toJson }}
+        {{- else }}
+        {
         }
+        {{- end }}
       },
       "blockchain": {
         "nodes": {
@@ -38,5 +41,5 @@ data:
   name: {{ include "besu.fullname" .}}-genesis
 data:
   genesis.json: |
-{{ .Values.besu.seedGenesis | indent 4}}
+{{ required "If this besu.seedNetwork is false then besu.seedGenesis is required" .Values.besu.seedGenesis | indent 4}}
 {{ end }}
