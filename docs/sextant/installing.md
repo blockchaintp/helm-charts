@@ -11,9 +11,9 @@ Use of _Sextant_ governed by Subscription Agreement.
 
 You will need the up to date versions of the following tools installed -
 
-* kubectl
-* eksctl
-* helm
+* [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
+* [eksctl](https://eksctl.io/introduction/#installation)
+* [helm](https://helm.sh/docs/intro/install/)
 
 In addition, if you are working with one of the cloud providers, you will need
 their CLI tools.
