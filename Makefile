@@ -114,7 +114,7 @@ $(MARKERS)/kubescape-$(1):
 	rm -f tmp-kubescape*.yaml
 	@touch $(MARKERS)/kubescape-$(1)
 
-$(1): helmdep-build-$(1) helmlint-$(1) helmunit-$(1) $(MARKERS)/kubescape-$(1) helmpkg-$(1)
+$(1): $(MARKERS)/helmdep-build-$(1) $(MARKERS)/helmlint-$(1) $(MARKERS)/helmunit-$(1) $(MARKERS)/kubescape-$(1) $(MARKERS)/helmpkg-$(1)
 
 endef
 
