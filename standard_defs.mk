@@ -82,12 +82,12 @@ DOCKER_SOCK ?= /var/run/docker.sock
 TOOLCHAIN_IMAGE := blockchaintp/toolchain:latest
 TOOLCHAIN_HOME := /home/toolchain
 
-MAVEN_SETTINGS_VOL = $(shell if [ -n "$(MAVEN_SETTINGS)" ]; then echo -v \
+MAVEN_SETTINGS_VOL = $(shell if [ -n "$(MAVEN_SETTINGS)" ] && [ -r "$(MAVEN_SETTINGS)" ]; then echo -v \
 	$(MAVEN_SETTINGS):$(TOOLCHAIN_HOME)/.m2/settings.xml; fi)
 
-KUBE_CONFIG_VOL = $(shell if [ -n "$(KUBE_CONFIG)" ]; then echo -v \
+KUBE_CONFIG_VOL = $(shell if [ -n "$(KUBE_CONFIG)" ] && [ -r "$(KUBE_CONFIG)" ]; then echo -v \
 	$(KUBE_CONFIG):$(TOOLCHAIN_HOME)/.kube/config; fi)
-KUBE_CONFIG_ENV = $(shell if [ -n "$(KUBE_CONFIG)" ]; then echo -e \
+KUBE_CONFIG_ENV = $(shell if [ -n "$(KUBE_CONFIG)" ] && [ -r "$(KUBE_CONFIG)" ]; then echo -e \
 	KUBECONFIG=$(TOOLCHAIN_HOME)/.kube/config; fi)
 
 TOOL_VOLS = -v toolchain-home-$(ISOLATION_ID):/home/toolchain \
@@ -367,8 +367,13 @@ $(MARKERS)/package_mvn: $(MARKERS)/build_toolchain_docker
 clean_mvn: $(MARKERS)/build_toolchain_docker
 	$(DOCKER_MVN) clean
 
+##
+# For this to work properly in pom.xml you need
+# <skipTests>true</skipTests> in the maven-surefire-plugin
+# configuration.
+##
 $(MARKERS)/test_mvn: $(MARKERS)/build_toolchain_docker
-	$(DOCKER_MVN) test
+	$(DOCKER_MVN) -DskipTests=false test
 	@touch $@
 
 $(MARKERS)/test_go: $(MARKERS)/build_toolchain_docker

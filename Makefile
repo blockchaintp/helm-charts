@@ -33,9 +33,9 @@ $(MARKERS)/repos.helm:
 		sort -u | awk '{print $$NF}' | sed -e 's/\"//g'); do \
 		url=$$repo ; \
 		name=$$repo ; \
-		$(TOOLCHAIN) -c "helm repo add $$name $$url" ; \
+		$(TOOLCHAIN) helm repo add $$name $$url ; \
 	done
-	$(TOOLCHAIN) -c "helm repo update"
+	$(TOOLCHAIN) helm repo update
 	@touch $@
 
 .PHONY: setup_dist
@@ -57,21 +57,21 @@ $(MARKERS)/helmdep-build-$(1): $(MARKERS)/repos.helm
 	@mkdir -p $(MARKERS)
 	@echo "$(1) --> Building dependencies"
 	@$(TOOL_NOWORKDIR) -w /project $(TOOLCHAIN_IMAGE) \
-	  "helm dependency build --skip-refresh ./$(CHART_BASE)/$(1)"
+	  helm dependency build --skip-refresh ./$(CHART_BASE)/$(1)
 	@touch $(MARKERS)/helmdep-build-$(1)
 
 $(MARKERS)/helmdep-update-$(1): $(MARKERS)/repos.helm
 	@mkdir -p $(MARKERS)
 	@echo "$(1) --> Updating dependencies"
 	@$(TOOL_NOWORKDIR) -w /project $(TOOLCHAIN_IMAGE) \
-		"helm dependency update --skip-refresh ./$(CHART_BASE)/$(1)"
+		helm dependency update --skip-refresh ./$(CHART_BASE)/$(1)
 	@touch $(MARKERS)/helmdep-update-$(1)
 
 $(MARKERS)/helmlint-$(1): $(MARKERS)/helmdep-build-$(1)
 	@mkdir -p $(MARKERS)
 	@echo "$(1) --> linting"
 	@$(TOOL_NOWORKDIR) -w /project $(TOOLCHAIN_IMAGE) \
-	  "helm lint ./$(CHART_BASE)/$(1)"
+	  helm lint ./$(CHART_BASE)/$(1)
 	@touch $(MARKERS)/helmlint-$(1)
 
 $(MARKERS)/helmunit-$(1): $(MARKERS)/helmdep-build-$(1)
@@ -94,14 +94,14 @@ $(MARKERS)/helmtest-$(1): $(MARKERS)/helmdep-build-$(1)
 	@mkdir -p $(MARKERS)
 	@echo "$(1) --> Testing"
 	@$(TOOL_NOWORKDIR) -w /project $(TOOLCHAIN_IMAGE) \
-	  "helm test ./$(CHART_BASE)/$(1)"
+	  helm test ./$(CHART_BASE)/$(1)
 	@touch $(MARKERS)/helmtest-$(1)
 
 $(MARKERS)/helmpkg-$(1): setup_dist $(MARKERS)/helmdep-build-$(1)
 	@mkdir -p $(MARKERS)
 	@echo "$(1) --> Packaging"
 	@$(TOOL_NOWORKDIR) -w /project $(TOOLCHAIN_IMAGE) \
-	  "helm package ./$(CHART_BASE)/$(1) --destination=/project/dist"
+	  helm package ./$(CHART_BASE)/$(1) --destination=/project/dist
 	@touch $(MARKERS)/helmpkg-$(1)
 
 $(MARKERS)/kubescape-$(1):
@@ -109,7 +109,7 @@ $(MARKERS)/kubescape-$(1):
 	@echo "$(1) --> kubescape"
 	@mkdir -p build
 	$(TOOL_NOWORKDIR) -w /project $(TOOLCHAIN_IMAGE) \
-	  "helm template --generate-name --dry-run ./$(CHART_BASE)/$(1) | kubescape \
+	  bash -c "helm template --generate-name --dry-run ./$(CHART_BASE)/$(1) | kubescape \
 	    scan framework nsa -f junit -o ./build/$(1).junit --use-from /project/kubescape.json -"
 	rm -f tmp-kubescape*.yaml
 	@touch $(MARKERS)/kubescape-$(1)
