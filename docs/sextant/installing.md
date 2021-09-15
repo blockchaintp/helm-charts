@@ -5,7 +5,9 @@ Kubernetes cluster.
 
 ## License
 
-Use of _Sextant_ governed by Subscription Agreement.
+Use of _Sextant_ governed by a Subscription Agreement or Evaluation Agreement.
+If you aren't a subscriber contact BTP to set up an evaluation
+[here](https://www.blockchaintp.com/sextant/evaluation) to sign up.
 
 ## Tools
 
