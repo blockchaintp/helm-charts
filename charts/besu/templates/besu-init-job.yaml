@@ -1,3 +1,4 @@
+{{- if and .Values.besu.seedNetwork (not .Values.besu.seedGenesis) }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -21,7 +22,6 @@ spec:
       automountServiceAccountToken: true
       restartPolicy: Never
       containers:
-{{- if .Values.besu.seedNetwork }}
         - name: genesis
           image: "{{.Values.besu.image.repository }}:{{ .Values.besu.image.tag }}"
           securityContext:
