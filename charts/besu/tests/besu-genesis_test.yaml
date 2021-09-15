@@ -1,0 +1,145 @@
+suite: test besu-genesis
+templates:
+  - besu-genesis-cm.yaml
+  - besu-init-job.yaml
+release:
+  name: test
+  namespace: testns
+tests:
+  - it: "if seedNetwork and no seedGenesis, then default cm"
+    template: besu-genesis-cm.yaml
+    set:
+      besu:
+        seedNetwork: true
+    asserts:
+      - matchRegex:
+          path: data.config\.json
+          pattern: "\"genesis\":"
+      - equal:
+          path: metadata.name
+          value: test-besu-genesis-cm
+  - it: "if seedNetwork and seedGenesis, then use seedGenesis"
+    template: besu-genesis-cm.yaml
+    set:
+      besu:
+        seedNetwork: true
+        seedGenesis: |
+          somethingGreat
+    asserts:
+      - matchRegex:
+          path: data.genesis\.json
+          pattern: "somethingGreat"
+      - equal:
+          path: metadata.name
+          value: test-besu-genesis
+  - it: "if not seedNetwork and seedGenesis, then use seedGenesis"
+    template: besu-genesis-cm.yaml
+    set:
+      besu:
+        seedNetwork: false
+        seedGenesis: |
+          somethingGreat
+    asserts:
+      - matchRegex:
+          path: data.genesis\.json
+          pattern: "somethingGreat"
+      - equal:
+          path: metadata.name
+          value: test-besu-genesis
+
+  - it: "there should be an init job if seedNetwork and no seedGenesis"
+    set:
+      besu:
+        seedNetwork: true
+    template: besu-init-job.yaml
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].command
+          content: "bash"
+
+  - it: "there should be no init job if seedNetwork and there is seedGenesis"
+    set:
+      besu:
+        seedNetwork: true
+        seedGenesis: |
+          somethingGreat
+    template: besu-init-job.yaml
+    asserts:
+      - hasDocuments:
+          count: 0
+  - it: "there should be no init job if not seedNetwork"
+    set:
+      besu:
+        seedNetwork: false
+        seedGenesis: |
+          somethingGreat
+    template: besu-init-job.yaml
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  # - it: full name is correct
+  #   template: besu-statefulset.yaml
+  #   asserts:
+  #     - equal:
+  #         path: metadata.name
+  #         value: test-besu
+  # - it: "persistence not enabled"
+  #   template: besu-statefulset.yaml
+  #   set:
+  #     besu:
+  #       seedNetwork: true
+  #       persistence:
+  #         enabled: false
+  #   asserts:
+  #     - equal:
+  #         path: spec.template.spec.volumes[2].name
+  #         value: "networkkeys-config"
+  #     - equal:
+  #         path: spec.template.spec.volumes[2].secret.secretName
+  #         value: "test-besu-keys"
+  #     - equal:
+  #         path: spec.template.spec.volumes[4].name
+  #         value: "data"
+  #     - equal:
+  #         path: spec.template.spec.volumes[4].emptyDir
+  #         value: {}
+  # - it: "persistence enabled"
+  #   template: besu-statefulset.yaml
+  #   set:
+  #     besu:
+  #       seedNetwork: true
+  #       persistence:
+  #         enabled: true
+  #         storageClass: "standard"
+  #       extraVolumes:
+  #         - name: &localtestvol "data"
+  #           emptyDir: {}
+  #       extraVolumeMounts:
+  #         - name: *localtestvol
+  #           mountPath: "/local"
+  #     extraVolumes:
+  #       - name: &globaltestvol "global-data"
+  #         emptyDir: {}
+  #     extraVolumeMounts:
+  #       - name: *globaltestvol
+  #         mountPath: "/global"
+  #   asserts:
+  #     - equal:
+  #         path: spec.volumeClaimTemplates[0].metadata.name
+  #         value: "data"
+  #     - equal:
+  #         path: spec.volumeClaimTemplates[0].spec.storageClassName
+  #         value: "standard"
+  #     - equal:
+  #         path: spec.template.spec.volumes[4].name
+  #         value: *globaltestvol
+  #     - equal:
+  #         path: spec.template.spec.volumes[5].name
+  #         value: *localtestvol
+  #     - equal:
+  #         path: spec.template.spec.containers[0].volumeMounts[5].name
+  #         value: *globaltestvol
+  #     - equal:
+  #         path: spec.template.spec.containers[0].volumeMounts[6].name
+  #         value: *localtestvol
