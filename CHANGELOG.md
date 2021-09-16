@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* docs: add an installation docs (#131) [view commit](https://github.com/catenasys/helm-charts/commit/a15d11a831ba1df5687f9f99b10d6c013c7285d3)
 * style(daml-on-postgres): correct readme values list formatting [view commit](https://github.com/catenasys/helm-charts/commit/eaaab7dd58933515772e92ffc4ab95180ad511e8)
 * docs(daml-on-postgres): add instructions for enabling the daml json api ingress [view commit](https://github.com/catenasys/helm-charts/commit/c8b39e60f579d9962c20732bf4c1750b4d0f9fe3)
 * refactor(daml-on-sawtooth): reduce cluster-role [view commit](https://github.com/catenasys/helm-charts/commit/77025212f52f69ed9b371b1db3d0f476393e2ddc)
