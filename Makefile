@@ -76,9 +76,12 @@ $(MARKERS)/helmlint-$(1): $(MARKERS)/helmdep-build-$(1)
 
 $(MARKERS)/helmunit-$(1): $(MARKERS)/helmdep-build-$(1)
 	@mkdir -p $(MARKERS)
+	@mkdir -p build/unittest
 	@echo "$(1) --> Unit Testing"
-	@docker run --rm -v $(PWD)/$(CHART_BASE):/apps quintush/helm-unittest \
-	  --helm3 $(1)
+	@docker run --rm -v $(PWD)/$(CHART_BASE):/apps \
+		-v $(PWD)/build:/build \
+		quintush/helm-unittest --helm3 $(1) -o /build/unittest/$(1).xml \
+		  -t JUnit
 	@touch $(MARKERS)/helmunit-$(1)
 
 $(MARKERS)/helmdoc-$(1):
@@ -106,11 +109,12 @@ $(MARKERS)/helmpkg-$(1): setup_dist $(MARKERS)/helmdep-build-$(1)
 
 $(MARKERS)/kubescape-$(1):
 	@mkdir -p $(MARKERS)
+	@mkdir -p build/kubescape
 	@echo "$(1) --> kubescape"
 	@mkdir -p build
 	$(TOOL_NOWORKDIR) -w /project $(TOOLCHAIN_IMAGE) \
 	  bash -c "helm template --generate-name --dry-run ./$(CHART_BASE)/$(1) | kubescape \
-	    scan framework nsa -f junit -o ./build/$(1).junit --use-from /project/kubescape.json -"
+	    scan framework nsa -f junit -o ./build/kubescape/$(1) --use-from /project/kubescape.json -"
 	rm -f tmp-kubescape*.yaml
 	@touch $(MARKERS)/kubescape-$(1)
 
