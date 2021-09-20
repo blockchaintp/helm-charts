@@ -119,6 +119,8 @@ $(MARKERS)/kubescape-$(1):
 			bash -c "helm template --generate-name --dry-run ./$(CHART_BASE)/$(1) \
 				| kubescape scan framework nsa -f junit -o ./build/kubescape/$(1) \
 					--use-from /project/kubescape.json -"; \
+		sed -i -e 's/NSA/$(1)/g' ./build/kubescape/$(1).xml; \
+		sed -i -e 's/Kubescape/$(1).Kubescape/g' ./build/kubescape/$(1).xml; \
 	fi
 	rm -f tmp-kubescape*.yaml
 	@touch $(MARKERS)/kubescape-$(1)
