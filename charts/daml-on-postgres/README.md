@@ -26,18 +26,18 @@
 | daml.jsonapi.resources | the json api resources constraints | {} |
 | daml.jsonapi.waitTimeSeconds | how many seconds to way for the ledger api to start. 0 for forever | 0 |
 | daml.jsonapi.env  | the json api environment variable definitions | {} |
-| daml.jsonapi.ingress.apiVersion | if necessary the apiVersion of the ingress may be overridden | "" |
-| daml.jsonapi.ingress.enabled | true to enable the ingress to the main service rest-api | false |
-| daml.jsonapi.ingress.certManager | true to enable the acme certmanager for this ingress | false |
-| daml.jsonapi.ingress.hostname | primary hostname for the ingress | false |
-| daml.jsonapi.ingress.path | path for the ingress's primary hostname | / |
-| daml.jsonapi.ingress.pathType | pathType for the ingress's primary hostname | nil |
-| daml.jsonapi.ingress.annotations | annotations for the ingress | {} |
-| daml.jsonapi.ingress.tls | true to enable tls on the ingress with a secrete at hostname-tls | false |
-| daml.jsonapi.ingress.extraHosts | list of extra hosts to add to the ingress | [] |
-| daml.jsonapi.ingress.extraPaths | list of extra paths to add to the primary host of the ingress | [] |
-| daml.jsonapi.ingress.extraTls | list of extra tls entries | [] |
-| daml.jsonapi.ingress.hosts | list of ingress host and path declarations for the jsonapi ingress | list | [] |
+| `daml.jsonapi.ingress.apiVersion` | if necessary the apiVersion of the ingress may be overridden | "" |
+| `daml.jsonapi.ingress.enabled` | true to enable the ingress to the main service rest-api | false |
+| `daml.jsonapi.ingress.certManager` | true to enable the acme certmanager for this ingress | false |
+| `daml.jsonapi.ingress.hostname` | primary hostname for the ingress | false |
+| `daml.jsonapi.ingress.path` | path for the ingress's primary hostname | / |
+| `daml.jsonapi.ingress.pathType` | pathType for the ingress's primary hostname | nil |
+| `daml.jsonapi.ingress.annotations` | annotations for the ingress | {} |
+| `daml.jsonapi.ingress.tls` | true to enable tls on the ingress with a secrete at hostname-tls | false |
+| `daml.jsonapi.ingress.extraHosts` | list of extra hosts to add to the ingress | [] |
+| `daml.jsonapi.ingress.extraPaths` | list of extra paths to add to the primary host of the ingress | [] |
+| `daml.jsonapi.ingress.extraTls` | list of extra tls entries | [] |
+| `daml.jsonapi.ingress.hosts` | list of ingress host and path declarations for the jsonapi ingress | list | [] |
 | postgres.enabled | true if the embedded postgres will be enabled | true |
 | postgres.image.repository | the docker image repository | postgres |
 | postgres.image.tag | the docker image tag | latest |
@@ -56,5 +56,5 @@
 | openssl.image.tag | the docker image tag | latest |
 | k8s.image.repository | the docker image repository | kubernetes |
 | k8s.image.tag | the docker image tag | latest |
-| extraVolumes | a list of additional volumes to add to all StatefulSets, Deployments, and DaemonSets | [] |
-| extraVolumeMounts | a list of additional volume mounts to add to all StatefulSet, Deployment, and DaemonSet containers | [] |
+| `extraVolumes` | a list of additional volumes to add to all StatefulSets, Deployments, and DaemonSets | `[]` |
+| `extraVolumeMounts` | a list of additional volume mounts to add to all StatefulSet, Deployment, and DaemonSet containers | `[]` |
