@@ -274,8 +274,7 @@ daml:
       extraPaths: []
       ## @md | `daml.jsonapi.ingress.extraTls` | list of extra tls entries | [] |
       extraTls: []
-    ports:
-      http: 8080
+    port: 8080
     ## @md | `daml.jsonapi.args` | extra args | nil |
     args:
     ## @md | `daml.jsonapi.env` | list of environment name/value dicts | nil |
