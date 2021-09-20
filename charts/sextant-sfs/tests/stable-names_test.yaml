@@ -1,4 +1,4 @@
-suite: test for stable names
+suite: sextant-sfs.test for stable names
 templates:
   - charts/sextant/templates/serviceaccount.yaml
   - charts/sextant/templates/statefulset.yaml

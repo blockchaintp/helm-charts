@@ -1,4 +1,4 @@
-suite: test the ingresses
+suite: orion.test the ingresses
 templates:
   - ingress.yaml
 release:

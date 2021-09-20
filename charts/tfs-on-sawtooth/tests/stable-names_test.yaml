@@ -1,4 +1,4 @@
-suite: test for stable names
+suite: tfs-on-sawtooth.test for stable names
 templates:
   - serviceaccount.yaml
   - tfs-set.yaml

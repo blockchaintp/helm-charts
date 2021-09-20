@@ -1,4 +1,4 @@
-suite: test besu-statefulset
+suite: besu.test besu-statefulset
 templates:
   - besu-statefulset.yaml
 release:

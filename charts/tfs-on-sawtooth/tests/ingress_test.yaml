@@ -1,4 +1,4 @@
-suite: test the ingresses
+suite: tfs-on-sawtooth.test the ingresses
 templates:
   - ingress.yaml
 release:

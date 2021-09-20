@@ -1,4 +1,4 @@
-suite: test orion linkage
+suite: besu.test orion linkage
 templates:
   - besu-statefulset.yaml
   - besu-config-toml-cm.yaml

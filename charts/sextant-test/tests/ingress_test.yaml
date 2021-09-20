@@ -1,4 +1,4 @@
-suite: test the ingresses
+suite: sextant-test.test the ingresses
 templates:
   - charts/sextant/templates/ingress.yaml
 release:

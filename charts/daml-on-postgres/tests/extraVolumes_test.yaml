@@ -1,4 +1,4 @@
-suite: test extraVolumes
+suite: daml-on-postgres.test extraVolumes
 templates:
   - daml-statefulset.yaml
 release:

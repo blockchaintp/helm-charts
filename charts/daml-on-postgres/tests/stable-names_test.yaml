@@ -1,4 +1,4 @@
-suite: test for stable names
+suite: daml-on-postgres.test for stable names
 templates:
   - daml-service.yaml
   - daml-statefulset.yaml

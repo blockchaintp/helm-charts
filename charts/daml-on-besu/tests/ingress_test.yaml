@@ -1,4 +1,4 @@
-suite: test the ingresses
+suite: besu.test the ingresses
 templates:
   - jsonapi-ingress.yaml
 release:
