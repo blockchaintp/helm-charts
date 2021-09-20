@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v0.2.55
+## Unreleased
 
 * docs(besu): add genesis.md [view commit](https://github.com/catenasys/helm-charts/commit/538b431d32db0003f5c390aad856f1d5ccd79553)
 * feat(besu): add the ability to allocate accounts on genesis [view commit](https://github.com/catenasys/helm-charts/commit/a37495876d2a2f5f05b9cbd63081df79c93c1f93)
