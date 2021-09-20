@@ -20,7 +20,7 @@ tests:
     asserts:
       - equal:
           path: spec.rules[0].http.paths[0].backend.serviceName
-          value: test-daml-on-besu
+          value: test-daml-on-besu-rpc
       - equal:
           path: spec.rules[0].http.paths[0].backend.servicePort
           value: 8080

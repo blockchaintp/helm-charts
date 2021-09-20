@@ -5,7 +5,7 @@ ingress links to service properly:
       http:
         paths:
         - backend:
-            serviceName: test-daml-on-besu
+            serviceName: test-daml-on-besu-rpc
             servicePort: 8080
           path: /path
           pathType: ImplementationSpecific
