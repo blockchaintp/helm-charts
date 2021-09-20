@@ -1,4 +1,5 @@
-{{- $serviceName := include "daml.fullname" . -}}
+{{- $fullName := include "daml.fullname" . -}}
+{{- $serviceName := printf "%s-rpc" $fullName -}}
 {{- $ingressName := printf "%s" $serviceName -}}
 {{- $servicePort := .Values.daml.jsonapi.port -}}
 {{ include "lib.ingress" (dict "ingressName" $ingressName "ingress" .Values.daml.jsonapi.ingress "serviceName" $serviceName "servicePort" $servicePort "context" $) }}
