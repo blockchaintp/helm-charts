@@ -45,7 +45,7 @@ spec:
           image: "{{.Values.daml.jsonapi.image.repository}}:{{.Values.daml.jsonapi.image.tag}}"
           imagePullPolicy: {{.Values.daml.jsonapi.image.imagePullPolicy}}
           ports:
-          - containerPort: {{.Values.daml.jsonapi.ports.http}}
+          - containerPort: {{.Values.daml.jsonapi.port}}
           {{- if .Values.daml.jsonapi.args }}
           args:
             {{- range .Values.daml.jsonapi.args }}
