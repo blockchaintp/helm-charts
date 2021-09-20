@@ -3,18 +3,18 @@ kind: StatefulSet
 metadata:
   name: {{ include "daml.fullname" .}}-rpc
   namespace: {{.Release.Namespace}}
-  labels:
-{{ include "daml.labels" .| indent 4}}
+  labels: {{- include "daml.labels" .| nindent 4}}
+    component: daml
 spec:
   replicas: {{.Values.daml.rpcCount}}
   selector:
-    matchLabels:
-{{ include "daml.labels" .| indent 6}}
+    matchLabels: {{- include "daml.labels" .| nindent 6}}
+      component: daml
   serviceName: {{ include "daml.fullname" . }}-rpc
   template:
     metadata:
-      labels:
-{{ include "daml.labels" .| indent 8}}
+      labels: {{- include "daml.labels" .| nindent 8 }}
+        component: daml
       {{- if .Values.daml.annotations }}
       annotations:
         {{- toYaml .Values.daml.annotations | nindent 8 }}
