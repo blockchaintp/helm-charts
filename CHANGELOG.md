@@ -1,9 +1,9 @@
 # CHANGELOG
 
-## Unreleased
+## v0.2.55
 
-* docs(besu): add genesis.md [view commit](https://github.com/catenasys/helm-charts/commit/8f14395faf9a5c13e5dbed265a5ba9c51365641e)
-* feat(besu): add the ability to allocate accounts on genesis [view commit](https://github.com/catenasys/helm-charts/commit/30003506140146944ab75c0a114f47279e4d89f4)
+* docs(besu): add genesis.md [view commit](https://github.com/catenasys/helm-charts/commit/538b431d32db0003f5c390aad856f1d5ccd79553)
+* feat(besu): add the ability to allocate accounts on genesis [view commit](https://github.com/catenasys/helm-charts/commit/a37495876d2a2f5f05b9cbd63081df79c93c1f93)
 * feat(besu): allow for custom genesis [view commit](https://github.com/catenasys/helm-charts/commit/fb662f3fc091cdf5a2f2c2376a06240a46ed0604)
 * test(besu): add tests for custom genesis [view commit](https://github.com/catenasys/helm-charts/commit/a2cc2263c2ad08b7c15e9f2e31b39d9fb987a372)
 * docs: add an installation docs (#131) [view commit](https://github.com/catenasys/helm-charts/commit/a15d11a831ba1df5687f9f99b10d6c013c7285d3)
@@ -645,3 +645,4 @@
 ## v0.1.1
 
 * Added branch and tag detection to build [view commit](https://github.com/catenasys/helm-charts/commit/2b44ee1e97b524840f1360a72d6f9afe14a06557)
+
