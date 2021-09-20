@@ -61,6 +61,7 @@
 | besu.privacy.url | the url to the private transaction manager | nil |
 | besu.privacy.precompileAddress | the precompiled address of the privacy contract | `9` |
 | besu.privacy.enclaveKeyConfigMap | the name of a configmap containing the enclave public Key | nil |
+| besu.genesis.alloc | a custom genesis account allocation block (in yaml, it will be transformed into JSON) | `nil` |
 | besu.genesis.ibftBlockPeriodSeconds | the ibft block period in seconds | `2` |
 | besu.genesis.ibftEpochLength | the ibft epoch length in blocks | `30000` |
 | besu.genesis.ibftRequestTimeoutSeconds | ibft request timeout  | `10` |
