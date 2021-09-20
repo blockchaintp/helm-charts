@@ -144,6 +144,8 @@ besu:
     ## @md | besu.privacy.enclaveKeyConfigMap | the name of a configmap containing the enclave public Key | nil |
     enclaveKeyConfigMap:
   genesis:
+    ## @md | besu.genesis.alloc | a custom genesis account allocation block (in yaml, it will be transformed into JSON) | `nil` |
+    alloc:
     ## @md | besu.genesis.ibftBlockPeriodSeconds | the ibft block period in seconds | `2` |
     ibftBlockPeriodSeconds: 2
     ## @md | besu.genesis.ibftEpochLength | the ibft epoch length in blocks | `30000` |
