@@ -112,9 +112,14 @@ $(MARKERS)/kubescape-$(1):
 	@mkdir -p build/kubescape
 	@echo "$(1) --> kubescape"
 	@mkdir -p build
-	$(TOOL_NOWORKDIR) -w /project $(TOOLCHAIN_IMAGE) \
-	  bash -c "helm template --generate-name --dry-run ./$(CHART_BASE)/$(1) | kubescape \
-	    scan framework nsa -f junit -o ./build/kubescape/$(1) --use-from /project/kubescape.json -"
+	@if grep -qi "type: library" $(CHART_BASE)/$(1)/Chart.yaml; then \
+		echo "Cannot scan library chart $(1)"; \
+	else \
+		$(TOOL_NOWORKDIR) -w /project $(TOOLCHAIN_IMAGE) \
+			bash -c "helm template --generate-name --dry-run ./$(CHART_BASE)/$(1) \
+				| kubescape scan framework nsa -f junit -o ./build/kubescape/$(1) \
+					--use-from /project/kubescape.json -"; \
+	fi
 	rm -f tmp-kubescape*.yaml
 	@touch $(MARKERS)/kubescape-$(1)
 

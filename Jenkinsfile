@@ -72,8 +72,8 @@ pipeline {
         sh '''
           make test
         '''
-        junit testResults: 'build/unittest/*.junit.xml', allowEmptyResults: true, skipMarkingBuildUnstable: true
-        junit testResults: 'build/kubescape/*.junit.xml', allowEmptyResults: true, skipMarkingBuildUnstable: true
+        junit testResults: 'build/unittest/*.xml', allowEmptyResults: true, skipMarkingBuildUnstable: true
+        junit testResults: 'build/kubescape/*.xml', allowEmptyResults: true, skipMarkingBuildUnstable: true
       }
     }
 
