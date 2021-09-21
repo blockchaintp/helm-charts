@@ -1,6 +1,15 @@
 # CHANGELOG
 
-## Unreleased
+## v0.2.56
+
+* fix(daml-on-besu): correct label matching [view commit](https://github.com/catenasys/helm-charts/commit/bb89c5c155b552c155d5614a84a34215f9755907)
+* test(daml-on-besu): correct ingress test service linkage [view commit](https://github.com/catenasys/helm-charts/commit/4d99dcfda6c9082d57052990d5010f5a948632bf)
+* fix(daml-on-besu): correct ingress service target [view commit](https://github.com/catenasys/helm-charts/commit/3d767ff4a28f916e8a84d79fc55c1a1ac4c87005)
+* fix(daml-on-besu): correct statefulset jsonapi port ref [view commit](https://github.com/catenasys/helm-charts/commit/422b631154aba8b05a02fd06848f50f45752d185)
+* fix(daml-on-besu): correct jsonapi ports [view commit](https://github.com/catenasys/helm-charts/commit/0023661191c6cb3079d74b2bffe92be8bd0b2230)
+* test: rename tests and tighten up requirements [view commit](https://github.com/catenasys/helm-charts/commit/6a99e4045deb1fb9594e5d9aeb589e146c68c1bb)
+
+## v0.2.55
 
 * docs(besu): add genesis.md [view commit](https://github.com/catenasys/helm-charts/commit/538b431d32db0003f5c390aad856f1d5ccd79553)
 * feat(besu): add the ability to allocate accounts on genesis [view commit](https://github.com/catenasys/helm-charts/commit/a37495876d2a2f5f05b9cbd63081df79c93c1f93)
