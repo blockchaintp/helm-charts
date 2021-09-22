@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Unreleased
+
+* feat(tfs-on-sawtooth): add s3 capabilities and update tags [view commit](https://github.com/catenasys/helm-charts/commit/8f8d87d11fa6f9373b5a50fbe7369f48e8ce8f9c)
+
 ## v0.2.56
 
 * fix(daml-on-besu): correct label matching [view commit](https://github.com/catenasys/helm-charts/commit/bb89c5c155b552c155d5614a84a34215f9755907)
