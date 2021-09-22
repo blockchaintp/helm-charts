@@ -22,6 +22,7 @@ Sawtooth Selector labels
 {{- define "sawtooth.labels.matchLabels" -}}
 {{ include "common.labels.matchLabels" . }}
 app: {{ include "common.names.fullname" . }}
+component: sawtooth
 {{- end -}}
 
 {{/* if the consensus type is devmode replicas is always 1 */}}
