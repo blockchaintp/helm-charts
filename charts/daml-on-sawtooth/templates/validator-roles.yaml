@@ -34,7 +34,7 @@ roleRef:
   name: {{.Values.sawtooth.networkName}}-role
 subjects:
 - kind: ServiceAccount
-  name: {{.Values.sawtooth.networkName}}-sa
+  name: {{ include "lib.serviceAccountName" . }}
   namespace: {{.Values.sawtooth.namespace}}
 
 ---
@@ -48,7 +48,7 @@ roleRef:
   name: {{.Values.sawtooth.namespace}}-{{.Values.sawtooth.networkName}}-clusterrole
 subjects:
 - kind: ServiceAccount
-  name: {{.Values.sawtooth.networkName}}-sa
+  name: {{ include "lib.serviceAccountName" . }}
   namespace: {{.Values.sawtooth.namespace}}
 
 ---

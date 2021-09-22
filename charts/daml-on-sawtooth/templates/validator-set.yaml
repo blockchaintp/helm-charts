@@ -27,7 +27,7 @@ spec:
       labels:
         app: {{.Values.sawtooth.networkName}}-validator
     spec:
-      serviceAccountName: {{.Values.sawtooth.networkName}}-sa
+      serviceAccountName: {{ include "lib.serviceAccountName" . }}
       automountServiceAccountToken: true
       {{if .Values.affinity.enabled}}
       affinity:
