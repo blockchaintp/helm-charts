@@ -31,6 +31,14 @@
 | `middleware.resources` | resources for the middleware | {} |
 | `perNodeServiceType` | the type of service to create for per node access (only applies if kind=StatefulSet)| ClusterIP |
 | `podAnnotations` | pod annotations for the tfs set | {} |
+| `s3.args` | arguments to pass to the s3 container | "-vv" |
+| `s3.enabled` | true to enable the s3 service | true |
+| `s3.env` | environment variables for the s3 container | nil |
+| `s3.image.pullPolicy` | imagePullPolicy for the s3 container | IfNotPresent |
+| `s3.image.repository` | repository for the s3 container | taekion/taekion-fs-s3 |
+| `s3.image.tag` | tag for the s3 container | v0.6.0 |
+| `s3.port` | port for the s3 service| 9000 |
+| `s3.resources` | resources for the s3 container | {} |
 | `serviceAccount.create` | true to create a service account | false |
 | `serviceAccount.name` | name of the service account | nil (defaults to based on release name) |
 | `sawtooth` | sawtooth options may be configured | see [Sawtooth](../sawtooth/README.md) |
