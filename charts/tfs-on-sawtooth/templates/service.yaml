@@ -13,5 +13,9 @@ spec:
     - port: {{.Values.middleware.port}}
       protocol: TCP
       targetPort: {{ include "tfs.middleware.containerPort" . }}
-      name: taekionrest
+      name: taekion-rest
+    - port: {{.Values.s3.port}}
+      protocol: TCP
+      targetPort: {{ include "tfs.s3.containerPort" . }}
+      name: taekion-s3
   selector: {{- include "common.labels.matchLabels" . | nindent 4 }}

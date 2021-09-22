@@ -6,7 +6,7 @@ ingress links to service properly:
         paths:
         - backend:
             service:
-              name: test-tfs-on-sawtooth
+              name: test-tfs-on-sawtooth-0
               port:
                 number: 8000
           path: /path

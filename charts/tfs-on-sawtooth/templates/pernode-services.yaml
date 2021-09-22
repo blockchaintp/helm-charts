@@ -19,7 +19,11 @@ spec:
     - port: {{ $ctx.Values.middleware.port }}
       protocol: TCP
       targetPort: {{ include "tfs.middleware.containerPort" $ctx }}
-      name: taekionrest
+      name: taekion-rest
+    - port: {{ $ctx.Values.s3.port }}
+      protocol: TCP
+      targetPort: {{ include "tfs.s3.containerPort" $ctx }}
+      name: taekion-s3
   selector: {{- include "common.labels.matchLabels" $ctx | nindent 4 }}
     statefulset.kubernetes.io/pod-name: {{ include "common.names.fullname" $ctx }}-{{ . }}
 {{- end -}}
