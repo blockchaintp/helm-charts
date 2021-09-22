@@ -25,6 +25,7 @@ spec:
       targetPort: {{ include "tfs.s3.containerPort" $ctx }}
       name: taekion-s3
   selector: {{- include "common.labels.matchLabels" $ctx | nindent 4 }}
+    component: tfs
     statefulset.kubernetes.io/pod-name: {{ include "common.names.fullname" $ctx }}-{{ . }}
 {{- end -}}
 {{- end -}}

@@ -19,3 +19,4 @@ spec:
       targetPort: {{ include "tfs.s3.containerPort" . }}
       name: taekion-s3
   selector: {{- include "common.labels.matchLabels" . | nindent 4 }}
+    component: tfs

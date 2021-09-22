@@ -7,6 +7,7 @@ metadata:
   name: {{ include "common.names.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels: {{ include "lib.labels" . | nindent 4}}
+    component: tfs
 spec:
   {{ if eq $kind "StatefulSet" -}}
   replicas: {{ include "tfs.replicas" . }}
@@ -24,9 +25,11 @@ spec:
   {{- end }}
   selector:
     matchLabels: {{ include "common.labels.matchLabels" . | nindent 6}}
+      component: tfs
   template:
     metadata:
       labels: {{- include "common.labels.matchLabels" . | nindent 8 }}
+        component: tfs
       annotations: {{- toYaml .Values.podAnnotations | nindent 8 }}
     spec:
       serviceAccountName: {{ include "lib.serviceAccountName" . }}
