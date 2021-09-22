@@ -20,6 +20,9 @@
 8000
 {{- end -}}
 
+{{- define "tfs.s3.containerPort" -}}
+8001
+{{- end -}}
 
 {{- define "tfs.sawtooth.sawcomp" -}}
 4004

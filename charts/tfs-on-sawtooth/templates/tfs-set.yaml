@@ -51,11 +51,38 @@ spec:
             {{- include "lib.safeToYaml" .Values.tp.env | nindent 12 }}
           volumeMounts:
             {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+        {{- if .Values.s3.enabled }}
+        - name: taekion-fs-s3
+          {{- include "lib.image" (dict "imageRoot" .Values.s3.image "global" .Values.global ) | nindent 10 }}
+          command: [ "bash", "-c"]
+          args:
+            - |
+              {{ if ne $kind "DaemonSet" -}}
+              HOST={{ $stlServiceName }}-${HOST##*-}
+              {{- end }}
+              export TFS_URL=http://$HOST:{{ include "tfs.sawtooth.restport" . }}
+              /usr/local/bin/tfs-s3 {{ .Values.s3.args }}
+          ports:
+            - containerPort: {{ include "tfs.s3.containerPort" . }}
+              name: taekion-s3
+              {{ if eq $kind "DaemonSet" -}}
+              hostPort: {{ include "tfs.s3.containerPort" . }}
+              {{- end }}
+          resources: {{- toYaml .Values.s3.resources | nindent 12 }}
+          env:
+            - name: HOST
+              valueFrom:
+                fieldRef:
+                  fieldPath: {{ include "tfs.field.node" . }}
+            {{- include "lib.safeToYaml" .Values.s3.env | nindent 12 }}
+          volumeMounts:
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+        {{- end }}
         - name: taekion-rest-api
           {{- include "lib.image" (dict "imageRoot" .Values.middleware.image "global" .Values.global ) | nindent 10 }}
           ports:
             - containerPort: {{ include "tfs.middleware.containerPort" . }}
-              name: taekionrest
+              name: taekion-rest
               {{ if eq $kind "DaemonSet" -}}
               hostPort: {{ include "tfs.middleware.containerPort" . }}
               {{- end }}
