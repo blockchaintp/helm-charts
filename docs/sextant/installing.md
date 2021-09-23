@@ -5,9 +5,9 @@ Kubernetes cluster.
 
 ## License
 
-Use of _Sextant_ governed by a Subscription Agreement or Evaluation Agreement.
-If you aren't a subscriber contact BTP to set up an evaluation
-[here](https://www.blockchaintp.com/sextant/evaluation) to sign up.
+Use of _Sextant_ is governed by a Subscription Agreement or an
+Evaluation Agreement. If you aren't a subscriber then you can sign up for an
+evaluation [here](https://www.blockchaintp.com/sextant/evaluation).
 
 ## Tools
 
@@ -74,7 +74,14 @@ imagePullSecrets:
   enabled: true
   value:
     - btp-lic
+postgres:
+  persistence:
+    enabled: true
 ```
+
+__Note:__ by enabling persistence in the example above you will ensure that
+state is preserved even if you restart or delete/reinstall
+_Sextant_.
 
 ## Install _Sextant_
 
