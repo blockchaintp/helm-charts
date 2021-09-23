@@ -39,6 +39,12 @@ ui:
     pullPolicy: IfNotPresent
   ## @md | `ui.resources` | UI resources | map | nil |
   resources:
+    limits:
+      cpu: "100m"
+      memory: "400Mi"
+    requests:
+      cpu: "20m"
+      memory: "40Mi"
 api:
   ## @md | `api.env` | API environment settings | map | N/A |
   env:
@@ -52,6 +58,12 @@ api:
     pullPolicy: IfNotPresent
   ## @md | `api.resources` | UI resources | map | nil |
   resources:
+    limits:
+      cpu: "100m"
+      memory: "300Mi"
+    requests:
+      cpu: "20m"
+      memory: "80Mi"
 noxy:
   ## @md | `noxy.env` | Noxy environment variables | map | N/A |
   env:
@@ -65,6 +77,13 @@ noxy:
     pullPolicy: IfNotPresent
   ## @md | `noxy.resources` | UI resources | map | nil |
   resources:
+    limits:
+      cpu: "100m"
+      memory: "60Mi"
+    requests:
+      cpu: "20m"
+      memory: "30Mi"
+
 
 serviceAccount:
   ## @md | `serviceAccount.create` | if true create the service account | boolean | true |
