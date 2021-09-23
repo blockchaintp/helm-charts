@@ -27,6 +27,8 @@ replicaCount: 1
 logging: "1"
 
 ui:
+  ## @md | `ui.env` | environment variables to set in the UI container | map | nil |
+  env:
   ## @md | `ui.image` | UI image settings | map | N/A |
   image:
     ## @md | `ui.image.repository` | UI image repository | string | "dev.catenasys.com:8083/blockchaintp/sextant" |
@@ -35,7 +37,11 @@ ui:
     tag: latest
     ## @md | `ui.image.pullPolicy` | UI image pull policy | string | "IfNotPresent" |
     pullPolicy: IfNotPresent
+  ## @md | `ui.resources` | UI resources | map | nil |
+  resources:
 api:
+  ## @md | `api.env` | API environment settings | map | N/A |
+  env:
   ## @md | `api.image` | API image settings | map | N/A |
   image:
     ## @md | `api.image.repository` | API image repository | string | "dev.catenasys.com:8083/blockchaintp/sextant-api" |
@@ -44,7 +50,11 @@ api:
     tag: latest
     ## @md | `api.image.pullPolicy` | API image pull policy | string | "IfNotPresent" |
     pullPolicy: IfNotPresent
+  ## @md | `api.resources` | UI resources | map | nil |
+  resources:
 noxy:
+  ## @md | `noxy.env` | Noxy environment variables | map | N/A |
+  env:
   ## @md | `noxy.image` | noxy image settings | map | N/A |
   image:
     ## @md | `noxy.image.repository` | NOXY image repository | string | "dev.catenasys.com:8083/blockchaintp/noxy" |
@@ -53,7 +63,8 @@ noxy:
     tag: latest
     ## @md | `noxy.image.pullPolicy` | API image pull policy | string | "IfNotPresent" |
     pullPolicy: IfNotPresent
-
+  ## @md | `noxy.resources` | UI resources | map | nil |
+  resources:
 
 serviceAccount:
   ## @md | `serviceAccount.create` | if true create the service account | boolean | true |
@@ -65,6 +76,8 @@ postgres:
   # if enabled we allocate a postgres database here
   ## @md | `postgres.enabled` | if true create an internal postgres instance | boolean | true |
   enabled: true
+  ## @md | `postgres.env` | postgres environment variables | map | N/A |
+  env:
   image:
     ## @md | `postgres.image.repository` | postgres image repository | string | "postgres" |
     repository: postgres
@@ -99,6 +112,8 @@ postgres:
     storageClass: "gp2"
     ## @md | `postgres.persistence.size` | postgres PVC volume size | string | "40Gi" |
     size: "40Gi"
+  ## @md | `postgres.resources` | UI resources | map | nil |
+  resources:
 
 service:
   ## @md | `service.type` | Sextant service type | string | ClusterIP |
