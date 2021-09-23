@@ -127,7 +127,7 @@ postgres:
     ## @md | `postgres.persistence.accessModes` | postgres PVC access modes | list | [ "ReadWriteOnce" ] |
     accessModes:
       - "ReadWriteOnce"
-    ## @md | `postgres.persistence.storageCloss` | postgres PVC storageClass | string | "gp2" |
+    ## @md | `postgres.persistence.storageClass` | postgres PVC storageClass | string | "gp2" |
     storageClass: "gp2"
     ## @md | `postgres.persistence.size` | postgres PVC volume size | string | "40Gi" |
     size: "40Gi"
