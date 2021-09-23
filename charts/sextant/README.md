@@ -13,14 +13,17 @@ software.
 | `imagePullSecrets.value` | a list if named secret references of the form   ```- name: secretName```| list | [] |
 | `replicaCount` | number of Sextant replicas to run | int | 1 |
 | `logging` | default logging level | string | "1" |
+| `ui.env` | environment variables to set in the UI container | map | {} |
 | `ui.image` | UI image settings | map | N/A |
 | `ui.image.repository` | UI image repository | string | "dev.catenasys.com:8083/blockchaintp/sextant" |
 | `ui.image.tag` | UI image tag | string | "latest" |
 | `ui.image.pullPolicy` | UI image pull policy | string | "IfNotPresent" |
+| `api.env` | API environment settings | map | N/A |
 | `api.image` | API image settings | map | N/A |
 | `api.image.repository` | API image repository | string | "dev.catenasys.com:8083/blockchaintp/sextant-api" |
 | `api.image.tag` | API image tag | string | "latest" |
 | `api.image.pullPolicy` | API image pull policy | string | "IfNotPresent" |
+| `noxy.env` | Noxy environment variables | map | N/A |
 | `noxy.image` | noxy image settings | map | N/A |
 | `noxy.image.repository` | NOXY image repository | string | "dev.catenasys.com:8083/blockchaintp/noxy" |
 | `noxy.image.tag` | noxy image tag | string | "latest" |
@@ -28,6 +31,7 @@ software.
 | `serviceAccount.create` | if true create the service account | boolean | true |
 | `serviceAccount.name` | name of the service account for sextant | string | nil |
 | `postgres.enabled` | if true create an internal postgres instance | boolean | true |
+| `postgres.env` | postgres environment variables | map | N/A |
 | `postgres.image.repository` | postgres image repository | string | "postgres" |
 | `postgres.image.tag` | postgres image tag | string | "11" |
 | `postgres.user` | user for the postgres database | string | "postgres" |

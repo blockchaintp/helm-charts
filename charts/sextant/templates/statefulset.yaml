@@ -20,19 +20,21 @@ spec:
           image: "{{.Values.postgres.image.repository}}:{{.Values.postgres.image.tag}}"
           imagePullPolicy: {{.Values.postgres.image.pullPolicy }}
           ports:
-          - containerPort: {{.Values.postgres.port }}
+            - containerPort: {{.Values.postgres.port }}
+          resources: {{- include "lib.safeToYaml" .Values.postgres.resources | nindent 12 }}
           env:
-          - name: PGDATA
-            value: /data/sextant
-          - name: POSTGRES_PASSWORD
-            {{- if .Values.postgres.existingPasswordSecret }}
-            valueFrom:
-              secretKeyRef:
-                name: {{.Values.postgres.existingPasswordSecret}}
-                key: password
-            {{- else }}
-            value: {{ .Values.postgres.password }}
-            {{- end }}
+            - name: PGDATA
+              value: /data/sextant
+            - name: POSTGRES_PASSWORD
+              {{- if .Values.postgres.existingPasswordSecret }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{.Values.postgres.existingPasswordSecret}}
+                  key: password
+              {{- else }}
+              value: {{ .Values.postgres.password }}
+              {{- end }}
+              {{- include "lib.safeToYaml" .Values.postgres.env | nindent 12 }}
           volumeMounts:
             - mountPath: /data
               name: "pgdata"
@@ -44,7 +46,7 @@ spec:
           ports:
             - containerPort: 8080
               protocol: TCP
-          resources: {}
+          resources: {{- include "lib.safeToYaml" .Values.api.resources | nindent 12 }}
           env:
             - name: PORT
               value: "8080"
@@ -81,6 +83,7 @@ spec:
             - name: POSTGRES_TLS
               value: {{ .Values.postgres.tls | quote }}
             {{- end }}
+            {{- include "lib.safeToYaml" .Values.api.env | nindent 12 }}
           volumeMounts:
             {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
         - name: frontend
@@ -89,10 +92,11 @@ spec:
           ports:
             - containerPort: 8081
               protocol: TCP
-          resources: {}
+          resources: {{- include "lib.safeToYaml" .Values.ui.resources | nindent 12 }}
           env:
             - name: PORT
               value: "8081"
+            {{- include "lib.safeToYaml" .Values.ui.env | nindent 12 }}
           volumeMounts: {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
         - name: router
           image: "{{ .Values.noxy.image.repository }}:{{ .Values.noxy.image.tag }}"
@@ -117,6 +121,8 @@ spec:
               value: localhost
             - name: NOXY_PROXY_PORT
               value: "8080"
+            {{- include "lib.safeToYaml" .Values.noxy.env | nindent 12 }}
+          resources: {{- include "lib.safeToYaml" .Values.noxy.resources | nindent 12 }}
           volumeMounts: {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
       restartPolicy: "Always"
       volumes: {{- include "lib.volumes" .Values.extraVolumes | nindent 8 }}
