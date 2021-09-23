@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+* feat(sextant): add env var and resource declarations [view commit](https://github.com/catenasys/helm-charts/commit/c80d34a54a190b526dcd84fd0af6eb0d546de389)
+* build(nginx-ingress): update nginx-ingress dependency to upstream official [view commit](https://github.com/catenasys/helm-charts/commit/6d514b4ec987ab767dd94821f2a7d9d08657d4e3)
+* build(tfs-on-sawtooth): update chart dependency [view commit](https://github.com/catenasys/helm-charts/commit/dcc1a69afc1319524b47e146cc138c66d845592c)
+* fix(tfs-on-sawtooth): make match labels consistent [view commit](https://github.com/catenasys/helm-charts/commit/214a86797ed197a73367560a9da9db18969c7a0c)
+* fix(sawtooth): make sawtooth component labels consistent [view commit](https://github.com/catenasys/helm-charts/commit/64ae7092bb96b241e55b08b8d30b05ded2847451)
 * feat(tfs-on-sawtooth): add s3 capabilities and update tags [view commit](https://github.com/catenasys/helm-charts/commit/8f8d87d11fa6f9373b5a50fbe7369f48e8ce8f9c)
 
 ## v0.2.56
