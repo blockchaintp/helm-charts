@@ -20,6 +20,7 @@ ingress:
 {{- $ingressName := .ingressName -}}
 {{- $serviceName := .serviceName -}}
 {{- $servicePort := .servicePort -}}
+{{- $extraPaths := .ingress.extraPaths -}}
 {{- if .ingress.enabled -}}
 apiVersion: {{ include "common.capabilities.ingress.apiVersion" $ctx }}
 kind: Ingress
@@ -46,14 +47,12 @@ spec:
     - host: {{ .ingress.hostname }}
       http:
         paths:
-          {{- if .ingress.extraPaths }}
-          {{- toYaml .ingress.extraPaths | nindent 10 }}
-          {{- end }}
           - path: {{ .ingress.path }}
             {{- if eq "true" (include "common.ingress.supportsPathType" $ctx) }}
             pathType: {{ default "ImplementationSpecific" .ingress.pathType }}
             {{- end }}
             backend: {{- include "common.ingress.backend" (dict "serviceName" $serviceName "servicePort" $servicePort "context" $ctx) | nindent 14 }}
+          {{- include "lib.safeToYaml" $extraPaths | nindent 10 }}
     {{- end }}
     {{- range .ingress.extraHosts }}
     - host: {{ .name | quote }}
@@ -64,6 +63,7 @@ spec:
             pathType: {{ default "ImplementationSpecific" .pathType }}
             {{- end }}
             backend: {{- include "common.ingress.backend" (dict "serviceName" $serviceName "servicePort" $servicePort "context" $ctx) | nindent 14 }}
+          {{- include "lib.safeToYaml" $extraPaths | nindent 10 }}
     {{- end }}
     {{/* .ingress.hosts is deprecated */}}
     {{- range .ingress.hosts }}
