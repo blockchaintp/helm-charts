@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+* build(deps): update chart dependencies [view commit](https://github.com/catenasys/helm-charts/commit/8b0105c68da471cf737ac4eeb7b8564fafa3c239)
+* docs(sextant): correct typo [view commit](https://github.com/catenasys/helm-charts/commit/d473a54d6924d44a689d5d5c07d7d79c71677843)
+* feat(standard-defs): add extraPaths to extraHosts and use lib.safeToYaml [view commit](https://github.com/catenasys/helm-charts/commit/1dd62aa2d0dc46e5aa3340b378ffb37a3c7944c7)
+* perf(sextant): set default resource limits/requests [view commit](https://github.com/catenasys/helm-charts/commit/9fe0b05931f66f740ca8b34af6ef721dbf61ff0e)
 * feat(sextant): add env var and resource declarations [view commit](https://github.com/catenasys/helm-charts/commit/c80d34a54a190b526dcd84fd0af6eb0d546de389)
 * build(nginx-ingress): update nginx-ingress dependency to upstream official [view commit](https://github.com/catenasys/helm-charts/commit/6d514b4ec987ab767dd94821f2a7d9d08657d4e3)
 * build(tfs-on-sawtooth): update chart dependency [view commit](https://github.com/catenasys/helm-charts/commit/dcc1a69afc1319524b47e146cc138c66d845592c)
