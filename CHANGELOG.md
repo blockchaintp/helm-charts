@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* docs: add sextant persistence by default [view commit](https://github.com/catenasys/helm-charts/commit/eec6ccc7d1a8d8b0f5b11a4647be25d83c8172e9)
 * build(deps): update chart dependencies [view commit](https://github.com/catenasys/helm-charts/commit/8b0105c68da471cf737ac4eeb7b8564fafa3c239)
 * docs(sextant): correct typo [view commit](https://github.com/catenasys/helm-charts/commit/d473a54d6924d44a689d5d5c07d7d79c71677843)
 * feat(standard-defs): add extraPaths to extraHosts and use lib.safeToYaml [view commit](https://github.com/catenasys/helm-charts/commit/1dd62aa2d0dc46e5aa3340b378ffb37a3c7944c7)
@@ -155,9 +156,6 @@
 ## v0.2.51
 
 * fix(daml-on-postgres): correct the postgres hostname validator [view commit](https://github.com/catenasys/helm-charts/commit/ea61d9181e21501e6bbe39c9c7d546894d08fc88)
-
-## tfs-on-sawtooth-0.6.0
-
 * fix(daml-on-besu-details): updates sextantVersion to bump chart versions and adds DAML SDK 1.4 [view commit](https://github.com/catenasys/helm-charts/commit/3cbd41fa56f6f2520b457cc6f1e6fe9db6c9c44c)
 * test(pre-commit-config): autoupdates hook repos and increases max line-length to 90 to accommodate helm chart descriptions [view commit](https://github.com/catenasys/helm-charts/commit/83fbf9661ad7ca279ebd3de97900ad95bd84757d)
 * fix(chart): bump chart one minor version [view commit](https://github.com/catenasys/helm-charts/commit/65b96faa7b6a6e016fc7e02f67ff43e757e831f5)
@@ -616,9 +614,6 @@
 * SXT-305 Bump Chart version [view commit](https://github.com/catenasys/helm-charts/commit/96d4e00cb46270725a2c8813f1340b3633168286)
 * SXT-305 Update language from 'custom tp' to custom container' [view commit](https://github.com/catenasys/helm-charts/commit/830a56689ea4239b0b7d71df67a1786cf239527a)
 * GPG and Helm have unresolvable conflicts [view commit](https://github.com/catenasys/helm-charts/commit/8854ee1903fa121c2791d075abf5d097c4b55831)
-
-## v0.1.7
-
 * Add new line at EOL [view commit](https://github.com/catenasys/helm-charts/commit/05f587736d5e24b5ae87b2f08f0496da9a6af201)
 * Add details.yaml to sextant directory [view commit](https://github.com/catenasys/helm-charts/commit/f2133e3241669fb25997eaef56c0b47649c91131)
 * Remove deployment details from Chart.yaml [view commit](https://github.com/catenasys/helm-charts/commit/49365c308dec873308f98401c798cf09659ae05b)
