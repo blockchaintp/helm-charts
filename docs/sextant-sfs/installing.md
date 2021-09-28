@@ -75,7 +75,7 @@ sextant:
   imagePullSecrets:
     enabled: true
     value:
-    - btp-lic
+      - name: btp-lic
   postgres:
     persistence:
       enabled: true

@@ -73,7 +73,7 @@ need to create a `values.yaml` specifying the registry secret.  For example:
 imagePullSecrets:
   enabled: true
   value:
-    - btp-lic
+    - name: btp-lic
 postgres:
   persistence:
     enabled: true
