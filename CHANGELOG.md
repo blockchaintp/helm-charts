@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Unreleased
+## v0.2.57
 
 * docs(sextant): correct imagePullSecrets value [view commit](https://github.com/catenasys/helm-charts/commit/8c1979771b30e35dc98dc1aa9ecc16708c7f709e)
 * docs: add sextant persistence by default [view commit](https://github.com/catenasys/helm-charts/commit/eec6ccc7d1a8d8b0f5b11a4647be25d83c8172e9)
