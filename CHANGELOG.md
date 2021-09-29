@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* docs(sextant): correct imagePullSecrets value [view commit](https://github.com/catenasys/helm-charts/commit/8c1979771b30e35dc98dc1aa9ecc16708c7f709e)
 * docs: add sextant persistence by default [view commit](https://github.com/catenasys/helm-charts/commit/eec6ccc7d1a8d8b0f5b11a4647be25d83c8172e9)
 * build(deps): update chart dependencies [view commit](https://github.com/catenasys/helm-charts/commit/8b0105c68da471cf737ac4eeb7b8564fafa3c239)
 * docs(sextant): correct typo [view commit](https://github.com/catenasys/helm-charts/commit/d473a54d6924d44a689d5d5c07d7d79c71677843)
