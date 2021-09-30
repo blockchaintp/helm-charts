@@ -10,7 +10,7 @@ For the purposes of this document we will define a service as follows:
 version: '3.2'
 services:
   taekion:
-    image: taekion/taekion-fs-client:0.6-s3-argos1
+    image: dev.catenasys.com:8084/taekion/taekion-fs-client:0.6-s3-argos1
     privileged: true # Required
     init: true
     entrypoint:
