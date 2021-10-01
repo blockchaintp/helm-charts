@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Unreleased
+
+* docs(tfs-on-sawtooth): for now point docs to dev.catenasys.com:8084 for client [view commit](https://github.com/catenasys/helm-charts/commit/945309e5f5dbdc4f473e265318f274fae9d6efd5)
+* docs(tfs-on-sawtooth): add S3 API and docker-compose usage information [view commit](https://github.com/catenasys/helm-charts/commit/cafb999834faa26498530f20b473a4f3b26899f8)
+
 ## v0.2.57
 
 * docs(sextant): correct imagePullSecrets value [view commit](https://github.com/catenasys/helm-charts/commit/8c1979771b30e35dc98dc1aa9ecc16708c7f709e)
