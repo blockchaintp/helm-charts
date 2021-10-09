@@ -112,6 +112,8 @@ DIVE_ANALYZE = $(TOOL) -v $(DOCKER_SOCK):/var/run/docker.sock \
 	--user toolchain:$(shell getent group docker|awk -F: '{print $$3}') \
 	$(TOOLCHAIN_IMAGE) dive --ci
 
+NPM := $(TOOLCHAIN) npm
+
 ##
 # FOSSA parameters
 ###
@@ -429,3 +431,16 @@ gh-create-draft-release:
 	if [ "$(RELEASABLE)" = "yes" ];then \
 	  $(GH_RELEASE) create $(VERSION) -t "$(VERSION)" -F CHANGELOG.md; \
 	fi
+
+$(MARKERS)/analyze_npm: $(MARKERS)/build_toolchain_docker
+	$(NPM) run audit
+	@touch $@
+
+$(MARKERS)/build_npm: $(MARKERS)/build_toolchain_docker
+	$(NPM) ci
+	$(NPM) run build
+	@touch $@
+
+$(MARKERS)/test_npm: $(MARKERS)/build_npm
+	$(NPM) run test
+	@touch $@
