@@ -2,7 +2,7 @@
 
   TFS can provide an S3 endpoint for interacting with its volumes and files.
 In the context of S3, a TFS volume corresponds to an S3 bucket. Each bucket
-automatically contains two subfolders `snapshots` and `data` which correspond
+automatically contains two sub-folders `snapshots` and `data` which correspond
 to the current state TFS volume (`data`) and any snapshots of the volume which
 which have been taken.
 
@@ -43,7 +43,7 @@ For the purposes of this example we will be using the _MinIO Client_ from
 found [here](https://min.io/download#).
 
 The S3 Base URL used to connect to the api is the URL of the ingress that you
-configured above.  For example if your Ingress hostaname is `tfs.example.com`
+configured above.  For example if your Ingress hostname is `tfs.example.com`
 then the the S3 Base URL you will use is `http://tfs.example.com` or
 `https://tfs.example.com` depending on whether the ingress or ingress
 controller is configured to use TLS (this is always recommended).

@@ -23,4 +23,4 @@ appVersion: 2.1.7
 dependencies:
   - name: standard-defs
     version: ~0.1.0
-    repository: https://btp-charts-unstable.s3.amazonaws.com/charts/
+    repository: https://btp-charts-stable.s3.amazonaws.com/charts/

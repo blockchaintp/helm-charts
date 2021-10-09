@@ -8,3 +8,4 @@ ingress links to service properly:
             serviceName: test-sextant-sfs
             servicePort: 8000
           path: /path
+          pathType: ImplementationSpecific

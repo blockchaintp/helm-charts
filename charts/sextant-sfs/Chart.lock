@@ -1,6 +1,6 @@
 dependencies:
 - name: sextant
   repository: https://btp-charts-stable.s3.amazonaws.com/charts/
-  version: 2.1.11
-digest: sha256:31291483eb344d79528f8e60ef0bc3aa9b84fc22b6f5a9a3723873b8ac0c5a7d
-generated: "2021-09-02T01:05:01.588800098Z"
+  version: 2.1.16
+digest: sha256:41621d0ebd2de364bfaec6c98d632162c1c995af9fb2074abf6b19d012f566fd
+generated: "2021-10-09T05:31:20.61278689Z"

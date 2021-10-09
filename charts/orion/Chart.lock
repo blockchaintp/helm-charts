@@ -3,7 +3,7 @@ dependencies:
   repository: https://charts.bitnami.com/bitnami
   version: 10.9.6
 - name: standard-defs
-  repository: https://btp-charts-unstable.s3.amazonaws.com/charts/
+  repository: https://btp-charts-stable.s3.amazonaws.com/charts/
   version: 0.1.2
-digest: sha256:328ab6c42542d99ea16d14bd19f9fc3d4899e916861986219730b8ca2f916020
-generated: "2021-09-23T17:59:04.071984067Z"
+digest: sha256:7a4dc1fe025d5b703b28e2d825a1bdcb4236b8be01dadab899a721d9f0cb542a
+generated: "2021-10-09T05:31:01.120104047Z"
