@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "daml.service.name" . }}
+  labels: {{ include "daml.labels" . | nindent 4 }}
+    component: daml
+spec:
+  type: ClusterIP
+  clusterIP: None
+  sessionAffinity: ClientIP
+  ports:
+    - port: {{ .Values.port }}
+      protocol: TCP
+      targetPort: {{ .Values.port }}
+      name: daml-ledger-api
+  selector: {{ include "daml.labels.matchLabels" . | nindent 4 }}
+    component: daml

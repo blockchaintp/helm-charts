@@ -1,10 +1,12 @@
 suite: daml-on-sawtooth.test for stable names
 templates:
-  - daml-rpc-service.yaml
-  - daml-rpc.yaml
+  - service.yaml
+  - jsonapi-service.yaml
+  - trigger-service.yaml
+  - tp-service.yaml
+  - statefulset.yaml
   - serviceaccount.yaml
-  - validator-set.yaml
-  - validators-svcs.yaml
+  - cert-job.yaml
 release:
   name: test
   namespace: testns
@@ -14,7 +16,7 @@ tests:
       - matchSnapshot:
           path: metadata.name
   - it: check for stable PVC names
-    template: daml-rpc.yaml
+    template: statefulset.yaml
     set:
       postgres:
         persistence:

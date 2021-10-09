@@ -19,7 +19,7 @@ type: application
 # This is the chart version. This version number should be incremented each
 # time you make changes to the chart and its templates, including the app
 # version.
-version: 0.1.62
+version: 0.2.0
 
 # This is the version number of the application being deployed. This version
 # number should be incremented each time you make changes to the application.
@@ -29,3 +29,6 @@ dependencies:
   - name: standard-defs
     version: ~0.1.0
     repository: https://btp-charts-stable.s3.amazonaws.com/charts/
+  - name: sawtooth
+    version: ~0.2.0
+    repository: https://btp-charts-unstable.s3.amazonaws.com/charts/

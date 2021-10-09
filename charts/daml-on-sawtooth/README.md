@@ -3,7 +3,7 @@
 | field | description | type | default |
 |-|-|-|-|
 | `affinity` | group of affinity related parameters | map | N/A |
-| `affinity.enabled` | false: no efffect  true: then validators will be deployed only to k8s nodes with the label `app={{.sawtooth.networkName}}-validator` | boolean | false |
+| `affinity.enabled` | false: no efffect  true: then validators will be deployed only to k8s nodes with the label `app={{ .sawtooth.networkName }}-validator` | boolean | false |
 | `imagePullSecrets` | group of image pull secrets related parameters | map | N/A |
 | `imagePullSecrets.enabled` | if true use the list of named imagePullSecrests | boolean | false |
 | `imagePullSecrets.value` | a list if named secret references of the form   ```- name: secretName```| list | [] |

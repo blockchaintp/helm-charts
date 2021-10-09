@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "common.names.fullname" . }}-jsonapi
+  labels: {{ include "daml.labels" . | nindent 4 }}
+    component: jsonapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {{ include "daml.labels.matchLabels" . | nindent 6 }}
+      component: jsonapi
+  serviceName: {{ include "daml.jsonapi.service.name" . }}
+  template:
+    metadata:
+      labels: {{ include "daml.labels" . | nindent 8 }}
+        component: jsonapi
+    spec:
+      serviceAccountName: {{ include "lib.serviceAccountName" . }}
+      affinity: {{ include "lib.safeToYaml" .Values.jsonapi.affinity | nindent 8 }}
+      containers:
+        - name: daml-json-api
+          {{- include "lib.image" (dict "imageRoot" .Values.jsonapi.image "global" .Values.global ) | nindent 10 }}
+          ports:
+          - containerPort: {{ .Values.jsonapi.port }}
+          {{- if .Values.jsonapi.args }}
+          args:
+            {{- range .Values.jsonapi.args }}
+            - {{ . | quote }}
+            {{- end -}}
+          {{- end }}
+          env: {{ include "lib.safeToYaml" .Values.jsonapi.env | nindent 12 }}
+            - name: LEDGER_HOST
+              value: {{ include "daml.service" . }}
+            - name: LEDGER_PORT
+              value: {{ .Values.port | quote }}
+            - name: HTTP_PORT
+              value: {{ .Values.jsonapi.port | quote }}
+            - name: PACKAGE_RELOAD_INTERVAL
+              value: {{ .Values.jsonapi.packageReloadInterval | quote }}
+            - name: WAIT_FOR_TIME
+              value: {{ .Values.jsonapi.waitTimeSeconds | quote }}
+            {{- if .Values.auth.enabled }}
+            - name: ACCESS_TOKEN
+              value: {{ required "jsonapi.authToken is required if rpc.auth.enabled" .Values.jsonapi.authToken | quote }}
+            {{- end }}
+          volumeMounts: {{- include "lib.volumeMounts" .Values.jsonapi.extraVolumeMounts | nindent 12 }}
+          resources: {{ include "lib.safeToYaml" .Values.jsonapi.resources | nindent 12 }}
+      volumes: {{- include "lib.volumes" .Values.jsonapi.extraVolumes | nindent 8 }}

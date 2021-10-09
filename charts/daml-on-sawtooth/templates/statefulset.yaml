@@ -1,0 +1,97 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "common.names.fullname" . }}
+  labels: {{ include "daml.labels" . | nindent 4 }}
+    component: daml
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {{ include "daml.labels.matchLabels" . | nindent 6 }}
+      component: daml
+  serviceName: {{ include "daml.service.name" . }}
+  template:
+    metadata:
+      labels: {{ include "daml.labels" . | nindent 8 }}
+        component: daml
+    spec:
+      serviceAccountName: {{ include "lib.serviceAccountName" . }}
+      affinity: {{ include "lib.safeToYaml" .Values.affinity | nindent 8 }}
+      initContainers:
+        - name: change-permissions
+          image: busybox
+          command:
+            - "sh"
+            - "-xc"
+            - |
+              echo Updating permissions
+              {{- range .Values.extraVolumeMounts }}
+                chown -R 1000:1000 {{ .mountPath }}
+              {{- end }}
+          volumeMounts: {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+      containers:
+        - name: postgres
+          {{- include "lib.image" (dict "imageRoot" .Values.postgres.image "global" .Values.global ) | nindent 10 }}
+          ports:
+          - containerPort: 5432
+          env:
+          - name: POSTGRES_HOST_AUTH_METHOD
+            value: trust
+          - name: PGDATA
+            value: /data/{{ include "daml.participantId" .}}
+          volumeMounts:
+            - mountPath: /data
+              name: "pgdata"
+          resources: {{ include "lib.safeToYaml" .Values.postgres.resources | nindent 12 }}
+        - name: daml-rpc
+          {{- include "lib.image" (dict "imageRoot" .Values.image "global" .Values.global ) | nindent 10 }}
+          command: [ "bash", "-xc"]
+          args:
+            - |
+              sleep {{ .Values.startupDelay | quote }}
+              /opt/sawtooth-daml-rpc/entrypoint.sh \
+                --participant port={{ .Values.port }},address=0.0.0.0,participant-id={{ include "daml.participantId" .}},server-jdbc-url=jdbc:postgresql://localhost/postgres?user=postgres \
+                --max-outstanding-batches {{ .Values.maxOutstandingBatches }} \
+                --max-ops-per-batch {{ .Values.maxOpsPerBatch }} \
+                --connect tcp://{{ include "daml.sawtooth.service" . }}:{{ include "daml.sawtooth.sawcomp" . }} \
+                {{- if .Values.auth.enabled }}
+                --auth-jwt-rs256-crt /secrets/jwt/jwt.crt \
+                {{- end }}
+                {{- if .Values.args }}
+                {{ .Values.args }} \
+                {{- end }}
+                ;
+          env: {{ include "lib.safeToYaml" .Values.env | nindent 12 }}
+          resources: {{ include "lib.safeToYaml" .Values.resources | nindent 12 }}
+          ports:
+            - containerPort: {{ .Values.port }}
+              name: daml-ledger-api
+          volumeMounts:
+            - mountPath: /secrets/jwt
+              name: jwt-secret
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+      volumes:
+        - name: jwt-secret
+          secret:
+            secretName: {{ include "common.names.fullname" . }}-cert
+        {{- include "lib.volumes" .Values.extraVolumes | nindent 8 }}
+{{- if not .Values.postgres.persistence.enabled }}
+        - name: "pgdata"
+          emptyDir: {}
+{{- else }}
+  volumeClaimTemplates:
+    - metadata:
+        name: "pgdata"
+        {{- if .Values.postgres.persistence.annotations }}
+        annotations: {{- toYaml .Values.postgres.persistence.annotations | nindent 10 }}
+        {{- end }}
+      spec:
+        accessModes: {{- toYaml .Values.postgres.persistence.accessModes | nindent 10 }}
+        {{- if .Values.postgres.persistence.storageClass }}
+        storageClassName: {{ .Values.postgres.persistence.storageClass | quote }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.postgres.persistence.size | quote }}
+{{- end }}

@@ -3,14 +3,16 @@ check for stable PVC names:
     pgdata
 check for stable entity names (services, statefulsets, serviceaccounts):
   1: |
-    mynetwork-daml-rpc
+    test-daml-on-sawtooth
   2: |
-    mynetwork-daml-rpc
+    test-daml-on-sawtooth-jsonapi
   3: |
-    mynetwork-sa
+    test-daml-on-sawtooth-triggers
   4: |
-    mynetwork-validator
+    test-daml-on-sawtooth-tp
   5: |
-    mynetwork-rest-api
+    test-daml-on-sawtooth
   6: |
-    mynetwork-validator
+    test-daml-on-sawtooth
+  7: |
+    test-daml-on-sawtooth-cert
