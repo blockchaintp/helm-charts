@@ -49,7 +49,7 @@ software.
 | `postgres.persistence.enabled` | if true allocate a PVC for the postgres instance | boolean | false |
 | `postgres.persistence.annotations` | any custom annotations to the postgres PVC's | map | {} |
 | `postgres.persistence.accessModes` | postgres PVC access modes | list | [ "ReadWriteOnce" ] |
-| `postgres.persistence.storageCloss` | postgres PVC storageClass | string | "gp2" |
+| `postgres.persistence.storageClass` | postgres PVC storageClass | string | "gp2" |
 | `postgres.persistence.size` | postgres PVC volume size | string | "40Gi" |
 | `postgres.resources` | UI resources | map | nil |
 | `service.type` | Sextant service type | string | ClusterIP |
