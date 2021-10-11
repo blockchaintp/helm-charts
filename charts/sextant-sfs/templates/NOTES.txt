@@ -2,7 +2,7 @@
 
 
 1. Get the initial Sextant application username and password by running this command
-  kubectl describe pod/{{ template "sextant.fullname" .}}-0|grep INITIAL_
+  kubectl describe pod/{{ template "common.names.fullname" .}}-0|grep INITIAL_
 
 2. Get the application URL by running these commands:
 {{- if .Values.sextant.ingress.enabled }}
@@ -12,16 +12,16 @@
   {{- end }}
 {{- end }}
 {{- else if contains "NodePort" .Values.sextant.service.type }}
-  export NODE_PORT=$(kubectl get -o jsonpath="{.spec.ports[0].nodePort}" services {{ template "sextant.fullname" . }})
+  export NODE_PORT=$(kubectl get -o jsonpath="{.spec.ports[0].nodePort}" services {{ template "common.names.fullname" . }})
   export NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}")
   echo http://$NODE_IP:$NODE_PORT
 {{- else if contains "LoadBalancer" .Values.sextant.service.type }}
      NOTE: It may take a few minutes for the LoadBalancer IP to be available.
-           You can watch the status of by running 'kubectl get svc -w {{ template "sextant.fullname" . }}'
-  export SERVICE_IP=$(kubectl get svc {{ template "sextant.fullname" . }} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+           You can watch the status of by running 'kubectl get svc -w {{ template "common.names.fullname" . }}'
+  export SERVICE_IP=$(kubectl get svc {{ template "common.names.fullname" . }} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
   echo http://$SERVICE_IP:{{ .Values.sextant.service.port }}
 {{- else if contains "ClusterIP" .Values.sextant.service.type }}
-  export POD_NAME=$(kubectl get pods -l "app={{ template "sextant.name" . }}" -o jsonpath="{.items[0].metadata.name}")
+  export POD_NAME=$(kubectl get pods -l "app={{ template "common.names.name" . }}" -o jsonpath="{.items[0].metadata.name}")
   echo "Visit http://127.0.0.1:8080 to use your application"
   kubectl port-forward $POD_NAME 8080:80
 {{- end }}

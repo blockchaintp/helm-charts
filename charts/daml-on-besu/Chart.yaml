@@ -28,7 +28,7 @@ dependencies:
   - condition: orion.create
     name: orion
     version: ~0.1.0
-    repository: https://btp-charts-unstable.s3.amazonaws.com/charts/
+    repository: https://btp-charts-stable.s3.amazonaws.com/charts/
   - name: standard-defs
     version: ~0.1.0
-    repository: https://btp-charts-unstable.s3.amazonaws.com/charts/
+    repository: https://btp-charts-stable.s3.amazonaws.com/charts/
