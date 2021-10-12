@@ -17,7 +17,7 @@ daml:
   image:
     imagePullPolicy: IfNotPresent
   postgres:
-      secret: postgressecret
+    secret: postgressecret
   ledgerId: someIdentifyingString
   ## @md | `daml.extra_args` | extra arguments settings for daml-rpc | map | N/A |
   extra_args:
@@ -26,8 +26,124 @@ daml:
     ## @md | `daml.extra_args.arg_str` | string of extra arguments to add | string | nil |
     arg_str:
 deployment:
-  namespace:  test
+  namespace: test
   name: test
+
+jsonapi:
+  image:
+    ## @md | daml.jsonapi.image.repository | the docker image repository | blockchaintp/daml-on-postgres-jsonapi |
+    repository: blockchaintp/daml-json-api
+    ## @md | daml.jsonapi.image.tag | the docker image tag | latest |
+    tag: BTP2.1.0rc15
+    ## @md | daml.jsonapi.image.pullPolicy | the docker image pull policy | IfNotPresent |
+    pullPolicy: IfNotPresent
+  ports:
+    ## @md | daml.jsonapi.ports.http | the port the json api will listen on | 8080 |
+    http: 8080
+  ## @md | daml.jsonapi.packageReloadInterval | the interval in seconds between package reloads | 5s |
+  packageReloadInterval: "5s"
+  ## @md | daml.jsonapi.resources | the json api resources constraints | {} |
+  resources: {}
+  ## @md | daml.jsonapi.waitTimeSeconds | how many seconds to way for the ledger api to start. 0 for forever | 0 |
+  waitTimeSeconds: 0
+  ## @md | daml.jsonapi.env  | the json api environment variable definitions | {} |
+  env:
+  ingress:
+    ## @md | `daml.jsonapi.ingress.apiVersion` | if necessary the apiVersion of the ingress may be overridden | "" |
+    apiVersion: ""
+    ## @md | `daml.jsonapi.ingress.enabled` | true to enable the ingress to the main service rest-api | false |
+    enabled: false
+    ## @md | `daml.jsonapi.ingress.certManager` | true to enable the acme certmanager for this ingress | false |
+    certManager: false
+    ## @md | `daml.jsonapi.ingress.hostname` | primary hostname for the ingress | false |
+    hostname:
+    ## @md | `daml.jsonapi.ingress.path` | path for the ingress's primary hostname | / |
+    path: /
+    ## @md | `daml.jsonapi.ingress.pathType` | pathType for the ingress's primary hostname | nil |
+    pathType:
+    ## @md | `daml.jsonapi.ingress.annotations` | annotations for the ingress | {} |
+    annotations: {}
+    ## @md | `daml.jsonapi.ingress.tls` | true to enable tls on the ingress with a secrete at hostname-tls | false |
+    tls: false
+    ## @md | `daml.jsonapi.ingress.extraHosts` | list of extra hosts to add to the ingress | [] |
+    extraHosts: []
+    ## @md | `daml.jsonapi.ingress.extraPaths` | list of extra paths to add to the primary host of the ingress | [] |
+    extraPaths: []
+    ## @md | `daml.jsonapi.ingress.extraTls` | list of extra tls entries | [] |
+    extraTls: []
+    ## @md | `daml.jsonapi.ingress.hosts` | list of ingress host and path declarations for the jsonapi ingress | list | [] |
+    hosts: []
+    # - host: chart-example.local
+    #   paths:
+    #     - /
+
+postgres:
+  # If true dynamically allocate a postgres database, otherwise expect
+  # configuration details
+  ## @md | postgres.enabled | true if the embedded postgres will be enabled | true |
+  enabled: true
+  image:
+    ## @md | postgres.image.repository | the docker image repository | postgres |
+    repository: postgres
+    ## @md | postgres.image.tag | the docker image tag | latest |
+    tag: "11"
+    ## @md | postgres.image.pullPolicy | the docker image pull policy | IfNotPresent |
+    pullPolicy: IfNotPresent
+  ## @md | postgres.host | the postgres host | localhost |
+  host: localhost
+  ## @md | postgres.port | the postgres port | 5432 |
+  port: 5432
+  ## @md | postgres.user | the postgres user | postgres |
+  user: postgres
+  ## @md | postgres.database | the postgres database | postgres |
+  database: postgres
+  ## @md | postgres.password | the postgres password | '' |
+  password: ""
+  ## @md | postgres.existingPasswordSecret | the name of an existing password secret | '' |
+  existingPasswordSecret: ""
+  ## Name of existing secret object
+  ## The secret should contain the following keys:
+  ## password
+  ## Enable persistence using Persistent Volume Claims
+
+  ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+  ##
+  persistence:
+    ## @md | postgres.persistence.enabled | true if the postgres persistence will be enabled | true |
+    enabled: true
+    ## If defined, storageClassName: <storageClass>
+    ## If set to "-", storageClassName: "", which disables dynamic provisioning
+    ## If undefined (the default) or set to null, no storageClassName spec is
+    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+    ##   GKE, AWS & OpenStack)
+    ##
+    # storageClass: "-"
+    ## @md | postgres.persistence.storageClass | the name of the storage class | nil (default) |
+    storageClass:
+    accessModes:
+      ## @md | postgres.persistence.accessModes | the access modes for the postgres persistence | ["ReadWriteOnce"] |
+      - "ReadWriteOnce"
+    accessMode: ReadWriteOnce
+    ## @md | postgres.persistence.size | the size of the postgres persistence | 10Gi |
+    size: 10G
+
+aws:
+  accessKeyId: ""
+  ## Name of existing secret object
+  ## The secret should contain the following keys:
+  ## accesskeyid
+  ## Enable persistence using Persistent Volume Claims
+
+  ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+  ##
+  secretAccessKey: ""
+  ## Name of existing secret object
+  ## The secret should contain the following keys:
+  ## secretaccesskey
+  ## Enable persistence using Persistent Volume Claims
+
+  ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+  ##
 
 # The below are mostly controlled by BTP, although an "advanced" option to customize them may be
 # presented
