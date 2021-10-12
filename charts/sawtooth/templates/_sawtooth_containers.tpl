@@ -1,4 +1,20 @@
 
+{{- define "sawtooth.ports.sawcomp" -}}
+{{ .Values.sawtooth.ports.sawcomp }}
+{{- end -}}
+
+{{- define "sawtooth.ports.consensus" -}}
+{{ .Values.sawtooth.ports.consensus }}
+{{- end -}}
+
+{{- define "sawtooth.ports.rest" -}}
+{{ .Values.sawtooth.ports.rest }}
+{{- end -}}
+
+{{- define "sawtooth.ports.sawnet" -}}
+{{ .Values.sawtooth.ports.sawnet }}
+{{- end -}}
+
 
 {{- define "sawtooth.container.env.nodename" -}}
 {{- $consensus := .values.consensus | int -}}
@@ -67,7 +83,7 @@ command: [ "bash", "-xc"]
     - |
       rm -f /var/lib/sawtooth/pbft.log
       pbft-engine {{ include "sawtooth.logLevel" $ctx }} \
-        -C tcp://127.0.0.1:{{ .Values.sawtooth.ports.consensus }} \
+        -C tcp://127.0.0.1:{{ include "sawtooth.ports.consensus" . }} \
         --storage-location disk+/var/lib/sawtooth/pbft.log
   lifecycle:
     {{- include "sawtooth.signal.postStart" "pbft-engine" | nindent 4 }}
@@ -85,7 +101,7 @@ command: [ "bash", "-xc"]
   args:
     - |
       raft-engine {{ include "sawtooth.logLevel" $ctx }} \
-        -C tcp://127.0.0.1:{{ .Values.sawtooth.ports.consensus }}
+        -C tcp://127.0.0.1:{{ include "sawtooth.ports.consensus" . }}
   volumeMounts:
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
     {{- include "sawtooth.etc.mount" . | nindent 4 }}
@@ -100,8 +116,8 @@ command: [ "bash", "-xc"]
   args:
     - |
       poet-engine {{ include "sawtooth.logLevel" $ctx }} \
-        --connect tcp://127.0.0.1:{{ .Values.sawtooth.ports.consensus }}  \
-        --component tcp://127.0.0.1:{{ .Values.sawtooth.ports.sawcomp }}
+        --connect tcp://127.0.0.1:{{ include "sawtooth.ports.consensus" . }}  \
+        --component tcp://127.0.0.1:{{ include "sawtooth.ports.sawcomp" . }}
   volumeMounts:
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
     {{- include "sawtooth.etc.mount" . | nindent 4 }}
@@ -112,7 +128,7 @@ command: [ "bash", "-xc"]
   args:
     - |
       poet-validator-registry-tp {{ include "sawtooth.logLevel" $ctx }} \
-        -C tcp://127.0.0.1:{{ .Values.sawtooth.ports.sawcomp }}
+        -C tcp://127.0.0.1:{{ include "sawtooth.ports.sawcomp" . }}
   volumeMounts:
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
     {{- include "sawtooth.etc.mount" . | nindent 4 }}
@@ -127,7 +143,7 @@ command: [ "bash", "-xc"]
   args:
     - |
       devmode-engine-rust {{ include "sawtooth.logLevel" $ctx }} \
-        -C tcp://127.0.0.1:{{ .Values.sawtooth.ports.consensus }}
+        -C tcp://127.0.0.1:{{ include "sawtooth.ports.consensus" . }}
   volumeMounts:
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
     {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 4 }}
@@ -141,7 +157,7 @@ command: [ "bash", "-xc"]
     - |
       settings-tp {{ include "sawtooth.logLevel" $ctx }} \
         {{ .Values.sawtooth.containers.settings_tp.args }}  \
-        --connect tcp://127.0.0.1:{{ .Values.sawtooth.ports.sawcomp }}
+        --connect tcp://127.0.0.1:{{ include "sawtooth.ports.sawcomp" . }}
   volumeMounts:
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
     {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 4 }}
@@ -154,7 +170,7 @@ command: [ "bash", "-xc"]
   args:
     - |
       intkey-tp-go {{ include "sawtooth.logLevel" $ctx }} \
-        --connect tcp://127.0.0.1:{{ .Values.sawtooth.ports.sawcomp }}
+        --connect tcp://127.0.0.1:{{ include "sawtooth.ports.sawcomp" . }}
   volumeMounts:
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
     {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 4 }}
@@ -169,7 +185,7 @@ command: [ "bash", "-xc"]
   - |
     identity-tp {{ include "sawtooth.logLevel" $ctx }} \
       {{ .Values.sawtooth.containers.identity_tp.args }}  \
-      -C tcp://127.0.0.1:{{ .Values.sawtooth.ports.sawcomp }}
+      -C tcp://127.0.0.1:{{ include "sawtooth.ports.sawcomp" . }}
   volumeMounts:
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
     {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 4 }}
@@ -186,7 +202,7 @@ command: [ "bash", "-xc"]
     - |
       block-info-tp {{ include "sawtooth.logLevel" $ctx }} \
         {{ .Values.sawtooth.containers.block_info.args }}  \
-        -C tcp://127.0.0.1:{{ .Values.sawtooth.ports.sawcomp }}
+        -C tcp://127.0.0.1:{{ include "sawtooth.ports.sawcomp" . }}
   lifecycle:
     {{- include "sawtooth.signal.postStart" "block-info-tp" | nindent 4 }}
   {{- include "sawtooth.signal.livenessProbe" "block-info-tp" | nindent 2 }}
@@ -204,7 +220,7 @@ command: [ "bash", "-xc"]
       sawtooth keygen && \
       sleep {{ .Values.sawtooth.client_wait }} &&  \
       /usr/local/bin/heartbeat_loop.sh \
-        http://127.0.0.1:{{ .Values.sawtooth.ports.rest }}  \
+        http://127.0.0.1:{{ include "sawtooth.ports.rest" . }}  \
         test-$RANDOM {{ .Values.sawtooth.heartbeat.interval }}
   volumeMounts:
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
@@ -220,7 +236,7 @@ command: [ "bash", "-xc"]
   args:
     - |
       xo-tp-go {{ include "sawtooth.logLevel" $ctx }} \
-        --connect tcp://127.0.0.1:{{ .Values.sawtooth.ports.sawcomp }}
+        --connect tcp://127.0.0.1:{{ include "sawtooth.ports.sawcomp" . }}
   volumeMounts:
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
     {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 4 }}
@@ -237,7 +253,7 @@ command: [ "bash", "-xc"]
   args:
     - |
       smallbank-tp-go {{ include "sawtooth.logLevel" $ctx }} \
-        --connect tcp://127.0.0.1:{{ .Values.sawtooth.ports.sawcomp }}
+        --connect tcp://127.0.0.1:{{ include "sawtooth.ports.sawcomp" . }}
   volumeMounts:
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
     {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 4 }}
@@ -255,11 +271,11 @@ command: [ "bash", "-xc"]
       sleep {{ .Values.sawtooth.client_wait }}
       sawtooth-rest-api {{ include "sawtooth.logLevel" $ctx }} \
         {{ .Values.sawtooth.containers.rest_api.args }}  \
-        --bind 0.0.0.0:{{ .Values.sawtooth.ports.rest }}  \
-        --connect tcp://127.0.0.1:{{ .Values.sawtooth.ports.sawcomp }}  \
+        --bind 0.0.0.0:{{ include "sawtooth.ports.rest" . }}  \
+        --connect tcp://127.0.0.1:{{ include "sawtooth.ports.sawcomp" . }}  \
         {{ include "sawtooth.opentsdb" . }}
   ports:
-    - containerPort: {{ .Values.sawtooth.ports.rest }}
+    - containerPort: {{ include "sawtooth.ports.rest" . }}
       name: sawrest
   volumeMounts:
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
@@ -317,7 +333,7 @@ command: [ "bash", "-xc"]
   args:
     - |
       seth-tp {{ include "sawtooth.logLevel" $ctx }} \
-        --connect tcp://127.0.0.1:{{ .Values.sawtooth.ports.sawcomp }}
+        --connect tcp://127.0.0.1:{{ include "sawtooth.ports.sawcomp" . }}
   volumeMounts:
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
     {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 4 }}
@@ -336,7 +352,7 @@ command: [ "bash", "-xc"]
       sleep {{ .Values.sawtooth.client_wait }} &&  \
         seth-rpc {{ include "sawtooth.logLevel" $ctx }} \
           --bind 0.0.0.0:3030 \
-          --connect tcp://127.0.0.1:{{ .Values.sawtooth.ports.sawcomp }}
+          --connect tcp://127.0.0.1:{{ include "sawtooth.ports.sawcomp" . }}
   volumeMounts:
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
     {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 4 }}
@@ -400,7 +416,7 @@ postStart:
       {{- include "sawtooth.genesis.create" . | nindent 6 }}
       sawtooth-validator {{ include "sawtooth.logLevel" $ctx }} \
         {{ .Values.sawtooth.containers.validator.args}} --scheduler {{ .Values.sawtooth.scheduler }} \
-        --endpoint tcp://${NODE_NAME}:{{ .Values.sawtooth.ports.sawnet }} \
+        --endpoint tcp://${NODE_NAME}:{{ include "sawtooth.ports.sawnet" . }} \
         {{- include "sawtooth.network" . | nindent 8 -}} \
         ;
       {{- include "sawtooth.signal.fire" . | nindent 6 }}
@@ -413,13 +429,13 @@ postStart:
   livenessProbe:
     {{- include "sawtooth.container.validator.livenessProbe" . | nindent 4 }}
   ports:
-    - containerPort: {{ .Values.sawtooth.ports.sawcomp }}
+    - containerPort: {{ include "sawtooth.ports.sawcomp" . }}
       name: sawcomp
-    - containerPort: {{ .Values.sawtooth.ports.sawnet }}
+    - containerPort: {{ include "sawtooth.ports.sawnet" . }}
       {{- if not .Values.sawtooth.statefulset.enabled }}
-      hostPort: {{ .Values.sawtooth.ports.sawnet }}
+      hostPort: {{ include "sawtooth.ports.sawnet" . }}
       {{- end }}
       name: sawnet
-    - containerPort: {{ .Values.sawtooth.ports.consensus }}
+    - containerPort: {{ include "sawtooth.ports.consensus" . }}
       name: consensus
 {{- end -}}

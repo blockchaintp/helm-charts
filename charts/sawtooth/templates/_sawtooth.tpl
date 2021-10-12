@@ -39,7 +39,7 @@ component: sawtooth
 Sawtooth networking specifications
 */}}
 {{- define "sawtooth.bind.component" -}}
-component:tcp://0.0.0.0:{{ .Values.sawtooth.ports.sawcomp }}
+component:tcp://0.0.0.0:{{ include "sawtooth.ports.sawcomp" . }}
 {{- end -}}
 
 {{/*
@@ -47,14 +47,14 @@ Consensus binding should always be local under normal circumstances
 */}}
 {{- define "sawtooth.bind.consensus" -}}
 {{- if .Values.sawtooth.ports.consensus_local -}}
-consensus:tcp://127.0.0.1:{{ .Values.sawtooth.ports.consensus }}
+consensus:tcp://127.0.0.1:{{ include "sawtooth.ports.consensus" . }}
 {{- else -}}
-consensus:tcp://0.0.0.0:{{ .Values.sawtooth.ports.consensus }}
+consensus:tcp://0.0.0.0:{{ include "sawtooth.ports.consensus" . }}
 {{- end -}}
 {{- end -}}
 
 {{- define "sawtooth.bind.network" -}}
-network:tcp://0.0.0.0:{{ .Values.sawtooth.ports.sawnet }}
+network:tcp://0.0.0.0:{{ include "sawtooth.ports.sawnet" . }}
 {{- end -}}
 
 {{- define "sawtooth.binds" -}}

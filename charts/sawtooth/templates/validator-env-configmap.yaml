@@ -63,8 +63,8 @@ data:
     done
 
     for peer in "${MY_PEERS[@]}"; do
-      export SEEDS="--seeds tcp://$peer:{{ .Values.sawtooth.ports.sawnet }} $SEEDS"
-      export PEERS="--peers tcp://$peer:{{ .Values.sawtooth.ports.sawnet }} $PEERS"
+      export SEEDS="--seeds tcp://$peer:{{ include "sawtooth.ports.sawnet" . }} $SEEDS"
+      export PEERS="--peers tcp://$peer:{{ include "sawtooth.ports.sawnet" . }} $PEERS"
     done
 
     SET_GENESIS_NODE=${host_list[0]}

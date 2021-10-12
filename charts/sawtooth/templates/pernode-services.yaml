@@ -17,17 +17,17 @@ spec:
   type: {{ $ctx.Values.sawtooth.perNodeServiceType }}
   sessionAffinity: ClientIP
   ports:
-    - port: {{ $ctx.Values.sawtooth.ports.rest }}
+    - port: {{ include "sawtooth.ports.rest" $ctx }}
       protocol: TCP
-      targetPort: {{ $ctx.Values.sawtooth.ports.rest }}
+      targetPort: {{ include "sawtooth.ports.rest" $ctx }}
       name: rest-api
-    - port: {{ $ctx.Values.sawtooth.ports.sawnet }}
+    - port: {{ include "sawtooth.ports.sawnet" $ctx }}
       protocol: TCP
-      targetPort: {{ $ctx.Values.sawtooth.ports.sawnet }}
+      targetPort: {{ include "sawtooth.ports.sawnet" $ctx }}
       name: sawnet
-    - port: {{ $ctx.Values.sawtooth.ports.sawcomp }}
+    - port: {{ include "sawtooth.ports.sawcomp" $ctx }}
       protocol: TCP
-      targetPort: {{ $ctx.Values.sawtooth.ports.sawcomp }}
+      targetPort: {{ include "sawtooth.ports.sawcomp" $ctx }}
       name: sawcomp
   selector: {{- include "sawtooth.labels.matchLabels" $ctx | nindent 4 }}
     statefulset.kubernetes.io/pod-name: {{ include "common.names.fullname" $ctx }}-{{ . }}
