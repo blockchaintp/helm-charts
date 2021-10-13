@@ -3,18 +3,18 @@ kind: StatefulSet
 metadata:
   name: {{ include "daml.fullname" .}}
   namespace: {{.Release.Namespace}}
-  labels:
-{{ include "daml.labels" .| nindent 4}}
+  labels: {{ include "daml.labels" .| nindent 4}}
+    component: daml
 spec:
   replicas: 1
   selector:
-    matchLabels:
-{{ include "daml.labels" .| nindent 6}}
+    matchLabels: {{ include "daml.labels" .| nindent 6}}
+      component: daml
   serviceName: {{ include "daml.fullname" . }}
   template:
     metadata:
-      labels:
-{{ include "daml.labels" .| nindent 8}}
+      labels: {{ include "daml.labels" .| nindent 8}}
+        component: daml
     spec:
       serviceAccountName: {{ include "daml.serviceAccountName" . }}
       containers:
