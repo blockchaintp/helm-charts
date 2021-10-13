@@ -95,23 +95,6 @@ const form = [
   ],
 
   {
-    id: 'affinity.enabled',
-    title: 'Affinity',
-    helperText: 'If enabled - pods will only deploy to nodes that have the label: app={{ .sawtooth.sawtooth.networkName }}-validator',
-    component: 'radio',
-    default: false,
-    dataType: 'boolean',
-    row: true,
-    options: options.activated,
-    validate: {
-      type: 'string',
-      methods: [
-        ['required', 'Required'],
-      ],
-    },
-  },
-
-  {
     id: 'sawtooth.sawtooth.externalSeeds',
     title: 'External Seeds',
     helperText: 'The list of external addresses to connect to',
@@ -165,76 +148,6 @@ const form = [
       }, {
         title: 'Port',
         name: 'port',
-      }],
-    },
-  },
-
-  'Custom Containers',
-
-  {
-    id: 'sawtooth.sawtooth.customTPs',
-    title: 'Custom Containers',
-    skip: true,
-    helperText: 'Custom containers to start and connect to the validator on tcp://localhost:4004',
-    list: {
-      mainField: 'name',
-      schema: [{
-        id: 'name',
-        title: 'Name',
-        helperText: 'The name of your custom container',
-        component: 'text',
-        validate: {
-          type: 'string',
-          methods: [
-            ['required', 'Required'],
-          ],
-        },
-      }, {
-        id: 'image',
-        title: 'Image',
-        helperText: 'The docker image for your container',
-        component: 'text',
-        validate: {
-          type: 'string',
-          methods: [
-            ['required', 'Required'],
-          ],
-        },
-      }, {
-        id: 'command',
-        title: 'Command',
-        helperText: 'The command for your container',
-        component: 'text',
-        validate: {
-          type: 'string',
-          methods: [
-
-          ],
-        },
-      }, {
-        id: 'args',
-        title: 'Arguments',
-        helperText: 'The arguments for your container',
-        component: 'text',
-        validate: {
-          type: 'string',
-          methods: [
-
-          ],
-        },
-      }],
-      table: [{
-        title: 'Name',
-        name: 'name',
-      }, {
-        title: 'Image',
-        name: 'image',
-      }, {
-        title: 'Command',
-        name: 'command',
-      }, {
-        title: 'Arguments',
-        name: 'args',
       }],
     },
   },
