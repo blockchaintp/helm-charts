@@ -7,7 +7,7 @@ const form = [
 
   [
     {
-      id: 'sawtooth.networkName',
+      id: 'sawtooth.sawtooth.networkName',
       title: 'Deployment Name',
       helperText: 'The name of the deployment',
       component: 'text',
@@ -23,7 +23,7 @@ const form = [
       },
     },
     {
-      id: 'sawtooth.namespace',
+      id: 'sawtooth.sawtooth.namespace',
       title: 'Kubernetes Namespace',
       helperText: 'The Kubernetes namespace',
       component: 'text',
@@ -43,7 +43,7 @@ const form = [
 
   [
     {
-      id: 'sawtooth.genesis.enabled',
+      id: 'sawtooth.sawtooth.genesis.enabled',
       title: 'Genesis Block',
       helperText: 'Should this network create the genesis block?',
       component: 'radio',
@@ -61,7 +61,7 @@ const form = [
   ],
   [
     {
-      id: 'sawtooth.permissioned',
+      id: 'sawtooth.sawtooth.permissioned',
       title: 'Permissioned Network',
       helperText: 'Should this network be permissioned?',
       component: 'radio',
@@ -77,7 +77,7 @@ const form = [
       },
     },
     {
-      id: 'sawtooth.consensus',
+      id: 'sawtooth.sawtooth.consensus',
       title: 'Consensus Algorithm',
       helperText: 'Which consensus algorithm should this network use?',
       component: 'select',
@@ -97,7 +97,7 @@ const form = [
   {
     id: 'affinity.enabled',
     title: 'Affinity',
-    helperText: 'If enabled - pods will only deploy to nodes that have the label: app={{ .sawtooth.networkName }}-validator',
+    helperText: 'If enabled - pods will only deploy to nodes that have the label: app={{ .sawtooth.sawtooth.networkName }}-validator',
     component: 'radio',
     default: false,
     dataType: 'boolean',
@@ -112,7 +112,7 @@ const form = [
   },
 
   {
-    id: 'sawtooth.externalSeeds',
+    id: 'sawtooth.sawtooth.externalSeeds',
     title: 'External Seeds',
     helperText: 'The list of external addresses to connect to',
     list: {
@@ -172,7 +172,7 @@ const form = [
   'Custom Containers',
 
   {
-    id: 'sawtooth.customTPs',
+    id: 'sawtooth.sawtooth.customTPs',
     title: 'Custom Containers',
     skip: true,
     helperText: 'Custom containers to start and connect to the validator on tcp://localhost:4004',
@@ -291,12 +291,12 @@ const form = [
 
   [
     {
-      id: 'sawtooth.genesis.seed',
+      id: 'sawtooth.sawtooth.genesis.seed',
       title: 'Genesis Seed',
       hidden: true,
       default: randomString.generate(24),
       warning: true,
-      helperText: 'WARNING: Changing the Genesis Seed will cause any exisiting data on the deployment to be deleted.',
+      helperText: 'WARNING: Changing the Genesis Seed will cause any existing data on the deployment to be deleted.',
       component: 'text',
       validate: {
         type: 'string',
@@ -305,7 +305,7 @@ const form = [
         ],
       },
     },
-    '', // Emptry string acts as space in UI
+    '', // Empty string acts as space in UI
   ],
 
 ]
