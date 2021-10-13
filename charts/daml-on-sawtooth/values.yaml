@@ -9,9 +9,9 @@ global:
     tag:
 
 imagePullSecrets:
-  ## @md | `imagePullSecrets.enabled`| if true use the list of named imagePullSecrests| false |
+  ## @md | `imagePullSecrets.enabled`| if true use the list of named imagePullSecrets| false |
   enabled: false
-  ## @md | `imagePullSecrets.value`| a list if named secret references of the form   ```- name: secretName``| [] |
+  ## @md | `imagePullSecrets.value`| a list if named secret references of the form `- name: secretName`| [] |
   value: []
 
 ## @md | `affinity`| custom affinity rules for the daml-rpc pod | {} |
@@ -128,7 +128,7 @@ k8s:
   image:
     ## @md | `k8s.image.repository`| the image name| alpine/k8s |
     repository: alpine/k8s
-    ## @md | `k8s.image.tagrepository`| the image tag to use| 1.18.2 |
+    ## @md | `k8s.image.tag`| the image tag to use| 1.18.2 |
     tag: 1.18.2
     ## @md | `k8s.image.pullPolicy`| the image pull policy to use| IfNotPresent |
     pullPolicy: IfNotPresent
