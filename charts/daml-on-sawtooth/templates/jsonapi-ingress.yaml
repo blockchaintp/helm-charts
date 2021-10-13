@@ -1,4 +1,4 @@
-{{- $serviceName := .Values.sawtooth.networkName -}}
+{{- $serviceName := (include "daml.jsonapi.service.name" . ) -}}
 {{- $ingressName := printf "%s" $serviceName -}}
-{{- $servicePort := .Values.sawtooth.ports.jsonapi -}}
+{{- $servicePort := .Values.jsonapi.port | int -}}
 {{ include "lib.ingress" (dict "ingressName" $ingressName "ingress" .Values.jsonapi.ingress "serviceName" $serviceName "servicePort" $servicePort "context" $) }}

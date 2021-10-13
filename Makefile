@@ -9,7 +9,7 @@ CHARTS := $(shell find . -mindepth 3 -maxdepth 3 -name Chart.yaml \
 DIAGRAMS := $(shell find docs -name *.plantuml -or -name *.puml | awk -F. '{print $$1}')
 
 .PHONY: build
-build: tmpl-dep-build
+build: $(MARKERS)/build_toolchain_docker tmpl-dep-build
 
 .PHONY: package
 package: tmpl-pkg correct_ownership
@@ -18,14 +18,14 @@ package: tmpl-pkg correct_ownership
 test: tmpl-lint tmpl-unit tmpl-kubescape
 
 .PHONY: clean
-clean: correct_ownership clean_toolchain_docker clean_kubescape clean_markers
+clean: correct_ownership clean_kubescape clean_markers
 	find $(CHART_BASE) -mindepth 2 -name charts -type d -exec rm -rf {} \; || true
 	docker rm $$(docker ps --all -q -f status=exited) 2>/dev/null|| true
 	docker volume rm root_${ISOLATION_ID} > /dev/null || true
 	rm -rf dist
 
 .PHONY: distclean
-distclean: clean
+distclean: clean_toolchain_docker clean
 
 $(MARKERS)/repos.helm:
 #		name=$$(echo $$repo | cksum | awk '{print $$1}') ;
@@ -126,6 +126,16 @@ $(MARKERS)/kubescape-$(1):
 	@touch $(MARKERS)/kubescape-$(1)
 
 $(1): $(MARKERS)/helmdep-build-$(1) $(MARKERS)/helmlint-$(1) $(MARKERS)/helmunit-$(1) $(MARKERS)/kubescape-$(1) $(MARKERS)/helmpkg-$(1)
+
+clean-$(1):
+	@rm -f $(MARKERS)/kubescape-$(1)
+	@rm -f $(MARKERS)/helmpkg-$(1)
+	@rm -f $(MARKERS)/helmtest-$(1)
+	@rm -f $(MARKERS)/helmdoc-$(1)
+	@rm -f $(MARKERS)/helmunit-$(1)
+	@rm -f $(MARKERS)/helmlint-$(1)
+	@rm -f $(MARKERS)/helmdep-build-$(1)
+	@rm -f $(MARKERS)/helmdep-update-$(1)
 
 endef
 

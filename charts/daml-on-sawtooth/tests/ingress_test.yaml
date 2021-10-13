@@ -21,7 +21,7 @@ tests:
     asserts:
       - equal:
           path: spec.rules[0].http.paths[0].backend.serviceName
-          value: mynetwork
+          value: test-daml-on-sawtooth-jsonapi
       - equal:
           path: spec.rules[0].http.paths[0].backend.servicePort
           value: 8080

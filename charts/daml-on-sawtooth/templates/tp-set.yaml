@@ -1,0 +1,74 @@
+{{ $stlServiceName := include "lib.call-nested" (list . "sawtooth" "common.names.fullname")}}
+{{ $kind := include "daml.kind" . }}
+---
+apiVersion: apps/v1
+kind: {{ include "daml.kind" . }}
+metadata:
+  name: {{ include "common.names.fullname" . }}-tp
+  labels: {{ include "daml.labels" . | nindent 4 }}
+    component: tp
+spec:
+  {{ if eq $kind "StatefulSet" -}}
+  replicas: {{ include "daml.replicas" . }}
+  serviceName: {{ include "daml.tp.service.name" . }}
+  podManagementPolicy: Parallel
+  {{- end }}
+  updateStrategy:
+    type: RollingUpdate
+    {{ if eq $kind "DaemonSet" -}}
+    rollingUpdate:
+      maxUnavailable: {{ .Values.maxUnavailable | int }}
+    {{- end }}
+  {{ if (semverCompare "^1.22" .Capabilities.KubeVersion.Version) -}}
+  minReadySeconds: {{ .Values.minReadySeconds | int }}
+  {{- end }}
+  selector:
+    matchLabels: {{ include "daml.labels.matchLabels" . | nindent 6 }}
+      component: tp
+  template:
+    metadata:
+      labels: {{- include "daml.labels" . | nindent 8 }}
+        component: tp
+      annotations: {{- include "lib.safeToYaml" .Values.podAnnotations | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "lib.serviceAccountName" . }}
+      affinity: {{ include "lib.safeToYaml" .Values.affinity | nindent 8 }}
+      hostAliases:
+      containers:
+        - name: daml-tp
+          {{- include "lib.image" (dict "imageRoot" .Values.tp.image "global" .Values.global ) | nindent 10 }}
+          command: [ "bash", "-xc"]
+          args:
+            - |
+              {{ if ne $kind "DaemonSet" -}}
+              HOST={{ $stlServiceName }}-${HOST##*-}.{{ .Release.Namespace }}.svc.cluster.local
+              {{- end }}
+              /opt/sawtooth-daml-tp/entrypoint.sh {{ .Values.tp.args }} \
+                tcp://$HOST:{{ include "daml.sawtooth.sawcomp" . }}
+          resources: {{- include "lib.safeToYaml" .Values.tp.resources | nindent 12 }}
+          env:
+            - name: HOST
+              valueFrom:
+                fieldRef:
+                  fieldPath: {{ include "daml.field.node" . }}
+            {{- include "lib.safeToYaml" .Values.tp.env | nindent 12 }}
+          volumeMounts: {{- include "lib.volumeMounts" .Values.tp.extraVolumeMounts | nindent 12 }}
+        - name: timekeeper
+          {{- include "lib.image" (dict "imageRoot" .Values.timekeeper.image "global" .Values.global ) | nindent 10 }}
+          command: [ "bash", "-xc"]
+          args:
+            - |
+              {{ if ne $kind "DaemonSet" -}}
+              HOST={{ $stlServiceName }}-${HOST##*-}.{{ .Release.Namespace }}.svc.cluster.local
+              {{- end }}
+              /opt/timekeeper/entrypoint.sh {{ .Values.timekeeper.args }} \
+                tcp://$HOST:{{ include "daml.sawtooth.sawcomp" . }}
+          resources: {{- include "lib.volumeMounts" .Values.timekeeper.resources | nindent 12 }}
+          env:
+            - name: HOST
+              valueFrom:
+                fieldRef:
+                  fieldPath: {{ include "daml.field.node" . }}
+            {{- include "lib.safeToYaml" .Values.timekeeper.env | nindent 12 }}
+          volumeMounts: {{- include "lib.volumeMounts" .Values.tp.extraVolumeMounts | nindent 12 }}
+      volumes: {{- include "lib.volumes" .Values.tp.extraVolumes | nindent 8 }}

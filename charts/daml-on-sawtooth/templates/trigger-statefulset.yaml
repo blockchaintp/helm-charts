@@ -1,0 +1,63 @@
+{{- if .Values.trigger.triggerDefs }}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "common.names.fullname" . }}-triggers
+  labels: {{ include "daml.labels" . | nindent 4 }}
+    component: triggers
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {{ include "daml.labels.matchLabels" . | nindent 6 }}
+      component: triggers
+  serviceName: {{ include "common.names.fullname" . }}-triggers
+  template:
+    metadata:
+      labels: {{ include "daml.labels" . | nindent 8 }}
+        component: triggers
+    spec:
+      serviceAccountName: {{ include "lib.serviceAccountName" . }}
+      affinity: {{ include "lib.safeToYaml" .Values.trigger.affinity | nindent 8 }}
+      initContainers:
+        - name: change-permissions
+          image: busybox
+          command:
+            - "sh"
+            - "-xc"
+            - |
+              echo Updating permissions
+              {{- range .Values.trigger.extraVolumeMounts }}
+                chown -R 1000:1000 {{ .mountPath }}
+              {{- end }}
+          volumeMounts: {{- include "lib.volumeMounts" .Values.trigger.extraVolumeMounts | nindent 12 }}
+      containers:
+        {{- range .Values.trigger.tiggerDefs }}
+        - name: {{ .name }}
+          {{- include "lib.image" (dict "imageRoot" $.Values.trigger.image "global" $.Values.global ) | nindent 10 }}
+          command:
+            - bash
+            - -c
+          args:
+            - |
+              /home/daml/.daml/bin/trigger-entrypoint \
+              {{- if $.Values.trigger.args }}
+              {{ $.Values.trigger.args }} \
+              {{- end }}
+              {{- if .args }}
+              {{ .args }} \
+              {{- end }}
+          env: {{ include "lib.safeToYaml" $.Values.trigger.env | nindent 12 }}
+            - name: DAR_FILE
+              value: {{ .darFile | quote }}
+            - name: LEDGER_PARTY
+              value: {{ .party | quote }}
+            - name: TRIGGER_NAME
+              value: {{ .triggerName | quote }}
+            {{- include "lib.safeToYaml" .env | nindent 12 }}
+          resources: {{ include "lib.safeToYaml" .resources | nindent 12 }}
+          volumeMounts: {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.trigger.extraVolumeMounts | nindent 12 }}
+        {{- end }}
+      volumes: {{- include "lib.volumes" .Values.trigger.extraVolumes | nindent 8 }}
+{{- end }}
