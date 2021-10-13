@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* fix(sawtooth): provide and use templates for ports values [view commit](https://github.com/catenasys/helm-charts/commit/818dead0d797df931aff948fa6401349518550ba)
 * build(deps): point dependencies to btp-stable [view commit](https://github.com/catenasys/helm-charts/commit/c04cad039d842691485557288df2fb4a62f86009)
 * docs(tfs-on-sawtooth): for now point docs to dev.catenasys.com:8084 for client [view commit](https://github.com/catenasys/helm-charts/commit/945309e5f5dbdc4f473e265318f274fae9d6efd5)
 * docs(tfs-on-sawtooth): add S3 API and docker-compose usage information [view commit](https://github.com/catenasys/helm-charts/commit/cafb999834faa26498530f20b473a4f3b26899f8)
