@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+* fix(daml-on-postgres): correct component label [view commit](https://github.com/catenasys/helm-charts/commit/0a957b4c882f6b013b2b2f8e444536a8594c36b1)
+* fix(daml-on-sawtooth): remove custom tps from the form [view commit](https://github.com/catenasys/helm-charts/commit/d7d25a14a5addc67c1400e417b5830bfe699b03a)
+* docs(daml-on-sawtooth): docs update [view commit](https://github.com/catenasys/helm-charts/commit/8e7d4012ae4494a144f1f67bb75b164098fe1d20)
+* feat(daml-on-sawtooth): update sextant definitions [view commit](https://github.com/catenasys/helm-charts/commit/2740fd1193a78dd0362b2c55b03fe93eb2b038d4)
+* feat(daml-on-sawtooth): fully refactor chart [view commit](https://github.com/catenasys/helm-charts/commit/869b0afa314dab7f90a36a58542348a5ed45bb80)
 * fix(sawtooth): provide and use templates for ports values [view commit](https://github.com/catenasys/helm-charts/commit/818dead0d797df931aff948fa6401349518550ba)
 * build(deps): point dependencies to btp-stable [view commit](https://github.com/catenasys/helm-charts/commit/c04cad039d842691485557288df2fb4a62f86009)
 * docs(tfs-on-sawtooth): for now point docs to dev.catenasys.com:8084 for client [view commit](https://github.com/catenasys/helm-charts/commit/945309e5f5dbdc4f473e265318f274fae9d6efd5)
