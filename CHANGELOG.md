@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Unreleased
+## v0.2.58
 
 * fix(daml-on-postgres): correct component label [view commit](https://github.com/catenasys/helm-charts/commit/0a957b4c882f6b013b2b2f8e444536a8594c36b1)
 * fix(daml-on-sawtooth): remove custom tps from the form [view commit](https://github.com/catenasys/helm-charts/commit/d7d25a14a5addc67c1400e417b5830bfe699b03a)
