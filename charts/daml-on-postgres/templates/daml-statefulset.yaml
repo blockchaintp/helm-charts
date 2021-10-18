@@ -125,7 +125,7 @@ spec:
       volumes:
         - name: jwt-secret
           secret:
-            secretName: {{ .Values.deployment.name }}-cert
+            secretName: {{ include "daml.fullname" . }}-cert
         {{- include "lib.volumes" .Values.extraVolumes | nindent 8 }}
 {{- if not .Values.postgres.persistence.enabled }}
         - name: "pgdata"
