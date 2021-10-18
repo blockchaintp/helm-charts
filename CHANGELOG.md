@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.2.59
+
+* fix(daml-on-postgres): correct secret name [view commit](https://github.com/catenasys/helm-charts/commit/8455fbe48cec6fc7d738374ddb5dc05fa8c6284c)
+
 ## v0.2.58
 
 * fix(daml-on-postgres): correct component label [view commit](https://github.com/catenasys/helm-charts/commit/0a957b4c882f6b013b2b2f8e444536a8594c36b1)
