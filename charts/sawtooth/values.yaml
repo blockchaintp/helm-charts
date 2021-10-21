@@ -72,7 +72,7 @@ sawtooth:
     ## @md | `sawtooth.opentsdb.enabled` | whether to enable the opentsdb metrics | false |
     enabled: false
   statefulset:
-    enabled: false
+    enabled: true
     replicas:
     podAnnotations:
   ## @md | `sawtooth.minReadySeconds` | the minimum time a pod must be Running before proceeding on a rolling update | 120 |
@@ -324,7 +324,7 @@ sawtooth:
           cpu: "50m"
   perNodeServiceType: ClusterIP
   persistence:
-    enabled: false
+    enabled: true
     annotations:
     accessModes:
       - "ReadWriteOnce"

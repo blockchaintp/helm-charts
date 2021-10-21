@@ -3,7 +3,7 @@ apiVersion: v2
 name: sawtooth
 description: BTP's Sawtooth distribution based on Hyperledger Sawtooth 1.2
 type: application
-version: 0.2.6
+version: 0.2.7
 appVersion: 1.2.5p4
 
 dependencies:
