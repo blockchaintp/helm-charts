@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Unreleased
+
+* feat(sawtooth): default statefulset and persistance values to true [view commit](https://github.com/catenasys/helm-charts/commit/d33b25cc104eb1c3fdef3ea1a4c59968681056ec)
+
 ## v0.2.59
 
 * fix(daml-on-postgres): correct secret name [view commit](https://github.com/catenasys/helm-charts/commit/8455fbe48cec6fc7d738374ddb5dc05fa8c6284c)
