@@ -58,14 +58,24 @@ kubectl create namespace sextant
 kubectl config set-context --current --namespace=sextant
 ```
 
-### Step 3: Create Kubernetes secrets
+### Step 3: Create Kubernetes image pull secret
 
-To install _Sextant | Daml_, you will need to access BTP's official docker
-image registry.  Once you have acquired the registry credentials you can create
-an "image pull secret" for the _Sextant | Daml_ helm chart to use upon
-install.  For instructions on how to create a docker registry secret for you
-cluster, see
-[here](https://docs.aws.amazon.com/eks/latest/userguide/create-cluster-secrets.html#create-cluster-secrets-imagepullsecret).
+To install _Sextant | Daml_, you will need access to BTP's official docker
+image registry.
+
+Once you have acquired the credentials for this registry from BTP you can create
+the image pull secret `btp-lic` for the _Sextant | Daml_ helm chart to use
+upon install.
+
+```bash
+kubectl create secret docker-registry btp-lic \
+--docker-server=https://dev.catenasys.com:8084/ --docker-username=<your-name> \
+--docker-password='<your-password>' --docker-email=<your-email>
+```
+
+For more information on this command, see [here](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-secret-by-providing-credentials-on-the-command-line).
+
+## Install _Sextant | Daml_
 
 Assuming you have created a docker registry secret named `btp-lic`, you next
 need to create a `values.yaml` specifying the registry secret.  For example:
@@ -85,7 +95,7 @@ __Note:__ by enabling persistence in the example above you will ensure that
 state is preserved even if you restart or delete/reinstall
 _Sextant | Daml_.
 
-## Install _Sextant | Daml_
+Then run this `helm` command to install _Sextant | Daml_:
 
 ```bash
 helm install -f values.yaml sextant btp-stable/sextant-sfd
