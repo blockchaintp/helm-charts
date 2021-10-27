@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* docs(sextant): enhance image pull secrets instructions [view commit](https://github.com/catenasys/helm-charts/commit/34f48a5893f26294d24e7c4cd10c5db58965f5cc)
 * feat(sawtooth): default statefulset and persistance values to true [view commit](https://github.com/catenasys/helm-charts/commit/d33b25cc104eb1c3fdef3ea1a4c59968681056ec)
 
 ## v0.2.59
