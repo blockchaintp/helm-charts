@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.2.61
+
+* fix(daml-on-besu): correct typo [view commit](https://github.com/catenasys/helm-charts/commit/f1371520072f9c7cc92ba75acbdc567a5f055780)
+
 ## v0.2.60
 
 * feat(daml-on-besu): add affinity rule section for daml statufulset [view commit](https://github.com/catenasys/helm-charts/commit/ae814e6064baa42dc738554eaad20c3515cc0617)
