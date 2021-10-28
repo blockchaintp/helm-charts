@@ -192,6 +192,8 @@ besu:
     maxSize: 1024
 
 daml:
+  ## @md | daml.affinity | custom affinity rules for the daml statefulset | nil |
+  affinity: {}
   auth:
     ## @md | daml.auth.enabled | true if authentication is to be enabled | false |
     enabled: false

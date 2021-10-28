@@ -21,6 +21,7 @@ spec:
       {{- end }}
     spec:
       serviceAccountName: {{ include "besu.serviceAccountName" . }}
+      affinty: {{ include "lib.safeToYaml" .Values.daml.affinity | nindent 8 }}
       containers:
         {{- if .Values.postgres.enabled }}
         - name: postgres
