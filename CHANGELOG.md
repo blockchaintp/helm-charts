@@ -1,7 +1,10 @@
 # CHANGELOG
 
-## Unreleased
+## v0.2.60
 
+* feat(daml-on-besu): add affinity rule section for daml statufulset [view commit](https://github.com/catenasys/helm-charts/commit/ae814e6064baa42dc738554eaad20c3515cc0617)
+* fix(sextant-enterprise): update to use rc15 [view commit](https://github.com/catenasys/helm-charts/commit/55c012b9a577cfeb6f83ed9ae1c360fd87a7d81b)
+* fix(sextant): correct the label used to find the pod name in portforward instructions [view commit](https://github.com/catenasys/helm-charts/commit/b205e5afd0432dba4b3fd6dc0a7ce64df5c8321e)
 * docs(sextant): enhance image pull secrets instructions [view commit](https://github.com/catenasys/helm-charts/commit/34f48a5893f26294d24e7c4cd10c5db58965f5cc)
 * feat(sawtooth): default statefulset and persistance values to true [view commit](https://github.com/catenasys/helm-charts/commit/d33b25cc104eb1c3fdef3ea1a4c59968681056ec)
 
