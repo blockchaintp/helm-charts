@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Unreleased
+
+* fix(sextant-test): pull down canary images instead of latest [view commit](https://github.com/catenasys/helm-charts/commit/0c02b553ef5f3a0ac147f6f848021a753755d774)
+
 ## v0.2.61
 
 * fix(daml-on-besu): correct typo [view commit](https://github.com/catenasys/helm-charts/commit/f1371520072f9c7cc92ba75acbdc567a5f055780)
