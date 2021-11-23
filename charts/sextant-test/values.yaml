@@ -5,11 +5,14 @@ sextant:
     image:
       repository: dev.catenasys.com:8083/blockchaintp/sextant-ci
       tag: canary
+      pullPolicy: Always
   api:
     # Set an image to use for the API container, or remove to use default image
     image:
       repository: dev.catenasys.com:8083/blockchaintp/sextant-api
       tag: canary
+      pullPolicy: Always
+
   noxy:
     image:
       repository: dev.catenasys.com:8083/blockchaintp/noxy
