@@ -81,6 +81,7 @@
 | besu.http.whitelist | the list of whitelisted http endpoints | `[*]` |
 | besu.txPool.retentionHours | the number of hours to keep transactions in the tx pool | `999` |
 | besu.txPool.maxSize | the max number of transactions to keep in the tx pool | `1024` |
+| daml.affinity | custom affinity rules for the daml statefulset | nil |
 | daml.auth.enabled | true if authentication is to be enabled | false |
 | daml.image.repository | the repository of the daml rpc image | `"dev.catenasys.com:8084/blockchaintp/rpc"` |
 | daml.image.tag | the tag of the daml rpc image | `"BTP2.1.0rc14"` |
