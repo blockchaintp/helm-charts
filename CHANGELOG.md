@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* fix(values): pull api and ui images always [view commit](https://github.com/catenasys/helm-charts/commit/1e53c61e6d3d8d4a5be4d11276cb20fed867cf59)
 * fix(sextant-test): pull down canary images instead of latest [view commit](https://github.com/catenasys/helm-charts/commit/0c02b553ef5f3a0ac147f6f848021a753755d774)
 
 ## v0.2.61
