@@ -203,7 +203,7 @@ spec:
             secretName: {{include "besu.fullname" .}}-keys
         - name: jwt-secret
           secret:
-            secretName: {{ .Values.deployment.name }}-cert
+            secretName: {{ include "besu.fullname" . }}-cert
         {{- if .Values.besu.privacy.enabled }}
         - name: enclave
           configMap:
