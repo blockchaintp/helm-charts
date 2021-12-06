@@ -3,8 +3,7 @@ kind: Job
 metadata:
   name: {{ include "besu.fullname" . }}-cert
   namespace: {{.Release.Namespace}}
-  labels:
-{{ include "besu.labels" . | indent 4 }}
+  labels: {{ include "besu.labels" . | nindent 4 }}
   annotations:
     helm.sh/hook: post-install
     helm.sh/hook-weight: "-5"
@@ -14,8 +13,7 @@ spec:
   completions: 1
   template:
     metadata:
-      labels:
-{{ include "besu.selectorLabels" . |indent 8 }}
+      labels: {{ include "besu.selectorLabels" . | nindent 8 }}
     spec:
       serviceAccountName: {{ include "besu.serviceAccountName" . }}
       automountServiceAccountToken: true
@@ -59,13 +57,13 @@ spec:
                 fi
                 sleep 1
               done
-              kubectl get secret {{ .Values.deployment.name }}-cert
+              kubectl get secret {{ include "besu.fullname" . }}-cert
               if [ $? -eq 0 ]; then
                 exit 0
               fi
               kubectl create secret generic \
                 --namespace {{ .Release.Namespace }} \
-                {{ .Values.deployment.name }}-cert \
+                {{ include "besu.fullname" . }}-cert \
                 --from-file=/scratch/rsa
       volumes:
         - name: scratch
