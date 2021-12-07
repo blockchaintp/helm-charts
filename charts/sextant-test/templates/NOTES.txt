@@ -2,7 +2,7 @@
 
 
 1. Get the initial Sextant application username and password by running this command
-  kubectl describe pod/{{ template "common.names.fullname" .}}-0|grep INITIAL_
+  kubectl describe pod/{{ template "common.names.fullname" .}}-0 --namespace {{ .Release.Namespace }} | grep INITIAL_
 
 2. Get the application URL by running these commands:
 {{- if .Values.sextant.ingress.enabled }}
