@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v0.2.63
+
+* feat(update-daml-on-besu): update default image tags to BTP2.1.0rc15 [view commit](https://github.com/catenasys/helm-charts/commit/55e9f99b72bd5a04015f171ddc86cb137beae390)
+* fix(notes): add namespace to kubectl describe command [view commit](https://github.com/catenasys/helm-charts/commit/a48143609c078e5e10f663b9a104d4c6b0880d84)
+
 ## v0.2.62
 
 * fix(daml-on-besu): correct the name of the generated jwt cert [view commit](https://github.com/catenasys/helm-charts/commit/96403b84f5341fe0f8d191682420ea785644af4e)
