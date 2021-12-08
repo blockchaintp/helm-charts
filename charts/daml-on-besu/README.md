@@ -68,7 +68,7 @@
 | besu.logging | the logging level | `"info"` |
 | `besu.affinity` | custom affinity rules for the besu statefulset | nil |
 | `besu.image.repository` | the repository of the besu image | `"dev.catenasys.com:8084/blockchaintp/besu"` |
-| besu.image.tag | the tag of the besu image | `"BTP2.1.0rc14"` |
+| besu.image.tag | the tag of the besu image | `"BTP2.1.0rc15"` |
 | besu.image.imagePullPolicy | the pull policy for the besu image | `"IfNotPresent"` |
 | `besu.privateImage.repository` | the repository of the besu image | `"dev.catenasys.com:8084/blockchaintp/besu-private"` |
 | besu.privateImage.imagePullPolicy | the pull policy for the besu image | `"IfNotPresent"` |
@@ -84,15 +84,15 @@
 | daml.affinity | custom affinity rules for the daml statefulset | nil |
 | daml.auth.enabled | true if authentication is to be enabled | false |
 | daml.image.repository | the repository of the daml rpc image | `"dev.catenasys.com:8084/blockchaintp/rpc"` |
-| daml.image.tag | the tag of the daml rpc image | `"BTP2.1.0rc14"` |
+| daml.image.tag | the tag of the daml rpc image | `"BTP2.1.0rc15"` |
 | daml.image.imagePullPolicy | the pull policy for the daml rpc image | `"IfNotPresent"` |
 | `daml.ledgerId` | ledger id for this participant | default-ledger-id |
 | `daml.annotations` | annotations for the daml rpc statefulset | {} |
 | `daml.rpcCount` | number identical rpc participants to allocate | 1 |
 | `daml.repeater.repository` | url of the repeater repository | dev.catenasys.com:8084/blockchaintp/repeater |
-| `daml.repeater.tag` | tag of the repeater image | BTP2.1.0rc14 |
-| `daml.repeater.pullPolicy` | pullPolicy of the repeater image | BTP2.1.0rc14 |
-| `daml.repeater.enabled` | the repeater repeats items from the central committer to the various participants | BTP2.1.0rc14 |
+| `daml.repeater.tag` | tag of the repeater image | BTP2.1.0rc15 |
+| `daml.repeater.pullPolicy` | pullPolicy of the repeater image | BTP2.1.0rc15 |
+| `daml.repeater.enabled` | the repeater repeats items from the central committer to the various participants | BTP2.1.0rc15 |
 | `daml.repeater.participantId` | the pariticipantId of the central committer | nil |
 | `daml.rpc.env` | list of environment name/value dicts | nil |
 | `daml.rpc.extra_args` | extra arguments settings for daml-rpc | N/A |
@@ -103,7 +103,7 @@
 | `daml.rpc.postgres_url` | The URL of the index database as described here https://jdbc.postgresql.org/documentation/80/connect.html | jdbc:postgresql://localhost/postgres?user=postgres |
 | `daml.jsonapi.enabled` | Enabled the DAML JSON API | false |
 | `daml.jsonapi.image.repository` | repository for the jsonapi image | blockchaintp/daml-json-api |
-| `daml.jsonapi.image.tag` | tag for the jsonapi image | BTP2.1.0rc14 |
+| `daml.jsonapi.image.tag` | tag for the jsonapi image | BTP2.1.0rc15 |
 | `daml.jsonapi.image.pullPolicy` | imagePullPolicy for container | IfNotPresent |
 | `daml.jsonapi.ingress.apiVersion` | if necessary the apiVersion of the ingress may be overridden | "" |
 | `daml.jsonapi.ingress.enabled` | true to enable the ingress to the main service rest-api | false |
