@@ -7,11 +7,12 @@ const activated = [{
 }]
 
 const remoteOrLocal = [{
-  value: true,
-  title: 'Local',
-}, {
   value: false,
   title: 'Remote',
+},
+{
+  value: true,
+  title: 'Local',
 }]
 
 const passwordOrSecret = [
