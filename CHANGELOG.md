@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## Unreleased
+
+* fix(chart): bumps version to 0.1.10 [view commit](https://github.com/catenasys/helm-charts/commit/1cba2b83d210e8ca913f4454e6df45dce3bdb396)
+* fix(daml-on-postgres-options): reverses the order of 'local' and 'remote' options on the daml-on-postgres deployment view [view commit](https://github.com/catenasys/helm-charts/commit/87a74941f2f27e3005ff02cee34fb8547f84a2e9)
+
+## v0.2.64
+
+
 ## v0.2.63
 
 * feat(update-daml-on-besu): update default image tags to BTP2.1.0rc15 [view commit](https://github.com/catenasys/helm-charts/commit/55e9f99b72bd5a04015f171ddc86cb137beae390)
