@@ -1,2 +1,75 @@
 site_name: BTP Deployment Documentation
 theme: readthedocs
+copyright: Copyright &copy; 2021 Blockchain Technology Partners
+extra_css: [extra.css]
+markdown_extensions:
+  - attr_list
+  - admonition
+  - toc:
+      permalink: true
+nav:
+  - Home: index.md
+  - CHANGELOG: CHANGELOG.md
+  - Sextant:
+    - Overview: sextant/README.md
+    - Installation: sextant/installing.md
+  - Clusters:
+    - Services: clusters/services.md
+  - Deployments:
+    - Distributed Ledgers:
+      - Besu:
+        - Overview: besu/README.md
+        - Diagrams: besu/diagrams.md
+        - Genesis: besu/genesis.md
+        - Multiple Networks: besu/multiple-networks.md
+      - Sawtooth:
+        - Overview: sawtooth/README.md
+        - Diagrams: sawtooth/diagrams.md
+    - Smart Contracts:
+      - Overview: daml/daml.md
+      - Services: daml/ingress.md
+      - Daml on Besu:
+        - Overview: daml-on-besu/README.md
+        - Diagrams: daml-on-besu/diagrams.md
+        - External Index DB: daml-on-besu/external-db.md
+        - Multiple Networks: daml-on-besu/multiple-networks.md
+        - Private Daml on Besu: daml-on-besu/private-daml.md
+      - Daml on Sawtooth:
+        - Overview: daml-on-sawtooth/README.md
+        - Diagrams: daml-on-sawtooth/diagrams.md
+      - Daml on QLDB:
+        - Overview: daml-on-qldb/README.md
+        - Diagrams: daml-on-qldb/diagrams.md
+      - Daml on Postgres:
+        - Overview: daml-on-postgres/README.md
+        - Diagrams: daml-on-postgres/diagrams.md
+        - Services: daml-on-postgres/jsonapi-ingress.md
+    - Information Security:
+      - Overview: tfs/tfs.md
+      - TFS on Sawtooth:
+        - Overview: tfs-on-sawtooth/README.md
+        - Diagrams: tfs-on-sawtooth/diagrams.md
+        - TFS S3 API: tfs-on-sawtooth/using-s3.md
+        - TFS Docker Compose: tfs-on-sawtooth/using-tfs-within-docker-compose.md
+    - Utilities:
+      - Logging:
+        - ElasticSearch:
+          - Overview: elasticsearch/README.md
+        - FluentDB:
+          - Overview: fluentdb/README.md
+        - Kibana:
+          - Overview: kibana/README.md
+      - Monitoring:
+        - Grafana:
+          - Overview: grafana/README.md
+        - Influx DB:
+          - Overview: influxdb/README.md
+      - NGINX Ingress:
+        - Overview: nginx-ingress/README.md
+      - Orion:
+        - Overview: orion/README.md
+        - Diagrams: orion/diagrams.md
+      - Postgres HA:
+        - Overview: postgres-ha/README.md
+      - Vault:
+        - Overview: vault/README.md
