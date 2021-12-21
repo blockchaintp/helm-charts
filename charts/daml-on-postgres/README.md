@@ -1,4 +1,6 @@
-# Daml on Postgres Chart
+# Helm Chart
+
+Daml on Postgres helm chart.
 
 ## Configuration
 

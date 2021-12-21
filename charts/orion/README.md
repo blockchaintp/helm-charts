@@ -1,4 +1,6 @@
-# Orion Chart
+# Helm Chart
+
+Orion helm chart.
 
 ## Configuration
 

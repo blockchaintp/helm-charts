@@ -1,4 +1,6 @@
-# Besu Chart
+# Helm Chart
+
+Besu helm chart.
 
 ## Configuration
 

@@ -1,4 +1,8 @@
-# Daml on Sawtooth Chart
+# Helm Chart
+
+Daml on Sawtooth helm chart.
+
+## Configuration
 
 | field | description | default |
 |-|-|-|

@@ -1,4 +1,8 @@
-# TFS on Sawtooth
+# Helm Chart
+
+TFS on Sawtooth helm chart.
+
+## Configuration
 
 | field | description | default |
 |-|-|-|

@@ -1,4 +1,8 @@
-# Sawtoooth
+# Helm Chart
+
+Sawtooth helm chart.
+
+## Configuration
 
 | field | description | default |
 |-|-|-|
