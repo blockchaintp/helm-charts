@@ -17,8 +17,7 @@ spec:
       containers:
         {{- if .Values.postgres.enabled }}
         - name: postgres
-          image: "{{.Values.postgres.image.repository}}:{{.Values.postgres.image.tag}}"
-          imagePullPolicy: {{.Values.postgres.image.pullPolicy }}
+          {{- include "lib.image" (dict "imageRoot" .Values.postgres.image "global" .Values.global ) | nindent 10 }}
           ports:
             - containerPort: {{.Values.postgres.port }}
           resources: {{- include "lib.safeToYaml" .Values.postgres.resources | nindent 12 }}
@@ -29,7 +28,7 @@ spec:
               {{- if .Values.postgres.existingPasswordSecret }}
               valueFrom:
                 secretKeyRef:
-                  name: {{.Values.postgres.existingPasswordSecret}}
+                  name: {{ .Values.postgres.existingPasswordSecret }}
                   key: password
               {{- else }}
               value: {{ .Values.postgres.password }}
@@ -41,8 +40,7 @@ spec:
             {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
         {{- end }}
         - name: api
-          image: "{{.Values.api.image.repository}}:{{.Values.api.image.tag}}"
-          imagePullPolicy: {{.Values.api.image.pullPolicy}}
+          {{- include "sextant.image" (dict "imageRoot" .Values.api.image "editionRoot" .Values.editionImages.api "edition" .Values.edition "global" .Values.global ) | nindent 10 }}
           ports:
             - containerPort: 8080
               protocol: TCP
@@ -87,8 +85,7 @@ spec:
           volumeMounts:
             {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
         - name: frontend
-          image: "{{ .Values.ui.image.repository }}:{{ .Values.ui.image.tag }}"
-          imagePullPolicy: {{ .Values.ui.image.pullPolicy }}
+          {{- include "sextant.image" (dict "imageRoot" .Values.ui.image "editionRoot" .Values.editionImages.ui "edition" .Values.edition "global" .Values.global ) | nindent 10 }}
           ports:
             - containerPort: 8081
               protocol: TCP
@@ -99,8 +96,7 @@ spec:
             {{- include "lib.safeToYaml" .Values.ui.env | nindent 12 }}
           volumeMounts: {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
         - name: router
-          image: "{{ .Values.noxy.image.repository }}:{{ .Values.noxy.image.tag }}"
-          imagePullPolicy: {{ .Values.noxy.image.pullPolicy }}
+          {{- include "lib.image" (dict "imageRoot" .Values.noxy.image "global" .Values.global ) | nindent 10 }}
           ports:
             - containerPort: 80
               protocol: TCP
