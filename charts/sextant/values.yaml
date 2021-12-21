@@ -10,6 +10,51 @@
 ## @md
 ## @md | field | description | type | default |
 ## @md |-|-|-|-|
+
+# aws-standard
+# aws-premium
+# aws-enterprise
+# enterprise
+# development
+
+edition: development
+
+editionImages:
+  ui:
+    awsStandard:
+      registry: 709825985650.dkr.ecr.us-east-1.amazonaws.com
+      repository: blockchain-technology/sextant-standard
+      tag: test1
+    awsPremium:
+      registry: 709825985650.dkr.ecr.us-east-1.amazonaws.com
+      repository: blockchain-technology/sextant-premium
+      tag: test2
+    awsEnterprise:
+      registry: 709825985650.dkr.ecr.us-east-1.amazonaws.com
+      repository: blockchain-technology/sextant-enterprise
+      tag: test3
+    enterprise:
+      registry: dev.catenasys.com:8084
+      repository: dev.catenasys.com:8084/blockchaintp/sextant-enterprise
+      tag: test4
+  api:
+    awsStandard:
+      registry: 709825985650.dkr.ecr.us-east-1.amazonaws.com
+      repository: blockchain-technology/sextant-api-standard
+      tag: test5
+    awsPremium:
+      registry: 709825985650.dkr.ecr.us-east-1.amazonaws.com
+      repository: blockchain-technology/sextant-api-premium
+      tag: test6
+    awsEnterprise:
+      registry: 709825985650.dkr.ecr.us-east-1.amazonaws.com
+      repository: blockchain-technology/sextant-api-enterprise
+      tag: test7
+    enterprise:
+      registry: dev.catenasys.com:8084
+      repository: blockchaintp/sextant-api-enterprise
+      tag: test8
+
 deployment:
   name: sextant
   namespace: default
@@ -31,8 +76,9 @@ ui:
   env:
   ## @md | `ui.image` | UI image settings | map | N/A |
   image:
+    registry: dev.catenasys.com:8083
     ## @md | `ui.image.repository` | UI image repository | string | "dev.catenasys.com:8083/blockchaintp/sextant" |
-    repository: dev.catenasys.com:8083/blockchaintp/sextant
+    repository: blockchaintp/sextant
     ## @md | `ui.image.tag` | UI image tag | string | "latest" |
     tag: latest
     ## @md | `ui.image.pullPolicy` | UI image pull policy | string | "IfNotPresent" |
@@ -50,6 +96,7 @@ api:
   env:
   ## @md | `api.image` | API image settings | map | N/A |
   image:
+    registry: dev.catenasys.com:8083
     ## @md | `api.image.repository` | API image repository | string | "dev.catenasys.com:8083/blockchaintp/sextant-api" |
     repository: dev.catenasys.com:8083/blockchaintp/sextant-api
     ## @md | `api.image.tag` | API image tag | string | "latest" |
@@ -69,10 +116,11 @@ noxy:
   env:
   ## @md | `noxy.image` | noxy image settings | map | N/A |
   image:
+    registry:
     ## @md | `noxy.image.repository` | NOXY image repository | string | "dev.catenasys.com:8083/blockchaintp/noxy" |
-    repository: dev.catenasys.com:8083/blockchaintp/noxy
+    repository: blockchaintp/noxy
     ## @md | `noxy.image.tag` | noxy image tag | string | "latest" |
-    tag: latest
+    tag: BTP2.1.0rc15
     ## @md | `noxy.image.pullPolicy` | API image pull policy | string | "IfNotPresent" |
     pullPolicy: IfNotPresent
   ## @md | `noxy.resources` | UI resources | map | nil |
@@ -98,10 +146,11 @@ postgres:
   ## @md | `postgres.env` | postgres environment variables | map | N/A |
   env:
   image:
+    registry:
     ## @md | `postgres.image.repository` | postgres image repository | string | "postgres" |
     repository: postgres
     ## @md | `postgres.image.tag` | postgres image tag | string | "11" |
-    tag: 11
+    tag: "11"
   ## @md | `postgres.user` | user for the postgres database | string | "postgres" |
   user: postgres
   ## @md | `postgres.host` | host for the postgres database | string | "localhost" |
