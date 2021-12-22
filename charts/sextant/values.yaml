@@ -35,7 +35,7 @@ editionImages:
       tag: test3
     enterprise:
       registry: dev.catenasys.com:8084
-      repository: dev.catenasys.com:8084/blockchaintp/sextant-enterprise
+      repository: blockchaintp/sextant-enterprise
       tag: test4
   api:
     awsStandard:
@@ -78,7 +78,7 @@ ui:
   image:
     registry:
     ## @md | `ui.image.repository` | UI image repository | string | "dev.catenasys.com:8083/blockchaintp/sextant" |
-    repository: dev.catenasys.com:8083blockchaintp/sextant
+    repository: blockchaintp/sextant
     ## @md | `ui.image.tag` | UI image tag | string | "latest" |
     tag: latest
     ## @md | `ui.image.pullPolicy` | UI image pull policy | string | "IfNotPresent" |
@@ -98,7 +98,7 @@ api:
   image:
     registry:
     ## @md | `api.image.repository` | API image repository | string | "dev.catenasys.com:8083/blockchaintp/sextant-api" |
-    repository: dev.catenasys.com:8083/blockchaintp/sextant-api
+    repository: blockchaintp/sextant-api
     ## @md | `api.image.tag` | API image tag | string | "latest" |
     tag: latest
     ## @md | `api.image.pullPolicy` | API image pull policy | string | "IfNotPresent" |
