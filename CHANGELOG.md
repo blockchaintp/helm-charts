@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+* fix(sextant): bump to version 2.2.0 [view commit](https://github.com/catenasys/helm-charts/commit/3212f3e13ea1877a20fdf72e63782b1dbd448c67)
+* fix(sextant): stop setting NODE_ENV in statefulset [view commit](https://github.com/catenasys/helm-charts/commit/f2bb6bcf60fb5728c3e7d024db6ac7b57c59f6aa)
+* feat(sextant): add editions capability [view commit](https://github.com/catenasys/helm-charts/commit/b309ca7c8d15e611d67eedd808841e0d76a9fb87)
 * fix(chart): bumps version to 0.1.10 [view commit](https://github.com/catenasys/helm-charts/commit/1cba2b83d210e8ca913f4454e6df45dce3bdb396)
 * fix(daml-on-postgres-options): reverses the order of 'local' and 'remote' options on the daml-on-postgres deployment view [view commit](https://github.com/catenasys/helm-charts/commit/87a74941f2f27e3005ff02cee34fb8547f84a2e9)
 
