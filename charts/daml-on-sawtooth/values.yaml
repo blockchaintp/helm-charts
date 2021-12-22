@@ -36,8 +36,8 @@ image:
   pullPolicy: IfNotPresent
   ## @md | `image.repository` | the repository for the daml-rpc image | blockchaintp/sawtooth-daml-rpc |
   repository: blockchaintp/sawtooth-daml-rpc
-  ## @md | `image.tag` | the tag for the daml-rpc image | BTP2.1.0rc14 |
-  tag: BTP2.1.0rc14
+  ## @md | `image.tag` | the tag for the daml-rpc image | BTP2.1.0rc15 |
+  tag: BTP2.1.0rc15
 ingress:
   ## @md | `ingress.enabled` | enable the ingress for the daml-rpc| false |
   enabled: false
@@ -92,7 +92,7 @@ jsonapi:
     ## @md | `jsonapi.image.repository` | the repository of the image| blockchaintp/daml-json-api |
     repository: blockchaintp/daml-json-api
     ## @md | `jsonapi.image.tag`| the tag of the image to use| latest |
-    tag: BTP2.1.0rc14
+    tag: BTP2.1.0rc15
     ## @md | `jsonapi.image.pullPolicy` | the image pull policy to use| IfNotPresent |
     pullPolicy: IfNotPresent
   ingress:
@@ -180,8 +180,8 @@ tp:
     pullPolicy: IfNotPresent
     ## @md | `tp.image.repository` | the image repository | blockchaintp/sawtooth-daml-tp |
     repository: blockchaintp/sawtooth-daml-tp
-    ## @md | `tp.image.tag` | the image tag | BTP2.1.0rc14 |
-    tag: BTP2.1.0rc14
+    ## @md | `tp.image.tag` | the image tag | BTP2.1.0rc15 |
+    tag: BTP2.1.0rc15
   ## @md | `tp.extraVolumes` | extra volumes declarations for the daml-rpc deployment | list | nil
   extraVolumes:
   ## @md | `tp.extraVolumeMounts` | extra volume mounts for daml-rpc deployment | list | nil
@@ -199,8 +199,8 @@ trigger:
     pullPolicy: IfNotPresent
     ## @md | `trigger.image.repository`| the image name| blockchaintp/sawtooth-daml-trigger |
     repository: blockchaintp/daml-trigger
-    ## @md | `trigger.image.tag`| the image tag to use| BTP2.1.0rc14 |
-    tag: BTP2.1.0rc14
+    ## @md | `trigger.image.tag`| the image tag to use| BTP2.1.0rc15 |
+    tag: BTP2.1.0rc15
   ## @md | `trigger.triggerDefs`| settings for the individual trigger deployments which replaces the trigger-service See [Triggers](#triggers)| [] |
   triggerDefs: []
 
@@ -210,8 +210,8 @@ timekeeper:
   image:
     ## @md | `timekeeper.image.repository` | the repository of the timekeeper image | blockchaintp/timekeeper |
     repository: blockchaintp/timekeeper
-    ## @md | `timekeeper.image.tag` | the tag of the timekeeper image | BTP2.1.0rc14 |
-    tag: BTP2.1.0rc14
+    ## @md | `timekeeper.image.tag` | the tag of the timekeeper image | BTP2.1.0rc15 |
+    tag: BTP2.1.0rc15
     ## @md | `timekeeper.image.pullPolicy` | the image pull policy for the timekeeper image | IfNotPresent |
     pullPolicy: IfNotPresent
   resources:
