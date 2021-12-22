@@ -1,4 +1,6 @@
-# DAML on Besu Chart
+# Helm Chart
+
+Daml on Besu helm chart.
 
 ## Configuration
 
