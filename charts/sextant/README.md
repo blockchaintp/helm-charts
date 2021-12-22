@@ -1,7 +1,7 @@
-# Helm Chart
+# Sextant
 
 This chart is the base chart to install BTP Sextant. By default it
-installs the development version of Sextant. Its intended use is as
+installs the development version of Sextant. It's intended use is as
 a dependency of other charts which install particular editions of the
 software.
 

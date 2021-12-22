@@ -1,6 +1,4 @@
-# Helm Chart
-
-DAML on QLDB helm chart.
+# DAML on QLDB Chart
 
 ## Configuration
 
