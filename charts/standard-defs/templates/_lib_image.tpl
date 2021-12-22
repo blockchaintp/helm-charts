@@ -16,25 +16,29 @@ somecomponent:
 
 */}}
 {{/*
-{{ include "utils.image.url" (dict "imageRoot" .Values.sawtooth.containers.validator.image "global" .Values.global)}}
+{{ include "lib.image.url" (dict "imageRoot" .Values.sawtooth.containers.validator.image "global" .Values.global)}}
 */}}
 {{- define "lib.image.url" -}}
-{{- $globalRegistryName := "index.docker.io" -}}
-{{- $globalTag := "latest" -}}
-{{- if .global -}}
-  {{- if .global.image -}}
-    {{- if .global.image.registry -}}
-      {{- $globalRegistryName = .global.image.registry -}}
-    {{- end -}}
-    {{- if .global.image.tag -}}
-      {{- $globalTag = .global.image.tag -}}
+  {{- $globalRegistryName := "" -}}
+  {{- $globalTag := "latest" -}}
+  {{- if .global -}}
+    {{- if .global.image -}}
+      {{- if .global.image.registry -}}
+        {{- $globalRegistryName = .global.image.registry -}}
+      {{- end -}}
+      {{- if .global.image.tag -}}
+        {{- $globalTag = .global.image.tag -}}
+      {{- end -}}
     {{- end -}}
   {{- end -}}
-{{- end -}}
-{{- $repository := .imageRoot.repository -}}
-{{- $registry := default $globalRegistryName .imageRoot.registry -}}
-{{- $tag := default $globalTag .imageRoot.tag -}}
-{{- printf "%s/%s:%s" $registry $repository $tag -}}
+  {{- $repository := .imageRoot.repository -}}
+  {{- $registry := default $globalRegistryName .imageRoot.registry -}}
+  {{- $tag := default $globalTag .imageRoot.tag -}}
+  {{- if $registry -}}
+    {{- printf "%s/%s:%s" $registry $repository $tag -}}
+  {{- else -}}
+    {{- printf "%s:%s" $repository $tag -}}
+  {{- end -}}
 {{- end -}}
 
 {{/*

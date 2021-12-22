@@ -51,3 +51,26 @@ tests:
       - equal:
           path: spec.template.spec.containers[2].image
           value: 709825985650.dkr.ecr.us-east-1.amazonaws.com/blockchain-technology/sextant-standard:testtag
+  - it: development no registry edition
+    set:
+      edition: development
+      editionImages:
+        ui:
+          awsStandard:
+            tag: testtag
+        api:
+          awsStandard:
+            tag: testtag
+      ui:
+        image:
+          registry: testregister:8080
+          repository: testui
+          tag: testtag
+      api:
+        image:
+          repository: testapi
+          tag: testtag
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[1].image
+          value: testapi:testtag
