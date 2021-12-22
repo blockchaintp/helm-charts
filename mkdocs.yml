@@ -13,6 +13,9 @@ nav:
   - Sextant:
     - Overview: sextant/README.md
     - Installation: sextant/installing.md
+  - Sextant Enterprise:
+    - Overview: sextant-enterprise/README.md
+    - Installation: sextant-enterprise/installing.md
   - Clusters:
     - Services: clusters/services.md
   - Deployments:
