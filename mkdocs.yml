@@ -58,8 +58,8 @@ nav:
       - Logging:
         - ElasticSearch:
           - Overview: elasticsearch/README.md
-        - FluentDB:
-          - Overview: fluentdb/README.md
+        - FluentD:
+          - Overview: fluentd/README.md
         - Kibana:
           - Overview: kibana/README.md
       - Monitoring:
@@ -72,7 +72,7 @@ nav:
       - Orion:
         - Overview: orion/README.md
         - Diagrams: orion/diagrams.md
-      - Postgres HA:
-        - Overview: postgres-ha/README.md
+      - PostgreSQL HA:
+        - Overview: postgresql-ha/README.md
       - Vault:
         - Overview: vault/README.md
