@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+* fix(daml-on-sawtooth): bump to rc15 [view commit](https://github.com/catenasys/helm-charts/commit/8a2f93d98f09b00aa63291a644b4fd2d53fa0aaa)
+* fix(sextant): correct url defaults [view commit](https://github.com/catenasys/helm-charts/commit/b145f72daad360a855c34a5c3bcae61d6be0be4c)
+* fix(sextant): override with local image templates until standard-def update [view commit](https://github.com/catenasys/helm-charts/commit/8a045d211b59dfb421f72a78f93f15472d050838)
+* fix(standard-defs): don't default to docker.io when no registry set [view commit](https://github.com/catenasys/helm-charts/commit/5917a01d964df7bd9a5c89cd3db7baafb4f432ed)
+* docs: add sextant-enterprise pro temp [view commit](https://github.com/catenasys/helm-charts/commit/02f1da0ee0890783facc3f72519c4a354870be00)
+* docs: std README format [view commit](https://github.com/catenasys/helm-charts/commit/67e1eb48e0cd13bd4f3e649ddb700902c7eb8f39)
+* docs: add nav to mkdocs.yml [view commit](https://github.com/catenasys/helm-charts/commit/030d3132926b632163d02d8d9622bfb3d88b2de9)
 * fix(sextant): bump to version 2.2.0 [view commit](https://github.com/catenasys/helm-charts/commit/3212f3e13ea1877a20fdf72e63782b1dbd448c67)
 * fix(sextant): stop setting NODE_ENV in statefulset [view commit](https://github.com/catenasys/helm-charts/commit/f2bb6bcf60fb5728c3e7d024db6ac7b57c59f6aa)
 * feat(sextant): add editions capability [view commit](https://github.com/catenasys/helm-charts/commit/b309ca7c8d15e611d67eedd808841e0d76a9fb87)
