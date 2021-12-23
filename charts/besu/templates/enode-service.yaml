@@ -21,7 +21,7 @@ spec:
     statefulset.kubernetes.io/pod-name: {{ $name }}-{{.}}
     app: {{ $shortname }}
     release: {{ $.Release.Name }}
-    component: besu-node
+    component: besu
     app.kubernetes.io/name: {{ $shortname }}
     app.kubernetes.io/instance: {{ $.Release.Name }}
   ports:

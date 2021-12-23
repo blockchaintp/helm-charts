@@ -11,7 +11,7 @@ spec:
     matchLabels:
       app: {{ include "besu.name" . }}
       release: {{ .Release.Name }}
-      component: besu-node
+      component: besu
       app.kubernetes.io/name: {{ include "besu.name" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
@@ -19,7 +19,7 @@ spec:
       labels:
         app: {{ include "besu.name" . }}
         release: {{ .Release.Name }}
-        component: besu-node
+        component: besu
         app.kubernetes.io/name: {{ include "besu.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
       annotations:
