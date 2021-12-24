@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* fix(besu): correct component label on pods [view commit](https://github.com/catenasys/helm-charts/commit/67faf9c950546b4c9ec7fb105447ebe4dd3183d8)
 * fix(daml-on-sawtooth): bump to rc15 [view commit](https://github.com/catenasys/helm-charts/commit/8a2f93d98f09b00aa63291a644b4fd2d53fa0aaa)
 * fix(sextant): correct url defaults [view commit](https://github.com/catenasys/helm-charts/commit/b145f72daad360a855c34a5c3bcae61d6be0be4c)
 * fix(sextant): override with local image templates until standard-def update [view commit](https://github.com/catenasys/helm-charts/commit/8a045d211b59dfb421f72a78f93f15472d050838)
