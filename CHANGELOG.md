@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* fix(sextant): point editions to specific sextant versions [view commit](https://github.com/catenasys/helm-charts/commit/db92996cc40dd8823623d0994b88421b21ec013c)
+* fix(sextant): point to BTP2.1.0 [view commit](https://github.com/catenasys/helm-charts/commit/79b9e28bac85331aaaa4af65f56fdbc827754229)
 * fix(sextant): point to BTP2.1.0rc15 [view commit](https://github.com/catenasys/helm-charts/commit/6547e37b81e616de84b202dcb0308642c18cf6e8)
 * docs: align with user guide [view commit](https://github.com/catenasys/helm-charts/commit/778258c1cb19ecf7047a31cd8be2529d09330c9e)
 * docs: fix nav references [view commit](https://github.com/catenasys/helm-charts/commit/136b30de13ba2d0ed136a876da697263abe4fb11)
