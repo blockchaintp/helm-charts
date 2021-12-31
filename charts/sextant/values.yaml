@@ -24,36 +24,36 @@ editionImages:
     awsStandard:
       registry: 709825985650.dkr.ecr.us-east-1.amazonaws.com
       repository: blockchain-technology/sextant-standard
-      tag: test1
+      tag: BTP2.1.0rc15
     awsPremium:
       registry: 709825985650.dkr.ecr.us-east-1.amazonaws.com
       repository: blockchain-technology/sextant-premium
-      tag: test2
+      tag: BTP2.1.0rc15
     awsEnterprise:
       registry: 709825985650.dkr.ecr.us-east-1.amazonaws.com
       repository: blockchain-technology/sextant-enterprise
-      tag: test3
+      tag: BTP2.1.0rc15
     enterprise:
       registry: dev.catenasys.com:8084
       repository: blockchaintp/sextant-enterprise
-      tag: test4
+      tag: BTP2.1.0rc15
   api:
     awsStandard:
       registry: 709825985650.dkr.ecr.us-east-1.amazonaws.com
       repository: blockchain-technology/sextant-api-standard
-      tag: test5
+      tag: BTP2.1.0rc15
     awsPremium:
       registry: 709825985650.dkr.ecr.us-east-1.amazonaws.com
       repository: blockchain-technology/sextant-api-premium
-      tag: test6
+      tag: BTP2.1.0rc15
     awsEnterprise:
       registry: 709825985650.dkr.ecr.us-east-1.amazonaws.com
       repository: blockchain-technology/sextant-api-enterprise
-      tag: test7
+      tag: BTP2.1.0rc15
     enterprise:
       registry: dev.catenasys.com:8084
       repository: blockchaintp/sextant-api-enterprise
-      tag: test8
+      tag: BTP2.1.0rc15
 
 deployment:
   name: sextant
