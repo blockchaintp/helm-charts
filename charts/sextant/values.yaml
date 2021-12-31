@@ -24,36 +24,36 @@ editionImages:
     awsStandard:
       registry: 709825985650.dkr.ecr.us-east-1.amazonaws.com
       repository: blockchain-technology/sextant-standard
-      tag: BTP2.1.0rc15
+      tag: BTP2.1.0
     awsPremium:
       registry: 709825985650.dkr.ecr.us-east-1.amazonaws.com
       repository: blockchain-technology/sextant-premium
-      tag: BTP2.1.0rc15
+      tag: BTP2.1.0
     awsEnterprise:
       registry: 709825985650.dkr.ecr.us-east-1.amazonaws.com
       repository: blockchain-technology/sextant-enterprise
-      tag: BTP2.1.0rc15
+      tag: BTP2.1.0
     enterprise:
       registry: dev.catenasys.com:8084
       repository: blockchaintp/sextant-enterprise
-      tag: BTP2.1.0rc15
+      tag: BTP2.1.0
   api:
     awsStandard:
       registry: 709825985650.dkr.ecr.us-east-1.amazonaws.com
       repository: blockchain-technology/sextant-api-standard
-      tag: BTP2.1.0rc15
+      tag: BTP2.1.0
     awsPremium:
       registry: 709825985650.dkr.ecr.us-east-1.amazonaws.com
       repository: blockchain-technology/sextant-api-premium
-      tag: BTP2.1.0rc15
+      tag: BTP2.1.0
     awsEnterprise:
       registry: 709825985650.dkr.ecr.us-east-1.amazonaws.com
       repository: blockchain-technology/sextant-api-enterprise
-      tag: BTP2.1.0rc15
+      tag: BTP2.1.0
     enterprise:
       registry: dev.catenasys.com:8084
       repository: blockchaintp/sextant-api-enterprise
-      tag: BTP2.1.0rc15
+      tag: BTP2.1.0
 
 deployment:
   name: sextant
@@ -120,7 +120,7 @@ noxy:
     ## @md | `noxy.image.repository` | NOXY image repository | string | "dev.catenasys.com:8083/blockchaintp/noxy" |
     repository: blockchaintp/noxy
     ## @md | `noxy.image.tag` | noxy image tag | string | "latest" |
-    tag: BTP2.1.0rc15
+    tag: BTP2.1.0
     ## @md | `noxy.image.pullPolicy` | API image pull policy | string | "IfNotPresent" |
     pullPolicy: IfNotPresent
   ## @md | `noxy.resources` | UI resources | map | nil |
