@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* docs: align with user guide [view commit](https://github.com/catenasys/helm-charts/commit/778258c1cb19ecf7047a31cd8be2529d09330c9e)
+* docs: fix nav references [view commit](https://github.com/catenasys/helm-charts/commit/136b30de13ba2d0ed136a876da697263abe4fb11)
 * fix(besu): correct component label on pods [view commit](https://github.com/catenasys/helm-charts/commit/67faf9c950546b4c9ec7fb105447ebe4dd3183d8)
 * fix(daml-on-sawtooth): bump to rc15 [view commit](https://github.com/catenasys/helm-charts/commit/8a2f93d98f09b00aa63291a644b4fd2d53fa0aaa)
 * fix(sextant): correct url defaults [view commit](https://github.com/catenasys/helm-charts/commit/b145f72daad360a855c34a5c3bcae61d6be0be4c)
