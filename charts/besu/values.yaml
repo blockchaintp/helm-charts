@@ -161,8 +161,8 @@ besu:
   image:
     ## @md | `besu.image.repository` | the repository of the besu image | `"blockchaintp/besu"` |
     repository: blockchaintp/besu
-    ## @md | besu.image.tag | the tag of the besu image | `"BTP2.1.0rc14"` |
-    tag: BTP2.1.0rc14
+    ## @md | besu.image.tag | the tag of the besu image | `"BTP2.1.0"` |
+    tag: BTP2.1.0
     ## @md | besu.image.imagePullPolicy | the pull policy for the besu image | `"IfNotPresent"` |
     imagePullPolicy: IfNotPresent
   p2p:
