@@ -12,10 +12,13 @@ nav:
   - CHANGELOG: CHANGELOG.md
   - Sextant:
     - Overview: sextant/README.md
-    - Installation: sextant/installing.md
-  - Sextant Enterprise:
-    - Overview: sextant-enterprise/README.md
-    - Installation: sextant-enterprise/installing.md
+    - Installation:
+      - Enterprise: sextant/enterprise.md
+      - AWS Marketplace:
+        - Sextant Enterprise Edition: sextant/aws-enterprise.md
+        - Sextant Premium Edition: sextant/aws-premium.md
+        - Sextant Standard Edition: sextant/aws-standard.md
+    - Access: sextant/access.md
   - Clusters:
     - Services: clusters/services.md
   - Deployments:
@@ -72,6 +75,8 @@ nav:
       - Orion:
         - Overview: orion/README.md
         - Diagrams: orion/diagrams.md
+      - Open EBS:
+        - Overview: openebs/README.md
       - PostgreSQL HA:
         - Overview: postgresql-ha/README.md
       - Vault:
