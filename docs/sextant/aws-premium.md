@@ -69,7 +69,8 @@ kubectl config set-context --current --namespace=sextant
 
 ### Step 3: Obtain Policy ARN
 
-First check that you have access to `AWSMarketplaceMeteringFullAccess`
+First check that you have access to the
+[AWSMarketplaceMeteringFullAccess](https://docs.aws.amazon.com/marketplace/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-awsmarketplacemeteringfullaccess)
 policy by running this command:
 
 ```bash
