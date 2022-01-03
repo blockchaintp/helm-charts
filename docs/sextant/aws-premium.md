@@ -144,8 +144,8 @@ eksctl create iamserviceaccount \
 
 ### Step 1: Create values.yaml
 
-Create `values.yaml` file that will supply `helm` with the service account we
-have created:
+Create a `values.yaml` file that tells `helm` to specify the service account
+`sextant-aws-premium` that we have just created when deploying Sextant:
 
 ```yaml
 edition: aws-premium
@@ -161,16 +161,16 @@ postgres:
     By enabling persistence in the example above you will ensure that
     state is preserved even if you restart or delete/reinstall Sextant.
 
-### Step 2: Add or Update BTP Helm Repo
+### Step 2: Add or Update BTP Helm Charts Repo
 
-Add the BTP helm repositories:
+Add the BTP helm charts repo:
 
 ```bash
 helm repo add btp-stable https://btp-charts-stable.s3.amazonaws.com/charts/
 ```
 
 Note that if you have done this previously you should make sure you have the
-most uptodate BTP helm repo using this command:
+most uptodate BTP helm charts repo using this command:
 
 ```bash
 helm repo update
