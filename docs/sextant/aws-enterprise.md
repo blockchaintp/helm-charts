@@ -43,9 +43,8 @@ eksctl create cluster \
 
 Sextant requires a service account with an
 [IAM role](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html)
-to enable access to the appropriate Amazon Marketplace metering API.
-
-In this instance the policy required is
+to enable access to the appropriate Amazon Marketplace metering API. In this
+instance the policy required is
 [AWSMarketplaceMeteringRegisterUsage](https://docs.aws.amazon.com/marketplace/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-awsmarketplacemeteringregisterusage).
 
 ### Step 1 (Optional)
@@ -109,7 +108,8 @@ postgres:
 
 !!!Note
     By enabling persistence in the example above you will ensure that
-    state is preserved even if you restart or delete/reinstall Sextant.
+    state is preserved even if you restart or delete/reinstall Sextant
+    with the same name in the same namespace.
 
 ### Step 2: Add or Update BTP Helm Charts Repo
 

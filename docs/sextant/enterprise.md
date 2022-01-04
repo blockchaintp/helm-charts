@@ -95,7 +95,8 @@ postgres:
 
 !!!Note
     By enabling persistence in the example above you will ensure that
-    state is preserved even if you restart or delete/reinstall Sextant.
+    state is preserved even if you restart or delete/reinstall Sextant
+    with the same name in the same namespace.
 
 ### Step 2: Add or Update BTP Helm Charts Repo
 
