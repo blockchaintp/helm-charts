@@ -79,6 +79,10 @@ spec:
             - name: POSTGRES_TLS
               value: {{ .Values.postgres.tls | quote }}
             {{- end }}
+            {{- if eq .Values.edition "enterprise" -}}
+            - name: NODE_ENV
+              value: "development"
+            {{- end -}}
             {{- include "lib.safeToYaml" .Values.api.env | nindent 12 }}
           volumeMounts:
             {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
