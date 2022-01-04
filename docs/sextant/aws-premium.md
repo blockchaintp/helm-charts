@@ -41,9 +41,12 @@ eksctl create cluster \
 
 ## Create a Service Account
 
-Sextant requires a service account with the appropriate
+Sextant requires a service account with an
 [IAM role](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html)
-to enable access to the Amazon Marketplace usage metering API.
+to enable access to the appropriate Amazon Marketplace metering API.
+
+In this instance the policy required is
+[AWSMarketplaceMeteringFullAccess](https://docs.aws.amazon.com/marketplace/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-awsmarketplacemeteringfullaccess).
 
 ### Step 1 (Optional)
 
@@ -67,60 +70,10 @@ kubectl create namespace sextant
 kubectl config set-context --current --namespace=sextant
 ```
 
-### Step 3: Obtain Policy ARN
-
-First check that you have access to the
-[AWSMarketplaceMeteringFullAccess](https://docs.aws.amazon.com/marketplace/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-awsmarketplacemeteringfullaccess)
-policy by running this command:
-
-```bash
-aws iam list-policies | grep AWSMarketplaceMeteringFullAccess
-```
-
-This should return:
-
-```bash
-        "PolicyName": "AWSMarketplaceMeteringFullAccess",
-        "Arn": "arn:aws:iam::aws:policy/AWSMarketplaceMeteringFullAccess",
-```
-
-If this is successful, note the **Arn** of the policy and go direct to
-[Step 4](#step-4-create-service-account).
-
-Otherwise create a file called `policy.json` or similar containing the following
-text:
-
-```json
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Action": [
-                "aws-marketplace:MeterUsage"
-            ],
-            "Effect": "Allow",
-            "Resource": "*"
-        }
-    ]
-}
-```
-
-Then create the `MyMarketplaceMeteringFullAccess` policy via the following
-command:
-
-```bash
-aws iam create-policy \
---policy-name "MyMarketplaceMeteringFullAccess" \
---policy-document file://policy.json
-```
-
-If this is successful, note the **Arn** of the policy.
-
-### Step 4: Create Service Account
+### Step 3: Create Service Account
 
 Next we create a service account `sextant-aws-premium` using `eksctl` and
-attach the `FullAccess` policy by replacing `<POLICY_ARN>` using the **Arn**
-obtained in step 3 above:
+attach the policy using its Amazon Resource Name (ARN):
 
 ```bash
 eksctl create iamserviceaccount \
@@ -128,16 +81,12 @@ eksctl create iamserviceaccount \
 --region=<REGION_NAME> \
 --namespace=sextant \
 --name=sextant-aws-premium \
---attach-policy-arn=<POLICY_ARN> \
+--attach-policy-arn="arn:aws:iam::aws:policy/AWSMarketplaceMeteringFullAccess" \
 --override-existing-serviceaccounts \
 --approve
 ```
 
 !!!Note
-    You may specify `--attach-policy-arn` as many times as necessary to
-    attach any other permissions you require.
-
-!!!Warning
     If you encounter an error creating (or updating) this service account then
     you need to delete it using `eksctl delete iamserviceaccount ...`:
 
