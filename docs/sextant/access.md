@@ -17,16 +17,18 @@ Connect to Sextant by pointing a browser at <http://localhost:8080>
 
 ## Option 2 - Using Load Balancer
 
-If you want a persistent connection to your _Sextant_ instance, you
-will need to create a load balancer.
+If you want a persistent connection to your Sextant instance, one way of
+doing this is to create a load balancer.
+
+!!!Note
+    While this is acceptable in the short term, we recommend setting up an
+    ingress controller for long term access as described
+    [below](#option-3---using-ingress-controller).
 
 ```bash
 kubectl expose pod/sextant-0 --type=LoadBalancer \
   --name=sextant-0-lb --port=80 --target-port=80
 ```
-
-__Note:__ While this is acceptable in the short term, we recommend setting up
-a k8s ingress controller for long-term access.
 
 To obtain the external IP of the LoadBalancer you just created, use the
 following command
@@ -35,13 +37,12 @@ following command
 kubectl get all -o wide | grep LoadBalancer | awk '{print $4}'
 ```
 
-Which will return the external IP address of the load balancer, e.g.,
-`192.168.192.1`. You may now use this address to access _Sextant_, e.g.,
-<http://192.168.192.1>
+Connect to Sextant by pointing a browser at the external IP returned by this
+command.
 
 ## Option 3 - Using Ingress Controller
 
-If you have an ingress controller installed into your cluster, _Sextant_ may be
+If you have an ingress controller installed into your cluster, Sextant may be
 configured to use it, by specifying configuration in your `values.yaml` similar
 to the following:
 
@@ -52,5 +53,5 @@ ingress:
   annotations: {}
 ```
 
-There are several other options available for configuring _Sextant_ to use an
+There are several other options available for configuring Sextant to use an
 ingress which are detailed [here](README.md)
