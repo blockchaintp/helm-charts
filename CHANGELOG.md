@@ -1,7 +1,11 @@
 # CHANGELOG
 
-## Unreleased
+## v0.2.65
 
+* fix(sextant): set NODE_ENV to development on edition enterprise [view commit](https://github.com/catenasys/helm-charts/commit/ea28b47d49e9a7b235075362f13872841f6af716)
+* docs: add AWS Marketplace policy links [view commit](https://github.com/catenasys/helm-charts/commit/aaf8ac0c117f845b3669076d3408114dc3e94822)
+* docs: fix grammar [view commit](https://github.com/catenasys/helm-charts/commit/eff3efbcd0ad68030b64e99d0b38e0afa711a47c)
+* docs: add new sextant installation instructions [view commit](https://github.com/catenasys/helm-charts/commit/8227a5ee26bdff7d4dce09b229b5af4211f21719)
 * fix(sextant): point editions to specific sextant versions [view commit](https://github.com/catenasys/helm-charts/commit/db92996cc40dd8823623d0994b88421b21ec013c)
 * fix(sextant): point to BTP2.1.0 [view commit](https://github.com/catenasys/helm-charts/commit/79b9e28bac85331aaaa4af65f56fdbc827754229)
 * fix(sextant): point to BTP2.1.0rc15 [view commit](https://github.com/catenasys/helm-charts/commit/6547e37b81e616de84b202dcb0308642c18cf6e8)
