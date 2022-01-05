@@ -174,3 +174,9 @@ need these to log into Sextant.
 
 Follow these [instructions](access.md) to set up access to Sextant either via
 `portforward` or a more permanent solution.
+
+## Login to Sextant
+
+Once you have done this you can login using your saved username and password
+and start using Sextant. Instructions on how to do this can be found in the
+[Sextant User Guide](https://docs.blockchaintp.com/en/latest/sextant/overview/).
