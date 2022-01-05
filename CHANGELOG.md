@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Unreleased
+
+* docs: tighten layout [view commit](https://github.com/catenasys/helm-charts/commit/d583e4c69012490a58a3407b59b5b639e8e1e0f4)
+* docs: apply KTO amends [view commit](https://github.com/catenasys/helm-charts/commit/d874bf7daf2ade1d6b7c357f815338085b31392c)
+
 ## v0.2.65
 
 * fix(sextant): set NODE_ENV to development on edition enterprise [view commit](https://github.com/catenasys/helm-charts/commit/ea28b47d49e9a7b235075362f13872841f6af716)
