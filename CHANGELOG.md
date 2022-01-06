@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* docs: add links to user guide [view commit](https://github.com/catenasys/helm-charts/commit/0cfc1d1b728a34a6555f264c7bb4f9e722e82153)
 * docs: tighten layout [view commit](https://github.com/catenasys/helm-charts/commit/d583e4c69012490a58a3407b59b5b639e8e1e0f4)
 * docs: apply KTO amends [view commit](https://github.com/catenasys/helm-charts/commit/d874bf7daf2ade1d6b7c357f815338085b31392c)
 
