@@ -1,4 +1,10 @@
 questions:
+- variable: imagePullSecrets.createSecret.enabled
+  default: true
+  required: true
+  type: boolean
+  label: Create BTP registry secret for you
+  group: "Registry Settings"
 - variable: imagePullSecrets.createSecret.registryUser
   default: ""
   required: true
@@ -11,9 +17,115 @@ questions:
   type: password
   label: Your Registry Password from BTP
   group: "Registry Settings"
-- variable: imagePullSecrets.createSecret.registryURL
+- variable: imagePullSecrets.createSecret.registryUrl
   default: "dev.catenasys.com:8083"
   required: true
   type: string
   label: Registry URL
   group: "Registry Settings"
+- variable: ingress.enabled
+  default: false
+  required: true
+  type: boolean
+  label: Set true to enable the ingress for Sextant
+  group: "Ingress Settings"
+  show_subquestion_if: true
+  subquestions:
+  - variable: ingress.certManager
+    default: false
+    required: false
+    type: boolean
+    label: Set true to enable the acme certmanager for this ingress
+    group: "Ingress Settings"
+  - variable: ingress.hostName
+    default: ""
+    required: false
+    type: string
+    label: Primary hostname for the ingress
+    group: "Ingress Settings"
+  - variable: ingress.path
+    default: ""
+    required: false
+    type: string
+    label: Path for the ingress's primary hostname
+    group: "Ingress Settings"
+  - variable: ingress.pathType
+    default: ""
+    required: false
+    type: string
+    label: PathType for the ingress's primary hostname
+    group: "Ingress Settings"
+  - variable: ingress.annotations
+    default: ""
+    required: false
+    type: string
+    label: Annotations for the ingress
+    group: "Ingress Settings"
+  - variable: ingress.tls
+    default: "false"
+    required: false
+    type: boolian
+    label: Set true to enable tls on the ingress with a secrete at hostname-tls
+    group: "Ingress Settings"
+- variable: postgres.enabled
+  default: true
+  required: false
+  type: boolean
+  label: Should we create an internal postgres instance
+  group: "Sextant database settings"
+  show_subquestion_if: "false"
+  subquestions:
+  - variable: postgres.enabled.user
+    default: "postgres"
+    required: true
+    type: string
+    label: User for the postgres database
+    group: "Sextant database settings"
+  - variable: postgres.enabled.host
+    default: "localhost"
+    required: true
+    type: string
+    label: Host for the postgres database
+    group: "Sextant database settings"
+  - variable: postgres.enabled.database
+    default: "postgres"
+    required: true
+    type: string
+    label: Database for the postgres database
+    group: "Sextant database settings"
+  - variable: postgres.enabled.port
+    default: 5432
+    required: true
+    type: int
+    label: Port for the postgres database
+    group: "Sextant database settings"
+  - variable: postgres.enabled.password
+    default: "postgres"
+    required: true
+    type: password
+    label: Password for the postgres database
+    group: "Sextant database settings"
+  - variable: api.image.registry
+    default: "dev.catenasys.com:8083"
+    required: true
+    type: string
+    label: API image registry
+    group: "Sextant image settings"
+  - variable: api.image.tag
+    default: "latest"
+    required: true
+    type: string
+    label: API image tag
+    group: "Sextant image settings"
+  - variable: ui.image.registry
+    default: "dev.catenasys.com:8083"
+    required: true
+    type: string
+    label: UI image registry
+    group: "Sextant image settings"
+  - variable: ui.image.tag
+    default: "latest"
+    required: true
+    type: string
+    label: UI image tag
+    group: "Sextant image settings"
