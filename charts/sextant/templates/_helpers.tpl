@@ -90,3 +90,7 @@ Local alternative of lib.image.url until the correct version is stable
 image: {{ include "override.lib.image.url" . }}
 imagePullPolicy: {{ default "IfNotPresent" .imageRoot.pullPolicy }}
 {{- end -}}
+
+{{- define "dockerconfigjson" }}
+{{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" .Values.imagePullSecrets.createSecret.registryUrl (printf "%s:%s" .Values.imagePullSecrets.createSecret.registryUser .Values.imagePullSecrets.createSecret.registryPassword | b64enc) | b64enc }}
+{{- end }}

@@ -62,8 +62,18 @@ deployment:
 imagePullSecrets:
   ## @md | `imagePullSecrets.enabled` | true if imagePullSecrets are required | boolean | false |
   enabled: false
-  ## @md | `imagePullSecrets.value` | a list if named secret references of the form   ```- name: secretName```| list | [] |
+  ## @md | `imagePullSecrets.value` | a list of named secret references of the form   ```- name: secretName```| list | [] |
   value: []
+
+  createSecret:
+    ## @md | `imagePullSecrets.createSecret.enabled` | true to create a image pull secret | boolean | false |
+    enabled: false
+    ## @md | `imagePullSecrets.createSecret.registryUrl` | the registry url | string | nil |
+    registryUrl:
+    ## @md | `imagePullSecrets.createSecret.registryUser` | the username for the registry | string | nil |
+    registryUser:
+    ## @md | `imagePullSecrets.createSecret.registryPassword` | the password for the registry | string | nil |
+    registryPassword:
 
 ## @md | `replicaCount` | number of Sextant replicas to run | int | 1 |
 replicaCount: 1

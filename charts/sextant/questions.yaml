@@ -1,0 +1,19 @@
+questions:
+- variable: imagePullSecrets.createSecret.registryUser
+  default: ""
+  required: true
+  type: string
+  label: Your Registry Username from BTP
+  group: "Registry Settings"
+- variable: imagePullSecrets.createSecret.registryPassword
+  default: ""
+  required: true
+  type: password
+  label: Your Registry Password from BTP
+  group: "Registry Settings"
+- variable: imagePullSecrets.createSecret.registryURL
+  default: "dev.catenasys.com:8083"
+  required: true
+  type: string
+  label: Registry URL
+  group: "Registry Settings"
