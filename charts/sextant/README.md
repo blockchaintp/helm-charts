@@ -10,7 +10,11 @@ software.
 | field | description | type | default |
 |-|-|-|-|
 | `imagePullSecrets.enabled` | true if imagePullSecrets are required | boolean | false |
-| `imagePullSecrets.value` | a list if named secret references of the form   ```- name: secretName```| list | [] |
+| `imagePullSecrets.value` | a list of named secret references of the form   ```- name: secretName```| list | [] |
+| `imagePullSecrets.createSecret.enabled` | true to create a image pull secret | boolean | false |
+| `imagePullSecrets.createSecret.registryUrl` | the registry url | string | nil |
+| `imagePullSecrets.createSecret.registryUser` | the username for the registry | string | nil |
+| `imagePullSecrets.createSecret.registryPassword` | the password for the registry | string | nil |
 | `replicaCount` | number of Sextant replicas to run | int | 1 |
 | `logging` | default logging level | string | "1" |
 | `ui.env` | environment variables to set in the UI container | map | nil |
