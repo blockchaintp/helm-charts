@@ -79,7 +79,7 @@ spec:
             - name: POSTGRES_TLS
               value: {{ .Values.postgres.tls | quote }}
             {{- end }}
-            {{- if eq .Values.edition "enterprise" -}}
+            {{ if eq .Values.edition "enterprise" -}}
             - name: NODE_ENV
               value: "development"
             {{- end -}}
