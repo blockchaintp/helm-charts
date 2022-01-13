@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## Unreleased
+
+* fix(sextant): update questions.yaml and bump chart version [view commit](https://github.com/catenasys/helm-charts/commit/177740c7f7218d3e2a09c386096ae38286a9fab0)
+* fix(sextant): update questions.yaml and bump chart version [view commit](https://github.com/catenasys/helm-charts/commit/87f6588b1ced95e4af5bfcef3b81360a34fa7759)
+* feat(sextant): add new fields to questions.yaml and bump chart version [view commit](https://github.com/catenasys/helm-charts/commit/ff14c9bd436180072a978f98703cb9cacf6f0405)
+* feat(sextant): bump helm chart version [view commit](https://github.com/catenasys/helm-charts/commit/a842d04ff0c5c537d11dfb6b3aa442abd7fd1891)
+* feat(sextant): add ability to create a dockerconfigjson secret to the helm chart feat(sextant): add helper to create dockerdockerconfig type secrets feat(sextant): add initial rancher compatible questions and app-readme files fix(sextant): move default registry url to questions.yaml [view commit](https://github.com/catenasys/helm-charts/commit/0968ad858fcd6cc46ff631dc7b2d9c071ba89f1d)
+
 ## v0.2.66
 
 * docs: add links to user guide [view commit](https://github.com/catenasys/helm-charts/commit/0cfc1d1b728a34a6555f264c7bb4f9e722e82153)
