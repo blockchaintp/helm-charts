@@ -62,44 +62,44 @@ questions:
     label: Annotations for the ingress
     group: "Ingress Settings"
   - variable: ingress.tls
-    default: "false"
+    default: false
     required: false
     type: boolean
     label: Set true to enable tls on the ingress with a secrete at hostname-tls
     group: "Ingress Settings"
 - variable: postgres.enabled
   default: true
-  required: false
+  required: true
   type: boolean
   label: Should we create an internal postgres instance
   group: "Sextant database settings"
-  show_subquestion_if: "false"
+  show_subquestion_if: false
   subquestions:
-  - variable: postgres.enabled.user
+  - variable: postgres.user
     default: "postgres"
     required: true
     type: string
     label: User for the postgres database
     group: "Sextant database settings"
-  - variable: postgres.enabled.host
+  - variable: postgres.host
     default: "localhost"
     required: true
     type: string
     label: Host for the postgres database
     group: "Sextant database settings"
-  - variable: postgres.enabled.database
+  - variable: postgres.database
     default: "postgres"
     required: true
     type: string
     label: Database for the postgres database
     group: "Sextant database settings"
-  - variable: postgres.enabled.port
+  - variable: postgres.port
     default: 5432
     required: true
     type: int
     label: Port for the postgres database
     group: "Sextant database settings"
-  - variable: postgres.enabled.password
+  - variable: postgres.password
     default: "postgres"
     required: true
     type: password
