@@ -37,7 +37,7 @@ questions:
     type: boolean
     label: Set true to enable the acme certmanager for this ingress
     group: "Ingress Settings"
-  - variable: ingress.hostName
+  - variable: ingress.hostname
     default: ""
     required: false
     type: string
@@ -64,7 +64,7 @@ questions:
   - variable: ingress.tls
     default: "false"
     required: false
-    type: boolian
+    type: boolean
     label: Set true to enable tls on the ingress with a secrete at hostname-tls
     group: "Ingress Settings"
 - variable: postgres.enabled
@@ -105,27 +105,27 @@ questions:
     type: password
     label: Password for the postgres database
     group: "Sextant database settings"
-  - variable: api.image.registry
-    default: "dev.catenasys.com:8083"
-    required: true
-    type: string
-    label: API image registry
-    group: "Sextant image settings"
-  - variable: api.image.tag
-    default: "latest"
-    required: true
-    type: string
-    label: API image tag
-    group: "Sextant image settings"
-  - variable: ui.image.registry
-    default: "dev.catenasys.com:8083"
-    required: true
-    type: string
-    label: UI image registry
-    group: "Sextant image settings"
-  - variable: ui.image.tag
-    default: "latest"
-    required: true
-    type: string
-    label: UI image tag
-    group: "Sextant image settings"
+- variable: api.image.registry
+  default: "dev.catenasys.com:8083"
+  required: true
+  type: string
+  label: API image registry
+  group: "Sextant image settings"
+- variable: api.image.tag
+  default: "latest"
+  required: true
+  type: string
+  label: API image tag
+  group: "Sextant image settings"
+- variable: ui.image.registry
+  default: "dev.catenasys.com:8083"
+  required: true
+  type: string
+  label: UI image registry
+  group: "Sextant image settings"
+- variable: ui.image.tag
+  default: "latest"
+  required: true
+  type: string
+  label: UI image tag
+  group: "Sextant image settings"
