@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* fix(sextant): ensure newline before NODE_ENV env var [view commit](https://github.com/catenasys/helm-charts/commit/3417e3c88370238745b0db30aaa186450def43bf)
 * fix(sextant): update questions.yaml and bump chart version [view commit](https://github.com/catenasys/helm-charts/commit/177740c7f7218d3e2a09c386096ae38286a9fab0)
 * fix(sextant): update questions.yaml and bump chart version [view commit](https://github.com/catenasys/helm-charts/commit/87f6588b1ced95e4af5bfcef3b81360a34fa7759)
 * feat(sextant): add new fields to questions.yaml and bump chart version [view commit](https://github.com/catenasys/helm-charts/commit/ff14c9bd436180072a978f98703cb9cacf6f0405)
