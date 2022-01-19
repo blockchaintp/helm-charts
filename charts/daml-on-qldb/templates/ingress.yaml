@@ -1,4 +1,4 @@
-{{- $serviceName := include "daml.fullname" . -}}
+{{- $serviceName := (include "daml.service.name" . ) -}}
 {{- $ingressName := printf "%s" $serviceName -}}
-{{- $servicePort := .Values.daml.jsonapi.ports.http -}}
-{{ include "lib.ingress" (dict "ingressName" $ingressName "ingress" .Values.daml.jsonapi.ingress "serviceName" $serviceName "servicePort" $servicePort "context" $) }}
+{{- $servicePort := .Values.port | int -}}
+{{ include "lib.ingress" (dict "ingressName" $ingressName "ingress" .Values.ingress "serviceName" $serviceName "servicePort" $servicePort "context" $) }}

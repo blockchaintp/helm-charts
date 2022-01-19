@@ -1,11 +1,8 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{.Values.deployment.name}}-cert
-  namespace: {{.Release.Namespace}}
-  labels:
-    app: {{.Values.deployment.name}}-validator
-    daml: {{.Values.deployment.name}}-daml-rpc
+  name: {{ include "common.names.fullname" . }}-cert
+  labels: {{ include "daml.labels" . | nindent 4 }}
   annotations:
     helm.sh/hook: post-install
     helm.sh/hook-weight: "-5"
@@ -15,16 +12,14 @@ spec:
   completions: 1
   template:
     metadata:
-      labels:
-        app: {{.Values.deployment.name}}-validator
-        daml: {{.Values.deployment.name}}-daml-rpc
+      labels: {{ include "daml.labels" . | nindent 8 }}
     spec:
-      serviceAccountName: {{.Values.deployment.name}}-sa
+      serviceAccountName: {{ include "lib.serviceAccountName" . }}
+      automountServiceAccountToken: true
       restartPolicy: Never
       containers:
         - name: openssl
-          image: "{{.Values.openssl.image.repository }}:{{ .Values.openssl.image.tag }}"
-          imagePullPolicy: {{ .Values.daml.image.imagePullPolicy }}
+          {{- include "lib.image" (dict "imageRoot" .Values.openssl.image "global" .Values.global ) | nindent 10 }}
           volumeMounts:
             - name: scratch
               mountPath: /scratch
@@ -41,8 +36,7 @@ spec:
                 -newkey rsa:1024 -keyout jwt.key -out jwt.crt
               touch /scratch/openssl.done
         - name: k8s
-          image: "{{.Values.k8s.image.repository }}:{{ .Values.k8s.image.tag }}"
-          imagePullPolicy: {{ .Values.daml.image.imagePullPolicy }}
+          {{- include "lib.image" (dict "imageRoot" .Values.k8s.image "global" .Values.global ) | nindent 10 }}
           volumeMounts:
             - name: scratch
               mountPath: /scratch
@@ -60,13 +54,13 @@ spec:
                 fi
                 sleep 1
               done
-              kubectl get secret {{.Values.deployment.name}}-cert
+              kubectl get secret {{ include "common.names.fullname" . }}-cert
               if [ $? -eq 0 ]; then
                 exit 0
               fi
               kubectl create secret generic \
                 --namespace {{ .Release.Namespace }} \
-                {{.Values.deployment.name}}-cert \
+                {{ include "common.names.fullname" . }}-cert \
                 --from-file=/scratch/rsa
       volumes:
         - name: scratch

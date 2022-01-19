@@ -1,0 +1,64 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "daml.fullname" .}}
+  labels: {{ include "daml.labels" .| nindent 4}}
+    component: daml
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {{ include "daml.labels.matchLabels" . | nindent 6 }}
+      component: daml
+  template:
+    metadata:
+      labels: {{ include "daml.labels" . | nindent 8 }}
+        component: daml
+    spec:
+      serviceAccountName: {{ include "lib.serviceAccountName" . }}
+      affinity: {{ include "lib.safeToYaml" .Values.affinity | nindent 8 }}
+      containers:
+        - name: daml-on-qldb
+          {{- include "lib.image" (dict "imageRoot" .Values.image "global" .Values.global ) | nindent 10 }}
+          ports:
+            - containerPort: {{ .Values.port }}
+              name: daml-ledger-api
+          command: [ "bash","-xc"]
+          args:
+            - |
+              sleep 20
+              /opt/daml-on-qldb/entrypoint.sh \
+                --txlogstore "{{ include "pgqldb.jdbcurl" .}}" \
+                --createaws true  \
+                --metrics-reporter {{ .Values.metrics.reporter }} \
+                --metrics-reporting-interval {{ .Values.metrics.interval }} \
+                --region {{ .Values.aws.region }} \
+                --ledger {{ .Values.daml.ledgerId }} \
+                --participant server-jdbc-url="{{- include "pgidxdb.jdbcurl" .}}",participant-id={{- .Values.daml.participantId }},port={{- .Values.port }},address=0.0.0.0 \
+                {{- if .Values.auth.enabled }}
+                --auth-jwt-rs256-crt /secrets/jwt/jwt.crt \
+                {{- end }}
+                {{- if .Values.args }}
+                {{ .Values.args }} \
+                {{- end }}
+                ;
+          env:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{.Values.aws.secrets}}
+                  key: aws_access_key_id
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{.Values.aws.secrets}}
+                  key: aws_secret_access_key
+          volumeMounts:
+            - mountPath: /secrets/jwt
+              name: jwt-secret
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
+      volumes:
+        - name: jwt-secret
+          secret:
+            secretName: {{ include "common.names.fullname" . }}-cert
+        {{- include "lib.volumes" .Values.extraVolumes | nindent 8 }}
