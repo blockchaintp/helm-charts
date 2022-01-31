@@ -286,6 +286,12 @@ daml:
     resources: {}
     ## @md | `daml.jsonapi.waitTimeSeconds` | how long to wait for the daml-rpc server to come available | 0 (forever) |
     waitTimeSeconds: 0
+
+  metrics:
+    ## @md | `daml.metrics.reporter` | Metrics reporter to use, console: prints captured metrics on the standard output csv://</path/to/metrics.csv>: saves the captured metrics in CSV format at the specified location graphite://<server_host>[:<server_port>]: sends captured metrics to a Graphite server. If the port is omitted, the default value 2003 will be used. prometheus://<server_host>[:<server_port>] | console |
+    reporter: "console"
+    ## @md | `daml.metrics.interval` | Metrics reporting interval, in java duration format | PT10S |
+    interval: "PT20S"
   ## @md | `daml.extraVolumeMounts` | extra volume mounts for the daml-on-besu container | [] |
   extraVolumeMounts: []
   ## @md | `daml.extraVolumes` | extra volume definitions for the daml-on-besu container | [] |
@@ -295,8 +301,6 @@ daml:
 extraVolumeMounts: []
 ## @md | `extraVolumes` | extra volume definitions for all sets | [] |
 extraVolumes: []
-
-
 
 orion:
   ## @md | orion.create | if true, an orion instance will be created, and used if `besu.privacy.enabled==true` | false |
@@ -323,9 +327,9 @@ postgres:
   ## #md | postgres.database | the postgres database | postgres |
   database: postgres
   ## #md | postgres.password | the postgres password | '' |
-  password: ''
+  password: ""
   ## #md | postgres.existingPasswordSecret | the name of an existing password secret | '' |
-  existingPasswordSecret: ''
+  existingPasswordSecret: ""
 
   persistence:
     ## @md | postgres.persistence.enabled | true if the postgres persistence will be enabled | true |
