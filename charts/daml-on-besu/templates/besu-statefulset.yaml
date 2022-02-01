@@ -45,11 +45,11 @@ spec:
                   fieldPath: metadata.name
             - name: JAVA_ARGS
               value: "-Dvertx.disableFileCPResolving=true -Dlog4j.shutdownHookEnabled=false --add-opens java.base/sun.security.provider=ALL-UNNAMED"
-            {{- if .Values.besu.daml.metrics.enabled -}}
+            {{- if .Values.daml.metrics.besu.enabled -}}
             - name: BESU_DAML_CONTRACT_REPORTING
-              value: {{ .Values.besu.daml.metrics.reporter }}
+              value: {{ .Values.daml.besu.metrics.reporter }}
             - name: BESU_DAML_CONTRACT_REPORTING_INTERVAL
-              value: {{ .Values.besu.daml.metrics.interval }}
+              value: {{ .Values.daml.besu.metrics.interval }}
             {{- end }}
           command:
             - bash
