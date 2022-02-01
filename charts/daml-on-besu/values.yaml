@@ -97,11 +97,6 @@ besu:
   discovery:
     ## @md | besu.discover.port | the port to bind the discovery listener to | `8549` |
     port: 8549
-  damlmetrics:
-    ## @md | `daml.metrics.reporter` | Metrics reporter to use, console: prints captured metrics on the standard output csv://</path/to/metrics.csv>: saves the captured metrics in CSV format at the specified location graphite://<server_host>[:<server_port>]: sends captured metrics to a Graphite server. If the port is omitted, the default value 2003 will be used. prometheus://<server_host>[:<server_port>] | console |
-    reporter: "console"
-    ## @md | `daml.metrics.interval` | Metrics reporting interval, in java duration format | PT10S |
-    interval: "PT20S"
   metrics:
     ## @md | besu.metrics.enabled | true if the metrics listener will be enabled | false |
     enabled: false
