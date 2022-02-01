@@ -30,7 +30,7 @@ eksctl create cluster \
   --region <REGION_NAME> \
   --node-type m5.large \
   --nodes 4 \
-  --with-iodc \
+  --with-oidc \
   --managed
 ```
 
