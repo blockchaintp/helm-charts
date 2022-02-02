@@ -1,4 +1,10 @@
 questions:
+- variable: edition
+  default: "community"
+  required: true
+  type: string
+  label: Sextant Edition
+  group: "Registry Settings"
 - variable: imagePullSecrets.createSecret.enabled
   default: true
   required: true
@@ -18,7 +24,7 @@ questions:
   label: Your Registry Password from BTP
   group: "Registry Settings"
 - variable: imagePullSecrets.createSecret.registryUrl
-  default: "dev.catenasys.com:8083"
+  default: "dev.catenasys.com:8084"
   required: true
   type: string
   label: Registry URL
@@ -27,7 +33,7 @@ questions:
   default: false
   required: true
   type: boolean
-  label: Set true to enable the ingress for Sextant
+  label: Set true to enable an ingress for Sextant
   group: "Ingress Settings"
   show_subquestion_if: true
   subquestions:
@@ -73,6 +79,18 @@ questions:
   type: boolean
   label: Should we create an internal postgres instance
   group: "Sextant database settings"
+- variable: postgres.persistence.enabled
+  default: true
+  required: true
+  type: boolean
+  label: If true allocate a PVC for the postgres instance
+  group: "Sextant database settings"
+- variable: postgres.persistence.storageClass
+  default: "gp2"
+  required: true
+  type: string
+  label: Postgres PVC storageClass
+  group: "Sextant database settings"
   show_subquestion_if: false
   subquestions:
   - variable: postgres.user
@@ -105,27 +123,3 @@ questions:
     type: password
     label: Password for the postgres database
     group: "Sextant database settings"
-- variable: api.image.registry
-  default: "dev.catenasys.com:8083"
-  required: true
-  type: string
-  label: API image registry
-  group: "Sextant image settings"
-- variable: api.image.tag
-  default: "latest"
-  required: true
-  type: string
-  label: API image tag
-  group: "Sextant image settings"
-- variable: ui.image.registry
-  default: "dev.catenasys.com:8083"
-  required: true
-  type: string
-  label: UI image registry
-  group: "Sextant image settings"
-- variable: ui.image.tag
-  default: "latest"
-  required: true
-  type: string
-  label: UI image tag
-  group: "Sextant image settings"
