@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+* fix: Adjust daml metrics values so they live under daml route [view commit](https://github.com/catenasys/helm-charts/commit/015bc646d11c1f287ad7b937d22ef25287c1fabe)
+* fix: Split daml / besu-daml metrics reporting [view commit](https://github.com/catenasys/helm-charts/commit/bcc3741c9d58e4f0be70f8b914764b90351ea370)
+* fix: Er, actually use the values. Duplicating daml.metrics ok [view commit](https://github.com/catenasys/helm-charts/commit/8f6104b2592ac284bce0a6e1fd62a169b494f1c2)
+* fix: Use a single metrics switch from daml.metrics [view commit](https://github.com/catenasys/helm-charts/commit/87fde0a476faae34aa0989f99f90d546ddfa4cf9)
+* feat: Conditionally enable metrics [view commit](https://github.com/catenasys/helm-charts/commit/3d2bf5b2746b6aec1123667e84d01b092ba142d9)
+* feat: Metrics reporting [view commit](https://github.com/catenasys/helm-charts/commit/4d0d9db97b53d68c3ca5e891e2b38f314b03ee10)
 * fix(sextant): ensure newline before NODE_ENV env var [view commit](https://github.com/catenasys/helm-charts/commit/3417e3c88370238745b0db30aaa186450def43bf)
 * fix(sextant): update questions.yaml and bump chart version [view commit](https://github.com/catenasys/helm-charts/commit/177740c7f7218d3e2a09c386096ae38286a9fab0)
 * fix(sextant): update questions.yaml and bump chart version [view commit](https://github.com/catenasys/helm-charts/commit/87f6588b1ced95e4af5bfcef3b81360a34fa7759)
