@@ -120,6 +120,10 @@
 | `daml.jsonapi.env` | list of environment name/value dicts | nil |
 | `daml.jsonapi.packageReloadInterval` | how often to periodically check the daml-rpc for new daml packages | 5s |
 | `daml.jsonapi.waitTimeSeconds` | how long to wait for the daml-rpc server to come available | 0 (forever) |
+| `daml.metrics.reporter` | Metrics reporter to use, console: prints captured metrics on the standard output csv://</path/to/metrics.csv>: saves the captured metrics in CSV format at the specified location graphite://<server_host>[:<server_port>]: sends captured metrics to a Graphite server. If the port is omitted, the default value 2003 will be used. prometheus://<server_host>[:<server_port>] | console |
+| `daml.metrics.interval` | Metrics reporting interval, in java duration format | PT10S |
+| `daml.metrics.reporter` | Metrics reporter to use, console: prints captured metrics on the standard output csv://</path/to/metrics.csv>: saves the captured metrics in CSV format at the specified location graphite://<server_host>[:<server_port>]: sends captured metrics to a Graphite server. If the port is omitted, the default value 2003 will be used. prometheus://<server_host>[:<server_port>] | console |
+| `daml.metrics.interval` | Metrics reporting interval, in java duration format | PT10S |
 | `daml.extraVolumeMounts` | extra volume mounts for the daml-on-besu container | [] |
 | `daml.extraVolumes` | extra volume definitions for the daml-on-besu container | [] |
 | `extraVolumeMounts` | extra volume mounts for all sets | [] |
