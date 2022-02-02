@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Unreleased
+## v0.2.67
 
 * fix: Adjust daml metrics values so they live under daml route [view commit](https://github.com/catenasys/helm-charts/commit/015bc646d11c1f287ad7b937d22ef25287c1fabe)
 * fix: Split daml / besu-daml metrics reporting [view commit](https://github.com/catenasys/helm-charts/commit/bcc3741c9d58e4f0be70f8b914764b90351ea370)
