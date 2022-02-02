@@ -129,6 +129,10 @@ spec:
                 --json-rpc-url http://{{include "besu.fullname" .}}-0:{{.Values.besu.rpc.port}} \
                 --participant port={{.Values.daml.rpc.port}},address=0.0.0.0,participant-id={{.Values.daml.rpc.participantId}},server-jdbc-url=$POSTGRES_URL \
                 --private-key-file /keys/{{ include "daml.fullname" .}}-rpc-0 \
+                {{- if .Values.daml.metrics.enabled }}
+                --metrics-reporter {{ .Values.daml.metrics.reporter }} \
+                --metrics-reporting-interval {{ .Values.daml.metrics.interval }} \
+                {{- end }}
                 --ledger-id {{.Values.daml.ledgerId }} \
                 {{- if .Values.daml.auth.enabled }}
                 --auth-jwt-rs256-crt /secrets/jwt/jwt.crt \
