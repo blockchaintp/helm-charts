@@ -44,10 +44,10 @@
 env:
   {{- include "sawtooth.container.env.nodename" . | nindent 2 -}}
   {{- if .values.pagerduty.enabled }}
-    - name: ALERT_TOKEN
-      value: {{ .values.pagerduty.token | quote }}
-    - name: SERVICE_ID
-      value: {{ .values.pagerduty.serviceid | quote }}
+  - name: ALERT_TOKEN
+    value: {{ .values.pagerduty.token | quote }}
+  - name: SERVICE_ID
+    value: {{ .values.pagerduty.serviceid | quote }}
   {{ end -}}
 {{- if .container.env -}}
   {{- toYaml .container.env | nindent 2 }}
