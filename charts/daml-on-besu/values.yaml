@@ -289,9 +289,9 @@ daml:
   metrics:
     besu:
       enabled: false
-      ## @md | `daml.metrics.reporter` | Metrics reporter to use, console: prints captured metrics on the standard output csv://</path/to/metrics.csv>: saves the captured metrics in CSV format at the specified location graphite://<server_host>[:<server_port>]: sends captured metrics to a Graphite server. If the port is omitted, the default value 2003 will be used. prometheus://<server_host>[:<server_port>] | console |
+      ## @md | `daml.metrics.besu.reporter` | Metrics reporter to use, console: prints captured metrics on the standard output csv://</path/to/metrics.csv>: saves the captured metrics in CSV format at the specified location graphite://<server_host>[:<server_port>]: sends captured metrics to a Graphite server. If the port is omitted, the default value 2003 will be used. prometheus://<server_host>[:<server_port>] | console |
       reporter: "sl4jjson"
-      ## @md | `daml.metrics.interval` | Metrics reporting interval, in java duration format | PT10S |
+      ## @md | `daml.metrics.besu.interval` | Metrics reporting interval, in java duration format | PT10S |
       interval: "PT60S"
     enabled: false
     ## @md | `daml.metrics.reporter` | Metrics reporter to use, console: prints captured metrics on the standard output csv://</path/to/metrics.csv>: saves the captured metrics in CSV format at the specified location graphite://<server_host>[:<server_port>]: sends captured metrics to a Graphite server. If the port is omitted, the default value 2003 will be used. prometheus://<server_host>[:<server_port>] | console |
