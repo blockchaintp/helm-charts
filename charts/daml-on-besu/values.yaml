@@ -160,15 +160,15 @@ besu:
   image:
     ## @md | `besu.image.repository` | the repository of the besu image | `"dev.catenasys.com:8084/blockchaintp/besu"` |
     repository: dev.catenasys.com:8084/blockchaintp/besu
-    ## @md | besu.image.tag | the tag of the besu image | `"BTP2.1.0rc15"` |
-    tag: BTP2.1.0rc15
+    ## @md | besu.image.tag | the tag of the besu image | `"BTP2.1.0"` |
+    tag: BTP2.1.0
     ## @md | besu.image.imagePullPolicy | the pull policy for the besu image | `"IfNotPresent"` |
     imagePullPolicy: IfNotPresent
   privateImage:
     ## @md | `besu.privateImage.repository` | the repository of the besu image | `"dev.catenasys.com:8084/blockchaintp/besu-private"` |
     repository: dev.catenasys.com:8084/blockchaintp/besu-private
     ## @md | besu.privateImage.imagePullPolicy | the pull policy for the besu image | `"IfNotPresent"` |
-    tag: BTP2.1.0rc15
+    tag: BTP2.1.0
     ## @md | besu.privateImage.imagePullPolicy | the pull policy for the besu image | `"IfNotPresent"` |
     imagePullPolicy: IfNotPresent
   p2p:
@@ -201,13 +201,13 @@ daml:
     enabled: false
   privateImage:
     repository: dev.catenasys.com:8084/blockchaintp/private-rpc
-    tag: BTP2.1.0rc15
+    tag: BTP2.1.0
     imagePullPolicy: IfNotPresent
   image:
     ## @md | daml.image.repository | the repository of the daml rpc image | `"dev.catenasys.com:8084/blockchaintp/rpc"` |
     repository: dev.catenasys.com:8084/blockchaintp/rpc
-    ## @md | daml.image.tag | the tag of the daml rpc image | `"BTP2.1.0rc15"` |
-    tag: BTP2.1.0rc15
+    ## @md | daml.image.tag | the tag of the daml rpc image | `"BTP2.1.0"` |
+    tag: BTP2.1.0
     ## @md | daml.image.imagePullPolicy | the pull policy for the daml rpc image | `"IfNotPresent"` |
     imagePullPolicy: IfNotPresent
   ## @md | `daml.ledgerId` | ledger id for this participant | default-ledger-id |
@@ -219,11 +219,11 @@ daml:
   repeater:
     ## @md | `daml.repeater.repository` | url of the repeater repository | dev.catenasys.com:8084/blockchaintp/repeater |
     repository: dev.catenasys.com:8084/blockchaintp/repeater
-    ## @md | `daml.repeater.tag` | tag of the repeater image | BTP2.1.0rc15 |
-    tag: BTP2.1.0rc15
-    ## @md | `daml.repeater.pullPolicy` | pullPolicy of the repeater image | BTP2.1.0rc15 |
+    ## @md | `daml.repeater.tag` | tag of the repeater image | BTP2.1.0 |
+    tag: BTP2.1.0
+    ## @md | `daml.repeater.pullPolicy` | pullPolicy of the repeater image | BTP2.1.0 |
     pullPolicy: IfNotPresent
-    ## @md | `daml.repeater.enabled` | the repeater repeats items from the central committer to the various participants | BTP2.1.0rc15 |
+    ## @md | `daml.repeater.enabled` | the repeater repeats items from the central committer to the various participants | BTP2.1.0 |
     enabled: false
     ## @md | `daml.repeater.participantId` | the pariticipantId of the central committer | nil |
     participantId:
@@ -249,8 +249,8 @@ daml:
     image:
       ## @md | `daml.jsonapi.image.repository` | repository for the jsonapi image | blockchaintp/daml-json-api |
       repository: blockchaintp/daml-json-api
-      ## @md | `daml.jsonapi.image.tag` | tag for the jsonapi image | BTP2.1.0rc15 |
-      tag: BTP2.1.0rc15
+      ## @md | `daml.jsonapi.image.tag` | tag for the jsonapi image | BTP2.1.0 |
+      tag: BTP2.1.0
       ## @md | `daml.jsonapi.image.pullPolicy` | imagePullPolicy for container | IfNotPresent |
       pullPolicy: IfNotPresent
     ingress:
