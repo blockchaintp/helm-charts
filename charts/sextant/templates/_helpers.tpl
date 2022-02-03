@@ -43,6 +43,10 @@ imagePullPolicy: {{ default "IfNotPresent" .imageRoot.pullPolicy }}
     {{- $registry = .editionRoot.enterprise.registry -}}
     {{- $repository = .editionRoot.enterprise.repository -}}
     {{- $tag = .editionRoot.enterprise.tag -}}
+  {{- else if eq .edition "community" -}}
+    {{- $registry = .editionRoot.community.registry -}}
+    {{- $repository = .editionRoot.community.repository -}}
+    {{- $tag = .editionRoot.community.tag -}}
   {{- else -}}
     {{- $registry = .imageRoot.registry -}}
     {{- $repository = .imageRoot.repository -}}

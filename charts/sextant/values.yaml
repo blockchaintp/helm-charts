@@ -16,6 +16,7 @@
 # aws-enterprise
 # enterprise
 # development
+# community
 
 edition: development
 
@@ -35,6 +36,10 @@ editionImages:
       tag: BTP2.1.0-2.1.5
     enterprise:
       registry: dev.catenasys.com:8084
+      repository: blockchaintp/sextant-community
+      tag: BTP2.1.0-2.1.5
+    community:
+      registry: dev.catenasys.com:8084
       repository: blockchaintp/sextant-enterprise
       tag: BTP2.1.0-2.1.5
   api:
@@ -53,6 +58,10 @@ editionImages:
     enterprise:
       registry: dev.catenasys.com:8084
       repository: blockchaintp/sextant-api-enterprise
+      tag: BTP2.1.0-2.2.5
+    community:
+      registryUrl: dev.catenasys.com:8084
+      repository: blockchaintp/sextant-api-community
       tag: BTP2.1.0-2.2.5
 
 deployment:
