@@ -1,9 +1,9 @@
 dependencies:
 - name: standard-defs
   repository: https://btp-charts-stable.s3.amazonaws.com/charts/
-  version: 0.1.2
+  version: 0.1.3
 - name: sawtooth
   repository: https://btp-charts-unstable.s3.amazonaws.com/charts/
-  version: 0.2.6
-digest: sha256:144958c37f681b00c1ec3fc9b6c3e2de712b9e33d3f1b50ec24497332c0162f8
-generated: "2021-10-12T15:18:18.753793876Z"
+  version: 0.2.8
+digest: sha256:6bb60e70acaddbaae7d5faaf087eb47832ba3774897bb5508db4f6985b48390b
+generated: "2022-02-02T23:54:17.725576877Z"
