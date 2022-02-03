@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## v0.2.70
+
+* fix(deps): update sawtooth dependencies for tfs and daml on sawtooth [view commit](https://github.com/catenasys/helm-charts/commit/3a3ddd97118ae4f011e5e812015afafcd14c3f1b)
+* fix(sawtooth): fix indentation on pagerduty envs [view commit](https://github.com/catenasys/helm-charts/commit/4c73d9e87e318c7252f37477c61f092e5d34562a)
+
+## v0.2.69
+
+* fix(daml-on-besu): duplicated env block of besu container [view commit](https://github.com/catenasys/helm-charts/commit/5b534fc0a45b679473ee8da4f08c766b73cefeb9)
+* fix(daml-on-besu): update default versions to be BTP2.1.0 [view commit](https://github.com/catenasys/helm-charts/commit/b06f236b0e0a10870718e3aa788a4ade832e29e8)
+* docs(sextant): correct eksctl command [view commit](https://github.com/catenasys/helm-charts/commit/5c7a319aa7ad3957ed606872d1661512f09c3f1a)
+* fix(daml-on-besu): correct swapped fields in metrics [view commit](https://github.com/catenasys/helm-charts/commit/b033cf2d2396f8ae07cca100e41865b654854238)
+
+## v0.2.68
+
+
 ## v0.2.67
 
 * fix: Adjust daml metrics values so they live under daml route [view commit](https://github.com/catenasys/helm-charts/commit/015bc646d11c1f287ad7b937d22ef25287c1fabe)
