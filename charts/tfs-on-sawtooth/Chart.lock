@@ -1,6 +1,6 @@
 dependencies:
 - name: sawtooth
   repository: https://btp-charts-stable.s3.amazonaws.com/charts/
-  version: 0.2.5
-digest: sha256:5a5874382c7e417c991c957402c8e79f140c3afeb163baf0db6c65586fb5943b
-generated: "2021-10-09T05:31:18.175100224Z"
+  version: 0.2.7
+digest: sha256:db228bead53b02159cd9399ed456b11398e5cd778e687ece2211999c766dc83a
+generated: "2022-02-02T23:49:33.635672475Z"
