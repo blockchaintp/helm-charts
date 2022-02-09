@@ -14,6 +14,7 @@ nav:
     - Overview: sextant/README.md
     - Installation:
       - Enterprise: sextant/enterprise.md
+      - Community: sextant/community.md
       - AWS Marketplace:
         - Sextant Enterprise Edition: sextant/aws-enterprise.md
         - Sextant Premium Edition: sextant/aws-premium.md
