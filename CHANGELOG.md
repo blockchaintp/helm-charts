@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* docs(sextant): add sextant logo link and update description [view commit](https://github.com/catenasys/helm-charts/commit/6994cd9290fd11fa3a0ef792277044448e66d48b)
 * feat(sextant): bump chart version [view commit](https://github.com/catenasys/helm-charts/commit/974a491635c4736eb59f3e3406ac27b1cce89c2a)
 * feat(sextant): update rancher marketplace to use community edition [view commit](https://github.com/catenasys/helm-charts/commit/a7d2e9a82e5ccef90f9ead8a12c5ccca99527677)
 * feat(sextant): add community edition [view commit](https://github.com/catenasys/helm-charts/commit/a94b39de3df861835d279e9c690e15a641b73e54)
