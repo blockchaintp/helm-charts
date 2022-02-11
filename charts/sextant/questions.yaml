@@ -1,95 +1,92 @@
 questions:
-- variable: edition
-  default: "community"
-  required: true
-  type: string
-  label: Sextant Edition
-  group: "Registry Settings"
-- variable: imagePullSecrets.createSecret.enabled
-  default: true
-  required: true
-  type: boolean
-  label: Create BTP registry secret for you
-  group: "Registry Settings"
+# BTP Registry Settings
 - variable: imagePullSecrets.createSecret.registryUser
   default: ""
   required: true
   type: string
-  label: Your Registry Username from BTP
-  group: "Registry Settings"
+  label: BTP image registry username
+  description: Your username for the BTP licenced image registry, supplied by BTP
+  group: "BTP Registry Settings"
 - variable: imagePullSecrets.createSecret.registryPassword
   default: ""
   required: true
   type: password
-  label: Your Registry Password from BTP
-  group: "Registry Settings"
-- variable: imagePullSecrets.createSecret.registryUrl
-  default: "dev.catenasys.com:8084"
-  required: true
-  type: string
-  label: Registry URL
-  group: "Registry Settings"
+  label: BTP image registry password
+  description: Your password for the BTP licenced image registry, supplied by BTP
+  group: "BTP Registry Settings"
+# Ingress Settings
 - variable: ingress.enabled
-  default: false
+  default: "false"
   required: true
   type: boolean
-  label: Set true to enable an ingress for Sextant
+  label: Enable Sextant Ingress
+  description: Set true to enable an ingress for Sextant
   group: "Ingress Settings"
   show_subquestion_if: true
   subquestions:
-  - variable: ingress.certManager
-    default: false
-    required: false
-    type: boolean
-    label: Set true to enable the acme certmanager for this ingress
-    group: "Ingress Settings"
   - variable: ingress.hostname
     default: ""
     required: false
     type: string
-    label: Primary hostname for the ingress
+    label: Ingress hostname
+    description: Primary hostname for the ingress
     group: "Ingress Settings"
   - variable: ingress.path
     default: ""
     required: false
     type: string
-    label: Path for the ingress's primary hostname
+    label: Hostname Path
+    description: Path for the ingress's primary hostname
     group: "Ingress Settings"
   - variable: ingress.pathType
     default: ""
     required: false
     type: string
-    label: PathType for the ingress's primary hostname
+    label: Hostname PathType
+    description: PathType for the ingress's primary hostname
+    group: "Ingress Settings"
+  - variable: ingress.certManager
+    default: "false"
+    required: false
+    type: boolean
+    label: Enable the acme certmanager for this ingress
+    description: Set true to enable the acme certmanager for this ingress
     group: "Ingress Settings"
   - variable: ingress.annotations
     default: ""
     required: false
     type: string
-    label: Annotations for the ingress
+    label: Ingress annotations
+    description: Annotations for the ingress
     group: "Ingress Settings"
   - variable: ingress.tls
     default: false
     required: false
     type: boolean
-    label: Set true to enable tls on the ingress with a secrete at hostname-tls
+    label: Ingress TLS
+    description: Set true to enable tls on the ingress with a secrete at hostname-tls
     group: "Ingress Settings"
+# Sextant database settings
 - variable: postgres.enabled
-  default: true
+  default: "true"
   required: true
   type: boolean
-  label: Should we create an internal postgres instance
+  label: Enable internal postgres
+  description: Set true to create an internal postgres instance
   group: "Sextant database settings"
 - variable: postgres.persistence.enabled
-  default: true
+  default: "true"
   required: true
   type: boolean
-  label: If true allocate a PVC for the postgres instance
+  label: Postgres persistence
+  description: If true allocate a PVC to enable persistence for the sextant postgres instance
   group: "Sextant database settings"
 - variable: postgres.persistence.storageClass
   default: "gp2"
   required: true
   type: string
   label: Postgres PVC storageClass
+  description: Storage class for the PVC used for the sextant postgres instance
   group: "Sextant database settings"
   show_subquestion_if: false
   subquestions:
@@ -97,29 +94,53 @@ questions:
     default: "postgres"
     required: true
     type: string
-    label: User for the postgres database
+    label: Postgres user
+    description: User for the postgres database
     group: "Sextant database settings"
   - variable: postgres.host
     default: "localhost"
     required: true
     type: string
-    label: Host for the postgres database
+    label: Postgres host
+    description: Host for the postgres database
     group: "Sextant database settings"
   - variable: postgres.database
     default: "postgres"
     required: true
     type: string
-    label: Database for the postgres database
+    label: Database name
+    description: Database name for the postgres database
     group: "Sextant database settings"
   - variable: postgres.port
-    default: 5432
+    default: "5432"
     required: true
     type: int
-    label: Port for the postgres database
+    label: Postgres port
+    description: Port for the postgres database
     group: "Sextant database settings"
   - variable: postgres.password
     default: "postgres"
     required: true
     type: password
-    label: Password for the postgres database
+    label: Postgres password
+    description: Password for the postgres database
     group: "Sextant database settings"
+# Advanced Settings
+- variable: edition
+  default: "community"
+  required: true
+  type: string
+  label: Sextant Edition
+  group: "Advanced Settings"
+- variable: imagePullSecrets.createSecret.enabled
+  default: "true"
+  required: true
+  type: boolean
+  label: BTP image registry secret
+  group: "Advanced Settings"
+- variable: imagePullSecrets.createSecret.registryUrl
+  default: "dev.catenasys.com:8084"
+  required: true
+  type: string
+  label: Registry URL
+  group: "Advanced Settings"
