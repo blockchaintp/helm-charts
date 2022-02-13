@@ -1,11 +1,11 @@
 apiVersion: v2
 name: daml-on-qldb
-description: The DAML smart contract runtime engine with AWS QLDB as the ledger
+description: The Daml smart contract runtime engine with Amazon QLDB as the ledger
 
 # Replaces the index.js in the deployment templates directory, sawtooth/index
 # The deploymentType and deploymentVersion help build the object structure
 deploymentType: daml-on-qldb
-deploymentVersion: 1.3
+deploymentVersion: 1.13
 
 # absolute path to form.js
 form: daml-on-qldb/sextant/form.js
@@ -19,7 +19,9 @@ namespacePath: deployment.namespace
 
 # additional fields for the button
 # form: <same as deploymentVersion>
-title: DAML on QLDB
-sextantVersion: daml-on-qldb(Early Access), AWS QLDB, DAML 0.13.41
+title: Daml on Amazon QLDB
+sextantVersion: Daml 1.13.1, daml-on-qldb 1.13, Amazon QLDB
 buttonIcon: /thirdParty/daml-a.png
 features:
+  - daml.parties
+  - daml.archives
