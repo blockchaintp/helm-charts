@@ -20,7 +20,7 @@ namespacePath: sawtooth.sawtooth.namespace
 # additional fields for the button
 # form: <same as deploymentVersion>
 title: Daml on Sawtooth
-sextantVersion: daml 1.3, daml-on-sawtooth 1.3, sawtooth 1.2, paralos 2.1
+sextantVersion: daml 1.13, daml-on-sawtooth 1.13, sawtooth 1.2, paralos 2.1
 buttonIcon: /thirdParty/daml-a.png
 features:
   - daml.parties

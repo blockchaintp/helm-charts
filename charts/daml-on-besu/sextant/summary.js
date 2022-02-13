@@ -18,7 +18,7 @@ const summary = (values) => {
       title: 'Namespace',
       value: deployment.namespace,
     },
-    { title: 'DAML GRPC Port', value: '39000' },
+    { title: 'Daml GRPC Port', value: '39000' },
   ]
 };
 

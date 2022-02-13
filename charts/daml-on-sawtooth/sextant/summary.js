@@ -38,11 +38,8 @@ const summary = (values) => {
     title: 'Sawtooth Validator Port',
     value: '8800',
   }, {
-    title: 'DAML GRPC Port',
+    title: 'Daml GRPC Port',
     value: '39000',
-  }, {
-    title: 'DAML Tracer UI Port',
-    value: '5051',
   }]
 }
 

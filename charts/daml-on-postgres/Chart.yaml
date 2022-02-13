@@ -1,7 +1,7 @@
 apiVersion: v2
 name: daml-on-postgres
 description: |
-  The DAML smart contract runtime engine with Postgres as the ledger.
+  The Daml smart contract runtime engine with Postgres as the ledger
 
 # A chart can be either an 'application' or a 'library' chart.
 #

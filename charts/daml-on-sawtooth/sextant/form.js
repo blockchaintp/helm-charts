@@ -3,7 +3,7 @@ const options = require('./options')
 
 const form = [
 
-  'DAML on Sawtooth Deployment',
+  'Daml on Sawtooth Deployment',
 
   [
     {

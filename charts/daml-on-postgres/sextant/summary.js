@@ -19,10 +19,10 @@ const summary = (values) => {
       title: 'Namespace',
       value: deployment.namespace,
     }, {
-      title: 'DAML DB Connection Secret',
+      title: 'Daml DB Connection Secret',
       value: secretValue(daml),
     }, {
-      title: 'DAML Ledger ID',
+      title: 'Daml Ledger ID',
       value: daml.ledgerId,
     },
   ]

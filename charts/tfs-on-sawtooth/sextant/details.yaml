@@ -5,7 +5,7 @@ description: Taekion File System (TFS) backed by BTP Paralos open source distrib
 # Replaces the index.js in the deployment templates directory, sawtooth/index
 # The deploymentType and deploymentVersion help build the object structure
 deploymentType: tfs-on-sawtooth
-deploymentVersion: 0.7
+deploymentVersion: 0.1
 
 # absolute path to form.js
 form: tfs-on-sawtooth/sextant/form.js

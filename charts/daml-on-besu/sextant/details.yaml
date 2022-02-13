@@ -5,7 +5,7 @@ description: The Daml smart contract runtime engine with Hyperledger Besu as the
 # Replaces the index.js in the deployment templates directory, sawtooth/index
 # The deploymentType and deploymentVersion help build the object structure
 deploymentType: daml-on-besu
-deploymentVersion: 1.13
+deploymentVersion: 1.3
 
 # absolute path to form.js
 form: daml-on-besu/sextant/form.js
@@ -20,7 +20,7 @@ namespacePath: deployment.namespace
 # additional fields for the button
 # form: <same as deploymentVersion>
 title: Daml on Besu
-sextantVersion: Daml 1.13.1, daml-on-besu 1.13, besu 1.4
+sextantVersion: Daml 1.13, daml-on-besu 1.13, besu 1.4
 buttonIcon: /thirdParty/daml-a.png
 features:
   - daml.parties
