@@ -2,8 +2,8 @@
 apiVersion: v2
 name: daml-on-sawtooth
 description: |
-  The DAML smart contract runtime engine with Hyperledger Sawtooth as the
-  ledger.
+  The Daml smart contract runtime engine with Hyperledger Sawtooth as the
+  ledger
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -19,7 +19,7 @@ type: application
 # This is the chart version. This version number should be incremented each
 # time you make changes to the chart and its templates, including the app
 # version.
-version: 0.2.3
+version: 0.2.4
 
 # This is the version number of the application being deployed. This version
 # number should be incremented each time you make changes to the application.

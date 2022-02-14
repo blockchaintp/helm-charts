@@ -1,6 +1,6 @@
 apiVersion: v2
 name: daml-on-postgres
-description: The DAML smart contract runtime engine with Postgres as the ledger
+description: The Daml smart contract runtime engine with Postgres as the ledger
 
 # Replaces the index.js in the deployment templates directory, sawtooth/index
 # The deploymentType and deploymentVersion help build the object structure
@@ -19,8 +19,8 @@ namespacePath: deployment.namespace
 
 # additional fields for the button
 # form: <same as deploymentVersion>
-title: DAML on Postgres
-sextantVersion: daml-on-postgres 1.13, daml 1.13
+title: Daml on Postgres
+sextantVersion: Daml 1.13, daml-on-postgres 1.13
 buttonIcon: /thirdParty/daml-a.png
 features:
   - daml.parties

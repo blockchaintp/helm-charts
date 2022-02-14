@@ -10,7 +10,7 @@ const validators = require('./validators')
 
 const form = [
 
-  'DAML on Besu Deployment',
+  'Daml on Besu Deployment',
 
   common.deploymentFields,
 

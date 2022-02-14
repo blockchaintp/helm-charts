@@ -4,15 +4,15 @@ const common = require('./common')
 // `^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*`
 const form = [
 
-  'DAML on Postgres Deployment',
+  'Daml on Postgres Deployment',
 
   common.deploymentFields,
 
-  'DAML Details',
+  'Daml Details',
   [
     {
       id: 'daml.ledgerId',
-      title: 'DAML Ledger ID',
+      title: 'Daml Ledger ID',
       helperText: 'A unique string identying this ledger',
       component: 'text',
       editable: {

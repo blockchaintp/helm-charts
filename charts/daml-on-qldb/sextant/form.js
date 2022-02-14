@@ -2,7 +2,7 @@ const options = require('./options')
 
 const form = [
 
-  'DAML on QLDB Deployment',
+  'Daml on QLDB Deployment',
 
   [
     {
@@ -40,11 +40,11 @@ const form = [
 
   ],
 
-  'DAML Details',
+  'Daml Details',
   [
     {
       id: 'daml.ledgerId',
-      title: 'DAML Ledger ID',
+      title: 'Daml Ledger ID',
       helperText: 'A unique string identying this ledger',
       component: 'text',
       editable: {

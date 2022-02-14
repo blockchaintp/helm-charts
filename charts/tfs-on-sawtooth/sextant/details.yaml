@@ -1,6 +1,6 @@
 apiVersion: v2
 name: tfs-on-sawtooth
-description: BTP's TFS distribution that uses BTP Paralos open source distribution of Hyperledger Sawtooth
+description: Taekion File System (TFS) backed by BTP Paralos open source distribution of Hyperledger Sawtooth
 
 # Replaces the index.js in the deployment templates directory, sawtooth/index
 # The deploymentType and deploymentVersion help build the object structure
@@ -20,7 +20,7 @@ namespacePath: sawtooth.sawtooth.namespace
 # additional fields for the button
 # form: <same as deploymentVersion>
 title: TFS on Sawtooth
-sextantVersion: tfs-on-sawtooth(Early Access), sawtooth 1.2, paralos 2.1
+sextantVersion: TFS 0.7, tfs-on-sawtooth(Early Access), sawtooth 1.2, paralos 2.1
 buttonIcon: /thirdParty/taekion-tfs.png
 features:
   - taekion.cli
