@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.2.72
+
+* fix(sextant): correct enterprise and community image repository and bump chart version [view commit](https://github.com/catenasys/helm-charts/commit/b856fb29180d1ffa7850c16201c7531c52b2f2c1)
+
 ## v0.2.71
 
 * fix: bump chart versions [view commit](https://github.com/catenasys/helm-charts/commit/9038c7fcb2ce5c9fd8181958bff27eca745cdfdd)
