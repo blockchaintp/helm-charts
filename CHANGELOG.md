@@ -1,7 +1,10 @@
 # CHANGELOG
 
-## Unreleased
+## v0.2.71
 
+* fix: bump chart versions [view commit](https://github.com/catenasys/helm-charts/commit/9038c7fcb2ce5c9fd8181958bff27eca745cdfdd)
+* fix: replace DAML references with Daml [view commit](https://github.com/catenasys/helm-charts/commit/ef5f3796d0ff1f4d50d3aca5ce4e4052e024a761)
+* fix: fix SXT-872 and SXT-877 [view commit](https://github.com/catenasys/helm-charts/commit/58a1379df9306d60ad7a57ee2d001afb77a506c9)
 * feat(sextant): update questions.yaml and app-readme.md for rancher marketplace [view commit](https://github.com/catenasys/helm-charts/commit/83234c6993dba4dbd9abf34fa1c6ae2951e0ce80)
 * docs(sextant): add community edition installation page [view commit](https://github.com/catenasys/helm-charts/commit/cb57414b002ca41546294a4be4445655d02d4b2c)
 * docs(sextant): add sextant logo link and update description [view commit](https://github.com/catenasys/helm-charts/commit/6994cd9290fd11fa3a0ef792277044448e66d48b)
