@@ -89,8 +89,7 @@ const form = [
       validate: {
         type: 'string',
         methods: [
-          ['required', 'Required'],
-          ['matches', ['(us(-gov)?|ap|ca|cn|eu|sa)-(central|(north|south)?(east|west)?)-\d'], "Must be a valid AWS region"],
+          ['required', 'Required']
         ],
       },
     },
