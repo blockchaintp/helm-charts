@@ -58,8 +58,44 @@ const form = [
         ],
       },
     },
-    '',
+    {
+      id: 'daml.participantId',
+      title: 'DAML participant ID',
+      helperText: 'A unique string identying this participant',
+      component: 'text',
+      editable: {
+        new: true,
+      },
+      validate: {
+        type: 'string',
+        methods: [
+          ['required', 'Required'],
+          ['matches', ['^[a-z]([-a-z0-9]*[a-z0-9]){0,31}$'], "a participant id must consist of alphanumeric characters or '-', and must start and end with alowercase alphanumeric character"],
+        ],
+      },
+    },
     // empty string for form spacing
+    ''
+  ],
+  'AWS Details',
+  [
+    {
+      id: 'aws.region',
+      title: 'AWS region for QLDB',
+      helperText: 'A valid AWS region appropriate for the deployment',
+      component: 'select',
+      dataType: 'text',
+      options: options.awsRegion,
+      validate: {
+        type: 'string',
+        methods: [
+          ['required', 'Required'],
+          ['matches', ['(us(-gov)?|ap|ca|cn|eu|sa)-(central|(north|south)?(east|west)?)-\d'], "Must be a valid AWS region"],
+        ],
+      },
+    },
+    // empty string for form spacing
+    ''
   ],
 
   'Image Pull Secrets',

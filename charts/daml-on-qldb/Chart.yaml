@@ -20,3 +20,16 @@ version: 0.0.11
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application.
 appVersion: 1.0.0
+
+dependencies:
+  - name: standard-defs
+    version: ~0.1.0
+    repository: https://btp-charts-stable.s3.amazonaws.com/charts
+  - name: postgresql
+    repository: https://charts.bitnami.com/bitnami
+    version: ~10.9.2
+    alias: postgresqlidx
+  - name: postgresql
+    repository: https://charts.bitnami.com/bitnami
+    version: ~10.9.2
+    alias: postgresqlqldb
