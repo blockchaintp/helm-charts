@@ -70,7 +70,8 @@ $(MARKERS)/helmdep-update-$(1): $(MARKERS)/repos.helm
 $(MARKERS)/helmlint-$(1): $(MARKERS)/helmdep-build-$(1)
 	@mkdir -p $(MARKERS)
 	@echo "$(1) --> linting"
-	helm lint ./$(CHART_BASE)/$(1);
+	@$(TOOL_NOWORKDIR) -w /project $(TOOLCHAIN_IMAGE) \
+-         helm lint ./$(CHART_BASE)/$(1)
 	@touch $(MARKERS)/helmlint-$(1)
 
 $(MARKERS)/helmunit-$(1): $(MARKERS)/helmdep-build-$(1)
