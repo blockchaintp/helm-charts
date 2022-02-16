@@ -15,4 +15,4 @@ spec:
       targetPort: {{ .Values.port }}
       name: daml-ledger-api
   selector: {{ include "daml.labels.matchLabels" . | nindent 4 }}
-    component: dam
+    component: daml

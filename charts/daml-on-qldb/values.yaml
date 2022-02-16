@@ -94,7 +94,7 @@ jsonapi:
     ## @md | `jsonapi.image.repository` | the repository of the image| blockchaintp/daml-json-api |
     repository: blockchaintp/daml-json-api
     ## @md | `jsonapi.image.tag`| the tag of the image to use| latest |
-    tag: BTP2.1.0rc15
+    tag: BTP2.1.0
     ## @md | `jsonapi.image.pullPolicy` | the image pull policy to use| IfNotPresent |
     pullPolicy: IfNotPresent
   ingress:
@@ -222,7 +222,7 @@ trigger:
     ## @md | `trigger.image.repository`| the image name| blockchaintp/sawtooth-daml-trigger |
     repository: blockchaintp/daml-trigger
     ## @md | `trigger.image.tag`| the image tag to use| BTP2.1.0rc15 |
-    tag: BTP2.1.0rc15
+    tag: BTP2.1.0
   ## @md | `trigger.triggerDefs`| settings for the individual trigger deployments which replaces the trigger-service See [Triggers](#triggers)| [] |
   triggerDefs: []
 ## @md
