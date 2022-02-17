@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## Unreleased
+
+* fix: Use BTP2.1.0 for jsonapi / triggers, newlines [view commit](https://github.com/catenasys/helm-charts/commit/aa3c7e42ba9f106a4dde83e4be4c605e9f686242)
+* fix: Only update relevant lockfile [view commit](https://github.com/catenasys/helm-charts/commit/3a8ecae5eb1d55f301a702e2925ae50dc4c92b63)
+* feat: Postgres cardinality [view commit](https://github.com/catenasys/helm-charts/commit/ca22e7af5125b3b6c76899a1294b54b5bb83f030)
+* feat: Bring in postgres configurability from daml-on-postgres [view commit](https://github.com/catenasys/helm-charts/commit/be18f2ac87e8c38f5d6d8c985e93ab294d531380)
+
 ## v0.2.72
 
 * fix(sextant): correct enterprise and community image repository and bump chart version [view commit](https://github.com/catenasys/helm-charts/commit/b856fb29180d1ffa7850c16201c7531c52b2f2c1)
