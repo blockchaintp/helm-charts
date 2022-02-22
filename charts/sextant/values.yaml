@@ -60,7 +60,7 @@ editionImages:
       repository: blockchaintp/sextant-api-enterprise
       tag: BTP2.1.0-2.2.5
     community:
-      registryUrl: dev.catenasys.com:8084
+      registry: dev.catenasys.com:8084
       repository: blockchaintp/sextant-api-community
       tag: BTP2.1.0-2.2.5
 
