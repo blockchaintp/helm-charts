@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* fix(sextant): correct api.community.registry key [view commit](https://github.com/catenasys/helm-charts/commit/b847d738ba3bda996bf0d45fe4e800b30bd95bb4)
 * fix: Do not need validation for select input [view commit](https://github.com/catenasys/helm-charts/commit/76ceb08d6cec8ac6d2665853c0fd91849d40e073)
 * fix: Use BTP2.1.0 for jsonapi / triggers, newlines [view commit](https://github.com/catenasys/helm-charts/commit/aa3c7e42ba9f106a4dde83e4be4c605e9f686242)
 * fix: Only update relevant lockfile [view commit](https://github.com/catenasys/helm-charts/commit/3a8ecae5eb1d55f301a702e2925ae50dc4c92b63)
