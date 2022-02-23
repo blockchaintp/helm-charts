@@ -1,0 +1,76 @@
+Construts a jdbcuri from external when create is false:
+  1: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      labels:
+        app: test-daml-on-qldb
+        app.kubernetes.io/instance: test
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: daml-on-qldb
+        app.kubernetes.io/version: 1.0.0
+        component: daml
+        daml: test-daml-on-qldb
+        helm.sh/chart: daml-on-qldb-0.0.11
+      name: test-daml-on-qldb
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: test-daml-on-qldb
+          app.kubernetes.io/instance: test
+          app.kubernetes.io/name: daml-on-qldb
+          component: daml
+          daml: test-daml-on-qldb
+      template:
+        metadata:
+          labels:
+            app: test-daml-on-qldb
+            app.kubernetes.io/instance: test
+            app.kubernetes.io/managed-by: Helm
+            app.kubernetes.io/name: daml-on-qldb
+            app.kubernetes.io/version: 1.0.0
+            component: daml
+            daml: test-daml-on-qldb
+            helm.sh/chart: daml-on-qldb-0.0.11
+        spec:
+          affinity: null
+          containers:
+          - args:
+            - |
+              sleep 40
+              /opt/daml-on-qldb/entrypoint.sh \
+                --txlogstore "jdbc:postgresql://test-postgresqlqldb:5432/postgresqlqldb?user=postgresqlqldb&password=postgresqlqldb" \
+                --createaws true  \
+                --region us-east-1 \
+                --ledger test \
+                --participant server-jdbc-url="jdbc:postgresql://externaltesthost:5432/postgresqlidx?user=externalusername&password=exernalpassword",participant-id=daml-on-qldb-participant,port=39000,address=0.0.0.0 \
+                ;
+            command:
+            - bash
+            - -xc
+            env:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  key: aws_access_key_id
+                  name: aws-secrets
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: aws_secret_access_key
+                  name: aws-secrets
+            image: blockchaintp/daml-on-qldb:BTP2.1.0rc15
+            imagePullPolicy: IfNotPresent
+            name: daml-on-qldb
+            ports:
+            - containerPort: 39000
+              name: daml-ledger-api
+            volumeMounts:
+            - mountPath: /secrets/jwt
+              name: jwt-secret
+          serviceAccountName: test-daml-on-qldb
+          volumes:
+          - name: jwt-secret
+            secret:
+              secretName: test-daml-on-qldb-cert

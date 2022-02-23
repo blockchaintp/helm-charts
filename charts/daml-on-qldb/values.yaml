@@ -145,8 +145,22 @@ openssl:
     pullPolicy: IfNotPresent
 
 postgresqlidx:
-  ## @md | postgresql.create | true if an embedded postgresql will be created. if false external database credentials will need to be provided | true |
+  ## @md | postgresqlidx.create | true if an embedded postgresql will be created. if false external database credentials will need to be provided | true |
   create: true
+  ## @md | postgresqlidx.external | if create is false, then use these properties for database connectivity |
+  external:
+    ## @md | postgresqlidx.external.host | Hostname for external postgres|
+    host: null
+    ## @md | postgresqlidx.external.port | Port for external postgres|
+    port: null
+    ## @md | postgresqlidx.external.user | Username for external postgres|
+    user: null
+    ## @md | postgresqlidx.external.password | Password for external postgres|
+    password: null
+    ## @md | postgresqlidx.external.database | Database name external postgres|
+    database: null
+  image:
+    debug: true
   replication:
     enabled: false
   global:
@@ -155,25 +169,35 @@ postgresqlidx:
   ## @md | postgresql.postgresqlDatabase | name of the postgres database to use | "postgresqlidx" |
   postgresqlDatabase: "postgresqlidx"
   ## @md | postgresql.postgresqlUsername | name of the postgres user to use | "qldb" |
-  postgresqlUsername: "qldb"
+  postgresqlUsername: "postgresqlidx"
   ## @md | postgresql.host | the hostname of the postgresql server | nil |
-  host:
+  host: null
   ## @md | postgresql.existingSecret | the name of an existing secret containing the postgresql credentials | nil |
-  existingSecret: ""
+  existingSecret: null
   ## @md | postgresql.postgresqlPassword | the password of the postgresql user | nil |
-  postgresqlPassword: ""
+  postgresqlPassword: "postgresqlidx"
   ## @md | postgresql.servicePort | the port of the postgresql server | 5432 |
-  servicePort: ""
+  servicePort: 5432
   ## @md | postgresql.replicationPassword | the password of the postgresql replication user | nil |
-  replicationPassword: ""
-  ## @md | postgresql.initdbScripts | a map of initdb scripts to run on the postgresql server |  |
-  initdbScripts:
-    init.sql: |
-      create database if not exists postgreql_idx;
+  replicationPassword: null
 
 postgresqlqldb:
   ## @md | postgresql.create | true if an embedded postgresql will be created. if false external database credentials will need to be provided | true |
   create: true
+  ## @md | postgresqlqldb.external | if create is false, then use these properties for database connectivity |
+  external:
+    ## @md | postgresqlqldb.external.host | Hostname for external postgres |
+    host: null
+    ## @md | postgresqlqldb.external.port | Port for external postgres|
+    port: null
+    ## @md | postgresqlqldb.external.user | Username for external postgres|
+    user: null
+    ## @md | postgresqlqldb.external.password | Password for external postgres|
+    password: null
+    ## @md | postgresqlqldb.external.host | Database name external postgres|
+    database: null
+  image:
+    debug: true
   replication:
     enabled: false
   global:
@@ -182,21 +206,17 @@ postgresqlqldb:
   ## @md | postgresql.postgresqlDatabase | name of the postgres database to use | "orion" |
   postgresqlDatabase: "postgresqlqldb"
   ## @md | postgresql.postgresqlUsername | name of the postgres user to use | "orion" |
-  postgresqlUsername: "qldb"
+  postgresqlUsername: "postgresqlqldb"
   ## @md | postgresql.host | the hostname of the postgresql server | nil |
-  host:
+  host: null
   ## @md | postgresql.existingSecret | the name of an existing secret containing the postgresql credentials | nil |
-  existingSecret: ""
+  existingSecret: null
   ## @md | postgresql.postgresqlPassword | the password of the postgresql user | nil |
-  postgresqlPassword: ""
+  postgresqlPassword: "postgresqlqldb"
   ## @md | postgresql.servicePort | the port of the postgresql server | 5432 |
-  servicePort: ""
+  servicePort: 5432
   ## @md | postgresql.replicationPassword | the password of the postgresql replication user | nil |
-  replicationPassword: ""
-  ## @md | postgresql.initdbScripts | a map of initdb scripts to run on the postgresql server |  |
-  initdbScripts:
-    init.sql: |
-      create database if not exists postgreql_qldb;
+  replicationPassword: null
 
 daml:
   ledgerId: "test"
@@ -207,8 +227,9 @@ aws:
   secrets: "aws-secrets"
 
 metrics:
+  enabled: false
   reporter: "console"
-  interval: "PT10S"
+  interval: "PT60S"
 
 trigger:
   args:

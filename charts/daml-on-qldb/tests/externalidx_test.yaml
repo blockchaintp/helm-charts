@@ -1,0 +1,18 @@
+suite: External jdbbc for daml index
+templates:
+  - statefulset.yaml
+release:
+  name: test
+  namespace: testns
+tests:
+  - it: Construts a jdbcuri from external when create is false
+    set:
+      postgresqlidx:
+        create: false
+        external:
+          host: "externaltesthost"
+          user: "externalusername"
+          password: "exernalpassword"
+          database: "externaldatabase"
+    asserts:
+      - matchSnapshot: {}

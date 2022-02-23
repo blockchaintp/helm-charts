@@ -26,12 +26,14 @@ spec:
           command: [ "bash","-xc"]
           args:
             - |
-              sleep 20
+              sleep 40
               /opt/daml-on-qldb/entrypoint.sh \
                 --txlogstore "{{ include "pgqldb.jdbcurl" .}}" \
                 --createaws true  \
+                {{- if .Values.metrics.enabled }}
                 --metrics-reporter {{ .Values.metrics.reporter }} \
                 --metrics-reporting-interval {{ .Values.metrics.interval }} \
+                {{- end }}
                 --region {{ .Values.aws.region }} \
                 --ledger {{ .Values.daml.ledgerId }} \
                 --participant server-jdbc-url="{{- include "pgidxdb.jdbcurl" .}}",participant-id={{- .Values.daml.participantId }},port={{- .Values.port }},address=0.0.0.0 \

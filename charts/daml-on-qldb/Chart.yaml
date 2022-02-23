@@ -27,9 +27,11 @@ dependencies:
     repository: https://btp-charts-stable.s3.amazonaws.com/charts
   - name: postgresql
     repository: https://raw.githubusercontent.com/bitnami/charts/pre-2022/bitnami
-    version: ~10.9.2
+    version: ~10.10.1
     alias: postgresqlidx
+    condition: postgresqlidx.create
   - name: postgresql
     repository: https://raw.githubusercontent.com/bitnami/charts/pre-2022/bitnami
-    version: ~10.9.2
+    version: ~10.10.1
     alias: postgresqlqldb
+    condition: postgresqldb.create
