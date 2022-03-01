@@ -1,7 +1,9 @@
 # CHANGELOG
 
-## Unreleased
+## v0.2.73
 
+* fix(sawtooth): custom tp range loop using wrong context [view commit](https://github.com/catenasys/helm-charts/commit/2929bac9f36a722d5ab52f3f0ff73777d4b7be4f)
+* test(sawtooth): add a unit test to check custom-tp generation [view commit](https://github.com/catenasys/helm-charts/commit/b7320ad81b28604cd25d5a6539e7a56a3c5c0254)
 * fix(sextant): correct api.community.registry key [view commit](https://github.com/catenasys/helm-charts/commit/b847d738ba3bda996bf0d45fe4e800b30bd95bb4)
 * fix: Do not need validation for select input [view commit](https://github.com/catenasys/helm-charts/commit/76ceb08d6cec8ac6d2665853c0fd91849d40e073)
 * fix: Use BTP2.1.0 for jsonapi / triggers, newlines [view commit](https://github.com/catenasys/helm-charts/commit/aa3c7e42ba9f106a4dde83e4be4c605e9f686242)
@@ -286,6 +288,9 @@
 ## v0.2.51
 
 * fix(daml-on-postgres): correct the postgres hostname validator [view commit](https://github.com/catenasys/helm-charts/commit/ea61d9181e21501e6bbe39c9c7d546894d08fc88)
+
+## tfs-on-sawtooth-0.6.0
+
 * fix(daml-on-besu-details): updates sextantVersion to bump chart versions and adds DAML SDK 1.4 [view commit](https://github.com/catenasys/helm-charts/commit/3cbd41fa56f6f2520b457cc6f1e6fe9db6c9c44c)
 * test(pre-commit-config): autoupdates hook repos and increases max line-length to 90 to accommodate helm chart descriptions [view commit](https://github.com/catenasys/helm-charts/commit/83fbf9661ad7ca279ebd3de97900ad95bd84757d)
 * fix(chart): bump chart one minor version [view commit](https://github.com/catenasys/helm-charts/commit/65b96faa7b6a6e016fc7e02f67ff43e757e831f5)
@@ -744,6 +749,9 @@
 * SXT-305 Bump Chart version [view commit](https://github.com/catenasys/helm-charts/commit/96d4e00cb46270725a2c8813f1340b3633168286)
 * SXT-305 Update language from 'custom tp' to custom container' [view commit](https://github.com/catenasys/helm-charts/commit/830a56689ea4239b0b7d71df67a1786cf239527a)
 * GPG and Helm have unresolvable conflicts [view commit](https://github.com/catenasys/helm-charts/commit/8854ee1903fa121c2791d075abf5d097c4b55831)
+
+## v0.1.7
+
 * Add new line at EOL [view commit](https://github.com/catenasys/helm-charts/commit/05f587736d5e24b5ae87b2f08f0496da9a6af201)
 * Add details.yaml to sextant directory [view commit](https://github.com/catenasys/helm-charts/commit/f2133e3241669fb25997eaef56c0b47649c91131)
 * Remove deployment details from Chart.yaml [view commit](https://github.com/catenasys/helm-charts/commit/49365c308dec873308f98401c798cf09659ae05b)
