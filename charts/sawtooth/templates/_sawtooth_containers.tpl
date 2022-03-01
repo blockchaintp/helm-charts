@@ -17,7 +17,7 @@
 
 
 {{- define "sawtooth.container.env.nodename" -}}
-{{- $consensus := .values.consensus | int -}}
+{{- $consensus := .values.sawtooth.consensus | int -}}
 - name: POD_NAME
   valueFrom:
     fieldRef:
@@ -283,18 +283,18 @@ command: [ "bash", "-xc"]
 {{- end -}}
 
 {{- define "sawtooth.container.customtp" -}}
-- name: {{ .name }}
-  image: {{ .image }}
-  {{ if .command }}command: [ {{ range .command }}"{{ . }}",{{ end }} ]{{end  }}
-  {{ if .args }}args: [ {{ range .args }}"{{ . }}", {{ end }} ]{{end  }}
+- name: {{ .tp.name }}
+  image: {{ .tp.image }}
+  {{ if .tp.command }}command: [ {{ range .tp.command }}"{{ . }}",{{ end }} ]{{end  }}
+  {{ if .tp.args }}args: [ {{ range .tp.args }}"{{ . }}", {{ end }} ]{{end  }}
   env:
-    {{- include "sawtooth.container.env.nodename" (dict "values" .Values) | nindent 4 }}
-  lifecycle: {{- include "sawtooth.signal.postStart" .name | nindent 4 }}
-  {{- include "sawtooth.signal.livenessProbe" .name | nindent 2 }}
+    {{- include "sawtooth.container.env.nodename" (dict "values" .values) | nindent 4 }}
+  lifecycle: {{- include "sawtooth.signal.postStart" .tp.name | nindent 4 }}
+  {{- include "sawtooth.signal.livenessProbe" .tp.name | nindent 2 }}
   volumeMounts:
     {{- include "sawtooth.signals.mount" . | nindent 4 }}
-    {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 4 }}
-  resources: {{- default (dict) .resources | toYaml  | nindent 4 }}
+    {{- include "lib.volumeMounts" .values.extraVolumeMounts | nindent 4 }}
+  resources: {{- default (dict) .tp.resources | toYaml  | nindent 4 }}
 {{- end -}}
 
 {{- define "sawtooth.container.poet-registration" -}}
