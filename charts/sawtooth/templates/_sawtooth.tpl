@@ -324,8 +324,9 @@ nodeAffinity:
 {{- include "sawtooth.container.seth-rpc" . | nindent 0 }}
 {{- include "sawtooth.container.smallbank-tp" . | nindent 0 }}
 {{- include "sawtooth.container.xo-tp" . | nindent 0 }}
+{{- $ctx := .Values -}}
 {{- range .Values.sawtooth.customTPs -}}
-{{- include "sawtooth.container.customtp" . | nindent 0 }}
+{{- include "sawtooth.container.customtp" (dict "tp" . "values" $ctx) | nindent 0 }}
 {{- end -}}
 {{- include "sawtooth.container.rest-api" . | nindent 0 }}
 {{- include "sawtooth.container.monitor" . | nindent 0 }}
