@@ -1,0 +1,28 @@
+suite: sawtooth.test the custom tps
+templates:
+  - validator-set.yaml
+release:
+  name: test
+  namespace: testns
+tests:
+  - it: custom tps render properly
+    set:
+      sawtooth:
+        customTPs:
+          - name: test-tp
+            image: busybox:latest
+            command: [ "bash", "-c" ]
+            args: [ "sleep 1" ]
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[5].name
+          value: test-tp
+      - equal:
+          path: spec.template.spec.containers[5].image
+          value: busybox:latest
+      - equal:
+          path: spec.template.spec.containers[5].command
+          value: ["bash","-c"]
+      - equal:
+          path: spec.template.spec.containers[5].args
+          value: ["sleep 1"]
