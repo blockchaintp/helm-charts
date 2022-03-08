@@ -17,6 +17,10 @@ version: 2.2.14
 # incremented each time you make changes to the application.
 appVersion: 2.1.8
 
+keywords:
+- blockchain
+- smart contracts
+
 dependencies:
   - name: standard-defs
     version: ~0.1.0
