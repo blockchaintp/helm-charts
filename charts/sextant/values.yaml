@@ -41,7 +41,7 @@ editionImages:
     community:
       registry: dev.catenasys.com:8084
       repository: blockchaintp/sextant-community
-      tag: BTP2.1.0-2.1.5
+      tag: BTP2.1.0
   api:
     awsStandard:
       registry: 709825985650.dkr.ecr.us-east-1.amazonaws.com
@@ -62,7 +62,7 @@ editionImages:
     community:
       registry: dev.catenasys.com:8084
       repository: blockchaintp/sextant-api-community
-      tag: BTP2.1.0-2.2.5
+      tag: BTP2.1.0
 
 deployment:
   name: sextant
