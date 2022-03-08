@@ -2,10 +2,12 @@ apiVersion: v2
 name: sextant
 description: Sextant automates the deployment and management of enterprise blockchain infrastructure.
 icon: https://sextant-resources.s3.amazonaws.com/icons/large-logo-blue.svg
-
+home: https://www.blockchaintp.com/sextant
 # Application charts are a collection of templates that can be packaged into versioned archives
 # to be deployed.
 type: application
+
+kubeVersion: ">= 1.19"
 
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
