@@ -1,7 +1,8 @@
 # CHANGELOG
 
-## Unreleased
+## v0.2.74
 
+* fix(sextant): update kubeVersion to >=1.19-0 [view commit](https://github.com/catenasys/helm-charts/commit/ee8f63aae796b9cf1ce0222e0e8aaa010aa9d304)
 * feat(sextant): bump chart version [view commit](https://github.com/catenasys/helm-charts/commit/c20b5f545a0b5ca3f0fe51a1afae510527093aa0)
 * feat(sextant): update chart metadata and rancher config files [view commit](https://github.com/catenasys/helm-charts/commit/62079359de5abb0e475a684d396f742db0427a78)
 * feat(sextant): add kubeVersion and set to >= 1.19 [view commit](https://github.com/catenasys/helm-charts/commit/319e3c6f9565ce180b7bbe98b3263d77f4839164)
