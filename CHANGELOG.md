@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## Unreleased
+
+* feat(sextant): bump chart version [view commit](https://github.com/catenasys/helm-charts/commit/c20b5f545a0b5ca3f0fe51a1afae510527093aa0)
+* feat(sextant): update chart metadata and rancher config files [view commit](https://github.com/catenasys/helm-charts/commit/62079359de5abb0e475a684d396f742db0427a78)
+* feat(sextant): add kubeVersion and set to >= 1.19 [view commit](https://github.com/catenasys/helm-charts/commit/319e3c6f9565ce180b7bbe98b3263d77f4839164)
+* feat(sextant): use BTP2.1.0 tag for community edition images [view commit](https://github.com/catenasys/helm-charts/commit/46a2ecdfb69a3bdc3acec1d623262ead46425494)
+* feat(sextant): remove default value for postgres persistence storage class [view commit](https://github.com/catenasys/helm-charts/commit/ad4596f69120fdc505c8c35d435c7b98105f3010)
+
 ## v0.2.73
 
 * fix(sawtooth): custom tp range loop using wrong context [view commit](https://github.com/catenasys/helm-charts/commit/2929bac9f36a722d5ab52f3f0ff73777d4b7be4f)
