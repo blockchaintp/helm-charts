@@ -7,11 +7,11 @@ home: https://www.blockchaintp.com/sextant
 # to be deployed.
 type: application
 
-kubeVersion: ">= 1.19"
+kubeVersion: ">=1.19-0"
 
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
-version: 2.2.15
+version: 2.2.16
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application.
