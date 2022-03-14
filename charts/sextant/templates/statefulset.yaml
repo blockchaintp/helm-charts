@@ -134,7 +134,7 @@ spec:
         annotations: {{- include "lib.safeToYaml" .Values.postgres.persistence.annotations | nindent 10 }}
       spec:
         accessModes: {{- include "lib.safeToYaml" .Values.postgres.persistence.accessModes | nindent 10 }}
-        storageClassName: {{ default "gp2" .Values.postgres.persistence.storageClass | quote }}
+        storageClassName: {{ .Values.postgres.persistence.storageClass | quote }}
         resources:
           requests:
             storage: {{ .Values.postgres.persistence.size | quote }}

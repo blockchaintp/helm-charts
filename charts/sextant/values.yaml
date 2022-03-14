@@ -195,8 +195,11 @@ postgres:
     ## @md | `postgres.persistence.accessModes` | postgres PVC access modes | list | [ "ReadWriteOnce" ] |
     accessModes:
       - "ReadWriteOnce"
+    ## if set to "-" (empty string) then storageClassName: "", which disables dynamic provisioning
+    ## if undefined or set to null, no storageClassName is set and the clusters default StorageClass will be used
+    ## if a storageClass name is set then storageClassName: "setValue"
     ## @md | `postgres.persistence.storageClass` | postgres PVC storageClass | string | nil |
-    storageClass: ""
+    storageClass:
     ## @md | `postgres.persistence.size` | postgres PVC volume size | string | "40Gi" |
     size: "40Gi"
   ## @md | `postgres.resources` | UI resources | map | nil |
