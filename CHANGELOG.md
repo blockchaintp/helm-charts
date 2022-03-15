@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Unreleased
+## v0.2.75
 
 * test(sextant): add storageClass tests [view commit](https://github.com/catenasys/helm-charts/commit/f47a4055d59e2552728a0623bb6f59a73c0fa98c)
 * feat(sextant): bump chart version [view commit](https://github.com/catenasys/helm-charts/commit/793870cdfed847003cba7be7862d58d57b7dca3f)
