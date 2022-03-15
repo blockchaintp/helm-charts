@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Unreleased
+
+* test(sextant): add storageClass tests [view commit](https://github.com/catenasys/helm-charts/commit/f47a4055d59e2552728a0623bb6f59a73c0fa98c)
+* feat(sextant): bump chart version [view commit](https://github.com/catenasys/helm-charts/commit/793870cdfed847003cba7be7862d58d57b7dca3f)
+* feat(sextant): remove default value for storageClass and set to null in values.yaml [view commit](https://github.com/catenasys/helm-charts/commit/b81806e7594a74623364626c85e64ff382cbd628)
+
 ## v0.2.74
 
 * fix(sextant): update kubeVersion to >=1.19-0 [view commit](https://github.com/catenasys/helm-charts/commit/ee8f63aae796b9cf1ce0222e0e8aaa010aa9d304)
