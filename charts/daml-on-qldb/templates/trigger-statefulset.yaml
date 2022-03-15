@@ -32,7 +32,7 @@ spec:
               {{- end }}
           volumeMounts: {{- include "lib.volumeMounts" .Values.trigger.extraVolumeMounts | nindent 12 }}
       containers:
-        {{- range .Values.trigger.tiggerDefs }}
+        {{- range .Values.trigger.triggerDefs }}
         - name: {{ .name }}
           {{- include "lib.image" (dict "imageRoot" $.Values.trigger.image "global" $.Values.global ) | nindent 10 }}
           command:
@@ -56,8 +56,8 @@ spec:
               value: {{ .triggerName | quote }}
             {{- include "lib.safeToYaml" .env | nindent 12 }}
           resources: {{ include "lib.safeToYaml" .resources | nindent 12 }}
-          volumeMounts: {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
-            {{- include "lib.volumeMounts" .Values.trigger.extraVolumeMounts | nindent 12 }}
+          volumeMounts: {{- include "lib.volumeMounts" $.Values.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" $.Values.trigger.extraVolumeMounts | nindent 12 }}
         {{- end }}
       volumes: {{- include "lib.volumes" .Values.trigger.extraVolumes | nindent 8 }}
 {{- end }}
