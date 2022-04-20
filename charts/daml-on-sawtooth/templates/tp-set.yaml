@@ -62,7 +62,7 @@ spec:
               HOST={{ $stlServiceName }}-${HOST##*-}.{{ .Release.Namespace }}.svc.cluster.local
               {{- end }}
               /opt/timekeeper/entrypoint.sh {{ .Values.timekeeper.args }} \
-                tcp://$HOST:{{ include "daml.sawtooth.sawcomp" . }}
+                -t -C tcp://$HOST:{{ include "daml.sawtooth.sawcomp" . }}
           resources: {{- include "lib.volumeMounts" .Values.timekeeper.resources | nindent 12 }}
           env:
             - name: HOST
