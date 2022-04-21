@@ -79,12 +79,7 @@ spec:
               /opt/timekeeper/entrypoint.sh {{ .Values.timekeeper.args }} \
                 -s -C tcp://{{ include "daml.sawtooth.service" . }}:{{ include "daml.sawtooth.sawcomp" . }} 
           resources: {{- include "lib.volumeMounts" .Values.timekeeper.resources | nindent 12 }}
-          env:
-            - name: HOST
-              valueFrom:
-                fieldRef:
-                  fieldPath: {{ include "daml.field.node" . }}
-            {{- include "lib.safeToYaml" .Values.timekeeper.env | nindent 12 }}
+          env: {{- include "lib.safeToYaml" .Values.timekeeper.env | nindent 12 }}
           volumeMounts: {{- include "lib.volumeMounts" .Values.tp.extraVolumeMounts | nindent 12 }}
       volumes:
         - name: jwt-secret
