@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Unreleased
+
+* fix(docs): rename requirements.txt to versions.txt [view commit](https://github.com/catenasys/helm-charts/commit/09a10b9f761128c636db347b6169270ff5fba486)
+* fix(docs): add requirements.txt and pin mkdocs version [view commit](https://github.com/catenasys/helm-charts/commit/4c86861bd61a30a485171f7f0f6ac0919bb3b211)
+
 ## v0.2.76
 
 * fix(daml-on-sawtooth): correct typo in trigger def loop [view commit](https://github.com/catenasys/helm-charts/commit/378430538e28591a01716693a22266c6f4990a40)
