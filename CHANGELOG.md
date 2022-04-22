@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+* fix(daml-on-sawtooth): timekeeper fix [view commit](https://github.com/catenasys/helm-charts/commit/050e1abecbefd09749f42a533704d3b54d89ecfb)
+* fix(daml-on-sawtooth): timekeeper fix [view commit](https://github.com/catenasys/helm-charts/commit/9086c8a27f1ea742d184b3c76255615f038bb4fe)
+* build(deps): Bump ansi-regex from 4.1.0 to 4.1.1 [view commit](https://github.com/catenasys/helm-charts/commit/c7294efe38302a2a5f25ead39d5c7a10bd5446fe)
+* build(deps): Bump minimist from 1.2.5 to 1.2.6 [view commit](https://github.com/catenasys/helm-charts/commit/7a9d5ca1d60720b063207793271183da965a8748)
 * fix(docs): rename requirements.txt to versions.txt [view commit](https://github.com/catenasys/helm-charts/commit/09a10b9f761128c636db347b6169270ff5fba486)
 * fix(docs): add requirements.txt and pin mkdocs version [view commit](https://github.com/catenasys/helm-charts/commit/4c86861bd61a30a485171f7f0f6ac0919bb3b211)
 
