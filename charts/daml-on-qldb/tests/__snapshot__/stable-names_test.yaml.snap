@@ -5,3 +5,9 @@ check for stable entity names (services, statefulsets, serviceaccounts):
     test-daml-on-qldb-jsonapi
   3: |
     test-daml-on-qldb-triggers
+  4: |
+    test-daml-on-qldb
+  5: |
+    test-daml-on-qldb
+  6: |
+    test-daml-on-qldb-cert

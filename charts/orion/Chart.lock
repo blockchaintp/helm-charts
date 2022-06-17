@@ -1,9 +1,9 @@
 dependencies:
 - name: postgresql
-  repository: https://charts.bitnami.com/bitnami
+  repository: https://raw.githubusercontent.com/bitnami/charts/pre-2022/bitnami
   version: 10.9.6
 - name: standard-defs
   repository: https://btp-charts-stable.s3.amazonaws.com/charts/
-  version: 0.1.2
-digest: sha256:7a4dc1fe025d5b703b28e2d825a1bdcb4236b8be01dadab899a721d9f0cb542a
-generated: "2021-10-09T05:31:01.120104047Z"
+  version: 0.1.3
+digest: sha256:685d2c9a376367cf4647b2c99d073c5b0f7ad17083f3037022908a3a5ee27504
+generated: "2022-06-17T21:02:09.955027879Z"
