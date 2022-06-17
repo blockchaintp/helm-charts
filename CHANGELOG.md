@@ -1,7 +1,9 @@
 # CHANGELOG
 
-## Unreleased
+## v0.2.77
 
+* build: update bitnami dependency refs to pre2022 tag [view commit](https://github.com/catenasys/helm-charts/commit/f7c3cde08c2262f52657aed045124be5308c392b)
+* fix(daml-on-sawtooth): bump chart version [view commit](https://github.com/catenasys/helm-charts/commit/b48c34f2356debff0f1d0a9caab83193528d6745)
 * fix(daml-on-sawtooth): timekeeper fix [view commit](https://github.com/catenasys/helm-charts/commit/050e1abecbefd09749f42a533704d3b54d89ecfb)
 * fix(daml-on-sawtooth): timekeeper fix [view commit](https://github.com/catenasys/helm-charts/commit/9086c8a27f1ea742d184b3c76255615f038bb4fe)
 * build(deps): Bump ansi-regex from 4.1.0 to 4.1.1 [view commit](https://github.com/catenasys/helm-charts/commit/c7294efe38302a2a5f25ead39d5c7a10bd5446fe)
