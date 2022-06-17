@@ -1,6 +1,6 @@
 dependencies:
 - name: grafana
-  repository: https://charts.bitnami.com/bitnami
+  repository: https://raw.githubusercontent.com/bitnami/charts/pre-2022/bitnami
   version: 3.4.7
-digest: sha256:8de93ba6412e53dc5985a1164527a1ba1b36950c9af99b364581df281b6f0993
-generated: "2021-09-02T01:30:21.791144102Z"
+digest: sha256:951096f1f1603fb027d88604c3e9f493e81890fa8a948aac8f2edad7a10edbb6
+generated: "2022-06-17T21:04:20.244101544Z"

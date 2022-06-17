@@ -28,4 +28,4 @@ annotations:
 dependencies:
   - name: postgresql-ha
     version: "~3.5.7"
-    repository: "https://charts.bitnami.com/bitnami"
+    repository: https://raw.githubusercontent.com/bitnami/charts/pre-2022/bitnami

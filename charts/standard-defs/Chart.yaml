@@ -8,6 +8,5 @@ appVersion: 0.1.0
 dependencies:
   # Bitnami's very useful library of common templates
   - name: common
-
-    repository: https://charts.bitnami.com/bitnami
+    repository: https://raw.githubusercontent.com/bitnami/charts/pre-2022/bitnami
     version: ~1.8.0
