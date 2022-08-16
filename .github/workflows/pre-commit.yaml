@@ -3,9 +3,10 @@
 name: pre-commit
 
 # Controls when the workflow will run
+# yamllint disable-line rule:truthy
 on:
   # Triggers the workflow on push or pull request events
-  # but only for the "master" branch
+  # but only for the "main" branch
   push:
     branches: ["master"]
   pull_request:
@@ -27,9 +28,19 @@ jobs:
       - id: file_changes
         uses: trilom/file-changes-action@v1.2.4
         with:
-          output: ' '
+          output: " "
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: |
+          if [ -r package-lock.json ]; then
+            npm ci
+          else
+            exit 0
+          fi
       - id: pre-commit
-        uses: blockchaintp/pre-commit-action@v1.0.0
+        # yamllint disable-line max-line-length
+        uses: blockchaintp/pre-commit-action@v1.0.1
         with:
           extra_args: --files ${{ steps.file_changes.outputs.files}}
         env:
