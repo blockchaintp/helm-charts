@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.2.78
+
+* feat(daml-on-postgres): support ng variant of dop [view commit](https://github.com/catenasys/helm-charts/commit/a2802e4b41c335b0c05e8ab4855e73b799967284)
+
 ## v0.2.77
 
 * build: update bitnami dependency refs to pre2022 tag [view commit](https://github.com/catenasys/helm-charts/commit/f7c3cde08c2262f52657aed045124be5308c392b)
