@@ -78,14 +78,25 @@ spec:
             - -xc
           args:
             - |
-              /opt/digitalasset/bin/entrypoint.sh -a 0.0.0.0 -w \
-                {{- if .Values.daml.auth.enabled }}
-                --auth-jwt-rs256-crt /secrets/jwt/jwt.crt \
-                {{- end }}
-                {{- if .Values.daml.extra_args.enabled }}
-                {{ .Values.daml.extra_args.arg_str }} \
-                {{- end }}
-              ;
+              if [ -r /opt/daml-on-postgres/entrypoint.sh ]; then
+                /opt/daml-on-postgres/entrypoint.sh \
+                  {{- if .Values.daml.auth.enabled }}
+                  --auth-jwt-rs256-crt /secrets/jwt/jwt.crt \
+                  {{- end }}
+                  {{- if .Values.daml.extra_args.enabled }}
+                  {{ .Values.daml.extra_args.arg_str }} \
+                  {{- end }}
+                  ;
+              else
+                /opt/digitalasset/bin/entrypoint.sh -a 0.0.0.0 -w \
+                  {{- if .Values.daml.auth.enabled }}
+                  --auth-jwt-rs256-crt /secrets/jwt/jwt.crt \
+                  {{- end }}
+                  {{- if .Values.daml.extra_args.enabled }}
+                  {{ .Values.daml.extra_args.arg_str }} \
+                  {{- end }}
+                  ;
+              fi
           env:
             - name: POSTGRES_USER
               value: {{ .Values.postgres.user }}
