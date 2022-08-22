@@ -1,6 +1,6 @@
 site_name: BTP Deployment Documentation
 theme: readthedocs
-copyright: Copyright &copy; 2021 Blockchain Technology Partners
+copyright: Copyright &copy; 2022 Blockchain Technology Partners
 extra_css: [extra.css]
 markdown_extensions:
   - attr_list
@@ -12,14 +12,6 @@ nav:
   - CHANGELOG: CHANGELOG.md
   - Sextant:
     - Overview: sextant/README.md
-    - Installation:
-      - Enterprise: sextant/enterprise.md
-      - Community: sextant/community.md
-      - AWS Marketplace:
-        - Sextant Enterprise Edition: sextant/aws-enterprise.md
-        - Sextant Premium Edition: sextant/aws-premium.md
-        - Sextant Standard Edition: sextant/aws-standard.md
-    - Access: sextant/access.md
   - Clusters:
     - Services: clusters/services.md
   - Deployments:
