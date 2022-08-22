@@ -53,5 +53,5 @@ ingress:
   annotations: {}
 ```
 
-There are several other options available for configuring Sextant to use an
-ingress which are detailed [here](README.md)
+There are several other options available when configuring Sextant to use an
+ingress which are detailed [here](https://docs.blockchaintp.com/projects/btp-helm-charts/en/latest/sextant/).
