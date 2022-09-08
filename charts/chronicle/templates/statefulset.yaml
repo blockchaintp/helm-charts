@@ -1,0 +1,82 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "common.names.fullname" . }}-chronicle
+  labels: {{ include "chronicle.labels" . | nindent 4 }}
+    component: chronicle
+spec:
+  replicas: {{ include "chronicle.replicas" . }}
+  selector:
+    matchLabels: {{ include "chronicle.labels.matchLabels" . | nindent 6 }}
+      component: chronicle
+  serviceName: {{ include "common.names.fullname" . }}
+  template:
+    metadata:
+      labels: {{ include "chronicle.labels" . | nindent 8 }}
+        component: chronicle
+    spec:
+      serviceAccountName: {{ include "lib.serviceAccountName" . }}
+      affinity: {{ include "lib.safeToYaml" .Values.chronicle.affinity | nindent 8 }}
+      initContainers:
+        - name: chronicle-keystore
+          {{- include "lib.image" (dict "imageRoot" .Values.chronicle.image "global" .Values.global ) | nindent 10 }}
+          command: [ "bash", "-c"]
+          args:
+            - |
+              /usr/local/bin/chronicle \
+              -c /etc/chronicle/config/config.toml \
+              verify-keystore
+          env: {{ include "lib.safeToYaml" .Values.chronicle.env | nindent 12 }}
+            - name: RUST_LOG
+              value: {{ .Values.chronicle.logLevel }}
+          volumeMounts:
+            - name: chronicle-config
+              mountPath: /etc/chronicle/config/
+            - name: chronicle-secrets
+              mountPath: /var/lib/chronicle/secrets/
+              readOnly: false
+      containers:
+        - name: chronicle
+          {{- include "lib.image" (dict "imageRoot" .Values.chronicle.image "global" .Values.global ) | nindent 10 }}
+          ports:
+          - containerPort: {{ .Values.chronicle.port }}
+          command: [ "bash", "-c"]
+          args:
+            - |
+              /usr/local/bin/chronicle \
+              -c /etc/chronicle/config/config.toml \
+              --sawtooth tcp://{{ include "chronicle.sawtooth.service" . }}:{{ include "chronicle.sawtooth.sawcomp" . }} \
+              --console-logging json \
+              serve-graphql --interface 0.0.0.0:{{ .Values.chronicle.port}}
+          env: {{ include "lib.safeToYaml" .Values.chronicle.env | nindent 12 }}
+            - name: RUST_LOG
+              value: {{ .Values.chronicle.logLevel }}
+          volumeMounts:
+            - name: chronicle-config
+              mountPath: /etc/chronicle/config/
+            - name: chronicle-secrets
+              mountPath: /var/lib/chronicle/secrets/
+              readOnly: true
+            - name: chronicle-data
+              mountPath: /var/lib/chronicle/store/
+            {{- include "lib.volumeMounts" .Values.chronicle.extraVolumeMounts | nindent 12 }}
+      volumes:
+        - name: chronicle-secrets
+          persistentVolumeClaim:
+            claimName: chronicle-secrets
+        - name: chronicle-data
+          persistentVolumeClaim:
+            claimName: chronicle-data
+        - name: chronicle-config
+          configMap:
+            name: {{ .Release.Name }}-chronicle-config
+  volumeClaimTemplates:
+    - metadata:
+        name: chronicle-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 6Gi

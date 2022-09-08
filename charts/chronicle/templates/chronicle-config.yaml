@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-chronicle-config
+data:
+  config.toml: |
+    [secrets]
+    path = "/var/lib/chronicle/secrets/"
+    [store]
+    path = "/var/lib/chronicle/store/"
+    [validator]
+    address = "tcp://localhost:4004"
+    [namespace_bindings]
+    default = "fd717fd6-70f1-44c1-81de-287d5e101089"

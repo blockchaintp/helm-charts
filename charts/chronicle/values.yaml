@@ -1,0 +1,148 @@
+---
+## @md # Daml on Sawtooth Chart
+## @md
+## @md | field | description | default |
+## @md |-|-|-|
+
+global:
+  image:
+    tag:
+
+imagePullSecrets:
+  ## @md | `imagePullSecrets.enabled`| if true use the list of named imagePullSecrets| false |
+  enabled: true
+  ## @md | `imagePullSecrets.value`| a list if named secret references of the form `- name: secretName`| [] |
+  value:
+    - name: regcred
+
+## @md | `affinity`| custom affinity rules for the daml-rpc pod | {} |
+affinity: {}
+
+## @md | `args` | a string of additional arguments for the daml-rpc | nil |
+args:
+auth:
+  ## @md | `auth.enabled` | set to true to enable DAML authentication| false |
+  enabled: false
+
+## @md | `extraVolumes` | a list of additional volumes to add to the daml-rpc | `[]` |
+extraVolumes: []
+## @md | `extraVolumeMounts` | a list of additional volume mounts to add to the daml-rpc | `[]` |
+extraVolumeMounts: []
+
+## @md | `port` | the port on which the chronicle domain lives
+port: 9982
+
+## @md | `maxOutstandingBatches` | max outstanding batches for the daml-rpc pod | 2 |
+maxOutstandingBatches: 2
+## @md | `maxOpsPerBatch` | maximum number of operations per batch for the daml-rpc pod | 100 |
+maxOpsPerBatch: 100
+
+## @md | `participantId`| use this participant id otherwise one choose based on network| nil |
+participantId:
+
+## @md | `startupDelay` | seconds to delay start up the daml-rpc | 90 |
+startupDelay: 90
+
+serviceAccount:
+  ## @md | `serviceAccount.create` | true to create a service account | false |
+  create: true
+  ## @md | `serviceAccount.name` | name of the service account | nil (defaults to based on release name) |
+  name:
+
+ingress:
+  ## @md | `chronicle.ingress.apiVersion` | if necessary the apiVersion of the ingress may be overridden | "" |
+  apiVersion: ""
+  ## @md | `chronicle.ingress.enabled` | true to enable the ingress to the main service rest-api | false |
+  enabled: false
+  ## @md | `chronicle.ingress.certManager` | true to enable the acme certmanager for this ingress | false |
+  certManager: false
+  ## @md | `chronicle.ingress.hostname` | primary hostname for the ingress | false |
+  hostname:
+  ## @md | `chronicle.ingress.path` | path for the ingress's primary hostname | / |
+  path: /
+  ## @md | `chronicle.ingress.pathType` | pathType for the ingress's primary hostname | nil |
+  pathType:
+  ## @md | `chronicle.ingress.annotations` | annotations for the ingress | {} |
+  annotations: {}
+  ## @md | `chronicle.ingress.tls` | true to enable tls on the ingress with a secrete at hostname-tls | false |
+  tls: false
+  ## @md | `chronicle.ingress.extraHosts` | list of extra hosts to add to the ingress | [] |
+  extraHosts: []
+  ## @md | `chronicle.ingress.extraPaths` | list of extra paths to add to the primary host of the ingress | [] |
+  extraPaths: []
+  ## @md | `chronicle.ingress.extraTls` | list of extra tls entries | [] |
+  extraTls: []
+  ## @md | `chronicle.ingress.hosts`| list of ingress host and path declarations for the chronicle ingress| [] |
+  hosts: []
+  # - host: chart-example.local
+  #   paths:
+  #     - /
+
+chronicle:
+  args: []
+  statefulset:
+    enabled: true
+  ## @md | `chronicle.authToken` | the auth token to use for the chronicle server (required if auth.enabled) | nil |
+  namespaces: {}
+  port: 9982
+  persistence:
+    enabled: true
+    annotations:
+    accessModes:
+      - "ReadWriteOnce"
+    storageClass:
+    size: 40Gi
+  volumes:
+    # This MUST be set, and SHOULD be presented to the user as an option, as it is a likely area
+    # of customization
+    ## @md | `sawtooth.hostPathBaseDir` | all sawtooth hostPath directories will be based here | string | /var/lib/btp
+    hostPathBaseDir: /var/lib/btp/chronicle
+  image:
+    ## @md | `chronicle.image.repository` | the repository of the image| blockchaintp/daml-json-api |
+    repository: dev.catenasys.com:8083/base/catenasys/chronicle/chronicle
+    ## @md | `chronicle.image.tag`| the tag of the image to use| latest |
+    tag: 0.2.0-42-g1505742
+    ## @md | `chronicle.image.pullPolicy` | the image pull policy to use| IfNotPresent |
+    pullPolicy: Always
+  logLevel: debug
+
+## @md | `sawtooth` | sawtooth options may be configured | see [Sawtooth](../sawtooth/README.md) |
+sawtooth:
+  sawtooth:
+    statefulset:
+      enabled: true
+    consensus: 400
+
+tp:
+  ## @md | `tp.args` | a string of arguments to pass to the tp container| nil |
+  args:
+  image:
+    ## @md | `tp.image.pullPolicy` | the image pull policy | IfNotPresent |
+    pullPolicy: Always
+    ## @md | `tp.image.repository` | the image repository | blockchaintp/chronicle-tp |
+    repository: dev.catenasys.com:8083/base/catenasys/chronicle/chronicle-tp
+    ## @md | `tp.image.tag` | the image tag | BTP2.1.0 |
+    tag: 0.2.0-42-g1505742
+  ## @md | `tp.extraVolumes` | extra volumes declarations for the chronicle-tp deployment | list | nil
+  extraVolumes:
+  ## @md | `tp.extraVolumeMounts` | extra volume mounts for chronicle-tp deployment | list | nil
+  extraVolumeMounts:
+  resources:
+  ## @md | `tp.maxUnavailable` | maximum unavailable nodes during a rolling upgrade |
+  maxUnavailable: 1
+  ## @md | `tp.minReadySeconds` | minimum time before node becomes available |
+  minReadySeconds: 0
+  logLevel: debug
+## @md
+## @md ## Triggers
+## @md
+## @md Triggers are described using maps of the following parameters
+## @md
+## @md | field | description| required| default |
+## @md |- |-|-|- |
+## @md | `name` | kubernetes name of the trigger container| yes| (system-determined) |
+## @md | `triggerName` | daml name of the trigger to be run| yes| nil |
+## @md | `darFile` | path of the dar file to use| yes| nil |
+## @md | `party` | name of the party to use| yes| nil |
+## @md | `env` | environment var for the trigger| no| [] |
+## @md | `resources` | resources for the trigger| no| [] |
