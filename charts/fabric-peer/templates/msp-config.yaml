@@ -1,0 +1,22 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "fabric-peer.names.msp-config" . }}
+  labels: {{ include "fabric-peer.labels" .| nindent 4}}
+data:
+  config.yaml: |-
+    NodeOUs:
+      Enable: true
+      ClientOUIdentifier:
+        Certificate: cacerts/{{ include "fabric-peer.names.ca" . }}-{{ include "fabric-peer.names.ca" . }}.pem
+        OrganizationalUnitIdentifier: client
+      PeerOUIdentifier:
+        Certificate: cacerts/{{ include "fabric-peer.names.ca" . }}-{{ include "fabric-peer.names.ca" . }}.pem
+        OrganizationalUnitIdentifier: peer
+      AdminOUIdentifier:
+        Certificate: cacerts/{{ include "fabric-peer.names.ca" . }}-{{ include "fabric-peer.names.ca" . }}.pem
+        OrganizationalUnitIdentifier: admin
+      OrdererOUIdentifier:
+        Certificate: cacerts/{{ include "fabric-peer.names.ca" . }}-{{ include "fabric-peer.names.ca" . }}.pem
+        OrganizationalUnitIdentifier: orderer

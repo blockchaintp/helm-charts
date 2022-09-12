@@ -1,0 +1,53 @@
+---
+peerca:
+  enabled: true
+  ca:
+    name: peerca
+
+global: {}
+
+imagePullSecrets:
+  ## @md | imagePullSecrets.enabled | if imagePullSecrets are provided | false |
+  enabled: false
+  ## @md | imagePullSecrets.value | a list of names of imagePullSecrets | [] |
+  value: []
+
+# image:
+#   repository: hyperledger/fabric-ca
+#   tag: 1.5.3
+#   pullPolicy: IfNotPresent
+
+serviceAccount:
+  create: true
+  name:
+
+image:
+  repository: hyperledger/fabric-peer
+  tag: 2.2.8
+  pullPolicy: IfNotPresent
+
+admin:
+  port: 9443
+
+logLevel: INFO
+
+mspId: PeerMSP
+
+operations:
+  port: 8443
+
+port: 7051
+chaincodePort: 7052
+addressAutoDetect: false
+
+tools:
+  image:
+    repository: hyperledger/fabric-tools
+    tag: 2.2.8
+    pullPolicy: IfNotPresent
+
+caClient:
+  image:
+    repository: hyperledger/fabric-ca
+    tag: 1.5.3
+    pullPolicy: IfNotPresent
