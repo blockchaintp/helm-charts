@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "fabric-ca.names.server-configmap" . }}
+  namespace: {{ .Release.Namespace }}
+  labels: {{ include "lib.labels" . | nindent 4 }}
+data:
+  fabric-ca-server-config.yaml: |-
+    version: 1.2.0
+
+    # Server's listening port (default: 7054)
+    port: {{ .Values.port | int }}
+
+    # Enables debug logging (default: false)
+    debug: {{ .Values.debug }}
+
+    # Size limit of an acceptable CRL in bytes (default: 512000)
+    crlsizelimit: 512000
+
+    tls:
+      # Enable TLS (default: false)
+      enabled: {{ .Values.tls.enabled }}
+      # TLS for the server's listening port
+      certfile: {{ .Values.tls.certfile }}
+      keyfile: {{ .Values.tls.keyfile }}
+      clientauth:
+        type: {{ .Values.tls.clientauth.type }}
+        certfiles: {{ .Values.tls.clientauth.certfiles }}
+
+    ca:
+      # Name of this CA
+      name: {{ required "ca.name must be set" .Values.ca.name }}
+      # Key file (is only used to import a private key into BCCSP)
+      keyfile: {{ .Values.ca.keyfile }}
+      # Certificate file (default: ca-cert.pem)
+      certfile: {{ .Values.ca.certfile }}
+      # Chain file
+      chainfile: {{ .Values.ca.chainfile }}
+
+    cors: {{ include "lib.safeToYaml" .Values.cors | nindent 6 }}
+
+    crl:
+      expiry: {{ .Values.crl.expiry | toString }}
+
+    registry:
+      maxenrollments: -1
+      identities: {{ include "lib.safeToYaml" .Values.registry.identities | nindent 8 }}
+        - {{ include "lib.safeToYaml" .Values.adminIdentity | nindent 10 }}
+
+    db: {{ include "lib.safeToYaml" .Values.db | nindent 6 }}
+
+    ldap: {{ include "lib.safeToYaml" .Values.ldap | nindent 6 }}
+
+    affiliations: {{ include "lib.safeToYaml" .Values.affiliations | nindent 6 }}
+
+    signing: {{ include "lib.safeToYaml" .Values.signing | nindent 6 }}
+
+    csr:
+      cn: {{ .Values.csr.cn }}
+      names: {{ include "lib.safeToYaml" .Values.csr.names | nindent 8 }}
+      hosts: {{ include "lib.safeToYaml" .Values.csr.hosts | nindent 8 }}
+        - {{ .Values.csr.cn }}
+        - {{ include "fabric-ca.names.server" . }}
+        - {{ include "fabric-ca.names.server" . }}.{{ .Release.Namespace }}
+        - {{ include "fabric-ca.names.server" . }}.{{ .Release.Namespace }}.svc.cluster.local
+      ca:
+        expiry: {{ .Values.csr.ca.expiry | toString }}
+        pathlength: {{ .Values.csr.ca.pathlength | int }}
+
+    bccsp: {{ include "lib.safeToYaml" .Values.bccsp | nindent 6 }}
+
+    cacount: {{ .Values.cacount | int }}
+
+    cafiles: {{ include "lib.safeToYaml" .Values.cafiles | nindent 6 }}
+
+    intermediate: {{ include "lib.safeToYaml" .Values.intermediate | nindent 6 }}
+
+    metrics:
+      provider: {{ .Values.metrics.provider }}
