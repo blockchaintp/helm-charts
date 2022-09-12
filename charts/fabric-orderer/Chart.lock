@@ -1,0 +1,9 @@
+dependencies:
+- name: standard-defs
+  repository: https://btp-charts-stable.s3.amazonaws.com/charts/
+  version: 0.1.3
+- name: fabric-ca
+  repository: https://btp-charts-unstable.s3.amazonaws.com/charts/
+  version: 1.0.0
+digest: sha256:28293e14aa5a640d22c99c9257c4a2a910e55028e6267370a39174a919fce08f
+generated: "2022-09-12T00:04:38.825337634-04:00"
