@@ -1,0 +1,149 @@
+{{ $fabricHome := "/etc/hyperledger" }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "fabric-orderer.names.server" . }}
+  labels: {{ include "fabric-orderer.labels" .| nindent 4}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {{ include "fabric-orderer.labels.matchLabels" . | nindent 6 }}
+      component: orderer
+  template:
+    metadata:
+      labels: {{ include "fabric-orderer.labels.matchLabels" . | nindent 8 }}
+        component: orderer
+    spec:
+      serviceAccountName: {{ include "lib.serviceAccountName" . }}
+      automountServiceAccountToken: false
+      affinity: {{ include "lib.safeToYaml" .Values.affinity | nindent 8 }}
+      containers:
+        - name: orderer
+          {{- include "lib.image" (dict "imageRoot" .Values.image "global" .Values.global ) | nindent 10 }}
+          env:
+            - name: FABRIC_LOGGING_SPEC
+              value: {{ .Values.logLevel }}
+            - name: FABRIC_CFG_PATH
+              value: {{ $fabricHome }}/{{ include "fabric-orderer.names.server" . }}
+          command: [ "/bin/sh", "-c"]
+          args:
+            - |
+              while [ ! -r {{ $fabricHome }}/bootstrap.done ]; do
+                echo "Waiting for bootstrap to complete"
+                sleep 5
+              done
+
+              exec orderer
+          volumeMounts:
+            - name: ca-cert
+              mountPath: /external/ca-cert
+            - name: fabric-home
+              mountPath: {{ $fabricHome }}
+        - name: register-enroll
+          {{- include "lib.image" (dict "imageRoot" .Values.caClient.image "global" .Values.global ) | nindent 10 }}
+          command: [ "/bin/sh", "-exc"]
+          args:
+            - |
+              if [ ! -r {{ $fabricHome }}/bootstrap.done ]; then
+                rm -rf {{ $fabricHome }}/*
+              else
+                exit 0
+              fi
+
+              while ! getent hosts {{ include "fabric-orderer.names.ca" . }}; do
+                echo "Waiting for ca to be resolvable"
+                sleep 5
+              done
+
+              # Enroll the CA Admin if not already done
+              fabric-ca-client enroll \
+                -u https://admin:adminpw@{{ include "fabric-orderer.names.ca" . }} \
+                --caname {{ include "fabric-orderer.names.ca" . }} \
+                --tls.certfiles /external/ca-cert/ca-cert.pem
+
+              # Register principal for this orderer
+              fabric-ca-client register \
+                --caname {{ include "fabric-orderer.names.ca" . }} \
+                --id.name {{ include "fabric-orderer.names.server" . }} \
+                --id.secret {{ include "fabric-orderer.names.server" . }} \
+                --id.type orderer \
+                --tls.certfiles /external/ca-cert/ca-cert.pem || true
+
+              # Register the pricipal for this org's admin
+              fabric-ca-client register \
+                --caname {{ include "fabric-orderer.names.ca" . }} \
+                --id.name {{ include "fabric-orderer.names.server" . }}Admin \
+                --id.secret {{ include "fabric-orderer.names.server" . }}Admin \
+                --id.type admin \
+                --tls.certfiles /external/ca-cert/ca-cert.pem || true
+
+              # Enroll the orderer MSP
+              fabric-ca-client enroll \
+                -u https://{{ include "fabric-orderer.names.server" . }}:{{ include "fabric-orderer.names.server" . }}@{{ include "fabric-orderer.names.ca" . }} \
+                --caname {{ include "fabric-orderer.names.ca" . }} \
+                -M "{{ $fabricHome}}/{{ include "fabric-orderer.names.server" . }}/msp" \
+                --csr.hosts {{ include "fabric-orderer.names.server" . }} \
+                --csr.hosts {{ include "fabric-orderer.names.server" . }}.{{ .Release.Namespace }} \
+                --csr.hosts {{ include "fabric-orderer.names.server" . }}.{{ .Release.Namespace }}.svc.cluster.local \
+                --csr.hosts localhost \
+                --tls.certfiles /external/ca-cert/ca-cert.pem
+
+              mv {{ $fabricHome}}/{{ include "fabric-orderer.names.server" . }}/msp/keystore/*_sk \
+                {{ $fabricHome}}/{{ include "fabric-orderer.names.server" . }}/msp/keystore/server.key
+
+              cp /msp-config/config.yaml \
+                {{ $fabricHome}}/{{ include "fabric-orderer.names.server" . }}/msp/
+
+              # Generate Orderer TLS
+              fabric-ca-client enroll \
+                -u https://{{ include "fabric-orderer.names.server" . }}:{{ include "fabric-orderer.names.server" . }}@{{ include "fabric-orderer.names.ca" . }} \
+                --caname {{ include "fabric-orderer.names.ca" . }} \
+                -M "{{ $fabricHome}}/{{ include "fabric-orderer.names.server" . }}/tls" \
+                --enrollment.profile tls \
+                --csr.hosts {{ include "fabric-orderer.names.server" . }} \
+                --csr.hosts {{ include "fabric-orderer.names.server" . }}.{{ .Release.Namespace }} \
+                --csr.hosts {{ include "fabric-orderer.names.server" . }}.{{ .Release.Namespace }}.svc.cluster.local \
+                --csr.hosts localhost \
+                --tls.certfiles /external/ca-cert/ca-cert.pem
+
+              mv {{ $fabricHome}}/{{ include "fabric-orderer.names.server" . }}/tls/keystore/*_sk \
+                {{ $fabricHome}}/{{ include "fabric-orderer.names.server" . }}/tls/keystore/server.key
+
+              # Enroll the Admin MSP
+              fabric-ca-client enroll \
+                -u https://{{ include "fabric-orderer.names.server" . }}Admin:{{ include "fabric-orderer.names.server" . }}Admin@{{ include "fabric-orderer.names.ca" . }} \
+                --caname {{ include "fabric-orderer.names.ca" . }} \
+                -M "{{ $fabricHome}}/admin@{{ include "fabric-orderer.names.server" . }}/msp" \
+                --tls.certfiles /external/ca-cert/ca-cert.pem
+
+              cp /msp-config/config.yaml \
+                {{ $fabricHome}}/admin@{{ include "fabric-orderer.names.server" . }}/msp/
+
+              cp /orderer-config/orderer.yaml \
+                {{ $fabricHome}}/{{ include "fabric-orderer.names.server" . }}/
+
+              touch {{ $fabricHome }}/bootstrap.done
+
+              exec tail -f /dev/null
+          volumeMounts:
+            - name: ca-cert
+              mountPath: /external/ca-cert
+            - name: fabric-home
+              mountPath: {{ $fabricHome }}
+            - name: msp-config
+              mountPath: /msp-config
+            - name: orderer-config
+              mountPath: /orderer-config
+      volumes:
+        - name: fabric-home
+          emptyDir: {}
+        - name: ca-cert
+          configMap:
+            name: {{ include "fabric-orderer.names.ca-cert" . }}
+        - name: msp-config
+          configMap:
+            name: {{ include "fabric-orderer.names.msp-config" . }}
+        - name: orderer-config
+          configMap:
+            name: {{ include "fabric-orderer.names.orderer-config" . }}
