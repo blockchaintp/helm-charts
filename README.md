@@ -8,6 +8,7 @@
 * [daml-on-sawtooth](charts/daml-on-sawtooth/README.md)
 * [elasticsearch](charts/elasticsearch/README.md)
 * [fabric-ca](charts/fabric-ca/README.md)
+* [fabric-orderer](charts/fabric-orderer/README.md)
 * [fluentd](charts/fluentd/README.md)
 * [grafana](charts/grafana/README.md)
 * [influxdb](charts/influxdb/README.md)
