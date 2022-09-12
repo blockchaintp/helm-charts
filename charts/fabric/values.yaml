@@ -1,0 +1,45 @@
+---
+orderer:
+  enabled: true
+  ordererca:
+    ca:
+      name: orderer
+  mspId: ordererMSP
+
+peer1:
+  enabled: true
+  peerca:
+    ca:
+      name: peer1x
+  mspId: peer1MSP
+
+peer2:
+  enabled: true
+  peerca:
+    ca:
+      name: peer2
+  mspId: peer2MSP
+
+peer3:
+  enabled: true
+  peerca:
+    ca:
+      name: peer3
+  mspId: peer3MSP
+
+global: {}
+
+imagePullSecrets:
+  ## @md | imagePullSecrets.enabled | if imagePullSecrets are provided | false |
+  enabled: false
+  ## @md | imagePullSecrets.value | a list of names of imagePullSecrets | [] |
+  value: []
+
+# image:
+#   repository: hyperledger/fabric-ca
+#   tag: 1.5.3
+#   pullPolicy: IfNotPresent
+
+serviceAccount:
+  create: true
+  name:
