@@ -1,0 +1,16 @@
+---
+apiVersion: v2
+name: fabric-ca
+description: |
+  Hyperledger Fabric is an enterprise-grade permissioned distributed ledger
+  framework for developing solutions and applications. Its modular and versatile
+  design satisfies a broad range of industry use cases. It offers a unique
+  approach to consensus that enables performance at scale while preserving
+  privacy.
+type: application
+version: 1.0.0
+appVersion: 1.5.3
+dependencies:
+  - name: standard-defs
+    version: ~0.1.0
+    repository: https://btp-charts-stable.s3.amazonaws.com/charts/

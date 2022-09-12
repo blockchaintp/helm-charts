@@ -1,0 +1,95 @@
+{{ $fabricCAHome := "/etc/hyperledger/fabric/ca" }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "fabric-ca.names.server" . }}
+  labels: {{ include "fabric-ca.labels" .| nindent 4}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {{ include "fabric-ca.labels.matchLabels" . | nindent 6 }}
+      component: ca
+  template:
+    metadata:
+      labels: {{ include "fabric-ca.labels.matchLabels" . | nindent 8 }}
+        component: ca
+    spec:
+      serviceAccountName: {{ include "lib.serviceAccountName" . }}
+      automountServiceAccountToken: true
+      affinity: {{ include "lib.safeToYaml" .Values.affinity | nindent 8 }}
+      containers:
+        - name: ca
+          {{- include "lib.image" (dict "imageRoot" .Values.image "global" .Values.global ) | nindent 10 }}
+          command: [ "/bin/sh", "-c" ]
+          args:
+            - |
+              cp /etc/hyperledger/k8s-config/* {{ $fabricCAHome }}/
+              exec fabric-ca-server start -b {{ .Values.adminIdentity.name }}:{{ .Values.adminIdentity.pass }} -d
+          env:
+            - name: FABRIC_CA_HOME
+              value: {{ $fabricCAHome }}
+            - name: FABRIC_CA_SERVER_CA_NAME
+              value: {{ include "fabric-ca.names.server" . }}
+            - name: FABRIC_CA_SERVER_TLS_ENABLED
+              value: "true"
+            - name: FABRIC_CA_SERVER_PORT
+              value: {{ .Values.port | quote }}
+            - name: FABRIC_CA_SERVER_OPERATIONS_LISTENADDRESS
+              value: 0.0.0.0:19054
+          ports:
+            - name: ca
+              containerPort: {{ .Values.port }}
+              protocol: TCP
+            - name: operations
+              containerPort: 19054
+              protocol: TCP
+          volumeMounts:
+            - name: fabric-home
+              mountPath: {{ $fabricCAHome }}
+            - name: fabric-ca-server-config
+              mountPath: /etc/hyperledger/k8s-config
+        - name: publish-pems
+          {{ include "lib.image" (dict "imageRoot" .Values.k8s.image "global" .Values.global ) | nindent 10 }}
+          command: [ "/bin/sh", "-ec" ]
+          volumeMounts:
+            - name: fabric-home
+              mountPath: {{ $fabricCAHome }}
+          args:
+            - |
+              while [ ! -r {{ $fabricCAHome }}/ca-cert.pem ]; do
+                echo "Waiting for {{ $fabricCAHome }}/ca-cert.pem to be created"
+                sleep 1
+              done
+
+              kubectl create configmap \
+                --from-file={{ $fabricCAHome }}/ca-cert.pem \
+                -o yaml --dry-run=client \
+                {{ include "fabric-ca.names.ca-cert" . }} | kubectl apply -f -
+
+              exec tail -f /dev/null
+        - name: enroll
+          {{- include "lib.image" (dict "imageRoot" .Values.image "global" .Values.global ) | nindent 10 }}
+          command: [ "/bin/sh", "-xc" ]
+          args:
+            - |
+              # Enroll the CA Admin if not already done
+              if [ ! -r {{ $fabricCAHome }}/IssuerPublicKey ]; then
+                fabric-ca-client enroll \
+                  -u https://{{ .Values.adminIdentity.name }}:{{ .Values.adminIdentity.pass }}@localhost:{{ .Values.port }} \
+                  --caname {{ include "fabric-ca.names.server" . }} \
+                  --tls.certfiles "{{ $fabricCAHome }}/ca-cert.pem"
+              fi
+              exec tail -f /dev/null
+          env:
+            - name: FABRIC_CA_HOME
+              value: {{ $fabricCAHome }}
+          volumeMounts:
+            - name: fabric-home
+              mountPath: {{ $fabricCAHome }}
+      volumes:
+        - name: fabric-home
+          emptyDir: {}
+        - name: fabric-ca-server-config
+          configMap:
+            name: {{ include "fabric-ca.names.server-configmap" . }}

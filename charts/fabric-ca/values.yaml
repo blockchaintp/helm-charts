@@ -1,0 +1,198 @@
+---
+global: {}
+
+imagePullSecrets:
+  ## @md | imagePullSecrets.enabled | if imagePullSecrets are provided | false |
+  enabled: false
+  ## @md | imagePullSecrets.value | a list of names of imagePullSecrets | [] |
+  value: []
+
+image:
+  repository: hyperledger/fabric-ca
+  tag: 1.5.3
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  create: true
+  name:
+
+## App Specific config
+
+ca:
+  # Name of this CA
+  name:
+  # Key file (is only used to import a private key into BCCSP)
+  keyfile:
+  # Certificate file (default: ca-cert.pem)
+  certfile:
+  # Chain file
+  chainfile:
+
+csr:
+  cn: ca.example.com
+  names:
+    - C: US
+      ST: "New York"
+      L: "New York"
+      O: example.com
+      OU:
+  hosts:
+    - localhost
+    - example.com
+  ca:
+    expiry: 131400h
+    pathlength: 1
+
+
+adminIdentity:
+  name: admin
+  pass: adminpw
+  type: client
+  affiliation: ""
+  attrs:
+    hf.Registrar.Roles: "*"
+    hf.Registrar.DelegateRoles: "*"
+    hf.Revoker: true
+    hf.IntermediateCA: true
+    hf.GenCRL: true
+    hf.Registrar.Attributes: "*"
+    hf.AffiliationMgr: true
+
+affiliations:
+# org1:
+#   - department1
+#   - department2
+# org2:
+#   - department1
+
+bccsp:
+  default: SW
+  sw:
+    hash: SHA2
+    security: 256
+    filekeystore:
+      # The directory used for the software file-based keystore
+      keystore: msp/keystore
+
+cacount:
+
+cafiles:
+
+cors:
+  enabled: false
+  origins:
+    - "*"
+
+crl:
+  expiry: 24h
+
+# Size limit of an acceptable CRL in bytes (default: 512000)
+crlsizelimit: 512000
+
+db:
+  type: sqlite3
+  datasource: fabric-ca-server.db
+  tls:
+    enabled: false
+    certfiles:
+    client:
+      certfile:
+      keyfile:
+
+# Enables debug logging (default: false)
+debug: false
+
+intermediate:
+  parentserver:
+    url:
+    caname:
+
+  enrollment:
+    hosts:
+    profile:
+    label:
+
+  tls:
+    certfiles:
+    client:
+      certfile:
+      keyfile:
+
+ldap:
+  enabled: false
+  url: ldap://<adminDN>:<adminPassword>@<host>:<port>/<base>
+  tls:
+    certfiles:
+    client:
+      certfile:
+      keyfile:
+  attribute:
+    names: ["uid", "member"]
+    converters:
+      - name:
+        value:
+    maps:
+      groups:
+        - name:
+          value:
+
+metrics:
+  provider: prometheus
+
+# Server's listening port (default: 7054)
+port: 443
+
+registry:
+  identities:
+  # - name: admin
+  #   pass: adminpw
+  #   type: client
+  #   affiliation: ""
+  #   attrs:
+  #     hf.Registrar.Roles: "*"
+  #     hf.Registrar.DelegateRoles: "*"
+  #     hf.Revoker: true
+  #     hf.IntermediateCA: true
+  #     hf.GenCRL: true
+  #     hf.Registrar.Attributes: "*"
+  #     hf.AffiliationMgr: true
+
+
+signing:
+  default:
+    usage:
+      - digital signature
+    expiry: 8760h
+  profiles:
+    ca:
+      usage:
+        - cert sign
+        - crl sign
+      expiry: 43800h
+      caconstraint:
+        isca: true
+        maxpathlen: 0
+    tls:
+      usage:
+        - signing
+        - key encipherment
+        - server auth
+        - client auth
+        - key agreement
+      expiry: 8760h
+
+tls:
+  # Enable TLS (default: false)
+  enabled: true
+  # TLS for the server's listening port
+  certfile:
+  keyfile:
+  clientauth:
+    type: noclientcert
+    certfiles:
+
+k8s:
+  image:
+    repository: alpine/k8s
+    tag: 1.22.10
+    pullPolicy: IfNotPresent
