@@ -7,6 +7,7 @@
 * [daml-on-qldb](charts/daml-on-qldb/README.md)
 * [daml-on-sawtooth](charts/daml-on-sawtooth/README.md)
 * [elasticsearch](charts/elasticsearch/README.md)
+* [fabric](charts/fabric/README.md)
 * [fabric-ca](charts/fabric-ca/README.md)
 * [fabric-orderer](charts/fabric-orderer/README.md)
 * [fabric-peer](charts/fabric-peer/README.md)
