@@ -9,6 +9,7 @@
 * [elasticsearch](charts/elasticsearch/README.md)
 * [fabric-ca](charts/fabric-ca/README.md)
 * [fabric-orderer](charts/fabric-orderer/README.md)
+* [fabric-peer](charts/fabric-peer/README.md)
 * [fluentd](charts/fluentd/README.md)
 * [grafana](charts/grafana/README.md)
 * [influxdb](charts/influxdb/README.md)
