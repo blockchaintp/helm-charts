@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## Unreleased
+
+* feat(charts): add fabric [view commit](https://github.com/catenasys/helm-charts/commit/d06f6935e617f5e076fe997f8f236814957cb69d)
+* style(mkdocs): fix yaml style problems [view commit](https://github.com/catenasys/helm-charts/commit/f11eaf65844a368993b3d8ac51d5bf70e647bf42)
+* docs: complete export of sextant installation files to user guide [view commit](https://github.com/catenasys/helm-charts/commit/23612dd1df14af27e59ed261e46e723873275b73)
+* feat(charts): add fabric-peer [view commit](https://github.com/catenasys/helm-charts/commit/61b661bc9ae5e106c80436ec4694a7201424763a)
+* feat(charts): add fabric-orderer [view commit](https://github.com/catenasys/helm-charts/commit/f27163054d441844ecbdfdd3d444c7a18c2568a3)
+* feat(charts): add fabric-ca [view commit](https://github.com/catenasys/helm-charts/commit/af7f192cdfdd821f9420777ae8b33fc5efe0ed61)
+
 ## v0.2.78
 
 * feat(daml-on-postgres): support ng variant of dop [view commit](https://github.com/catenasys/helm-charts/commit/a2802e4b41c335b0c05e8ab4855e73b799967284)
