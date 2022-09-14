@@ -273,7 +273,7 @@ command: [ "bash", "-xc"]
         {{ .Values.sawtooth.containers.rest_api.args }}  \
         --bind 0.0.0.0:{{ include "sawtooth.ports.rest" . }}  \
         --connect tcp://127.0.0.1:{{ include "sawtooth.ports.sawcomp" . }}  \
-        {{ include "sawtooth.opentsdb" . }}
+        {{ include "sawtooth.opentsdb" . | indent 8 }}
   ports:
     - containerPort: {{ include "sawtooth.ports.rest" . }}
       name: sawrest
