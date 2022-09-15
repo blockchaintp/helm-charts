@@ -1,7 +1,8 @@
 # CHANGELOG
 
-## Unreleased
+## v0.2.79
 
+* fix(sawtooth): correct opentsdb clause on rest-api [view commit](https://github.com/catenasys/helm-charts/commit/34edb4f830921ca8eddfb081c2eb971d52bbae66)
 * feat(charts): add fabric [view commit](https://github.com/catenasys/helm-charts/commit/d06f6935e617f5e076fe997f8f236814957cb69d)
 * style(mkdocs): fix yaml style problems [view commit](https://github.com/catenasys/helm-charts/commit/f11eaf65844a368993b3d8ac51d5bf70e647bf42)
 * docs: complete export of sextant installation files to user guide [view commit](https://github.com/catenasys/helm-charts/commit/23612dd1df14af27e59ed261e46e723873275b73)
