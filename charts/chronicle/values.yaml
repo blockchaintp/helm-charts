@@ -80,9 +80,10 @@ ingress:
 
 chronicle:
   args: []
+  ## @md | `chronicle.webUi` | Serve the graphql playground interface if set |false |
+  webUi: true
   statefulset:
     enabled: true
-  ## @md | `chronicle.authToken` | the auth token to use for the chronicle server (required if auth.enabled) | nil |
   namespaces: {}
   port: 9982
   persistence:

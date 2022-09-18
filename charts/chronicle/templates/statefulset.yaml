@@ -48,7 +48,7 @@ spec:
               -c /etc/chronicle/config/config.toml \
               --sawtooth tcp://{{ include "chronicle.sawtooth.service" . }}:{{ include "chronicle.sawtooth.sawcomp" . }} \
               --console-logging json \
-              serve-graphql --interface 0.0.0.0:{{ .Values.chronicle.port}}
+              serve-graphql --interface 0.0.0.0:{{ .Values.chronicle.port}} {{ if .Values.chronicle.webUi }} --open {{ end }}
           env: {{ include "lib.safeToYaml" .Values.chronicle.env | nindent 12 }}
             - name: RUST_LOG
               value: {{ .Values.chronicle.logLevel }}
