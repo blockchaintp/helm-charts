@@ -1,25 +1,24 @@
-{{- define "chronicle.labels.appLabels" -}}
-app: {{ include "common.names.fullname" . }}
-chronicle: {{ include "common.names.fullname" . }}
-{{- end -}}
-
 {{- define "chronicle.replicas" -}}
-{{ include "lib.call-nested" (list . "sawtooth" "sawtooth.replicas") | int }}
+{{ .Values.replicas }}
 {{- end -}}
-
 
 {{- define "chronicle.service.name" -}}
 {{- $svc := include "common.names.fullname" . -}}
 {{ printf "%s" $svc }}
 {{- end -}}
 
-{{- define "chronicle.labels" -}}
-{{ include "lib.labels" . }}
+{{- define "chronicle.labels.matchLabels" -}}
+{{ include "common.labels.matchLabels" . }}
 {{ include "chronicle.labels.appLabels" . }}
 {{- end -}}
 
-{{- define "chronicle.labels.matchLabels" -}}
-{{ include "common.labels.matchLabels" . }}
+{{- define "chronicle.labels.appLabels" -}}
+app: {{ include "common.names.fullname" . }}
+chronicle: {{ include "common.names.fullname" . }}
+{{- end -}}
+
+{{- define "chronicle.labels" -}}
+{{ include "lib.labels" . }}
 {{ include "chronicle.labels.appLabels" . }}
 {{- end -}}
 

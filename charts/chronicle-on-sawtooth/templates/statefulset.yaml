@@ -17,19 +17,19 @@ spec:
         component: chronicle
     spec:
       serviceAccountName: {{ include "lib.serviceAccountName" . }}
-      affinity: {{ include "lib.safeToYaml" .Values.chronicle.affinity | nindent 8 }}
+      affinity: {{ include "lib.safeToYaml" .Values.affinity | nindent 8 }}
       initContainers:
         - name: chronicle-keystore
-          {{- include "lib.image" (dict "imageRoot" .Values.chronicle.image "global" .Values.global ) | nindent 10 }}
+          {{- include "lib.image" (dict "imageRoot" .Values.image "global" .Values.global ) | nindent 10 }}
           command: [ "bash", "-c"]
           args:
             - |
               /usr/local/bin/chronicle \
               -c /etc/chronicle/config/config.toml \
               verify-keystore
-          env: {{ include "lib.safeToYaml" .Values.chronicle.env | nindent 12 }}
+          env: {{ include "lib.safeToYaml" .Values.env | nindent 12 }}
             - name: RUST_LOG
-              value: {{ .Values.chronicle.logLevel }}
+              value: {{ .Values.logLevel }}
           volumeMounts:
             - name: chronicle-config
               mountPath: /etc/chronicle/config/
@@ -38,9 +38,9 @@ spec:
               readOnly: false
       containers:
         - name: chronicle
-          {{- include "lib.image" (dict "imageRoot" .Values.chronicle.image "global" .Values.global ) | nindent 10 }}
+          {{- include "lib.image" (dict "imageRoot" .Values.image "global" .Values.global ) | nindent 10 }}
           ports:
-          - containerPort: {{ .Values.chronicle.port }}
+          - containerPort: {{ .Values.port }}
           command: [ "bash", "-c"]
           args:
             - |
@@ -48,10 +48,10 @@ spec:
               -c /etc/chronicle/config/config.toml \
               --sawtooth tcp://{{ include "chronicle.sawtooth.service" . }}:{{ include "chronicle.sawtooth.sawcomp" . }} \
               --console-logging json \
-              serve-graphql --interface 0.0.0.0:{{ .Values.chronicle.port}} {{ if .Values.chronicle.webUi }} --open {{ end }}
-          env: {{ include "lib.safeToYaml" .Values.chronicle.env | nindent 12 }}
+              serve-graphql --interface 0.0.0.0:{{ .Values.port}} {{ if .Values.webUi }} --open {{ end }}
+          env: {{ include "lib.safeToYaml" .Values.env | nindent 12 }}
             - name: RUST_LOG
-              value: {{ .Values.chronicle.logLevel }}
+              value: {{ .Values.logLevel }}
           volumeMounts:
             - name: chronicle-config
               mountPath: /etc/chronicle/config/
@@ -60,7 +60,7 @@ spec:
               readOnly: true
             - name: chronicle-data
               mountPath: /var/lib/chronicle/store/
-            {{- include "lib.volumeMounts" .Values.chronicle.extraVolumeMounts | nindent 12 }}
+            {{- include "lib.volumeMounts" .Values.extraVolumeMounts | nindent 12 }}
       volumes:
         - name: chronicle-secrets
           persistentVolumeClaim:

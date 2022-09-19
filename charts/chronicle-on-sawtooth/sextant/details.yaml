@@ -1,0 +1,25 @@
+apiVersion: v2
+name: chronicle-on-sawtooth
+description: The Chronicle provenance system with Hyperledger Sawtooth as the ledger
+
+# Replaces the index.js in the deployment templates directory, chronicle-on-sawtooth/index
+# The deploymentType and deploymentVersion help build the object structure
+deploymentType: chronicle-on-sawtooth
+deploymentVersion: 1.3
+
+# absolute path to form.js
+form: chronicle-on-sawtooth/sextant/form.js
+
+# absolute path to summary.jst
+summary: chronicle-on-sawtooth/sextant/summary.js
+
+# paths to be used in the getField function
+namePath: sawtooth.sawtooth.networkName
+namespacePath: sawtooth.sawtooth.namespace
+
+# additional fields for the button
+# form: <same as deploymentVersion>
+title: Chronicle on Sawtooth
+sextantVersion: chronicle 0.2.0, sawtooth 1.2, paralos 2.1
+buttonIcon: /thirdParty/chronicle-a.png
+features: {}
