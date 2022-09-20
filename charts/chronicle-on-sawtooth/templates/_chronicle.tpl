@@ -2,6 +2,10 @@
 {{ .Values.replicas }}
 {{- end -}}
 
+{{- define "tp.replicas" -}}
+{{ include "lib.call-nested" (list . "sawtooth" "sawtooth.replicas") | int }}
+{{- end -}}
+
 {{- define "chronicle.service.name" -}}
 {{- $svc := include "common.names.fullname" . -}}
 {{ printf "%s" $svc }}
@@ -21,7 +25,6 @@ chronicle: {{ include "common.names.fullname" . }}
 {{ include "lib.labels" . }}
 {{ include "chronicle.labels.appLabels" . }}
 {{- end -}}
-
 
 {{- define "chronicle.sawtooth.sawcomp" -}}
 {{ include "lib.call-nested" (list . "sawtooth" "sawtooth.ports.sawcomp") | int }}
