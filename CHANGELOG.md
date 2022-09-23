@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Unreleased
+
+* fix: modify hooks to be deleted before creation and upon success [view commit](https://github.com/catenasys/helm-charts/commit/afa4c3b9ac7881a40584167d06675a2f53a06822)
+
 ## v0.2.79
 
 * fix(sawtooth): correct opentsdb clause on rest-api [view commit](https://github.com/catenasys/helm-charts/commit/34edb4f830921ca8eddfb081c2eb971d52bbae66)
