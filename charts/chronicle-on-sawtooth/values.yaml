@@ -16,7 +16,7 @@ imagePullSecrets:
 
 image:
   ## @md | `image.repository` | the repository of the image | blockchaintp/chronicle |
-  repository: blockchaintp/chronicle-tp
+  repository: blockchaintp/chronicle
   ## @md | `image.tag`| the tag of the image to use | latest |
   tag: BTP2.1.0
   ## @md | `image.pullPolicy` | the image pull policy to use | IfNotPresent |
