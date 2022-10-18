@@ -1,5 +1,5 @@
 {{- $ctx := . -}}
-{{ range untilStep 0 ((include "chronicle.replicas" $ctx) | int) 1 }}
+{{ range untilStep 0 ((include "tp.replicas" $ctx) | int) 1 }}
 ---
 apiVersion: v1
 kind: Service
