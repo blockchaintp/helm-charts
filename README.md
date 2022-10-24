@@ -2,6 +2,7 @@
 # BTP charts
 
 * [besu](charts/besu/README.md)
+* [chronicle-on-sawtooth](charts/chronicle-on-sawtooth/README.md)
 * [daml-on-besu](charts/daml-on-besu/README.md)
 * [daml-on-postgres](charts/daml-on-postgres/README.md)
 * [daml-on-qldb](charts/daml-on-qldb/README.md)
