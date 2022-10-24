@@ -1,7 +1,14 @@
 # CHANGELOG
 
-## Unreleased
+## v0.2.80
 
+* fix(daml-on-postgres): ledgerId need only forbid spaces [view commit](https://github.com/catenasys/helm-charts/commit/a226707c078bdfe844fa7ae720b801ebef1fce60)
+* fix(chronicle-on-sawtooth): correct chronicle image name [view commit](https://github.com/catenasys/helm-charts/commit/8310946c28c626e0cd9d0c1f118164d7ef8992a2)
+* feat(chronicle-on-sawtooth): update values.yaml services and chart version [view commit](https://github.com/catenasys/helm-charts/commit/f561cb755d5a05dcaa0f8ddd648aeb85357f795e)
+* fix: Restore tp matching sawtooth replicas [view commit](https://github.com/catenasys/helm-charts/commit/3d22869618078fe9ef1787da76239ae9b9c82ea8)
+* feat: rename, add sextant [view commit](https://github.com/catenasys/helm-charts/commit/c7b431b8d9ebf9e064b9c1320e714f668e581eb5)
+* feat: Optional graphql playground [view commit](https://github.com/catenasys/helm-charts/commit/fd2cbfab496d40c810bca0362754e3c28bf90a4f)
+* feat: Chronicle helm chart [view commit](https://github.com/catenasys/helm-charts/commit/63b9a0ee09a75c298a1fec6980dff81b900cf38a)
 * fix: modify hooks to be deleted before creation and upon success [view commit](https://github.com/catenasys/helm-charts/commit/afa4c3b9ac7881a40584167d06675a2f53a06822)
 
 ## v0.2.79
