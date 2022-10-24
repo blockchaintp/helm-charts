@@ -27,7 +27,7 @@ repos:
           - '^(?!((fix|feature|refactor)\/[a-zA-Z0-9\-]+)$).*'
       - id: trailing-whitespace
   - repo: https://github.com/commitizen-tools/commitizen
-    rev: v2.31.0
+    rev: v2.35.0
     hooks:
       - id: commitizen
         stages: [commit-msg]
@@ -65,15 +65,15 @@ repos:
           - "2"
           - -ci
   - repo: https://github.com/markdownlint/markdownlint
-    rev: v0.11.0
+    rev: v0.12.0
     hooks:
       - id: markdownlint
   - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v8.22.0
+    rev: v8.25.0
     hooks:
       - id: eslint
   - repo: https://github.com/Lucas-C/pre-commit-hooks
-    rev: v1.3.0
+    rev: v1.3.1
     hooks:
       - id: forbid-tabs
         exclude: "^(.*/?Makefile|.*.mk|.*.go)$"
@@ -89,12 +89,12 @@ repos:
       - id: fmt
       - id: cargo-check
   - repo: https://github.com/adrienverge/yamllint
-    rev: v1.27.1
+    rev: v1.28.0
     hooks:
       - id: yamllint
         exclude: ".*/templates/.*"
   - repo: https://github.com/IamTheFij/docker-pre-commit
-    rev: v2.1.0
+    rev: v2.1.1
     hooks:
       - id: docker-compose-check
         files: docker-compose.*y[a]{0,1}ml$
