@@ -22,7 +22,7 @@ const form = [
         type: 'string',
         methods: [
           ['required', 'Required'],
-          validators.dns1123,
+          validators.password,
         ],
       },
     },
