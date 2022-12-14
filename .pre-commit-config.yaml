@@ -92,7 +92,9 @@ repos:
     rev: v1.28.0
     hooks:
       - id: yamllint
-        exclude: ".*/templates/.*"
+        args:
+          - -c
+          - .yamllint-config.yaml
   - repo: https://github.com/IamTheFij/docker-pre-commit
     rev: v2.1.1
     hooks:
