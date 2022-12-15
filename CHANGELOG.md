@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.2.82
+
+* fix(chronicle-on-sawtooth): remove sawtooth argument in favor of config [view commit](https://github.com/catenasys/helm-charts/commit/bcbbed47a24dcf373115bb6424b2af68d77fc5dc)
+
 ## v0.2.81
 
 * fix(chronicle-on-sawtooth): services addresses for sawtooth were incorrectly configured [view commit](https://github.com/catenasys/helm-charts/commit/b434e1e47f27c30b68e7a5a1289c998e3d6b5e87)
