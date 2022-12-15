@@ -1,5 +1,5 @@
-{{ $stlServiceName := include "lib.call-nested" (list . "sawtooth" "common.names.fullname")}}
 ---
+{{$stlServiceName := include "lib.call-nested" (list . "sawtooth" "common.names.fullname")}}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -33,6 +33,7 @@ spec:
           command: [ "bash", "-c"]
           args:
             - |
+              HOST={{ $stlServiceName }}-${HOST##*-}.{{ .Release.Namespace }}.svc.cluster.local
               echo tcp://$HOST:{{ include "chronicle.sawtooth.sawcomp" . }} &&
               /usr/local/bin/chronicle_sawtooth_tp \
               --console-logging json \
@@ -41,6 +42,10 @@ spec:
           env:
             - name: RUST_LOG
               value: {{ .Values.tp.logLevel }}
+            - name: HOST
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
             {{- include "lib.safeToYaml" .Values.tp.env | nindent 12 }}
           volumeMounts: {{- include "lib.volumeMounts" .Values.tp.extraVolumeMounts | nindent 12 }}
       volumes: {{- include "lib.volumes" .Values.tp.extraVolumes | nindent 8 }}
