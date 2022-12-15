@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.2.81
+
+* fix(chronicle-on-sawtooth): services addresses for sawtooth were incorrectly configured [view commit](https://github.com/catenasys/helm-charts/commit/b434e1e47f27c30b68e7a5a1289c998e3d6b5e87)
+* build(deps): Bump minimatch from 3.0.4 to 3.1.2 [view commit](https://github.com/catenasys/helm-charts/commit/d77ffa372f0a82eee3647760039b4c96fb2a6390)
+* fix(sextant): update image versions [view commit](https://github.com/catenasys/helm-charts/commit/a6f3bd610bd070096add02ad062a4bad483f8102)
+
 ## v0.2.80
 
 * fix(daml-on-postgres): ledgerId need only forbid spaces [view commit](https://github.com/catenasys/helm-charts/commit/a226707c078bdfe844fa7ae720b801ebef1fce60)
