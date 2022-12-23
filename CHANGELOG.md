@@ -1,7 +1,8 @@
 # CHANGELOG
 
-## Unreleased
+## v0.2.84
 
+* fix(chronicle): specify validator on cli [view commit](https://github.com/catenasys/helm-charts/commit/0316de5bcb408cb90367cb14955536ccfdabf174)
 * fix(sextant): bump sextant-api version for enterprise [view commit](https://github.com/catenasys/helm-charts/commit/858fa4a981eaeb5d19e962edb91da8f11cc5c78c)
 
 ## v0.2.83
