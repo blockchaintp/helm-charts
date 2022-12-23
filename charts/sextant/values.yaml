@@ -37,7 +37,7 @@ editionImages:
     enterprise:
       registry: dev.catenasys.com:8084
       repository: blockchaintp/sextant-enterprise
-      tag: BTP2.1.0-2.2.0
+      tag: BTP2.1.0-2.2.1
     community:
       registry: dev.catenasys.com:8084
       repository: blockchaintp/sextant-community
@@ -58,7 +58,7 @@ editionImages:
     enterprise:
       registry: dev.catenasys.com:8084
       repository: blockchaintp/sextant-api-enterprise
-      tag: BTP2.1.0-2.2.7
+      tag: BTP2.1.0-2.3.2
     community:
       registry: dev.catenasys.com:8084
       repository: blockchaintp/sextant-api-community
