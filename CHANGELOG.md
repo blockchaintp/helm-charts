@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Unreleased
+
+* fix(sextant): bump sextant-api version for enterprise [view commit](https://github.com/catenasys/helm-charts/commit/858fa4a981eaeb5d19e962edb91da8f11cc5c78c)
+
 ## v0.2.83
 
 * fix(sextant): update community and enterprise versions [view commit](https://github.com/catenasys/helm-charts/commit/929f3baa51e50fcfa84cfceecba260b8eee4752c)
