@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.2.83
+
+* fix(sextant): update community and enterprise versions [view commit](https://github.com/catenasys/helm-charts/commit/929f3baa51e50fcfa84cfceecba260b8eee4752c)
+* fix(chronicle): fix postgres config [view commit](https://github.com/catenasys/helm-charts/commit/e3f54a6ce14e0094dd8eba7acad0b52248713138)
+* fix(chronicle): updates for 0.5.0 [view commit](https://github.com/catenasys/helm-charts/commit/a3007eac03ccc2303d2dd6e3ada2075600cddd3c)
+
 ## v0.2.82
 
 * fix(chronicle-on-sawtooth): remove sawtooth argument in favor of config [view commit](https://github.com/catenasys/helm-charts/commit/bcbbed47a24dcf373115bb6424b2af68d77fc5dc)
