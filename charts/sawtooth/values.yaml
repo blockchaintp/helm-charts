@@ -88,7 +88,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-block-info-tp
-        tag: BTP2.1.0rc14
+        tag: BTP2.1.0
       logLevel:
       resources:
         limits:
@@ -102,7 +102,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-devmode-engine-rust
-        tag: BTP2.1.0rc14
+        tag: BTP2.1.0
       logLevel:
       resources:
         limits:
@@ -117,7 +117,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-identity-tp
-        tag: BTP2.1.0rc14
+        tag: BTP2.1.0
       logLevel:
       resources:
         limits:
@@ -131,7 +131,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-intkey-tp-go
-        tag: BTP2.1.0rc14
+        tag: BTP2.1.0
       logLevel:
       resources:
         limits:
@@ -145,7 +145,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-shell
-        tag: BTP2.1.0rc14
+        tag: BTP2.1.0
       logLevel:
       resources:
         limits:
@@ -159,7 +159,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-pbft-engine
-        tag: BTP2.1.0rc14
+        tag: BTP2.1.0
       logLevel:
       resources:
         limits:
@@ -173,7 +173,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-poet-engine
-        tag: BTP2.1.0rc14
+        tag: BTP2.1.0
       logLevel:
       resources:
         limits:
@@ -187,7 +187,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-poet-validator-registry-tp
-        tag: BTP2.1.0rc14
+        tag: BTP2.1.0
       logLevel:
       resources:
         limits:
@@ -201,7 +201,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-poet-cli
-        tag: BTP2.1.0rc14
+        tag: BTP2.1.0
       logLevel:
       resources:
         limits:
@@ -215,7 +215,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-raft-engine
-        tag: BTP2.1.0rc14
+        tag: BTP2.1.0
       logLevel:
       resources:
         limits:
@@ -230,7 +230,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-rest-api
-        tag: BTP2.1.0rc14
+        tag: BTP2.1.0
       logLevel:
       resources:
         limits:
@@ -244,7 +244,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-seth-rpc
-        tag: BTP2.1.0rc14
+        tag: BTP2.1.0
       logLevel:
       resources:
         limits:
@@ -258,7 +258,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-seth-tp
-        tag: BTP2.1.0rc14
+        tag: BTP2.1.0
       logLevel:
       resources:
         limits:
@@ -273,7 +273,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-settings-tp
-        tag: BTP2.1.0rc14
+        tag: BTP2.1.0
       logLevel:
       resources:
         limits:
@@ -287,7 +287,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-smallbank-tp-go
-        tag: BTP2.1.0rc14
+        tag: BTP2.1.0
       logLevel:
       resources:
         limits:
@@ -305,7 +305,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-validator
-        tag: BTP2.1.0rc14
+        tag: BTP2.1.0
       logLevel:
       resources: {}
     xo_tp:
@@ -315,7 +315,7 @@ sawtooth:
         pullPolicy:
         registry:
         repository: blockchaintp/sawtooth-xo-tp-go
-        tag: BTP2.1.0rc14
+        tag: BTP2.1.0
       logLevel:
       resources:
         limits:
@@ -425,41 +425,41 @@ images:
   ## @md
   ## @md | field | default |
   ## @md |- |- |
-  ## @md | `images.devmode_engine` | blockchaintp/sawtooth-devmode-engine-rust:BTP2.1.0rc14
+  ## @md | `images.devmode_engine` | blockchaintp/sawtooth-devmode-engine-rust:BTP2.1.0
   devmode_engine:
-  ## @md | `images.pbft_engine` | blockchaintp/sawtooth-pbft-engine:BTP2.1.0rc14
+  ## @md | `images.pbft_engine` | blockchaintp/sawtooth-pbft-engine:BTP2.1.0
   pbft_engine:
-  ## @md | `images.poet_cli` | blockchaintp/sawtooth-poet-cli:BTP2.1.0rc14
+  ## @md | `images.poet_cli` | blockchaintp/sawtooth-poet-cli:BTP2.1.0
   poet_cli:
-  ## @md | `images.poet_engine` | blockchaintp/sawtooth-poet-engine:BTP2.1.0rc14
+  ## @md | `images.poet_engine` | blockchaintp/sawtooth-poet-engine:BTP2.1.0
   poet_engine:
-  ## @md | `images.poet_validator_registry_tp` | blockchaintp/sawtooth-poet-validator-registry-tp:BTP2.1.0rc14
+  ## @md | `images.poet_validator_registry_tp` | blockchaintp/sawtooth-poet-validator-registry-tp:BTP2.1.0
   poet_validator_registry_tp:
-  ## @md | `images.raft_engine` | blockchaintp/sawtooth-raft-engine:BTP2.1.0rc14
+  ## @md | `images.raft_engine` | blockchaintp/sawtooth-raft-engine:BTP2.1.0
   raft_engine:
-  ## @md | `images.block_info_tp` | blockchaintp/sawtooth-block-info-tp:BTP2.1.0rc14
+  ## @md | `images.block_info_tp` | blockchaintp/sawtooth-block-info-tp:BTP2.1.0
   block_info_tp:
-  ## @md | `images.identity_tp` | blockchaintp/sawtooth-identity-tp:BTP2.1.0rc14
+  ## @md | `images.identity_tp` | blockchaintp/sawtooth-identity-tp:BTP2.1.0
   identity_tp:
-  ## @md | `images.intkey_tp` | blockchaintp/sawtooth-intkey-tp-go:BTP2.1.0rc14
+  ## @md | `images.intkey_tp` | blockchaintp/sawtooth-intkey-tp-go:BTP2.1.0
   intkey_tp:
-  ## @md | `images.settings_tp` | blockchaintp/sawtooth-settings-tp:BTP2.1.0rc14
+  ## @md | `images.settings_tp` | blockchaintp/sawtooth-settings-tp:BTP2.1.0
   settings_tp:
-  ## @md | `images.shell` | blockchaintp/sawtooth-shell:BTP2.1.0rc14
+  ## @md | `images.shell` | blockchaintp/sawtooth-shell:BTP2.1.0
   shell:
-  ## @md | `images.smallbank_tp` | blockchaintp/sawtooth-smallbank-tp-go:BTP2.1.0rc14
+  ## @md | `images.smallbank_tp` | blockchaintp/sawtooth-smallbank-tp-go:BTP2.1.0
   smallbank_tp:
-  ## @md | `images.validator` | blockchaintp/sawtooth-validator:BTP2.1.0rc14
+  ## @md | `images.validator` | blockchaintp/sawtooth-validator:BTP2.1.0
   validator:
-  ## @md | `images.xo_tp` | blockchaintp/sawtooth-xo-tp-go:BTP2.1.0rc14
+  ## @md | `images.xo_tp` | blockchaintp/sawtooth-xo-tp-go:BTP2.1.0
   xo_tp:
-  ## @md | `images.rest_api` | blockchaintp/sawtooth-rest-api:BTP2.1.0rc14
+  ## @md | `images.rest_api` | blockchaintp/sawtooth-rest-api:BTP2.1.0
   rest_api:
-  ## @md | `images.seth_rpc` | blockchaintp/sawtooth-seth-rpc:BTP2.1.0rc13
+  ## @md | `images.seth_rpc` | blockchaintp/sawtooth-seth-rpc:BTP2.1.0
   seth_rpc:
-  ## @md | `images.seth_tp` | blockchaintp/sawtooth-seth-tp:BTP2.1.0rc13
+  ## @md | `images.seth_tp` | blockchaintp/sawtooth-seth-tp:BTP2.1.0
   seth_tp:
-  ## @md | `images.xo_demo` | blockchaintp/xo-demo:BTP2.1.0rc14
+  ## @md | `images.xo_demo` | blockchaintp/xo-demo:BTP2.1.0
   xo_demo:
 
 ## @md

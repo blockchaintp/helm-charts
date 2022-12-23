@@ -24,7 +24,7 @@ daml:
     ## @md | daml.image.repository | the docker image repository | blockchaintp/daml-on-postgres |
     repository: blockchaintp/daml-on-postgres
     ## @md | daml.image.tag | the docker image tag | latest |
-    tag: BTP2.1.0rc15
+    tag: BTP2.1.0
     ## @md | daml.image.pullPolicy | the docker image pull policy | IfNotPresent |
     pullPolicy: IfNotPresent
   ## @md | daml.ledgerId | the daml ledger id | someIdentifyingString |
@@ -52,7 +52,7 @@ daml:
       ## @md | daml.jsonapi.image.repository | the docker image repository | blockchaintp/daml-on-postgres-jsonapi |
       repository: blockchaintp/daml-json-api
       ## @md | daml.jsonapi.image.tag | the docker image tag | latest |
-      tag: BTP2.1.0rc15
+      tag: BTP2.1.0
       ## @md | daml.jsonapi.image.pullPolicy | the docker image pull policy | IfNotPresent |
       pullPolicy: IfNotPresent
     ports:

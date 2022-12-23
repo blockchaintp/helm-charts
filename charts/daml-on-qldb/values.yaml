@@ -37,8 +37,8 @@ image:
   pullPolicy: IfNotPresent
   ## @md | `image.repository` | the repository for the daml-rpc image | blockchaintp/sawtooth-daml-rpc |
   repository: blockchaintp/daml-on-qldb
-  ## @md | `image.tag` | the tag for the daml-rpc image | BTP2.1.0rc15 |
-  tag: BTP2.1.0rc15
+  ## @md | `image.tag` | the tag for the daml-rpc image | BTP2.1.0 |
+  tag: BTP2.1.0
 
 ingress:
   ## @md | `ingress.enabled` | enable the ingress for the daml-rpc| false |
@@ -221,7 +221,7 @@ trigger:
     pullPolicy: IfNotPresent
     ## @md | `trigger.image.repository`| the image name| blockchaintp/sawtooth-daml-trigger |
     repository: blockchaintp/daml-trigger
-    ## @md | `trigger.image.tag`| the image tag to use| BTP2.1.0rc15 |
+    ## @md | `trigger.image.tag`| the image tag to use| BTP2.1.0 |
     tag: BTP2.1.0
   ## @md | `trigger.triggerDefs`| settings for the individual trigger deployments which replaces the trigger-service See [Triggers](#triggers)| [] |
   triggerDefs: []
@@ -238,4 +238,3 @@ trigger:
 ## @md | `party` | name of the party to use| yes| nil |
 ## @md | `env` | environment var for the trigger| no| [] |
 ## @md | `resources` | resources for the trigger| no| [] |
-
