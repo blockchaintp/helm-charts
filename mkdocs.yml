@@ -9,7 +9,7 @@ markdown_extensions:
   - toc:
       permalink: true
 nav:
-  - Home: index.md
+  - Overview: index.md
   - CHANGELOG: CHANGELOG.md
   - Sextant:
       - Overview: sextant/README.md
