@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Unreleased
+
+* docs(mkdocs): change Home to Overview in nav for import into main docs site [view commit](https://github.com/catenasys/helm-charts/commit/1d35ebb6f1bf1f1e8121bfed157ce4850b899ed4)
+
 ## v0.2.84
 
 * fix(chronicle): specify validator on cli [view commit](https://github.com/catenasys/helm-charts/commit/0316de5bcb408cb90367cb14955536ccfdabf174)
