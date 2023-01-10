@@ -1,5 +1,5 @@
 ---
-site_name: BTP Deployment Documentation
+site_name: helm-charts
 theme: readthedocs
 copyright: Copyright &copy; 2022 Blockchain Technology Partners
 extra_css: [extra.css]
