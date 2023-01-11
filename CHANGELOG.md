@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* docs(mkdocs): set site name so that on the main docs site url slug is helm-charts [view commit](https://github.com/catenasys/helm-charts/commit/f9893ff50258d7afd47e7ac0cd72d0500a1ad7aa)
 * docs(mkdocs): change Home to Overview in nav for import into main docs site [view commit](https://github.com/catenasys/helm-charts/commit/1d35ebb6f1bf1f1e8121bfed157ce4850b899ed4)
 
 ## v0.2.84
