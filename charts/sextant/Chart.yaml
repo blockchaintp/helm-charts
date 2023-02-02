@@ -3,9 +3,11 @@ apiVersion: v2
 name: sextant
 description: |
   Sextant automates the deployment and management of enterprise blockchain
-  infrastructure.
+  infrastructure. It also delivers Chronicle - an open-source,
+  blockchain-backed, domain-agnostic provenance product - and facilitates its
+  integration with enterprise systems.
 icon: https://sextant-resources.s3.amazonaws.com/icons/large-logo-blue.svg
-home: https://www.blockchaintp.com/sextant
+home: https://btp.works/sextant
 # Application charts are a collection of templates that can be packaged into
 # versioned archives to be deployed.
 type: application
@@ -21,6 +23,7 @@ version: 2.2.20
 appVersion: 2.1.8
 
 keywords:
+  - provenance
   - blockchain
   - smart contracts
 
