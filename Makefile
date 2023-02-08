@@ -80,7 +80,7 @@ $(MARKERS)/helmunit-$(1): $(MARKERS)/helmdep-build-$(1)
 	@echo "$(1) --> Unit Testing"
 	@docker run --rm -v $(PWD)/$(CHART_BASE):/apps \
 		-v $(PWD)/build:/build \
-		quintush/helm-unittest --helm3 $(1) -o /build/unittest/$(1).xml \
+		quintush/helm-unittest:3.10.3-0.2.10 --helm3 $(1) -o /build/unittest/$(1).xml \
 		  -t JUnit
 	@touch $(MARKERS)/helmunit-$(1)
 
