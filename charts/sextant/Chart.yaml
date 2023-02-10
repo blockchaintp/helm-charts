@@ -3,9 +3,11 @@ apiVersion: v2
 name: sextant
 description: |
   Sextant automates the deployment and management of enterprise blockchain
-  infrastructure.
+  infrastructure. It also delivers Chronicle - an open-source,
+  blockchain-backed, domain-agnostic provenance product - and facilitates its
+  integration with enterprise systems.
 icon: https://sextant-resources.s3.amazonaws.com/icons/large-logo-blue.svg
-home: https://www.blockchaintp.com/sextant
+home: https://btp.works/sextant
 # Application charts are a collection of templates that can be packaged into
 # versioned archives to be deployed.
 type: application
@@ -14,13 +16,14 @@ kubeVersion: ">=1.19-0"
 
 # This is the chart version. This version number should be incremented each time
 # you make changes to the chart and its templates, including the app version.
-version: 2.2.20
+version: 2.2.21
 
 # This is the version number of the application being deployed. This version
 # number should be incremented each time you make changes to the application.
 appVersion: 2.1.8
 
 keywords:
+  - provenance
   - blockchain
   - smart contracts
 
