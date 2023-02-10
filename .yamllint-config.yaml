@@ -6,3 +6,5 @@ rules:
     max: 120
     ignore: |
       **/values.yaml
+      **/rancher-marketplace-questions.yaml
+      **/rancher-marketplace-values.yaml
