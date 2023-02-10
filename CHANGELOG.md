@@ -1,7 +1,11 @@
 # CHANGELOG
 
-## Unreleased
+## v0.2.85
 
+* feat(sextant): bump chart version [view commit](https://github.com/catenasys/helm-charts/commit/afe83223bf2b6e2a09fca9005e87d21565427a83)
+* docs(sextant): document rancher specific files and exclude from yamllint line length [view commit](https://github.com/catenasys/helm-charts/commit/8e76ec9ff3d79d296cd411fb68e26d9893088422)
+* feat(sextant): update app-readme to referance btp.works and chronicle in marketplace [view commit](https://github.com/catenasys/helm-charts/commit/cad1c1a803607f9e3e471bb297ed83706f51f4fd)
+* feat(sextant): update to referance btp.works and chronicle in chart description [view commit](https://github.com/catenasys/helm-charts/commit/2e1e65e36498ce63644c49a2f3d926cded247806)
 * build(deps): Bump json5 from 1.0.1 to 1.0.2 [view commit](https://github.com/catenasys/helm-charts/commit/b36d3395538f13dfa68ad0e7803afa5ed3883e22)
 * docs(mkdocs): set site name so that on the main docs site url slug is helm-charts [view commit](https://github.com/catenasys/helm-charts/commit/f9893ff50258d7afd47e7ac0cd72d0500a1ad7aa)
 * docs(mkdocs): change Home to Overview in nav for import into main docs site [view commit](https://github.com/catenasys/helm-charts/commit/1d35ebb6f1bf1f1e8121bfed157ce4850b899ed4)
