@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Unreleased
+
+* fix(charts): remove rc candidates [view commit](https://github.com/catenasys/helm-charts/commit/713dbc46dc9f273109acc3f8a306af8b6c2290e5)
+
 ## v0.2.85
 
 * feat(sextant): bump chart version [view commit](https://github.com/catenasys/helm-charts/commit/afe83223bf2b6e2a09fca9005e87d21565427a83)
