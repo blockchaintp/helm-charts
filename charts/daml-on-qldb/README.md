@@ -14,7 +14,7 @@
 | `port` | the port on which the daml-rpc GRPC service listens
 | `image.pullPolicy` | the image pull policy for the daml-rpc image | IfNotPresent |
 | `image.repository` | the repository for the daml-rpc image | blockchaintp/sawtooth-daml-rpc |
-| `image.tag` | the tag for the daml-rpc image | BTP2.1.0rc15 |
+| `image.tag` | the tag for the daml-rpc image | BTP2.1.0 |
 | `ingress.enabled` | enable the ingress for the daml-rpc| false |
 | `ingress.hostname` | primary hostname for the ingress | false |
 | `ingress.path` | path for the ingress's primary hostname | / |
@@ -75,7 +75,7 @@
 | `trigger.extraVolumes` | extra volumes declarations for trigger service | list | nil
 | `trigger.image.pullPolicy` | the image pull policy | IfNotPresent |
 | `trigger.image.repository`| the image name| blockchaintp/sawtooth-daml-trigger |
-| `trigger.image.tag`| the image tag to use| BTP2.1.0rc15 |
+| `trigger.image.tag`| the image tag to use| BTP2.1.0 |
 | `trigger.triggerDefs`| settings for the individual trigger deployments which replaces the trigger-service See [Triggers](#triggers)| [] |
 
 ## Triggers

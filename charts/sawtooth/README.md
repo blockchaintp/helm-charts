@@ -63,24 +63,24 @@
 
 | field | default |
 |- |- |
-| `images.devmode_engine` | blockchaintp/sawtooth-devmode-engine-rust:BTP2.1.0rc14
-| `images.pbft_engine` | blockchaintp/sawtooth-pbft-engine:BTP2.1.0rc14
-| `images.poet_cli` | blockchaintp/sawtooth-poet-cli:BTP2.1.0rc14
-| `images.poet_engine` | blockchaintp/sawtooth-poet-engine:BTP2.1.0rc14
-| `images.poet_validator_registry_tp` | blockchaintp/sawtooth-poet-validator-registry-tp:BTP2.1.0rc14
-| `images.raft_engine` | blockchaintp/sawtooth-raft-engine:BTP2.1.0rc14
-| `images.block_info_tp` | blockchaintp/sawtooth-block-info-tp:BTP2.1.0rc14
-| `images.identity_tp` | blockchaintp/sawtooth-identity-tp:BTP2.1.0rc14
-| `images.intkey_tp` | blockchaintp/sawtooth-intkey-tp-go:BTP2.1.0rc14
-| `images.settings_tp` | blockchaintp/sawtooth-settings-tp:BTP2.1.0rc14
-| `images.shell` | blockchaintp/sawtooth-shell:BTP2.1.0rc14
-| `images.smallbank_tp` | blockchaintp/sawtooth-smallbank-tp-go:BTP2.1.0rc14
-| `images.validator` | blockchaintp/sawtooth-validator:BTP2.1.0rc14
-| `images.xo_tp` | blockchaintp/sawtooth-xo-tp-go:BTP2.1.0rc14
-| `images.rest_api` | blockchaintp/sawtooth-rest-api:BTP2.1.0rc14
-| `images.seth_rpc` | blockchaintp/sawtooth-seth-rpc:BTP2.1.0rc13
-| `images.seth_tp` | blockchaintp/sawtooth-seth-tp:BTP2.1.0rc13
-| `images.xo_demo` | blockchaintp/xo-demo:BTP2.1.0rc14
+| `images.devmode_engine` | blockchaintp/sawtooth-devmode-engine-rust:BTP2.1.0
+| `images.pbft_engine` | blockchaintp/sawtooth-pbft-engine:BTP2.1.0
+| `images.poet_cli` | blockchaintp/sawtooth-poet-cli:BTP2.1.0
+| `images.poet_engine` | blockchaintp/sawtooth-poet-engine:BTP2.1.0
+| `images.poet_validator_registry_tp` | blockchaintp/sawtooth-poet-validator-registry-tp:BTP2.1.0
+| `images.raft_engine` | blockchaintp/sawtooth-raft-engine:BTP2.1.0
+| `images.block_info_tp` | blockchaintp/sawtooth-block-info-tp:BTP2.1.0
+| `images.identity_tp` | blockchaintp/sawtooth-identity-tp:BTP2.1.0
+| `images.intkey_tp` | blockchaintp/sawtooth-intkey-tp-go:BTP2.1.0
+| `images.settings_tp` | blockchaintp/sawtooth-settings-tp:BTP2.1.0
+| `images.shell` | blockchaintp/sawtooth-shell:BTP2.1.0
+| `images.smallbank_tp` | blockchaintp/sawtooth-smallbank-tp-go:BTP2.1.0
+| `images.validator` | blockchaintp/sawtooth-validator:BTP2.1.0
+| `images.xo_tp` | blockchaintp/sawtooth-xo-tp-go:BTP2.1.0
+| `images.rest_api` | blockchaintp/sawtooth-rest-api:BTP2.1.0
+| `images.seth_rpc` | blockchaintp/sawtooth-seth-rpc:BTP2.1.0
+| `images.seth_tp` | blockchaintp/sawtooth-seth-tp:BTP2.1.0
+| `images.xo_demo` | blockchaintp/xo-demo:BTP2.1.0
 
 ## Custom TP Definitions
 
