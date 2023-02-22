@@ -1,7 +1,8 @@
 # CHANGELOG
 
-## Unreleased
+## v0.2.86
 
+* feat(sextant): update chart version to 2.3.0 [view commit](https://github.com/catenasys/helm-charts/commit/a2d25b01279f5880fea91fae510d1478e6ac47ba)
 * fix(charts): remove rc candidates [view commit](https://github.com/catenasys/helm-charts/commit/713dbc46dc9f273109acc3f8a306af8b6c2290e5)
 
 ## v0.2.85
