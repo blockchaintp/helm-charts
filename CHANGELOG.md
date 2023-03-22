@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Unreleased
+
+* docs(github): add PR template with checklist [view commit](https://github.com/catenasys/helm-charts/commit/3bc689e1a88b28c6b7dd89835663f2a6f92073ef)
+
 ## v0.2.86
 
 * feat(sextant): update chart version to 2.3.0 [view commit](https://github.com/catenasys/helm-charts/commit/a2d25b01279f5880fea91fae510d1478e6ac47ba)
