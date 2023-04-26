@@ -1,7 +1,9 @@
 # CHANGELOG
 
-## Unreleased
+## v0.2.87
 
+* feat(chronicle-on-sawtooth): update chronicle version to 0.6.0 [view commit](https://github.com/catenasys/helm-charts/commit/c81157287842c9aa3d9d34abdc400158134d9db1)
+* fix(chronicle-on-sawtooth): add initContainer to correct volume permissions [view commit](https://github.com/catenasys/helm-charts/commit/173b9c84cabf6e121e26fa631be19fbb01e851cb)
 * docs(github): add PR template with checklist [view commit](https://github.com/catenasys/helm-charts/commit/3bc689e1a88b28c6b7dd89835663f2a6f92073ef)
 
 ## v0.2.86
