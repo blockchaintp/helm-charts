@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.2.88
+
+* feat(chronicle-on-sawtooth): add helm resource-policy to keep chronicle-secrets volume on uninstall [view commit](https://github.com/catenasys/helm-charts/commit/74ade574fef2d27e0203aad81f8e88d7c36f9b13)
+
 ## v0.2.87
 
 * feat(chronicle-on-sawtooth): update chronicle version to 0.6.0 [view commit](https://github.com/catenasys/helm-charts/commit/c81157287842c9aa3d9d34abdc400158134d9db1)
