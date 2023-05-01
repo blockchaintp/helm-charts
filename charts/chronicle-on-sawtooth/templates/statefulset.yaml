@@ -88,6 +88,7 @@ spec:
           env: {{ include "lib.safeToYaml" .Values.env | nindent 12 }}
             - name: RUST_LOG
               value: {{ .Values.logLevel }}
+          resources: {{- include "lib.safeToYaml" .Values.resources | nindent 12 }}
           volumeMounts:
             - name: chronicle-config
               mountPath: /etc/chronicle/config/
