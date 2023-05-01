@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.2.89
+
+* fix(chronicle-on-sawtooth): add resources parameter to chronicle container [view commit](https://github.com/catenasys/helm-charts/commit/da8a5bfccfd2030ce6b5495996a811423ecbbc34)
+
 ## v0.2.88
 
 * feat(chronicle-on-sawtooth): add helm resource-policy to keep chronicle-secrets volume on uninstall [view commit](https://github.com/catenasys/helm-charts/commit/74ade574fef2d27e0203aad81f8e88d7c36f9b13)
