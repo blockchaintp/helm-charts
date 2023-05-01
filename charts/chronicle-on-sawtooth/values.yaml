@@ -101,6 +101,7 @@ tp:
   ## @md | `tp.extraVolumeMounts` | extra volume mounts for chronicle-tp deployment | list | nil
   extraVolumeMounts:
 
+  ## @md | `tp.resources` | resources | map | nil |
   resources:
   ## @md | `tp.maxUnavailable` | maximum unavailable nodes during a rolling upgrade |
   maxUnavailable: 1
@@ -152,5 +153,8 @@ postgres:
     storageClass:
     ## @md | `postgres.persistence.size` | postgres PVC volume size | string | "40Gi" |
     size: "40Gi"
-  ## @md | `postgres.resources` | UI resources | map | nil |
+  ## @md | `postgres.resources` | resources | map | nil |
   resources:
+
+## @md | `resources` | resources | map | nil |
+resources:
