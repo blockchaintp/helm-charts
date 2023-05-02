@@ -133,8 +133,8 @@ postgres:
   password: postgres
   ## @md | `postgres.existingPasswordSecret` | name of a secret containing the postgres password | string | nil |
   existingPasswordSecret:
-  ## @md | `postgres.existingPasswordSecret` | name of the key in a secret containing the postgres password | string | password |
-  existingPasswordSecretKey: password
+  ## @md | `postgres.existingPasswordSecret` | name of the key in a secret containing the postgres password | string | nil |
+  existingPasswordSecretKey:
   ## @md | `postgres.tls` | postgres TLS configuration | string | nil |
   tls:
   ## @md | `postgres.persistence` | postgres persistence settings | map | N/A |
