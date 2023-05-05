@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Unreleased
+
+* fix(chronicle-on-sawtooth): correct postgres connection and external connection args [view commit](https://github.com/catenasys/helm-charts/commit/73b92b0352f49960471d96f6e3c3284746384ad4)
+
 ## v0.2.89
 
 * fix(chronicle-on-sawtooth): add resources parameter to chronicle container [view commit](https://github.com/catenasys/helm-charts/commit/da8a5bfccfd2030ce6b5495996a811423ecbbc34)
