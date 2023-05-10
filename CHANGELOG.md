@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v0.2.92
+
+* fix(chronicle-on-sawtooth): bump chronicle version to 0.6.2 [view commit](https://github.com/catenasys/helm-charts/commit/fea01f71c2ca6c0e6d76205cf084d0a344d7d985)
+
+## v0.2.91
+
+
 ## v0.2.90
 
 * build: update Chronicle version to 0.6.1 [view commit](https://github.com/catenasys/helm-charts/commit/dd99043abfb6fd7d308c11e11c2275d906f02d29)
