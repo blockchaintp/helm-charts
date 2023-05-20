@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Unreleased
+
+* feat(chronicle-on-sawtooth): add app-readme.md and questions.yaml used by Rancher marketplace [view commit](https://github.com/catenasys/helm-charts/commit/96fb9b45311c92ecb3beed37bc10d89cd7598610)
+
 ## v0.2.92
 
 * fix(chronicle-on-sawtooth): bump chronicle version to 0.6.2 [view commit](https://github.com/catenasys/helm-charts/commit/fea01f71c2ca6c0e6d76205cf084d0a344d7d985)
