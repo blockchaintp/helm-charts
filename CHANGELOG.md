@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* fix(chronicle-on-sawtooth): port chronicle repo chart test [view commit](https://github.com/catenasys/helm-charts/commit/c22044195e67b5207e0b3b2be1e4e248d84db206)
+* fix(chronicle-on-sawtooth): point sawtooth dependency to stable [view commit](https://github.com/catenasys/helm-charts/commit/9f6b44143b251b17d25dc52a64ff24dbbd7288df)
 * feat(chronicle-on-sawtooth): add app-readme.md and questions.yaml used by Rancher marketplace [view commit](https://github.com/catenasys/helm-charts/commit/96fb9b45311c92ecb3beed37bc10d89cd7598610)
 
 ## v0.2.92
