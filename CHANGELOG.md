@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* fix(sawtooth): upsert validator priv keys [view commit](https://github.com/catenasys/helm-charts/commit/d9c3a1f07973eab204b6e735228399987bfd5b8c)
 * feat(chronicle-on-sawtooth): increase chart version [view commit](https://github.com/catenasys/helm-charts/commit/ada5a284a6cf43ee9632ab4878aa9d9eb59d4e0d)
 * fix(chronicle-on-sawtooth): update chart metadata [view commit](https://github.com/catenasys/helm-charts/commit/2322eb68078bf595a5ad6272f92e981305f057b0)
 * fix(chronicle-on-sawtooth): port chronicle repo chart test [view commit](https://github.com/catenasys/helm-charts/commit/c22044195e67b5207e0b3b2be1e4e248d84db206)
