@@ -9,6 +9,7 @@ description: |
 type: application
 home: https://docs.btp.works/chronicle
 icon: https://chronicle-resources.s3.amazonaws.com/icons/chronicle-transparent-bg-dark.png
+
 keywords:
   - provenance
   - blockchain
@@ -18,9 +19,9 @@ keywords:
 # version.
 version: 0.1.15
 
-# This is the version number of the application being deployed. This version
-# number should be incremented each time you make changes to the application.
-appVersion: 0.6.2
+# This is the version number of Chronicle being deployed. This version
+# number should be incremented each time you make changes to Chronicle.
+appVersion: 0.7.3
 
 dependencies:
   - name: standard-defs
@@ -28,4 +29,4 @@ dependencies:
     repository: https://btp-charts-stable.s3.amazonaws.com/charts/
   - name: sawtooth
     version: ~0.2.0
-    repository: https://btp-charts-stable.s3.amazonaws.com/charts/
+    repository: https://btp-charts-unstable.s3.amazonaws.com/charts/
