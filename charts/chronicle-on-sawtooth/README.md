@@ -1,4 +1,4 @@
-# Chronicle on Sawtooth Chart
+# Chronicle
 
 | field | description | default |
 |-|-|-|
@@ -11,11 +11,6 @@
 | `webUi` | If true serve the graphql playground interface | false |
 | `replicas` | number of Chronicle replicas to run | 1 |
 | `affinity`| custom affinity rules for the chronicle pod | {} |
-| `test.command` | the command to run in the api-test container | ["/usr/local/bin/subscribe-submit-compare"] |
-| `api-test-container.image` | the image to use for the api-test container | blockchaintp/chronicle-api-test |
-| `test.image.pullPolicy` | the image pull policy | IfNotPresent |
-| `test.image.repository` | the image repository | blockchaintp/chronicle-helm-api-test |
-| `test.image.tag` | the image tag | latest |
 | `extraVolumes` | a list of additional volumes to add to chronicle | [] |
 | `extraVolumeMounts` | a list of additional volume mounts to add to chronicle | [] |
 | `port` | the port on which the chronicle service listens | 9982 |
