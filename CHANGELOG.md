@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.2.95
+
+* fix(chronicle): port CHRON-397 changes from Chronicle chart [view commit](https://github.com/catenasys/helm-charts/commit/89d6b9d3b6f384dd51d837ab2b797864a84d0954)
+
 ## v0.2.94
 
 * feat(chronicle): add chronicle chart from chronicle source repo [view commit](https://github.com/catenasys/helm-charts/commit/adc5fc0b70a95e7ebee1f9bb1b378455b3946cf0)
