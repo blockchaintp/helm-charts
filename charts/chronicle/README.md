@@ -3,7 +3,8 @@
 | field | description | default |
 |-|-|-|
 | `affinity`| custom affinity rules for the chronicle pod | {} |
-| `auth.required` | if true require authentication | false |
+| `auth.required` | if true require authentication, rejecting 'anonymous' requests | false |
+| `auth.id.claims` | Chronicle provides default values ["iss", "sub"] | nil |
 | `backtraceLevel` | backtrace level for Chronicle  | nil |
 | `devIdProvider.image` | the image to use for the id-provider container | blockchaintp/id-provider |
 | `devIdProvider.image.pullPolicy` | the image pull policy | IfNotPresent |
@@ -44,11 +45,12 @@
 | `replicas` | number of Chronicle replicas to run | 1 |
 | `serviceAccount.create` | true to create a service account | false |
 | `serviceAccount.name` | name of the service account | nil (defaults to based on release name) |
-| `test.enabled` | true to enable test Jobs and Services | true |
+| `test.api` | test the chronicle GraphQL server API |
 | `api-test-container.image` | the image to use for the api-test container | blockchaintp/chronicle-api-test |
 | `test.api.image.pullPolicy` | the image pull policy | IfNotPresent |
 | `test.api.image.repository` | the image repository | blockchaintp/chronicle-helm-api-test |
 | `test.api.image.tag` | the image tag | latest |
+| `test.enabled` | true to enable test Jobs and Services | true |
 | `postgres.enabled` | if true create an internal postgres instance | boolean | true |
 | `postgres.env` | postgres environment variables | map | N/A |
 | `postgres.image.repository` | postgres image repository | string | "postgres" |
