@@ -46,11 +46,12 @@
 | `serviceAccount.create` | true to create a service account | false |
 | `serviceAccount.name` | name of the service account | nil (defaults to based on release name) |
 | `test.api` | test the chronicle GraphQL server API |
-| `api-test-container.image` | the image to use for the api-test container | blockchaintp/chronicle-api-test |
+| `test.api.enabled` | true to enable api-test Jobs and Services | true |
+| `test.api.image` | the image to use for the api-test container | blockchaintp/chronicle-helm-api-test |
 | `test.api.image.pullPolicy` | the image pull policy | IfNotPresent |
 | `test.api.image.repository` | the image repository | blockchaintp/chronicle-helm-api-test |
 | `test.api.image.tag` | the image tag | latest |
-| `test.enabled` | true to enable test Jobs and Services | true |
+| `test.auth.token` | provide a token for auth-related testing | nil |
 | `postgres.enabled` | if true create an internal postgres instance | boolean | true |
 | `postgres.env` | postgres environment variables | map | N/A |
 | `postgres.image.repository` | postgres image repository | string | "postgres" |
