@@ -51,6 +51,8 @@
 | `test.api.image.pullPolicy` | the image pull policy | IfNotPresent |
 | `test.api.image.repository` | the image repository | blockchaintp/chronicle-helm-api-test |
 | `test.api.image.tag` | the image tag | latest |
+| `test.auth` | test the chronicle auth server API |
+| `test.auth.enabled` | true to enable auth-related testing | true |
 | `test.auth.token` | provide a token for auth-related testing | nil |
 | `postgres.enabled` | if true create an internal postgres instance | boolean | true |
 | `postgres.env` | postgres environment variables | map | N/A |
