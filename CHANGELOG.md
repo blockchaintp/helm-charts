@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v0.2.96
+
+* fix(chronicle): quote postgres password values [view commit](https://github.com/catenasys/helm-charts/commit/91d73c47e7acab460969828689fc74df84d9ae00)
+* test(chronicle): add auth endpoints test [view commit](https://github.com/catenasys/helm-charts/commit/e593fb2cb5cc918bd793587459974dcf8e514a5e)
+* fix(chronicle): add api-test support for third-party auth services [view commit](https://github.com/catenasys/helm-charts/commit/43635fbfb092ad9da99d4c90ce5844d398099ac9)
+* fix(chronicle): port templating fixes from Chronicle PR 358 [view commit](https://github.com/catenasys/helm-charts/commit/b84b2549788309adde84389d67fad7fdbe4d4c65)
+* fix(chronicle): port changes from Chronicle PR 357 [view commit](https://github.com/catenasys/helm-charts/commit/523e0b7675f64fcd151302ee79d84433c33f24c9)
+
 ## v0.2.95
 
 * fix(chronicle): port CHRON-397 changes from Chronicle chart [view commit](https://github.com/catenasys/helm-charts/commit/89d6b9d3b6f384dd51d837ab2b797864a84d0954)
