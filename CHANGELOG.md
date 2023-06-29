@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Unreleased
+
+* fix(chronicle): port updates from chronicle PR#349 [view commit](https://github.com/catenasys/helm-charts/commit/efc108c4479829f6c85755cc5476ff1743cfd0b0)
+
 ## v0.2.96
 
 * fix(chronicle): quote postgres password values [view commit](https://github.com/catenasys/helm-charts/commit/91d73c47e7acab460969828689fc74df84d9ae00)
