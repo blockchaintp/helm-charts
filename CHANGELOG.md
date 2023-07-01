@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* fix(chronicle): port CHRON-385 fixes to init Job self-removal [view commit](https://github.com/catenasys/helm-charts/commit/f43bdb516e2e18a3dca6c4a41d9e16480f10f914)
 * fix(chronicle): port updates from chronicle PR#349 [view commit](https://github.com/catenasys/helm-charts/commit/efc108c4479829f6c85755cc5476ff1743cfd0b0)
 
 ## v0.2.96
