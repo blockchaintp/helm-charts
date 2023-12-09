@@ -1,7 +1,7 @@
 ---
 site_name: helm-charts
 theme: readthedocs
-copyright: Copyright &copy; 2022 Blockchain Technology Partners
+copyright: Copyright &copy; 2023 Paravela Limited
 extra_css: [extra.css]
 markdown_extensions:
   - attr_list
