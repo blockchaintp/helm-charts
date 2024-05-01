@@ -163,7 +163,7 @@ spec:
                 --sawtooth-address tcp://$HOST:$PORT \
                   get-policy \
                     --id {{ .Values.opa.policy.id }} \
-                    --output /shared-data/policy.bin
+                    --output /shared-data/policy.bin || true
 
               if [ -f "/shared-data/policy.bin" ]; then
                 echo "Policy already set."
@@ -200,7 +200,7 @@ spec:
                     set-policy \
                       --id {{ .Values.opa.policy.id }} \
                       -p {{ .Values.opa.policy.url }} \
-                      --root-key /shared-data/root.pem
+                      --root-key /shared-data/root.pem || true
               fi
           env: {{ include "lib.safeToYaml" .Values.env | nindent 12 }}
             - name: HOST
