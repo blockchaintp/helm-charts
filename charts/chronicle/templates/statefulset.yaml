@@ -87,7 +87,7 @@ spec:
                   name: {{ .Values.postgres.existingPasswordSecret }}
                   key: {{ .Values.postgres.existingPasswordSecretKey }}
               {{- else }}
-              value: {{ .Values.postgres.password | quote }}
+              value: {{ .Values.postgres.password }}
               {{- end }}
               {{- include "lib.safeToYaml" .Values.postgres.env | nindent 12 }}
           volumeMounts:
@@ -140,7 +140,7 @@ spec:
                   name: {{ .Values.postgres.existingPasswordSecret }}
                   key: {{ .Values.postgres.existingPasswordSecretKey }}
               {{- else }}
-              value: {{ .Values.postgres.password | quote }}
+              value: {{ .Values.postgres.password }}
               {{- end }}
             {{- include "lib.safeToYaml" .Values.postgres.env | nindent 12 }}
           resources: {{- include "lib.safeToYaml" .Values.resources | nindent 12 }}
@@ -160,7 +160,7 @@ spec:
                 - bash
                 - -c
                 - |
-                  PROBE_ID="startup_$(LC_ALL=C tr -dc A-Za-z0-9 </dev/urandom | head -c 13)" &&
+                  PROBE_ID="liveness_$(LC_ALL=C tr -dc A-Za-z0-9 </dev/urandom | head -c 13)" &&
                   TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ") &&
                   echo '[
                     {
@@ -186,7 +186,7 @@ spec:
                     }
                   ]' > /tmp/import.json &&
                   echo "Probe ID: $PROBE_ID" &&
-                  chronicle \
+                  RUST_LOG=error chronicle \
                     -c /etc/chronicle/config/config.toml \
                     --console-logging json \
                     --sawtooth tcp://{{ include "chronicle.sawtooth.service" . }}:{{ include "chronicle.sawtooth.sawcomp" . }} \
@@ -197,7 +197,7 @@ spec:
                 {{- if not .Values.opa.enabled }}
                     --embedded-opa-policy \
                 {{- end }}
-                    import {{ .Values.livenessProbe.namespaceName }} {{ .Values.livenessProbe.namespaceUuid }} < /tmp/import.json
+                    import {{ .Values.livenessProbe.namespaceName }} {{ .Values.livenessProbe.namespaceUuid }} /tmp/import.json
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
@@ -236,7 +236,7 @@ spec:
                     }
                   ]' > /tmp/import.json &&
                   echo "Probe ID: $PROBE_ID" &&
-                  chronicle \
+                  RUST_LOG=error chronicle \
                     -c /etc/chronicle/config/config.toml \
                     --console-logging json \
                     --sawtooth tcp://{{ include "chronicle.sawtooth.service" . }}:{{ include "chronicle.sawtooth.sawcomp" . }} \
@@ -247,7 +247,7 @@ spec:
                 {{- if not .Values.opa.enabled }}
                     --embedded-opa-policy \
                 {{- end }}
-                    import {{ .Values.startUpProbe.namespaceName }} {{ .Values.startUpProbe.namespaceUuid }} < /tmp/import.json
+                    import {{ .Values.startUpProbe.namespaceName }} {{ .Values.startUpProbe.namespaceUuid }} /tmp/import.json
             initialDelaySeconds: {{ .Values.startUpProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.startUpProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.startUpProbe.timeoutSeconds }}
