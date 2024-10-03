@@ -19,7 +19,6 @@ global:
     registry:
     tag:
 
-
 ## @md | `commonLabels` |
 commonLabels: {}
 commonAnnotations: {}
@@ -323,6 +322,7 @@ sawtooth:
         requests:
           cpu: "50m"
   perNodeServiceType: ClusterIP
+  perNodeSessionAffinity: ClientIP
   persistence:
     enabled: true
     annotations:
@@ -381,6 +381,14 @@ sawtooth:
   dynamicPeering: false
   ## @md | `sawtooth.externalSeeds` | a list of maps defining validator endpoints external to this deployment | [] |
   externalSeeds: []
+  ## @md | `multi_cluster.enabled` | false: multi-cluster support is disabled, true: multi-cluster support is enabled | false |
+  multi_cluster:
+    ## @md | `multi_cluster.peers` | list of peer clusters for multi-cluster support | [] |
+    enabled: false
+    ## @md | `multi_cluster.local_nodes` | range of local nodes, index will start here and increment until the number of replicas is reached | [] |
+    local_nodes:
+      start: 0
+    peered_nodes: []
   seth:
     # This should default to false, there appear to be problems with the required
     # block_info block injector that this depends upon

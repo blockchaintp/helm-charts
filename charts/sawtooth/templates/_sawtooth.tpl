@@ -88,6 +88,7 @@ network:tcp://0.0.0.0:{{ include "sawtooth.ports.sawnet" . }}
 Genesis Templates
 */}}
 {{- define "sawtooth.genesis.create" -}}
+{{- if .Values.sawtooth.genesis.enabled -}}
 {{- $consensus := .Values.sawtooth.consensus | int -}}
 if [ ! -r /etc/sawtooth/initialized ]; then
   if [ $RUN_GENESIS -eq 1 ]; then
@@ -112,8 +113,13 @@ if [ ! -r /etc/sawtooth/initialized ]; then
   touch /etc/sawtooth/initialized;
 fi
 {{- end -}}
+{{- end -}}
+{{- if not .Values.sawtooth.genesis.enabled -}}
+touch /etc/sawtooth/initialized
+{{- end -}}
 
 {{- define "sawtooth.genesis.reset" -}}
+{{- if .Values.sawtooth.genesis.enabled -}}
 if [ -r /etc/sawtooth/genesis.seed ]; then
   OLD_SEED=`cat /etc/sawtooth/genesis.seed`
   if [ "$OLD_SEED" != "{{ .Values.sawtooth.genesis.seed }}" ];  then
@@ -130,6 +136,7 @@ else
     rm -f /etc/sawtooth/initialized
     echo {{ .Values.sawtooth.genesis.seed }} > /etc/sawtooth/genesis.seed
 fi
+{{- end -}}
 {{- end -}}
 {{/*
 END Genesis Templates
@@ -350,3 +357,5 @@ nodeAffinity:
 -vvv
 {{- end -}}
 {{- end -}}
+
+

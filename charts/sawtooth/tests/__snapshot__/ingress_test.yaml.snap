@@ -1,13 +1,13 @@
 ingress links to service properly:
   1: |
     rules:
-    - host: test-host
-      http:
-        paths:
-        - backend:
-            service:
-              name: test-sawtooth
-              port:
-                number: 8008
-          path: /path
-          pathType: ImplementationSpecific
+      - host: test-host
+        http:
+          paths:
+            - backend:
+                service:
+                  name: test-sawtooth
+                  port:
+                    number: 8008
+              path: /path
+              pathType: ImplementationSpecific

@@ -1,4 +1,3 @@
-{{$peering:= .Values.sawtooth.dynamicPeering }}
 ---
 
 apiVersion: v1

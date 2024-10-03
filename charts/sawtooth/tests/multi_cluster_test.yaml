@@ -1,0 +1,36 @@
+suite: sawtooth.test multi-cluster support
+templates:
+  - validator-env-configmap.yaml
+  - validator-set.yaml
+  - peered-nodes.yaml
+  - validators-svcs.yaml
+  - pernode-services.yaml
+release:
+  name: test
+  namespace: testns
+tests:
+  - it: multi-cluster support renders properly
+    set:
+      sawtooth:
+        replicas: 1
+        genesis:
+          enabled: false
+        multi_cluster:
+          enabled: true
+          local_nodes:
+            start: 4
+          peered_nodes:
+            - index: 0
+              cname:
+                - chronicle-sawtooth-0.remote-cluster.somewhere
+            - index: 1
+              cname:
+                - chronicle-sawtooth-1.remote-cluster.somewhere
+            - index: 2
+              cname:
+                - chronicle-sawtooth-2.remote-cluster.somewhere
+            - index: 3
+              cname:
+                - name-3.remote-cluster.somewhere
+    asserts:
+      - matchSnapshot: {}
