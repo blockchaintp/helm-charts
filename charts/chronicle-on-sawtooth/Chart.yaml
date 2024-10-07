@@ -17,7 +17,7 @@ keywords:
 # This is the chart version. This version number should be incremented each
 # time you make changes to the chart and its templates, including the app
 # version.
-version: 0.1.25
+version: 0.1.26
 
 # This is the version number of Chronicle being deployed. This version
 # number should be incremented each time you make changes to Chronicle.
@@ -28,5 +28,5 @@ dependencies:
     version: ~0.1.0
     repository: https://btp-charts-stable.s3.amazonaws.com/charts/
   - name: sawtooth
-    version: ~0.2.0
+    version: ~0.2.13
     repository: https://btp-charts-unstable.s3.amazonaws.com/charts/

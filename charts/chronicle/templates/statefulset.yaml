@@ -157,7 +157,7 @@ spec:
             periodSeconds: 1
             failureThreshold: 1
           {{- end}}
-          {{- if .Values.startUpProbe.enabled }}
+          {{- if .Values.readinessProbe.enabled }}
           readinessProbe:
             exec:
               command:

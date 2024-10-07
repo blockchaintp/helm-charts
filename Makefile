@@ -1,10 +1,14 @@
+ISOLATION_ID ?= local
+
 MAKEFILE_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 include $(MAKEFILE_DIR)/standard_defs.mk
 
 CHART_BASE=charts
 
-CHARTS := $(shell find . -mindepth 3 -maxdepth 3 -name Chart.yaml \
-	-exec dirname {} \; | awk -F/ '{print $$NF}')
+CHARTS := $(shell ls -d $(CHART_BASE)/*/ | xargs -n 1 basename)
+
+# Echo the CHARTS variable
+$(info CHARTS = $(CHARTS))
 
 DIAGRAMS := $(shell find docs -name *.plantuml -or -name *.puml | awk -F. '{print $$1}')
 
@@ -19,7 +23,7 @@ test: tmpl-lint tmpl-unit tmpl-kubescape
 
 .PHONY: clean
 clean: correct_ownership clean_kubescape clean_markers
-	find $(CHART_BASE) -mindepth 2 -name charts -type d -exec rm -rf {} \; || true
+	ls $(CHART_BASE)/*/charts | xargs rm -rf || true
 	docker rm $$(docker ps --all -q -f status=exited) 2>/dev/null|| true
 	docker volume rm root_${ISOLATION_ID} > /dev/null || true
 	rm -rf dist
