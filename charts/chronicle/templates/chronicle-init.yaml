@@ -91,7 +91,7 @@ spec:
               fi
           env: {{ include "lib.safeToYaml" .Values.env | nindent 12 }}
             - name: HOST
-              value: {{ $stlServiceName }}.{{ .Release.Namespace }}.svc.cluster.local
+              value: {{ $stlServiceName }}.{{ .Release.Namespace }}.svc
             - name: PORT
               value: "{{ include "chronicle.sawtooth.sawcomp" . }}"
             - name: RUST_LOG
@@ -111,7 +111,7 @@ spec:
               echo "Sawtooth rest API is ready."
           env:
             - name: HOST
-              value: {{ $stlServiceName }}.{{ .Release.Namespace }}.svc.cluster.local
+              value: {{ $stlServiceName }}.{{ .Release.Namespace }}.svc
             - name: PORT
               value: "{{ include "chronicle.sawtooth.rest" . }}"
             - name: RUST_LOG
@@ -145,7 +145,7 @@ spec:
               fi
           env:
             - name: HOST
-              value: {{ $stlServiceName }}.{{ .Release.Namespace }}.svc.cluster.local
+              value: {{ $stlServiceName }}.{{ .Release.Namespace }}.svc
             - name: PORT
               value: "{{ include "chronicle.sawtooth.rest" . }}"
           volumeMounts:
@@ -172,7 +172,7 @@ spec:
               fi
           env: {{ include "lib.safeToYaml" .Values.env | nindent 12 }}
             - name: HOST
-              value: {{ $stlServiceName }}.{{ .Release.Namespace }}.svc.cluster.local
+              value: {{ $stlServiceName }}.{{ .Release.Namespace }}.svc
             - name: PORT
               value: "{{ include "chronicle.sawtooth.sawcomp" . }}"
             - name: RUST_LOG
@@ -201,7 +201,7 @@ spec:
               fi
           env: {{ include "lib.safeToYaml" .Values.env | nindent 12 }}
             - name: HOST
-              value: {{ $stlServiceName }}.{{ .Release.Namespace }}.svc.cluster.local
+              value: {{ $stlServiceName }}.{{ .Release.Namespace }}.svc
             - name: PORT
               value: "{{ include "chronicle.sawtooth.sawcomp" . }}"
             - name: RUST_LOG

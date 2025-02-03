@@ -32,7 +32,7 @@ spec:
           command: [ "bash", "-c"]
           args:
             - |
-              HOST={{ $stlServiceName }}-${HOST##*-}.{{ .Release.Namespace }}.svc.cluster.local
+              HOST={{ $stlServiceName }}-${HOST##*-}.{{ .Release.Namespace }}.svc
               PORT={{ include "chronicle.sawtooth.sawcomp" . }}
               echo tcp://$HOST:$PORT &&
               /usr/local/bin/chronicle_sawtooth_tp \
@@ -54,7 +54,7 @@ spec:
           command: [ "bash", "-xc"]
           args:
             - |
-              HOST={{ $stlServiceName }}-${HOST##*-}.{{ .Release.Namespace }}.svc.cluster.local
+              HOST={{ $stlServiceName }}-${HOST##*-}.{{ .Release.Namespace }}.svc
               PORT={{ include "chronicle.sawtooth.sawcomp" . }}
               wait-for-it $HOST:$PORT --timeout=0
               echo tcp://$HOST:$PORT &&

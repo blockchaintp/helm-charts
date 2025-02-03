@@ -66,7 +66,7 @@ spec:
               done
           env:
             - name: HOST
-              value: {{ $stlServiceName }}.{{ .Release.Namespace }}.svc.cluster.local
+              value: {{ $stlServiceName }}.{{ .Release.Namespace }}.svc
             - name: PORT
               value: "{{ include "chronicle.sawtooth.rest" . }}"
         {{- end }}

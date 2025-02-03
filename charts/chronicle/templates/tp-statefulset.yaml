@@ -66,7 +66,7 @@ spec:
           args:
             - |
               ORDINAL=$(echo $POD_NAME | awk -F '-' '{print $NF}')
-              HOST={{ $stlServiceName }}-$(($ORDINAL + {{ include "chronicle.getHostOffset" . }})).{{ .Release.Namespace }}.svc.cluster.local
+              HOST={{ $stlServiceName }}-$(($ORDINAL + {{ include "chronicle.getHostOffset" . }})).{{ .Release.Namespace }}.svc
               PORT={{ include "chronicle.sawtooth.sawcomp" . }}
               wait-for-it $HOST:$PORT --timeout=0
               echo tcp://$HOST:$PORT &&
