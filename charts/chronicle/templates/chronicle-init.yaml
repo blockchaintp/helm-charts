@@ -3,11 +3,12 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
+  annotations:
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
   name: {{ include "common.names.fullname" . }}-init
   labels: {{ include "chronicle.labels" . | nindent 4 }}
     component: chronicle
 spec:
-  ttlSecondsAfterFinished: 100
   template:
     metadata:
       labels: {{ include "chronicle.labels" . | nindent 8 }}
@@ -90,7 +91,7 @@ spec:
               fi
           env: {{ include "lib.safeToYaml" .Values.env | nindent 12 }}
             - name: HOST
-              value: {{ $stlServiceName }}.{{ .Release.Namespace }}.svc.cluster.local
+              value: {{ $stlServiceName }}.{{ .Release.Namespace }}.svc
             - name: PORT
               value: "{{ include "chronicle.sawtooth.sawcomp" . }}"
             - name: RUST_LOG
@@ -110,7 +111,7 @@ spec:
               echo "Sawtooth rest API is ready."
           env:
             - name: HOST
-              value: {{ $stlServiceName }}.{{ .Release.Namespace }}.svc.cluster.local
+              value: {{ $stlServiceName }}.{{ .Release.Namespace }}.svc
             - name: PORT
               value: "{{ include "chronicle.sawtooth.rest" . }}"
             - name: RUST_LOG
@@ -144,7 +145,7 @@ spec:
               fi
           env:
             - name: HOST
-              value: {{ $stlServiceName }}.{{ .Release.Namespace }}.svc.cluster.local
+              value: {{ $stlServiceName }}.{{ .Release.Namespace }}.svc
             - name: PORT
               value: "{{ include "chronicle.sawtooth.rest" . }}"
           volumeMounts:
@@ -158,24 +159,20 @@ spec:
           command: [ "bash", "-ec"]
           args:
             - |
-              echo "Attempting to get policy."
-              opactl \
-                --sawtooth-address tcp://$HOST:$PORT \
-                  get-policy \
-                    --id {{ .Values.opa.policy.id }} \
-                    --output /shared-data/policy.bin || true
-
-              if [ -f "/shared-data/policy.bin" ]; then
+              if opactl \
+                  --sawtooth-address tcp://$HOST:$PORT \
+                    get-policy \
+                      --id {{ .Values.opa.policy.id }} \
+                      --output policy.bin >/dev/null 2>&1; then
                 echo "Policy already set."
                 touch /shared-data/policy-already-set
-                exit 0
               else
                 echo "Policy not found."
                 exit 0
               fi
           env: {{ include "lib.safeToYaml" .Values.env | nindent 12 }}
             - name: HOST
-              value: {{ $stlServiceName }}.{{ .Release.Namespace }}.svc.cluster.local
+              value: {{ $stlServiceName }}.{{ .Release.Namespace }}.svc
             - name: PORT
               value: "{{ include "chronicle.sawtooth.sawcomp" . }}"
             - name: RUST_LOG
@@ -200,11 +197,11 @@ spec:
                     set-policy \
                       --id {{ .Values.opa.policy.id }} \
                       -p {{ .Values.opa.policy.url }} \
-                      --root-key /shared-data/root.pem || true
+                      --root-key /shared-data/root.pem
               fi
           env: {{ include "lib.safeToYaml" .Values.env | nindent 12 }}
             - name: HOST
-              value: {{ $stlServiceName }}.{{ .Release.Namespace }}.svc.cluster.local
+              value: {{ $stlServiceName }}.{{ .Release.Namespace }}.svc
             - name: PORT
               value: "{{ include "chronicle.sawtooth.sawcomp" . }}"
             - name: RUST_LOG

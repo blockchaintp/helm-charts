@@ -24,15 +24,31 @@ auth:
 
 ## @md | `livenessProbe.enabled` | if true, enables the liveness probe | false |
 livenessProbe:
-  enabled: false
+  enabled: true
   ## @md | `livenessProbe.timeoutSeconds` | number of seconds after which the probe times out | 10 |
   timeoutSeconds: 20
   ## @md | `livenessProbe.periodSeconds` | how often (in seconds) to perform the probe | 60 |
   periodSeconds: 60
 
+## @md | `readinessProbe.enabled` | if true, enables the readiness probe | false |
+readinessProbe:
+  enabled: true
+
 ## @md | `startUpProbe.enabled` | if true, enables the startup probe | true |
 startUpProbe:
   enabled: false
+  ## @md | `startUpProbe.initialDelaySeconds` | number of seconds after which the probe starts | 5 |
+  initialDelaySeconds: 5
+  ## @md | `startUpProbe.failureThreshold` | when a probe fails, Kubernetes will try failureThreshold times before giving up | 30 |
+  failureThreshold: 30
+  ## @md | `startUpProbe.periodSeconds` | how often (in seconds) to perform the probe | 10 |
+  periodSeconds: 10
+  ## @md | `startUpProbe.timeoutSeconds` | number of seconds after which the probe times out | 3 |
+  timeoutSeconds: 30
+  ## @md | `startUpProbe.namespaceName` | the Chronicle namespace in which the probe operates | default |
+  namespaceName: default
+  ## @md | `startUpProbe.namespaceUuid` | the UUID of the Chronicle namespace in which the probe operates | fd717fd6-70f1-44c1-81de-287d5e101089 |
+  namespaceUuid: fd717fd6-70f1-44c1-81de-287d5e101089
 
 ## @md | `backtraceLevel` | backtrace level for Chronicle  | nil |
 backtraceLevel: full
@@ -120,7 +136,7 @@ opa:
       ## @md | `image.repository` | the repository of the image | blockchaintp/chronicle |
       repository: blockchaintp/opa-tp-amd64
       ## @md | `image.tag`| the tag of the image to use | latest |
-      tag: BTP2.1.0-0.7.7
+      tag: BTP2.1.0-0.7.3
       ## @md | `image.pullPolicy` | the image pull policy to use | IfNotPresent |
       pullPolicy: IfNotPresent
     ## @md | `opa.tp.resources` | resources | map | nil |
@@ -135,6 +151,9 @@ port: 9982
 
 ## @md | `replicas` | number of Chronicle replicas to run | 1 |
 replicas: 1
+
+## @md | `tp_offset` | offset for service name of the tp services, to ensure correct addressing in multi-cluster | 0 |
+tp_offset: 0
 
 serviceAccount:
   ## @md | `serviceAccount.create` | true to create a service account | false |

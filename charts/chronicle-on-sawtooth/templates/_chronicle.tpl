@@ -37,7 +37,7 @@ chronicle: {{ include "common.names.fullname" . }}
 {{- define "chronicle.sawtooth.service" -}}
 {{- $svc := include "lib.call-nested" (list . "sawtooth" "common.names.fullname") -}}
 {{- $ns := .Release.Namespace -}}
-{{- $domain := "svc.cluster.local" -}}
+{{- $domain := "svc" -}}
 {{ printf "%s.%s.%s" $svc $ns $domain }}
 {{- end -}}
 

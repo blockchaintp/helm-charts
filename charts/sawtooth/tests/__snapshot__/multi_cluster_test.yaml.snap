@@ -1,0 +1,821 @@
+multi-cluster support renders properly:
+  1: |
+    apiVersion: v1
+    data:
+      validator-env: |-
+        #!/bin/bash
+
+        BIN_DIR=/usr/local/bin
+
+        # Function to extract the numeric index from a pod name
+        function extract_index() {
+          local name="$1"
+          # Extract the number after the last hyphen
+          echo "${name##*-}"
+        }
+
+        function get_local_pods() {
+          kubectl get pod -l "app=test-sawtooth" \
+            --no-headers=true -o name | sed -e 's/pod\///g'
+        }
+
+        function get_node_for_pod() {
+          local pod=${1:?}
+          NODE_INDEX=$(extract_index "$pod")
+          if [ -n "$LOCAL_NODES_START" ]; then
+            OFFSET_NODE_INDEX=$((NODE_INDEX + LOCAL_NODES_START))
+          else
+            OFFSET_NODE_INDEX=$NODE_INDEX
+          fi
+          echo "test-sawtooth-$OFFSET_NODE_INDEX"
+        }
+
+        function get_all_nodes() {
+          for pod in $(get_local_pods); do
+            get_node_for_pod "$pod"
+          done | sort
+        }
+
+        function get_genesis_node() {
+          kubectl get configmap test-sawtooth-genesis -o jsonpath='{.data.node}'
+        }
+
+        declare -a host_list
+        for node in $(get_all_nodes); do
+          host_list+=("$node")
+        done
+
+        export SEEDS=
+        export PEERS=
+        MY_NODE_NAME=$(get_node_for_pod "$POD_NAME")
+        MY_PEERS=()
+        export DELAY=0
+
+        echo "Local Hosts Visible: ${host_list[@]}"
+        this_list=("${host_list[@]}")
+        for host in "${host_list[@]}"; do
+          this_list=("${this_list[@]:1}")
+          if [ "$host" == "$MY_NODE_NAME" ]; then
+            MY_PEERS=("${this_list[@]}")
+            break
+          else
+            ((DELAY += 1))
+          fi
+        done
+
+        # Add local peers
+        for peer in "${MY_PEERS[@]}"; do
+          SEEDS="--seeds tcp://$peer:8800 $SEEDS"
+          PEERS="--peers tcp://$peer:8800 $PEERS"
+        done
+        # Add peered nodes
+        SEEDS="--seeds tcp://0:8800 $SEEDS"
+        PEERS="--peers tcp://0:8800 $PEERS"
+        SEEDS="--seeds tcp://1:8800 $SEEDS"
+        PEERS="--peers tcp://1:8800 $PEERS"
+        SEEDS="--seeds tcp://2:8800 $SEEDS"
+        PEERS="--peers tcp://2:8800 $PEERS"
+        SEEDS="--seeds tcp://3:8800 $SEEDS"
+        PEERS="--peers tcp://3:8800 $PEERS"
+
+        "${BIN_DIR}/upsert_cm.sh" validator-public "$MY_NODE_NAME" "$(cat /etc/sawtooth/keys/validator.pub)"
+        "${BIN_DIR}/upsert_cm.sh" validator-secret "$MY_NODE_NAME" "$(cat /etc/sawtooth/keys/validator.priv)"
+    kind: ConfigMap
+    metadata:
+      labels:
+        app: test-sawtooth
+        app.kubernetes.io/instance: test
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: sawtooth
+        app.kubernetes.io/version: 1.2.5p4
+        helm.sh/chart: sawtooth-0.2.12
+      name: test-sawtooth-scripts
+      namespace: testns
+  2: |
+    apiVersion: apps/v1
+    kind: StatefulSet
+    metadata:
+      labels:
+        app: test-sawtooth
+        app.kubernetes.io/instance: test
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: sawtooth
+        app.kubernetes.io/version: 1.2.5p4
+        helm.sh/chart: sawtooth-0.2.12
+      name: test-sawtooth
+      namespace: testns
+    spec:
+      podManagementPolicy: Parallel
+      replicas: 4
+      selector:
+        matchLabels:
+          app: test-sawtooth
+          app.kubernetes.io/instance: test
+          app.kubernetes.io/name: sawtooth
+          component: sawtooth
+      serviceName: test-sawtooth
+      template:
+        metadata:
+          annotations: null
+          labels:
+            app: test-sawtooth
+            app.kubernetes.io/instance: test
+            app.kubernetes.io/name: sawtooth
+            component: sawtooth
+        spec:
+          affinity: null
+          automountServiceAccountToken: true
+          containers:
+            - args:
+                - |
+                  poet-engine  \
+                    --connect tcp://127.0.0.1:5050  \
+                    --component tcp://127.0.0.1:4004
+              command:
+                - bash
+                - -xc
+              env:
+                - name: LOCAL_NODES_START
+                  value: "4"
+                - name: POD_INDEX
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.labels['apps.kubernetes.io/pod-index']
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+                - name: POD_IP
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: status.podIP
+                - name: NODE_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+              image: blockchaintp/sawtooth-poet-engine:BTP2.1.0
+              imagePullPolicy: IfNotPresent
+              name: poet-engine
+              resources:
+                limits:
+                  cpu: 250m
+                requests:
+                  cpu: 50m
+              volumeMounts:
+                - mountPath: /var/run/sawtooth
+                  name: sawtooth-signals
+                - mountPath: /etc/sawtooth
+                  name: sawtooth-etc
+                - mountPath: /var/lib/sawtooth
+                  name: sawtooth-data
+            - args:
+                - |
+                  poet-validator-registry-tp  \
+                    -C tcp://127.0.0.1:4004
+              command:
+                - bash
+                - -xc
+              env:
+                - name: LOCAL_NODES_START
+                  value: "4"
+                - name: POD_INDEX
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.labels['apps.kubernetes.io/pod-index']
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+                - name: POD_IP
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: status.podIP
+                - name: NODE_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+              image: blockchaintp/sawtooth-poet-engine:BTP2.1.0
+              imagePullPolicy: IfNotPresent
+              name: poet-validator-registry-tp
+              resources:
+                limits:
+                  cpu: 250m
+                requests:
+                  cpu: 50m
+              volumeMounts:
+                - mountPath: /var/run/sawtooth
+                  name: sawtooth-signals
+                - mountPath: /etc/sawtooth
+                  name: sawtooth-etc
+                - mountPath: /var/lib/sawtooth
+                  name: sawtooth-data
+            - args:
+                - |
+                  settings-tp  \
+                      \
+                    --connect tcp://127.0.0.1:4004
+              command:
+                - bash
+                - -xc
+              env:
+                - name: LOCAL_NODES_START
+                  value: "4"
+                - name: POD_INDEX
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.labels['apps.kubernetes.io/pod-index']
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+                - name: POD_IP
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: status.podIP
+                - name: NODE_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+              image: blockchaintp/sawtooth-settings-tp:BTP2.1.0
+              imagePullPolicy: IfNotPresent
+              name: settings-tp
+              resources:
+                limits:
+                  cpu: 250m
+                requests:
+                  cpu: 50m
+              volumeMounts:
+                - mountPath: /var/run/sawtooth
+                  name: sawtooth-signals
+            - args:
+                - |
+                  block-info-tp  \
+                      \
+                    -C tcp://127.0.0.1:4004
+              command:
+                - bash
+                - -xc
+              env:
+                - name: LOCAL_NODES_START
+                  value: "4"
+                - name: POD_INDEX
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.labels['apps.kubernetes.io/pod-index']
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+                - name: POD_IP
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: status.podIP
+                - name: NODE_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+              image: blockchaintp/sawtooth-block-info-tp:BTP2.1.0
+              imagePullPolicy: IfNotPresent
+              lifecycle:
+                postStart:
+                  exec:
+                    command:
+                      - sh
+                      - -c
+                      - |
+                        rm -f /var/run/sawtooth/block-info-tp
+              livenessProbe:
+                exec:
+                  command:
+                    - sh
+                    - -c
+                    - |
+                      if [ -r /var/run/sawtooth/block-info-tp ]; then
+                        exit 1
+                      else
+                        exit 0
+                      fi
+              name: block-info-tp
+              resources:
+                limits:
+                  cpu: 250m
+                requests:
+                  cpu: 50m
+              volumeMounts:
+                - mountPath: /var/run/sawtooth
+                  name: sawtooth-signals
+            - args:
+                - |
+                  intkey-tp-go  \
+                    --connect tcp://127.0.0.1:4004
+              command:
+                - bash
+                - -xc
+              env:
+                - name: LOCAL_NODES_START
+                  value: "4"
+                - name: POD_INDEX
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.labels['apps.kubernetes.io/pod-index']
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+                - name: POD_IP
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: status.podIP
+                - name: NODE_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+              image: blockchaintp/sawtooth-intkey-tp-go:BTP2.1.0
+              imagePullPolicy: IfNotPresent
+              name: intkey-tp
+              resources:
+                limits:
+                  cpu: 250m
+                requests:
+                  cpu: 50m
+              volumeMounts:
+                - mountPath: /var/run/sawtooth
+                  name: sawtooth-signals
+            - args:
+                - "sleep 90\nsawtooth-rest-api  \\\n    \\\n  --bind 0.0.0.0:8008  \\\n  --connect tcp://127.0.0.1:4004  \\\n          \n"
+              command:
+                - bash
+                - -xc
+              env:
+                - name: LOCAL_NODES_START
+                  value: "4"
+                - name: POD_INDEX
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.labels['apps.kubernetes.io/pod-index']
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+                - name: POD_IP
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: status.podIP
+                - name: NODE_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+              image: blockchaintp/sawtooth-rest-api:BTP2.1.0
+              imagePullPolicy: IfNotPresent
+              name: rest-api
+              ports:
+                - containerPort: 8008
+                  name: sawrest
+              resources:
+                limits:
+                  cpu: 250m
+                requests:
+                  cpu: 50m
+              volumeMounts:
+                - mountPath: /var/run/sawtooth
+                  name: sawtooth-signals
+            - args:
+                - |
+                  sawtooth keygen && \
+                  sleep 90 &&  \
+                  /usr/local/bin/heartbeat_loop.sh \
+                    http://127.0.0.1:8008  \
+                    test-$RANDOM 300
+              command:
+                - bash
+                - -xc
+              env:
+                - name: LOCAL_NODES_START
+                  value: "4"
+                - name: POD_INDEX
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.labels['apps.kubernetes.io/pod-index']
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+                - name: POD_IP
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: status.podIP
+                - name: NODE_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+              image: blockchaintp/sawtooth-shell:BTP2.1.0
+              imagePullPolicy: IfNotPresent
+              name: monitor
+              resources:
+                limits:
+                  cpu: 100m
+                requests:
+                  cpu: 100m
+              volumeMounts:
+                - mountPath: /var/run/sawtooth
+                  name: sawtooth-signals
+                - mountPath: /etc/sawtooth
+                  name: sawtooth-etc
+            - args:
+                - |
+                  source /opt/chart/scripts/validator-env
+
+                  sawtooth-validator  \
+                     --scheduler serial \
+                    --endpoint tcp://${NODE_NAME}:8800 \
+                    --bind component:tcp://0.0.0.0:4004 \
+                    --bind consensus:tcp://0.0.0.0:5050 \
+                    --bind network:tcp://0.0.0.0:8800 \
+                    --peering static \
+                     \
+                    ${PEERS} \
+                    --maximum-peer-connectivity 255 \
+                    \
+                    ;
+                  exit_code=$?
+                  export EXIT_SIGNALS="block-info-tp pbft-engine"
+                  for signal in ${EXIT_SIGNALS}; do
+                    touch "/var/run/sawtooth/$signal"
+                  done
+                  exit $exit_code
+              command:
+                - bash
+                - -xc
+              env:
+                - name: LOCAL_NODES_START
+                  value: "4"
+                - name: POD_INDEX
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.labels['apps.kubernetes.io/pod-index']
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+                - name: POD_IP
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: status.podIP
+                - name: NODE_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+                - name: RUST_BACKTRACE
+                  value: "1"
+              image: blockchaintp/sawtooth-validator:BTP2.1.0
+              imagePullPolicy: IfNotPresent
+              lifecycle:
+                postStart:
+                  exec:
+                    command:
+                      - bash
+                      - -c
+                      - |
+                        RUN_DIR=/var/run/sawtooth
+                        rm -f $RUN_DIR/probe.*
+                        rm -f $RUN_DIR/catchup.started
+                        rm -f $RUN_DIR/last*
+                        rm -f $RUN_DIR/pbft_seq*
+                preStop:
+                  exec:
+                    command:
+                      - bash
+                      - -c
+                      - |
+                        export EXIT_SIGNALS="block-info-tp pbft-engine"
+                        for signal in ${EXIT_SIGNALS}; do
+                          touch "/var/run/sawtooth/$signal"
+                        done
+              livenessProbe: null
+              name: validator
+              ports:
+                - containerPort: 4004
+                  name: sawcomp
+                - containerPort: 8800
+                  name: sawnet
+                - containerPort: 5050
+                  name: consensus
+              volumeMounts:
+                - mountPath: /var/run/sawtooth
+                  name: sawtooth-signals
+                - mountPath: /etc/sawtooth
+                  name: sawtooth-etc
+                - mountPath: /var/lib/sawtooth
+                  name: sawtooth-data
+                - mountPath: /opt/chart/scripts
+                  name: chart-scripts
+          hostAliases: null
+          initContainers:
+            - args:
+                - |2
+                  mkdir -p /etc/sawtooth/genesis
+                  mkdir -p /etc/sawtooth/keys
+                  if [ ! -r /etc/sawtooth/keys/validator.priv ]; then
+                    sawadm keygen --force
+                  fi
+              command:
+                - bash
+                - -xc
+              env:
+                - name: LOCAL_NODES_START
+                  value: "4"
+                - name: POD_INDEX
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.labels['apps.kubernetes.io/pod-index']
+                - name: POD_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+                - name: POD_IP
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: status.podIP
+                - name: NODE_NAME
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.name
+                - name: RUST_BACKTRACE
+                  value: "1"
+              image: blockchaintp/sawtooth-validator:BTP2.1.0
+              imagePullPolicy: IfNotPresent
+              name: setup
+              volumeMounts:
+                - mountPath: /etc/sawtooth
+                  name: sawtooth-etc
+                - mountPath: /var/lib/sawtooth
+                  name: sawtooth-data
+          serviceAccountName: test-sawtooth
+          volumes:
+            - emptyDir: {}
+              name: sawtooth-signals
+            - configMap:
+                name: test-sawtooth-scripts
+              name: chart-scripts
+      updateStrategy:
+        type: RollingUpdate
+      volumeClaimTemplates:
+        - metadata:
+            name: sawtooth-data
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 40Gi
+        - metadata:
+            name: sawtooth-etc
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 1Gi
+  3: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app: test-sawtooth
+        role: external-validator
+      name: test-sawtooth-0
+      namespace: testns
+    spec:
+      externalName:
+        - chronicle-sawtooth-0.remote-cluster.somewhere
+      type: ExternalName
+  4: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app: test-sawtooth
+        role: external-validator
+      name: test-sawtooth-1
+      namespace: testns
+    spec:
+      externalName:
+        - chronicle-sawtooth-1.remote-cluster.somewhere
+      type: ExternalName
+  5: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app: test-sawtooth
+        role: external-validator
+      name: test-sawtooth-2
+      namespace: testns
+    spec:
+      externalName:
+        - chronicle-sawtooth-2.remote-cluster.somewhere
+      type: ExternalName
+  6: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app: test-sawtooth
+        role: external-validator
+      name: test-sawtooth-3
+      namespace: testns
+    spec:
+      externalName:
+        - name-3.remote-cluster.somewhere
+      type: ExternalName
+  7: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app: test-sawtooth
+        app.kubernetes.io/instance: test
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: sawtooth
+        app.kubernetes.io/version: 1.2.5p4
+        component: sawtooth
+        helm.sh/chart: sawtooth-0.2.12
+      name: test-sawtooth
+      namespace: testns
+    spec:
+      clusterIP: None
+      ports:
+        - name: rest-api
+          port: 8008
+          protocol: TCP
+          targetPort: 8008
+        - name: sawnet
+          port: 8800
+          protocol: TCP
+          targetPort: 8800
+        - name: sawcomp
+          port: 4004
+          protocol: TCP
+          targetPort: 4004
+      selector:
+        app: test-sawtooth
+        app.kubernetes.io/instance: test
+        app.kubernetes.io/name: sawtooth
+        component: sawtooth
+      type: ClusterIP
+  8: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+      labels:
+        app: test-sawtooth
+        app.kubernetes.io/instance: test
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: sawtooth
+        app.kubernetes.io/version: 1.2.5p4
+        component: sawtooth
+        helm.sh/chart: sawtooth-0.2.12
+        per-node: test-sawtooth-4
+      name: test-sawtooth-4
+      namespace: testns
+    spec:
+      ports:
+        - name: rest-api
+          port: 8008
+          protocol: TCP
+          targetPort: 8008
+        - name: sawnet
+          port: 8800
+          protocol: TCP
+          targetPort: 8800
+        - name: sawcomp
+          port: 4004
+          protocol: TCP
+          targetPort: 4004
+      publishNotReadyAddresses: true
+      selector:
+        app: test-sawtooth
+        app.kubernetes.io/instance: test
+        app.kubernetes.io/name: sawtooth
+        component: sawtooth
+        statefulset.kubernetes.io/pod-name: test-sawtooth-0
+      type: LoadBalancer
+  9: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+      labels:
+        app: test-sawtooth
+        app.kubernetes.io/instance: test
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: sawtooth
+        app.kubernetes.io/version: 1.2.5p4
+        component: sawtooth
+        helm.sh/chart: sawtooth-0.2.12
+        per-node: test-sawtooth-5
+      name: test-sawtooth-5
+      namespace: testns
+    spec:
+      ports:
+        - name: rest-api
+          port: 8008
+          protocol: TCP
+          targetPort: 8008
+        - name: sawnet
+          port: 8800
+          protocol: TCP
+          targetPort: 8800
+        - name: sawcomp
+          port: 4004
+          protocol: TCP
+          targetPort: 4004
+      publishNotReadyAddresses: true
+      selector:
+        app: test-sawtooth
+        app.kubernetes.io/instance: test
+        app.kubernetes.io/name: sawtooth
+        component: sawtooth
+        statefulset.kubernetes.io/pod-name: test-sawtooth-0
+      type: LoadBalancer
+  10: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+      labels:
+        app: test-sawtooth
+        app.kubernetes.io/instance: test
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: sawtooth
+        app.kubernetes.io/version: 1.2.5p4
+        component: sawtooth
+        helm.sh/chart: sawtooth-0.2.12
+        per-node: test-sawtooth-6
+      name: test-sawtooth-6
+      namespace: testns
+    spec:
+      ports:
+        - name: rest-api
+          port: 8008
+          protocol: TCP
+          targetPort: 8008
+        - name: sawnet
+          port: 8800
+          protocol: TCP
+          targetPort: 8800
+        - name: sawcomp
+          port: 4004
+          protocol: TCP
+          targetPort: 4004
+      publishNotReadyAddresses: true
+      selector:
+        app: test-sawtooth
+        app.kubernetes.io/instance: test
+        app.kubernetes.io/name: sawtooth
+        component: sawtooth
+        statefulset.kubernetes.io/pod-name: test-sawtooth-0
+      type: LoadBalancer
+  11: |
+    apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+        service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+      labels:
+        app: test-sawtooth
+        app.kubernetes.io/instance: test
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: sawtooth
+        app.kubernetes.io/version: 1.2.5p4
+        component: sawtooth
+        helm.sh/chart: sawtooth-0.2.12
+        per-node: test-sawtooth-7
+      name: test-sawtooth-7
+      namespace: testns
+    spec:
+      ports:
+        - name: rest-api
+          port: 8008
+          protocol: TCP
+          targetPort: 8008
+        - name: sawnet
+          port: 8800
+          protocol: TCP
+          targetPort: 8800
+        - name: sawcomp
+          port: 4004
+          protocol: TCP
+          targetPort: 4004
+      publishNotReadyAddresses: true
+      selector:
+        app: test-sawtooth
+        app.kubernetes.io/instance: test
+        app.kubernetes.io/name: sawtooth
+        component: sawtooth
+        statefulset.kubernetes.io/pod-name: test-sawtooth-0
+      type: LoadBalancer

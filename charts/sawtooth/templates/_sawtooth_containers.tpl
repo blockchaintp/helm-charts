@@ -18,6 +18,14 @@
 
 {{- define "sawtooth.container.env.nodename" -}}
 {{- $consensus := .values.sawtooth.consensus | int -}}
+{{- if .values.sawtooth.multi_cluster.enabled }}
+- name: LOCAL_NODES_START
+  value: "{{ .values.sawtooth.multi_cluster.local_nodes.start }}"
+{{- end }}
+- name: POD_INDEX
+  valueFrom:
+    fieldRef:
+      fieldPath: metadata.labels['apps.kubernetes.io/pod-index']
 - name: POD_NAME
   valueFrom:
     fieldRef:
@@ -416,7 +424,7 @@ postStart:
       {{- include "sawtooth.genesis.create" . | nindent 6 }}
       sawtooth-validator {{ include "sawtooth.logLevel" $ctx }} \
         {{ .Values.sawtooth.containers.validator.args}} --scheduler {{ .Values.sawtooth.scheduler }} \
-        --endpoint tcp://${NODE_NAME}:{{ include "sawtooth.ports.sawnet" . }} \
+        --endpoint tcp://${ADJUSTED_NODE_NAME}:{{ include "sawtooth.ports.sawnet" . }} \
         {{- include "sawtooth.network" . | nindent 8 -}} \
         ;
       {{- include "sawtooth.signal.fire" . | nindent 6 }}

@@ -1,3 +1,7 @@
+{{- define "chronicle.getHostOffset" -}}
+{{- .Values.tp_offset | int -}}
+{{- end -}}
+
 {{$stlServiceName := include "lib.call-nested" (list . "sawtooth" "common.names.fullname")}}
 apiVersion: apps/v1
 kind: StatefulSet
@@ -32,14 +36,21 @@ spec:
           command: [ "bash", "-c"]
           args:
             - |
-              HOST={{ $stlServiceName }}-${HOST##*-}.{{ .Release.Namespace }}.svc.cluster.local
+              # Extract the ordinal index from the pod name
+              ORDINAL=$(echo $POD_NAME | awk -F '-' '{print $NF}')
+              # Calculate the HOST using ordinal and offset
+              HOST={{ $stlServiceName }}-$(($ORDINAL + {{ include "chronicle.getHostOffset" . }}))
               PORT={{ include "chronicle.sawtooth.sawcomp" . }}
               echo tcp://$HOST:$PORT &&
               /usr/local/bin/chronicle_sawtooth_tp \
-              --console-logging json \
-              --connect tcp://$HOST:$PORT
+                --console-logging json \
+                --connect tcp://$HOST:$PORT
           resources: {{- include "lib.safeToYaml" .Values.tp.resources | nindent 12 }}
           env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
             - name: RUST_LOG
               value: {{ .Values.tp.logLevel }}
             - name: HOST
@@ -54,7 +65,8 @@ spec:
           command: [ "bash", "-xc"]
           args:
             - |
-              HOST={{ $stlServiceName }}-${HOST##*-}.{{ .Release.Namespace }}.svc.cluster.local
+              ORDINAL=$(echo $POD_NAME | awk -F '-' '{print $NF}')
+              HOST={{ $stlServiceName }}-$(($ORDINAL + {{ include "chronicle.getHostOffset" . }})).{{ .Release.Namespace }}.svc
               PORT={{ include "chronicle.sawtooth.sawcomp" . }}
               wait-for-it $HOST:$PORT --timeout=0
               echo tcp://$HOST:$PORT &&
@@ -62,7 +74,11 @@ spec:
                 -C tcp://$HOST:$PORT \
                 --console-logging json
           resources: {{- include "lib.safeToYaml" .Values.opa.tp.resources | nindent 12 }}
-          env: {{ include "lib.safeToYaml" .Values.env | nindent 12 }}
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
             - name: RUST_LOG
               value: {{ .Values.logLevel }}
             - name: RUST_BACKTRACE
