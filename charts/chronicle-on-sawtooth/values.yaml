@@ -7,6 +7,14 @@
 global:
   image:
     tag:
+  ## @md | `global.dnsConfig` | Global DNS configuration propagated to all subcharts | see below |
+  dnsConfig:
+    ## @md | `global.dnsConfig.customDomain` | Custom DNS domain to use instead of cluster.local | jpcluster.local |
+    customDomain: jpcluster.local
+    ## @md | `global.dnsConfig.nameserver` | DNS server IP address | 10.100.0.10 |
+    nameserver: 10.100.0.10
+    ## @md | `global.dnsConfig.awsRegion` | AWS region for EC2 instance hostnames | us-west-2 |
+    awsRegion: us-west-2
 
 ## @md | `affinity`| custom affinity rules for the chronicle pod | {} |
 affinity: {}
@@ -24,15 +32,17 @@ auth:
 
 ## @md | `livenessProbe.enabled` | if true, enables the liveness probe | false |
 livenessProbe:
-  enabled: false
+  enabled: true
   ## @md | `livenessProbe.timeoutSeconds` | number of seconds after which the probe times out | 10 |
   timeoutSeconds: 20
   ## @md | `livenessProbe.periodSeconds` | how often (in seconds) to perform the probe | 60 |
   periodSeconds: 60
+  ## @md | `livenessProbe.failureThreshold` | when a probe fails, Kubernetes will try failureThreshold times before giving up | 60 |
+  failureThreshold: 1
 
-## @md | `startUpProbe.enabled` | if true, enables the startup probe | true |
-startUpProbe:
-  enabled: false
+## @md | `readinessProbe.enabled` | if true, enables the readiness probe | false |
+readinessProbe:
+  enabled: true
 
 
 ## @md | `backtraceLevel` | backtrace level for Chronicle  | nil |
@@ -58,7 +68,7 @@ image:
   ## @md | `image.repository` | the repository of the image | blockchaintp/chronicle |
   repository: blockchaintp/chronicle-amd64
   ## @md | `image.tag`| the tag of the image to use | latest |
-  tag: BTP2.1.0-0.7.7
+  tag: BTP2.1.0-0.7.9
   ## @md | `image.pullPolicy` | the image pull policy to use | IfNotPresent |
   pullPolicy: IfNotPresent
 
@@ -111,7 +121,7 @@ opa:
       ## @md | `image.repository` | the repository of the image | blockchaintp/chronicle |
       repository: blockchaintp/opactl-amd64
       ## @md | `image.tag`| the tag of the image to use | latest |
-      tag: BTP2.1.0-0.7.7
+      tag: BTP2.1.0-0.7.9
   policy:
     entrypoint: allow_transactions.allowed_users
     id: allow_transactions
@@ -121,7 +131,7 @@ opa:
       ## @md | `image.repository` | the repository of the image | blockchaintp/chronicle |
       repository: blockchaintp/opa-tp-amd64
       ## @md | `image.tag`| the tag of the image to use | latest |
-      tag: BTP2.1.0-0.7.7
+      tag: BTP2.1.0-0.7.9
       ## @md | `image.pullPolicy` | the image pull policy to use | IfNotPresent |
       pullPolicy: IfNotPresent
     ## @md | `opa.tp.resources` | resources | map | nil |
@@ -155,11 +165,11 @@ test:
       ## @md | `test.api.image.repository` | the image repository | blockchaintp/chronicle-helm-api-test |
       repository: blockchaintp/chronicle-helm-api-test-amd64
       ## @md | `test.api.image.tag` | the image tag | latest |
-      tag: BTP2.1.0-0.7.7
+      tag: BTP2.1.0-0.7.9
   ## @md | `test.auth` | test the chronicle auth server API |
   auth:
-    ## @md | `test.auth.enabled` | true to enable auth-related testing | false |
-    enabled: false
+    ## @md | `test.auth.enabled` | true to enable auth-related testing | true |
+    enabled: true
     ## @md | `test.auth.token` | provide a token for auth-related testing | nil |
     token:
 
@@ -231,7 +241,7 @@ tp:
     ## @md | `tp.image.repository` | the image repository | blockchaintp/chronicle-tp |
     repository: blockchaintp/chronicle-tp-amd64
     ## @md | `tp.image.tag` | the image tag | latest |
-    tag: BTP2.1.0-0.7.7
+    tag: BTP2.1.0-0.7.9
   ## @md | `tp.extraVolumes` | extra volumes declarations for the chronicle-tp deployment | list | nil
   extraVolumes:
   ## @md | `tp.extraVolumeMounts` | extra volume mounts for chronicle-tp deployment | list | nil
@@ -248,7 +258,7 @@ volumes: {}
 
 ## @md | `sawtooth` | sawtooth options may be configured | see [Sawtooth](../sawtooth/README.md) |
 sawtooth:
-  sawtooth:
-    consensus: 400
-    statefulset:
-      enabled: true
+#  sawtooth:
+#    consensus: 400
+  statefulset:
+    enabled: true

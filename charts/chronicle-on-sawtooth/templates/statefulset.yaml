@@ -19,6 +19,7 @@ spec:
     spec:
       serviceAccountName: {{ include "lib.serviceAccountName" . }}
       affinity: {{ include "lib.safeToYaml" .Values.affinity | nindent 8 }}
+      {{- include "chronicle.dnsConfig" . | nindent 6 }}
       initContainers:
         - name: chronicle-permissions
           image: busybox:1.36
@@ -154,18 +155,20 @@ spec:
               - /bin/bash
               - /scripts/check_timeouts.sh
             initialDelaySeconds: 1
-            periodSeconds: 1
-            failureThreshold: 1
+            timeoutSeconds: 10
+            periodSeconds: 10
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
           {{- end}}
-          {{- if .Values.startUpProbe.enabled }}
+          {{- if .Values.readinessProbe.enabled }}
           readinessProbe:
             exec:
               command:
               - /bin/bash
               - /scripts/first_depth_charge.sh
-            initialDelaySeconds: 1
-            periodSeconds: 1
-            failureThreshold: 600
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 10
+            failureThreshold: 60
           {{- end}}
           volumeMounts:
             - name: chronicle-config

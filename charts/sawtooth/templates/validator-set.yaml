@@ -31,6 +31,7 @@ spec:
       serviceAccountName: {{ include "lib.serviceAccountName" . }}
       automountServiceAccountToken: true
       affinity: {{- include "sawtooth.affinity" . | nindent 8 }}
+      {{- include "sawtooth.dnsConfig" . | nindent 6 }}
       hostAliases: {{- include "sawtooth.hostaliases" . | nindent 8 }}
       containers: {{- include "sawtooth.containers" . | nindent 8 }}
       initContainers:
