@@ -25,6 +25,7 @@ spec:
     spec:
       serviceAccountName: {{ include "lib.serviceAccountName" . }}
       affinity: {{ include "lib.safeToYaml" .Values.affinity | nindent 8 }}
+      {{- include "chronicle.dnsConfig" . | nindent 6 }}
       hostAliases:
       containers:
         - name: chronicle-tp

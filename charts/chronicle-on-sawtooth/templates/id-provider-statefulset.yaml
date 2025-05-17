@@ -18,6 +18,7 @@ spec:
     spec:
       serviceAccountName: {{ include "lib.serviceAccountName" . }}
       affinity: {{ include "lib.safeToYaml" .Values.affinity | nindent 8 }}
+      {{- include "chronicle.dnsConfig" . | nindent 6 }}
       containers:
         - name: id-provider
         {{- include "lib.image" (dict "imageRoot" .Values.devIdProvider.image "global" .Values.global ) | nindent 10 }}
